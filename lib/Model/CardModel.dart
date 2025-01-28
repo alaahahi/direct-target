@@ -26,7 +26,7 @@ class Data {
   int? cardId;
   String? serviceName;
   String? description;
-  Null? price;
+  String? price;
   String? createdAt;
   String? updatedAt;
   List<String>? workingDays;
@@ -34,7 +34,7 @@ class Data {
   int? appointmentsPerDay;
   String? expirDate;
   bool? showOnApp;
-  Null? image;
+  String? image;
 
   Data(
       {this.id,

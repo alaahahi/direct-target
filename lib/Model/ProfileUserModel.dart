@@ -24,11 +24,11 @@ class Data {
   String? name;
   String? createdAt;
   String? updatedAt;
-  Null? typeId;
+  String? typeId;
   String? phoneNumber;
   String? verificationDate;
   String? verificationUserType;
-  Null? familyMembersNames;
+  String? familyMembersNames;
 
   Data(
       {this.id,

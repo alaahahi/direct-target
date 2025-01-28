@@ -54,10 +54,10 @@ class VerifyCodeResponse {
 
 class User {
   int? id;
-  Null? name;
+  String? name;
   String? createdAt;
   String? updatedAt;
-  Null? typeId;
+  String? typeId;
   String? phoneNumber;
   String? verificationDate;
   String? verificationUserType;

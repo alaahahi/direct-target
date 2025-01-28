@@ -31,7 +31,7 @@ class ProfileData {
   int? cardNumber;
   String? familyName;
   String? phoneNumber;
-  Null? invoiceNumber;
+  String? invoiceNumber;
   String? createdAt;
   String? updatedAt;
   int? userId;
@@ -40,8 +40,8 @@ class ProfileData {
   int? no;
   int? cardId;
   String? created;
-  Null? userAccepted;
-  Null? image;
+  String? userAccepted;
+  String? image;
   String? source;
   int? cardHolderId;
 

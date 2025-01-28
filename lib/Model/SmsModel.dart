@@ -42,11 +42,11 @@ class User {
   String? name;
   String? createdAt;
   String? updatedAt;
-  Null? typeId;
+  String? typeId;
   String? phoneNumber;
   String? verificationDate;
   String? verificationUserType;
-  Null? familyMembersNames;
+  String? familyMembersNames;
 
   User(
       {this.id,
