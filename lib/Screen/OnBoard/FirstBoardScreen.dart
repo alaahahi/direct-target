@@ -1,29 +1,43 @@
 import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
-class on_board1 extends StatelessWidget {
-  const on_board1({super.key});
+import '../../Controller/AllSettingController.dart';
+import '../../Service/SettingsServices.dart';
+
+class OnBoard1 extends StatelessWidget {
+  OnBoard1({super.key});
+  final AllSettingController _controller = Get.put(AllSettingController(SettingsServices()));
 
   @override
   Widget build(BuildContext context) {
     return Container(
       color: Colors.white,
-      child: Column(children: [
-        const SizedBox(
-          height: 40,
-        ),
-        Container(
-          height: MediaQuery.of(context).size.height * 0.6,
-          width: MediaQuery.of(context).size.width * 0.8,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  alignment: Alignment.bottomCenter,
-                  image: AssetImage(
-                    "Assets/images/doctor1.png",
-                  ),
-                  filterQuality: FilterQuality.high)),
-        ),
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+
+        Obx(() {
+          return Container(
+            height: MediaQuery.of(context).size.height * 0.5,
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: _controller.firstImageUrl.value.isNotEmpty
+                ? CachedNetworkImage(
+              imageUrl: _controller.firstImageUrl.value,
+              placeholder: (context, url) => Center(
+                child: CircularProgressIndicator(),
+              ),
+              errorWidget: (context, url, error) => Center(
+                child: Icon(Icons.error, color: Colors.red),
+              ),
+              fit: BoxFit.cover,
+            )
+                : Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Row(
@@ -31,7 +45,7 @@ class on_board1 extends StatelessWidget {
             children: [
               Container(
                 height: MediaQuery.of(context).size.height * 0.2,
-                width: MediaQuery.of(context).size.width * 0.8,
+                width: MediaQuery.of(context).size.width * 0.9,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   gradient: LinearGradient(

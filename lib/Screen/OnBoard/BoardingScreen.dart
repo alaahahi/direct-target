@@ -33,9 +33,9 @@ class _on_boardingState extends State<on_boarding> {
               });
             },
             children: [
-              on_board1(),
-              on_board2(),
-              on_board3(),
+              OnBoard1(),
+              OnBoard2(),
+              OnBoard3(),
             ],
           ),
           Positioned(

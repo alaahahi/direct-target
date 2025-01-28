@@ -1,82 +1,71 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:direct_target/Screen/Home/HomeScreen.dart';
+import 'package:image_picker/image_picker.dart';
+import '../../Controller/CardController.dart';
+import '../../Model/RequestCardModel.dart';
+import '../../Service/CardServices.dart';
+import '../../Widgets/AuthFormFiled.dart';
 
-
-
-class AddRequestScreen extends StatefulWidget {
-  const AddRequestScreen({Key? key}) : super(key: key);
+class RequestScreenBody extends StatefulWidget {
+  const RequestScreenBody({Key? key}) : super(key: key);
 
   @override
-  State<AddRequestScreen> createState() => _AddRequestScreenState();
+  State<RequestScreenBody> createState() => _RequestScreenBodyState();
 }
 
-class _AddRequestScreenState extends State<AddRequestScreen> {
-  String? path;
+class _RequestScreenBodyState extends State<RequestScreenBody> {
+  String? userPhone;
+  final _formKey = GlobalKey<FormState>();
+  final _nameController = TextEditingController();
+  final _phoneController = TextEditingController();
+  final _addressController = TextEditingController();
+  final _cardNumberController = TextEditingController();
+  final _familyNamesController = TextEditingController();
+  File? _selectedImage;
 
+  final ImagePicker _picker = ImagePicker();
+  final CardController _controller = Get.put(CardController(CardServices()));
+  final storage = GetStorage();
+
+  @override
+  void initState() {
+    super.initState();
+    GetStorage.init().then((_) {
+      setState(() {
+        userPhone = storage.read('phoneNumber');
+      });
+    });
+  }
+
+  Future<void> _pickImage() async {
+    final pickedFile = await _picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile != null) {
+      setState(() {
+        _selectedImage = File(pickedFile.path);
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
-    final path = this.path;
     return Scaffold(
-      appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pushReplacement(
-                context,
-                PageTransition(
-                    type: PageTransitionType.fade, child: Homepage()));
-          },
-          child: Container(
-            height: 40,
-            width: 40,
-            decoration: BoxDecoration(
 
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Icon(
-              Icons.arrow_back,
-              size: 24,
-              color: PrimaryColor,
-
-            ),
-          ),
-
-        ),
-        title: Text(
-          "Request Card".tr,
-          style: GoogleFonts.poppins(color: Theme.of(context).textTheme.bodyLarge?.color, fontSize: 18),
-        ),
-        centerTitle: true,
-        elevation: 0,
-        toolbarHeight: 100,
-
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
+      body: Form(
+        key: _formKey,
+        child: SingleChildScrollView(
+          child: Padding(
             padding: const EdgeInsets.all(25.0),
-            child:Column(
+            child: Column(
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (path != null)
-                  SizedBox(
-                    height: 150,
-                    width: 150,
-                    child: ClipRRect(
-                      borderRadius: BorderRadius.circular(10000),
-                      child: Image.file(
-                        File(path),
-                        fit: BoxFit.cover,
-                      ),
-                    ),
-                  ),
                 GestureDetector(
-
+                  onTap: () {
+                    _pickImage();
+                  },
                   child: Container(
                     width: 300,
                     height: 200,
@@ -84,8 +73,17 @@ class _AddRequestScreenState extends State<AddRequestScreen> {
                       color: Colors.grey[200],
                       borderRadius: BorderRadius.circular(12),
                     ),
-                    child: Column(
-
+                    child: _selectedImage != null
+                        ? ClipRRect(
+                      borderRadius: BorderRadius.circular(12),
+                      child: Image.file(
+                        _selectedImage!,
+                        fit: BoxFit.cover,
+                        width: 300,
+                        height: 200,
+                      ),
+                    )
+                        : Column(
                       mainAxisAlignment: MainAxisAlignment.center,
                       crossAxisAlignment: CrossAxisAlignment.center,
                       children: [
@@ -98,7 +96,8 @@ class _AddRequestScreenState extends State<AddRequestScreen> {
                         ),
                         Center(
                           child: Text(
-                            'add Card Image',style: TextStyle(  color: Colors.black12,),
+                            'Add Card Image',
+                            style: TextStyle(color: Colors.black12),
                           ),
                         ),
                       ],
@@ -106,83 +105,73 @@ class _AddRequestScreenState extends State<AddRequestScreen> {
                   ),
                 ),
                 SizedBox(height: 20),
-                TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    labelText: 'Add Card Number',
-                    labelStyle: TextStyle(
-                      color: Colors.grey,
 
-                    ),
-                  ),
+                AuthFormField(
+                  controller: _nameController,
+                  hint: 'Full Name'.tr,
                 ),
                 SizedBox(height: 20),
-                TextField(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    labelText: 'Add Phone Number',
-                    labelStyle: TextStyle(
-                      color: Colors.grey,
-                    ),
-                  ),
+                AuthFormField(
+                  controller: _cardNumberController,
+                  hint: 'Card Number'.tr,
                 ),
                 SizedBox(height: 20),
-                DropdownButtonFormField<String>(
-                  decoration: InputDecoration(
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(12),
-                    ),
-                    labelText: 'Choose Category',
-                    labelStyle: TextStyle(
-                      color: Colors.grey,
-
-                    ),
-                  ),
-                  items: <String>['Option 1', 'Option 2', 'Option 3', 'Option 4']
-                      .map((String value) {
-                    return DropdownMenuItem<String>(
-                      value: value,
-                      child: Text(value),
-                    );
-                  }).toList(),
-                  onChanged: (String? newValue) {
-
-                  },
+                AuthFormField(
+                  controller: _addressController,
+                  hint: 'Address'.tr,
                 ),
                 SizedBox(height: 20),
-
-
-                Center(
-                  child: SizedBox(
-                    width: 250.0,
-                    child: ElevatedButton(
-                      onPressed: () {
-
-                      },
-                      child: Text('Add Card',
-                        style: TextStyle(fontSize: 20),),
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: PrimaryColor,
-                        shadowColor: Colors.black,
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
+                AuthFormField(
+                  controller: _familyNamesController,
+                  hint: 'Family Names'.tr,
+                ),
+                const SizedBox(
+                  height: 20,
+                ),
+                Obx(() {
+                  return _controller.isLoading.value
+                      ? Center(child: CircularProgressIndicator())
+                      : Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Container(
+                        height: MediaQuery.of(context).size.height * 0.05,
+                        width: MediaQuery.of(context).size.width * 0.8,
+                        child: ElevatedButton(
+                          onPressed: () {
+                            if (_formKey.currentState!.validate()) {
+                              final cardRequest = RequestCardData(
+                                name: _nameController.text,
+                                phone: userPhone ?? _phoneController.text,
+                                address: _addressController.text,
+                                cardNumber: _cardNumberController.text,
+                                familyMembersNames: _familyNamesController.text,
+                                image: _selectedImage?.path,
+                              );
+                              _controller.RequestCard(cardRequest);
+                            }
+                          },
+                          child: Text('Request Card'),
+                          style: ElevatedButton.styleFrom(
+                            foregroundColor: Colors.white,
+                            backgroundColor: PrimaryColor,
+                            shadowColor: Colors.black,
+                            elevation: 5,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(30),
+                            ),
+                          ),
                         ),
                       ),
-                    ),
-                  ),
-                ),
-
+                    ],
+                  );
+                }),
               ],
-            )
-
+            ),
+          ),
         ),
       ),
     );
   }
 }
+

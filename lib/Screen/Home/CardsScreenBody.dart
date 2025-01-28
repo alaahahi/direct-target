@@ -7,14 +7,14 @@ import 'package:direct_target/Screen/Services/ServiceScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-class CardsLayout extends StatefulWidget {
-  const CardsLayout({super.key});
+class CardScreenBody extends StatefulWidget {
+  const CardScreenBody({super.key});
 
   @override
-  State<CardsLayout> createState() => _CardsLayoutState();
+  State<CardScreenBody> createState() => _CardScreenBodyState();
 }
 
-class _CardsLayoutState extends State<CardsLayout> {
+class _CardScreenBodyState extends State<CardScreenBody> {
   @override
   Widget build(BuildContext context) {
     return  SingleChildScrollView(
@@ -61,7 +61,7 @@ class _CardsLayoutState extends State<CardsLayout> {
                                   'News for up-to-the-minute news, breaking news, video, audio and feature stories.'.tr,
 
                                   maxLines: 2,
-                              
+
                                 ),
                               ],
                             ),
@@ -82,7 +82,7 @@ class _CardsLayoutState extends State<CardsLayout> {
                   viewportFraction: 0.8,
                 ),
               ),
-              Dashboard(),
+              DashboardScreen(),
 
             ]
         ),

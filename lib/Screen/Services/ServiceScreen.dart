@@ -39,7 +39,6 @@ class Servicescreen extends StatelessWidget {
     final ThemeController themeController = Get.find<ThemeController>();
 
     return Scaffold(
-
       body: Padding(
         padding: const EdgeInsets.all(16.0),
         child: Center(

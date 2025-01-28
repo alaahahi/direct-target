@@ -8,14 +8,13 @@ import 'package:direct_target/Screen/Home/CardsScreen.dart';
 import 'package:direct_target/Screen/Services/Servicescreen.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:direct_target/Controller/ThemeController.dart';
-import 'package:direct_target/Widgets/ThemeToggleButton.dart';
 
-class Homepage extends StatefulWidget {
+class HomeScreenBody extends StatefulWidget {
   @override
-  State<Homepage> createState() => _HomepageState();
+  State<HomeScreenBody> createState() => _HomeScreenBodyState();
 }
 
-class _HomepageState extends State<Homepage> {
+class _HomeScreenBodyState extends State<HomeScreenBody> {
   List<IconData> icons = [
     FontAwesomeIcons.home,
     FontAwesomeIcons.servicestack,
@@ -26,7 +25,7 @@ class _HomepageState extends State<Homepage> {
   int page = 0;
 
   List<Widget> pages = [
-    CardsLayout(),
+    CardScreen(),
     Servicescreen(),
     shedule_screen(),
     ProfileScreen()
@@ -37,40 +36,7 @@ class _HomepageState extends State<Homepage> {
     final ThemeController themeController = Get.find<ThemeController>();
 
     return Scaffold(
-      appBar: AppBar(
-        automaticallyImplyLeading: false,
-        title: Obx(() {
-          String logoPath = themeController.isDarkMode.value
-              ? "Assets/images/logo422.png"
-              : "Assets/images/logo41.png";
-          return Row(
-            children: [
-              SizedBox(
-                width: 65.0,
-                height: 47,
-                child: Image.asset(
-                  logoPath,
-                  fit: BoxFit.cover,
-                  filterQuality: FilterQuality.high,
-                ),
-              ),
-            ],
-          );
-        }),
-        actions: [
-          Obx(() {
-            Color iconColor = themeController.isDarkMode.value
-                ? LightGrey
-                : PrimaryColor;
-            return IconButton(
-              onPressed: () {},
-              icon: Icon(Icons.notifications_on),
-              color: iconColor,
-            );
-          }),
-          ThemeToggleButton(),
-        ],
-      ),
+
       body: pages[page],
       bottomNavigationBar: AnimatedBottomNavigationBar(
         icons: icons,

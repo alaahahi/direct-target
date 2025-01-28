@@ -1,11 +1,15 @@
 import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:direct_target/Screen/Start/StartScreen.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
-import 'package:direct_target/Screen/Auth/Verify/VerificationScreen.dart';
+
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
+import '../../../Controller/VerificationWhatsappController.dart';
+import '../../Start/StartScreen.dart';
+import '../Verify/VerificationScreen.dart';
 class SignInScreenBody extends StatefulWidget {
   const SignInScreenBody({super.key});
 
@@ -18,17 +22,14 @@ class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProvi
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _phoneController = TextEditingController();
   String? _verificationId;
-
+  final VerificationWhatsappController controller = Get.put(VerificationWhatsappController());
   final _formKey = GlobalKey<FormState>();
-
   void _sendCodeToPhoneNumber() async {
     if (_formKey.currentState!.validate()) {
-
       await FirebaseAuth.instance.verifyPhoneNumber(
         phoneNumber: "+964" +_phoneController.text.trim(),
         timeout: Duration(seconds: 60),
         verificationCompleted: (PhoneAuthCredential credential) {
-
           FirebaseAuth.instance.signInWithCredential(credential);
         },
         verificationFailed: (FirebaseAuthException e) {
@@ -36,32 +37,44 @@ class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProvi
             SnackBar(content: Text('Verification failed: ${e.message}')),
           );
         },
-        codeSent: (String verificationId, int? resendToken) {
+        codeSent: (String verificationId, int? resendToken) async {
           _verificationId = verificationId;
+          if (resendToken != null) {
+            final storage = GetStorage();
+            await storage.write('token', resendToken.toString());
+            print('Token saved: ${resendToken.toString()}'); // تحقق من أنه تم حفظ التوكين
+          }
 
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => OtpScreen(verificationId: verificationId),
+              builder: (context) => OtpScreen(verificationId: verificationId, phoneNumber: "+964" +_phoneController.text.trim(), firebaseToken: resendToken.toString()),
             ),
           );
         },
+
         codeAutoRetrievalTimeout: (String verificationId) {
           _verificationId = verificationId;
         },
       );
     }
   }
-
+  int _selectedTab = 0;
   @override
+
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: 2);
+    _tabController.addListener(() {
+      setState(() {
+        _selectedTab = _tabController.index;
+      });
+    });
   }
-
   @override
   void dispose() {
     _tabController.dispose();
+    _phoneController.dispose();
     super.dispose();
   }
   @override
@@ -103,7 +116,6 @@ class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProvi
         child: Form(
           key: _formKey,
           child: Column(
-
             children: [
               Container(
                 padding: EdgeInsets.symmetric(horizontal: 16),
@@ -116,7 +128,6 @@ class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProvi
                   children: [
                     Row(
                       children: [
-
                         ClipRRect(
                           borderRadius:
                           BorderRadius.circular(4),
@@ -128,7 +139,6 @@ class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProvi
                           ),
                         ),
                         const SizedBox(width: 8),
-
                         Text(
                           '+964',
                           style: TextStyle(fontSize: 16),
@@ -177,7 +187,6 @@ class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProvi
                             "SMS Code".tr,
                             style: TextStyle(
                               fontSize: 18.0,
-
                             ),
                           ),
                         ),
@@ -189,7 +198,6 @@ class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProvi
                             "WhatsApp".tr,
                             style: TextStyle(
                               fontSize: 18.0,
-
                             ),
                           ),
                         ),
@@ -206,7 +214,14 @@ class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProvi
                         height: MediaQuery.of(context).size.height * 0.05,
                         width: MediaQuery.of(context).size.width * 0.8,
                         child: ElevatedButton(
-                          onPressed: _sendCodeToPhoneNumber,
+                          onPressed: () {
+                            if (_selectedTab == 0) {
+                              _sendCodeToPhoneNumber();
+                            } else {
+                              controller.sendVerificationCode(_phoneController.text.trim(), context);
+
+                            }
+                          },
                           style: ElevatedButton.styleFrom(
                             backgroundColor: PrimaryColor,
                             shape: RoundedRectangleBorder(
@@ -214,7 +229,7 @@ class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProvi
                             ),
                           ),
                           child: Text(
-                            "Verify".tr,
+                            _selectedTab == 0 ? "Verify SMS".tr : "Verify WhatsApp".tr,
                             textAlign: TextAlign.center,
                             style: GoogleFonts.poppins(
                               fontSize: 18,
@@ -225,14 +240,11 @@ class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProvi
                           ),
                         ),
                       ),
-
-
                     ],
                   ),
+
                 ],
               ),
-
-
             ],
           ),
         ),
@@ -240,8 +252,5 @@ class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProvi
     );
 
   }
-
-
-
 
 }

@@ -7,13 +7,12 @@ const TextGrey = Color(0xFF424A5D);
 const BorderGrey = Color(0xFFBFBFBF);
 const BGColor = Color(0xFF253685);
 
-// ألوان الوضع الداكن
 const DarkPrimaryColor = Color(0xFF1A73E8);
 const DarkBGColor = Color(0xFF003564);
 const DarkTextColor = Color(0xFFE0E0E0);
 const DarkBorderColor = Color(0xFF424242);
 
-// النصوص
+
 const TextStyle titleCardStyle = TextStyle(
   fontSize: 20,
   color: Colors.white,

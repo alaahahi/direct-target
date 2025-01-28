@@ -1,15 +1,26 @@
 
 
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:get_storage/get_storage.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:direct_target/Widgets/ProfileList.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:get/get.dart';
 
-class ProfileScreenBody extends StatelessWidget {
-  ProfileScreenBody({super.key});
-  GetStorage box = GetStorage();
+import '../../Controller/ProfileUserController.dart';
+import '../../Controller/VerificationWhatsappController.dart';
+import '../../Routes/Routes.dart';
+
+class ProfileScreenBody extends StatefulWidget {
+  const ProfileScreenBody({super.key});
+
+  @override
+  State<ProfileScreenBody> createState() => _ProfileScreenBodyState();
+}
+
+class _ProfileScreenBodyState extends State<ProfileScreenBody> {
+  final VerificationWhatsappController controller = Get.put(VerificationWhatsappController());
+  final ProfileUserController profileController = Get.put(ProfileUserController());
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -61,18 +72,48 @@ class ProfileScreenBody extends StatelessWidget {
           const SizedBox(
             height: 30,
           ),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.center,
-            children: [
-              Text(
-                "Amelia Renata".tr,
-                style: GoogleFonts.poppins(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w600,
-                    color: Colors.white),
-              )
-            ],
-          ),
+          Obx(() {
+            if (controller.isLoading.value) {
+              return Center(child: CircularProgressIndicator());
+            }
+            final profile = profileController.profile.value.data;
+            return profile != null
+                ? Padding(
+              padding: const EdgeInsets.all(16.0),
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "${profile.name ?? 'N/A'}".tr,
+                        style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white),
+                      )
+                    ],
+                  ),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Text(
+                        "${profile.phoneNumber ?? 'N/A'}".tr,
+                        style: GoogleFonts.poppins(
+                            fontSize: 16,
+                            fontWeight: FontWeight.w600,
+                            color: Colors.white),
+                      )
+                    ],
+                  ),
+
+                ],
+              ),
+            )
+                : Center(child: Text("No profile data found"));
+          }),
+
           SizedBox(
             height: 30,
           ),
@@ -194,7 +235,7 @@ class ProfileScreenBody extends StatelessWidget {
             height: 50,
           ),
           Container(
-            height: 550,
+            height: 650,
             width: double.infinity,
             decoration: BoxDecoration(
               color: Theme.of(context).brightness == Brightness.dark
@@ -208,6 +249,24 @@ class ProfileScreenBody extends StatelessWidget {
             child: Column(
               children: [
                 SizedBox(height: 50),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                  child: Divider(),
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.toNamed(AppRoutes.changeprofile);
+                  },
+                  child: ProfileList(
+                    title: 'Change Profile'.tr,
+                    icon:Icons.edit_note_rounded,
+                    iconColor: Colors.deepPurpleAccent,
+                    textColor: Colors.black,),
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                  child: Divider(),
+                ),
                 ProfileList(
                   icon: Icons.favorite,
                   title: "My Saved".tr,
@@ -240,7 +299,7 @@ class ProfileScreenBody extends StatelessWidget {
                 ),
                 ProfileList(
                   icon: Icons.payment,
-                  title: "Payment Method".tr,
+                  title: "Terms Condition".tr,
                   iconColor: Colors.purple,
                   textColor: Colors.black,
                 ),
@@ -248,11 +307,26 @@ class ProfileScreenBody extends StatelessWidget {
                   padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                   child: Divider(),
                 ),
-                ProfileList(
-                  icon: Icons.logout,
-                  title: "Log out".tr,
-                  iconColor: Colors.red,
-                  textColor: Colors.red,
+                InkWell(
+                  onTap: () {
+                    Get.defaultDialog(
+                      title: "Confirm Logout",
+                      middleText: "Are you sure you want to log out?",
+                      textCancel: "No",
+                      textConfirm: "Yes",
+                      confirmTextColor: Colors.white,
+                      onConfirm: () {
+                        controller.logout();
+                        Get.back();
+                      },
+                    );
+                  },
+                  child: ProfileList(
+                    icon: Icons.logout,
+                    title: "Log out".tr,
+                    iconColor: Colors.red,
+                    textColor: Colors.red,
+                  ),
                 ),
               ],
             ),
@@ -263,3 +337,4 @@ class ProfileScreenBody extends StatelessWidget {
     );
   }
 }
+

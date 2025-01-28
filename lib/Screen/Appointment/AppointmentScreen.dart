@@ -13,28 +13,28 @@ class appointment extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pushReplacement(
-                context,
-                PageTransition(
-                    type: PageTransitionType.fade, child: DoctorDetails()));
-          },
-          child: Container(
-          height: 40,
-          width: 40,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(8),
-          ),
-          child: Icon(
-            Icons.arrow_back,
-            size: 24,
-            color: PrimaryColor,
-
-          ),
-        ),
-
-        ),
+        // leading: GestureDetector(
+        //   onTap: () {
+        //     Navigator.pushReplacement(
+        //         context,
+        //         PageTransition(
+        //             type: PageTransitionType.fade, child: DoctorDetails()));
+        //   },
+        //   child: Container(
+        //   height: 40,
+        //   width: 40,
+        //   decoration: BoxDecoration(
+        //     borderRadius: BorderRadius.circular(8),
+        //   ),
+        //   child: Icon(
+        //     Icons.arrow_back,
+        //     size: 24,
+        //     color: PrimaryColor,
+        //
+        //   ),
+        // ),
+        //
+        // ),
         title: Text(
           "Top Doctors".tr,
           style: GoogleFonts.poppins(
@@ -54,10 +54,10 @@ class appointment extends StatelessWidget {
                 height: 5,
               ),
               doctorList(
-                distance: "800m away".tr,
+
                 image: "Assets/icons/male-doctor.png",
                 maintext: "Dr. Marcus Horizon".tr,
-                numRating: "4.7".tr,
+
                 subtext: "Cardiologist".tr,
               ),
               const SizedBox(

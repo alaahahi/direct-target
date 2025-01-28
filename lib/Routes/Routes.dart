@@ -10,4 +10,7 @@ class AppRoutes {
   static const String settingscreen = '/settingscreen';
   static const String profilescreen = '/profilescreen';
   static const String splash = '/splash';
+  static const String verify = '/verify';
+  static const String changeprofile = '/changeprofile';
+  static const String viewprofile = '/viewprofile';
 }

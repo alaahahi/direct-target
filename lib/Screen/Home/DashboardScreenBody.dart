@@ -14,11 +14,16 @@ import 'package:flutter/cupertino.dart';
 import 'package:direct_target/Screen/Services/ServiceScreen.dart';
 import 'package:direct_target/Screen/RequestCard/RequestScreen.dart';
 
+import '../../Controller/CardServiceController.dart';
+import '../../Controller/TokenController.dart';
 
-class Dashboard extends StatelessWidget {
-  const Dashboard({super.key});
 
-  @override
+class DashboardScreenBody extends StatelessWidget {
+  DashboardScreenBody({super.key});
+  final CardServiceController controller = Get.put(CardServiceController());
+   final tokenController = Get.put(TokenController());
+
+   @override
   Widget build(BuildContext context) {
     return  SingleChildScrollView(
       child: Column(children: [
@@ -148,43 +153,42 @@ class Dashboard extends StatelessWidget {
         const SizedBox(
           height: 10,
         ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height * 0.05,
-              width: MediaQuery.of(context).size.width * 0.8,
-              child: ElevatedButton(
-                onPressed: (){
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => AddRequestScreen(),
-                    ),
-                  );
-                },
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: PrimaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                child: Text(
-                  "Request Card".tr,
-                  textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                    fontSize: 18,
-                    color: LightGrey,
-                    fontWeight: FontWeight.w500,
-                    letterSpacing: 0,
-                  ),
-                ),
-              ),
-            ),
 
+        Obx(() {
+          return tokenController.isTokenValid.value
+              ? Container(
+                    height: MediaQuery.of(context).size.height * 0.05,
+                    width: MediaQuery.of(context).size.width * 0.8,
+                child: ElevatedButton(
+                            onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(
+                    builder: (context) => RequestScreen(),
+                  ),
+                );
+                            },
+                            style: ElevatedButton.styleFrom(
+                backgroundColor: PrimaryColor,
+                shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                            ),
+                            child: Text(
+                "Request Card".tr,
+                textAlign: TextAlign.center,
+                style: GoogleFonts.poppins(
+                  fontSize: 18,
+                  color: LightGrey,
+                  fontWeight: FontWeight.w500,
+                  letterSpacing: 0,
+                ),
+                            ),
+                          ),
+              )
+              : SizedBox();
+        }),
 
-          ],
-        ),
 
         const SizedBox(
           height: 20,
@@ -228,53 +232,26 @@ class Dashboard extends StatelessWidget {
           child: ListView(
             physics: BouncingScrollPhysics(),
             scrollDirection: Axis.horizontal,
-            children: [
-              GestureDetector(
+            children: controller.cardServices.map((service) {
+              return GestureDetector(
                 onTap: () {
                   Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.rightToLeft,
-                          child: DoctorDetails()));
+                    context,
+                    PageTransition(
+                      type: PageTransitionType.rightToLeft,
+                      child: DoctorDetails(doctorId: service.id),
+                    ),
+                  );
                 },
                 child: list_doctor1(
-                    distance: "800m Away",
-                    image: "Assets/icons/male-doctor.png",
-                    maintext: "Dr. Marcus Horizon".tr,
-                    numRating: "4.7",
-                    subtext: "Chardiologist".tr),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.rightToLeft,
-                          child: DoctorDetails()));
-                },
-                child: list_doctor1(
-                    distance: "800m Away",
-                    image: "Assets/icons/black-doctor.png",
-                    maintext: "Dr. Marcus Horizon".tr,
-                    numRating: "4.7",
-                    subtext: "Chardiologist".tr),
-              ),
-              GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                      context,
-                      PageTransition(
-                          type: PageTransitionType.rightToLeft,
-                          child: DoctorDetails()));
-                },
-                child: list_doctor1(
-                    distance: "800m Away",
-                    image: "Assets/icons/doctor2.png",
-                    maintext: "Dr. Marcus Horizon".tr,
-                    numRating: "4.7",
-                    subtext: "Chardiologist".tr),
-              ),
-            ],
+                  distance: "800m Away",
+                  image: service.image != null ? service.image! : "Assets/icons/male-doctor.png",
+                  maintext: service.serviceName.tr,
+                  numRating: "4.7",
+                  subtext: service.serviceName.tr,
+                ),
+              );
+            }).toList(),
           ),
         ),
       ]),

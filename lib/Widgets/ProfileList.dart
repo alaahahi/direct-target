@@ -7,12 +7,14 @@ class ProfileList extends StatelessWidget {
   final IconData icon;
   final Color iconColor;
   final Color textColor;
+  final VoidCallback? onTap;
 
   ProfileList({
     required this.icon,
     required this.title,
     required this.iconColor,
     required this.textColor,
+    this.onTap,
   });
 
   @override

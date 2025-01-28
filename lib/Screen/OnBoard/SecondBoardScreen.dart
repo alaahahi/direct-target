@@ -1,28 +1,44 @@
+import 'dart:ui';
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
-class on_board2 extends StatelessWidget {
-  const on_board2({super.key});
+import '../../Controller/AllSettingController.dart';
+import '../../Service/SettingsServices.dart';
+
+class OnBoard2 extends StatelessWidget {
+  OnBoard2({super.key});
+  final AllSettingController _controller = Get.put(AllSettingController(SettingsServices()));
 
   @override
   Widget build(BuildContext context) {
+
     return Container(
       color: Colors.white,
-      child: Column(children: [
-        SizedBox(
-          height: 40,
-        ),
-        Container(
-          height: MediaQuery.of(context).size.height * 0.6,
-          width: MediaQuery.of(context).size.width * 0.8,
-          decoration: BoxDecoration(
-              image: DecorationImage(
-                  alignment: Alignment.bottomCenter,
-                  image: AssetImage(
-                    "Assets/images/doctor2.png",
-                  ),
-                  filterQuality: FilterQuality.high)),
-        ),
+      child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          children: [
+
+        Obx(() {
+          return Container(
+            height: MediaQuery.of(context).size.height * 0.5,
+            width: MediaQuery.of(context).size.width * 0.8,
+            child: _controller.secondImageUrl.value.isNotEmpty
+                ? CachedNetworkImage(
+              imageUrl: _controller.secondImageUrl.value,
+              placeholder: (context, url) => Center(
+                child: CircularProgressIndicator(),
+              ),
+              errorWidget: (context, url, error) => Center(
+                child: Icon(Icons.error, color: Colors.red),
+              ),
+              fit: BoxFit.cover,
+            )
+                : Center(
+              child: CircularProgressIndicator(),
+            ),
+          );
+        }),
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 15),
           child: Row(
@@ -30,7 +46,7 @@ class on_board2 extends StatelessWidget {
             children: [
               Container(
                 height: MediaQuery.of(context).size.height * 0.2,
-                width: MediaQuery.of(context).size.width * 0.8,
+                width: MediaQuery.of(context).size.width * 0.9,
                 decoration: BoxDecoration(
                   borderRadius: BorderRadius.circular(12),
                   gradient: LinearGradient(
@@ -44,7 +60,7 @@ class on_board2 extends StatelessWidget {
                 ),
                 child: Center(
                   child: Text(
-                    "Find a lot of specialist\ndoctors in one place".tr,
+                    "Consult only with a doctor\nyou trust".tr,
                     style: GoogleFonts.inter(
                         fontSize: 18.0,
                         fontWeight: FontWeight.bold,

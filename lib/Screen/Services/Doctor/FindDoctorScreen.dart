@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-import 'package:direct_target/Screen/Services/Doctor/DoctorDetailsScreen.dart';
-import 'package:direct_target/Widgets/DoctorList.dart';
 import 'package:direct_target/Widgets/IconsList.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:get/get.dart';
 
@@ -153,21 +150,6 @@ class find_doctor extends StatelessWidget {
           ),
           const SizedBox(
             height: 5,
-          ),
-          GestureDetector(
-            onTap: () {
-              Navigator.push(
-                  context,
-                  PageTransition(
-                      type: PageTransitionType.rightToLeft,
-                      child: DoctorDetails()));
-            },
-            child: doctorList(
-                distance: "800m away",
-                image: "Assets/icons/doctor2.png",
-                maintext: "Dr. Marcus Horizon".tr,
-                numRating: "4.7",
-                subtext: "Chardiologist".tr),
           ),
           const SizedBox(
             height: 20,
