@@ -1,54 +1,61 @@
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import '../Model/ProfileCardModel.dart';
 import '../Service/ProfileCardServices.dart';
+import 'LoaderController.dart';
+import 'MessageHandlerController.dart';
+import 'dart:developer';
+import 'package:dio/dio.dart' as dio;
 
 
 class ProfileCardController extends GetxController {
-  var isLoading = true.obs;
+  LoaderController loaderController = Get.put(LoaderController());
+  MessagesHandlerController msgController =
+  Get.put(MessagesHandlerController());
+  GetStorage box = GetStorage();
   var cardsList = <ProfileData>[].obs;
   var selectedCardId = 0.obs;
-  final Profileservices _cardService = Profileservices();
   var cardId = 0.obs;
-  @override
-  void onInit() {
-    super.onInit();
-    fetchCards();
-  }
 
-  void fetchCards() async {
-    try {
-      isLoading(true);
-      var cards = await _cardService.fetchCards();
-      cardsList.assignAll(cards);
-      if (cardsList.isNotEmpty) {
-        selectedCardId.value = cardsList[0].cardId ?? 0;
-        print(selectedCardId.value);
-      } else {
-        print("No cards found");
-      }
-    } catch (e) {
-      print("Error: $e");
-    } finally {
-      isLoading(false);
-    }
-  }
-  void updateProfile(Map<String, dynamic> profileData) async {
 
+
+
+  Future<dynamic> fetchCards() async {
+    loaderController.loading(true);
+    // dio.FormData request =
+    // dio.FormData.fromMap();
+    var response = await ProfileService().fetchCards();
+    cardsList.assignAll(response.data!);
     try {
-      isLoading(true);
-      bool isUpdated = await _cardService.updateProfile(profileData);
-      if (isUpdated) {
-        print("Profile updated successfully in the controller!");
-      } else {
-        print("Failed to update profile.");
-      }
+      msgController.showSuccessMessage(response.status, response.status);
     } catch (e) {
-      print("Error in updateProfile: $e");
-    } finally {
-      isLoading(false);
+      if (e is dio.DioException) {
+        log(e.toString());
+        msgController.showErrorMessage(response.status, response.status);
+      } else {
+        msgController.showErrorMessage(response.status, response.status);
+      }
+      loaderController.loading(false);
     }
   }
 
+  Future<dynamic> updateProfile(Map<String, dynamic> profileData) async {
+    try {
+      loaderController.loading(true);
+      dio.FormData request = dio.FormData.fromMap(profileData);
+      var response = await ProfileService().updateProfile(request);
+      msgController.showSuccessMessage(response.status, response.status);
+      return response;
+    } catch (e) {
+      if (e is dio.DioException) {
+        log(e.toString());
+        msgController.showErrorMessage(e.response?.statusCode.toString() ?? "خطأ غير معروف", e.message ?? "");
+      } else {
+        msgController.showErrorMessage("خطأ غير معروف", e.toString());
+      }
+    } finally {
+      loaderController.loading(false);
+    }
+  }
 
 }
-

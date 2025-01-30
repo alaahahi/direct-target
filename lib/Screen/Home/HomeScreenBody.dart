@@ -17,7 +17,7 @@ class HomeScreenBody extends StatefulWidget {
 class _HomeScreenBodyState extends State<HomeScreenBody> {
   List<IconData> icons = [
     FontAwesomeIcons.home,
-    FontAwesomeIcons.servicestack,
+    FontAwesomeIcons.gift,
     FontAwesomeIcons.clipboardCheck,
     FontAwesomeIcons.user,
   ];
@@ -36,7 +36,6 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
     final ThemeController themeController = Get.find<ThemeController>();
 
     return Scaffold(
-
       body: pages[page],
       bottomNavigationBar: AnimatedBottomNavigationBar(
         icons: icons,

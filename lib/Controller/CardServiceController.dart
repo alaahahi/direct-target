@@ -1,35 +1,47 @@
 import 'package:get/get.dart';
-
-import 'package:direct_target/Model/CardServicesModel.dart';
-
+import 'package:get_storage/get_storage.dart';
+import '../Model/CardServicesModel.dart';
 import '../Service/CardServices.dart';
-
+import 'LoaderController.dart';
+import 'MessageHandlerController.dart';
+import 'dart:developer';
+import 'package:dio/dio.dart' as dio;
 
 
 class CardServiceController extends GetxController {
-  final CardServices apiService = CardServices();
-  var cardServices = <CardService>[].obs;
-  var isLoading = false.obs;
+  LoaderController loaderController = Get.put(LoaderController());
+  MessagesHandlerController msgController =
+  Get.put(MessagesHandlerController());
+  GetStorage box = GetStorage();
 
+  List<CardService>? allServiceList = [];
   @override
   void onInit() {
     super.onInit();
     fetchCardServices(1);
   }
 
-  void fetchCardServices(int cardId) async {
-    isLoading(true);
+
+
+  Future<dynamic> fetchCardServices(int cardId) async {
+    loaderController.loading(true);
     try {
-      final services = await apiService.fetchActiveCardServices(cardId);
-      cardServices.assignAll(services);
+      var res = await CardServices().fetchListAllServices(cardId);
+
+      allServiceList = res.CardServiceData!;
+      print(allServiceList?.length);
     } catch (e) {
-      print("Error: $e");
-      Get.snackbar("Error", "Failed to load card services",
-          snackPosition: SnackPosition.BOTTOM);
-    } finally {
-      isLoading(false);
+      if (e is dio.DioException) {
+        log(e.toString());
+      } else {
+        print('errorrrrrr is $e');
+      }
     }
+    update();
+    loaderController.loading(false);
   }
+
 }
+
 
 

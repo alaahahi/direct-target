@@ -1,10 +1,9 @@
+import 'package:direct_target/Screen/Home/HomeScreenBody.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:direct_target/Controller/ThemeController.dart';
 import 'package:direct_target/Widgets/ThemeToggleButton.dart';
-
-import 'HomeScreenBody.dart';
 
 class Homepage extends StatefulWidget {
   @override
@@ -12,7 +11,6 @@ class Homepage extends StatefulWidget {
 }
 
 class _HomepageState extends State<Homepage> {
-
   @override
   Widget build(BuildContext context) {
     final ThemeController themeController = Get.find<ThemeController>();

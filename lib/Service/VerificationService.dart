@@ -2,29 +2,29 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get_storage/get_storage.dart';
-import '../Api/Api.dart';
+
+import '../Api/AppConfig.dart';
 import '../Model/VerificationResponse.dart';
 
 import '../Controller/LoaderController.dart';
 class VerificationService {
-  final Dio _dio = Dio();
-  final String baseUrl = 'https://dowalyplus.aindubaico.com/api/v1';
+  var dio = Dio();
+
   final LoaderController loaderController = Get.find<LoaderController>();
   GetStorage box = GetStorage();
   Future<VerificationResponse> sendVerification(String phoneNumber) async {
     loaderController.loading(true);
 
     try {
-      var res = await Api().dio.post('/send-verification-code?phone_number=$phoneNumber');
+      var res = await dio.post('$appConfig/send-verification-code?phone_number=$phoneNumber');
 
       if (res.statusCode == 200) {
         loaderController.loading(false);
-        // إرجاع النموذج الذي يحتوي على الرسالة و الـ token
         return VerificationResponse.fromJson(res.data);
       } else {
         loaderController.loading(false);
         print('Error: ${res.statusCode}');
-        return VerificationResponse(message: ''); // إرجاع نموذج فارغ أو رسالة خطأ
+        return VerificationResponse(message: '');
       }
     } catch (e) {
       loaderController.loading(false);
@@ -33,12 +33,12 @@ class VerificationService {
       } else {
         print('Unexpected Error: $e');
       }
-      return VerificationResponse(message: ''); // أو إرجاع null
+      return VerificationResponse(message: '');
     }
   }
 
   Future<VerificationResponse> verifyCode(String phoneNumber, String code) async {
-    final response = await _dio.get('$baseUrl/verify-code', queryParameters: {
+    final response = await dio.get('$appConfig/verify-code', queryParameters: {
       'phone_number': phoneNumber,
       'verification_code': code,
     });

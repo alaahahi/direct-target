@@ -1,9 +1,10 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:direct_target/Api/AppConfig.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-import '../Api/Api.dart';
+
 import '../Controller/LoaderController.dart';
 import '../Model/AllSettingModel.dart';
 
@@ -24,7 +25,7 @@ class SettingsServices {
     loaderController.loading(true);
 
     try {
-      var res = await Api().dio.get('/settings');
+      var res = await dio.get('$appConfig/settings');
 
       if (res.statusCode == 200) {
         return AllSettingModel.fromJson(jsonDecode(res.data));
@@ -43,7 +44,7 @@ class SettingsServices {
     loaderController.loading(true);
 
     try {
-      var res = await Api().dio.get('/settings/primary_color');
+      var res = await dio.get('$appConfig/settings/primary_color');
 
       if (res.statusCode == 200) {
         return AllSettingModel.fromJson(jsonDecode(res.data));
@@ -61,7 +62,7 @@ class SettingsServices {
 
   Future<AllSetting?> getFirstWelcomeImage() async {
     try {
-      final response = await dio.get('https://dowalyplus.aindubaico.com/api/v1/settings/first_welcome_image');
+      final response = await dio.get('$appConfig/settings/first_welcome_image');
 
       if (response.statusCode == 200) {
         // Parsing JSON and returning an AllSetting object
@@ -76,7 +77,7 @@ class SettingsServices {
   }
   Future<AllSetting?> getSecondWelcomeImage() async {
     try {
-      final response = await dio.get('https://dowalyplus.aindubaico.com/api/v1/settings/second_welcome_image');
+      final response = await dio.get('$appConfig/settings/second_welcome_image');
 
       if (response.statusCode == 200) {
         // Parsing JSON and returning an AllSetting object
@@ -92,7 +93,7 @@ class SettingsServices {
   Future<AllSetting?> getThirdWelcomeImage() async {
     loaderController.loading(true);
     try {
-      final response = await dio.get('https://dowalyplus.aindubaico.com/api/v1/settings/third_welcome_image');
+      final response = await dio.get('$appConfig/settings/third_welcome_image');
 
       if (response.statusCode == 200) {
         // Parsing JSON and returning an AllSetting object
@@ -113,7 +114,7 @@ class SettingsServices {
     loaderController.loading(true);
 
     try {
-      var res = await Api().dio.get('/settings/theme_color');
+      var res = await dio.get('$appConfig/settings/theme_color');
 
       if (res.statusCode == 200) {
         return AllSettingModel.fromJson(jsonDecode(res.data));
@@ -132,7 +133,7 @@ class SettingsServices {
     loaderController.loading(true);
 
     try {
-      var res = await Api().dio.get('/settings/maintenance_mode');
+      var res = await dio.get('$appConfig/settings/maintenance_mode');
 
       if (res.statusCode == 200) {
         return AllSettingModel.fromJson(jsonDecode(res.data));
@@ -151,7 +152,7 @@ class SettingsServices {
     loaderController.loading(true);
 
     try {
-      var res = await Api().dio.get('/settings/contact_email');
+      var res = await dio.get('$appConfig/settings/contact_email');
 
       if (res.statusCode == 200) {
         return AllSettingModel.fromJson(jsonDecode(res.data));
@@ -170,7 +171,7 @@ class SettingsServices {
     loaderController.loading(true);
 
     try {
-      var res = await Api().dio.get('/settings/contact_phone');
+      var res = await dio.get('$appConfig/settings/contact_phone');
 
       if (res.statusCode == 200) {
         return AllSettingModel.fromJson(jsonDecode(res.data));
@@ -189,7 +190,7 @@ class SettingsServices {
     loaderController.loading(true);
 
     try {
-      var res = await Api().dio.get('/settings/social_links');
+      var res = await dio.get('$appConfig/settings/social_links');
 
       if (res.statusCode == 200) {
         return AllSettingModel.fromJson(jsonDecode(res.data));
@@ -208,7 +209,7 @@ class SettingsServices {
     loaderController.loading(true);
 
     try {
-      var res = await Api().dio.get('/settings/default_language');
+      var res = await dio.get('$appConfig/settings/default_language');
 
       if (res.statusCode == 200) {
         return AllSettingModel.fromJson(jsonDecode(res.data));
@@ -227,7 +228,7 @@ class SettingsServices {
     loaderController.loading(true);
 
     try {
-      var res = await Api().dio.get('/settings/app_version');
+      var res = await dio.get('$appConfig/settings/app_version');
 
       if (res.statusCode == 200) {
         return AllSettingModel.fromJson(jsonDecode(res.data));
@@ -246,7 +247,7 @@ class SettingsServices {
     loaderController.loading(true);
 
     try {
-      var res = await Api().dio.get('/settings/max_upload_size');
+      var res = await dio.get('$appConfig/settings/max_upload_size');
 
       if (res.statusCode == 200) {
         return AllSettingModel.fromJson(jsonDecode(res.data));
@@ -265,7 +266,7 @@ class SettingsServices {
     loaderController.loading(true);
 
     try {
-      var res = await Api().dio.get('/settings/notification_enabled');
+      var res = await dio.get('$appConfig/settings/notification_enabled');
 
       if (res.statusCode == 200) {
         return AllSettingModel.fromJson(jsonDecode(res.data));
@@ -284,7 +285,7 @@ class SettingsServices {
     loaderController.loading(true);
 
     try {
-      var res = await Api().dio.get('/settings/privacy_policy_url');
+      var res = await dio.get('$appConfig/settings/privacy_policy_url');
 
       if (res.statusCode == 200) {
         return AllSettingModel.fromJson(jsonDecode(res.data));
@@ -303,7 +304,7 @@ class SettingsServices {
     loaderController.loading(true);
 
     try {
-      var res = await Api().dio.get('/settings/terms_conditions_url');
+      var res = await dio.get('$appConfig/settings/terms_conditions_url');
 
       if (res.statusCode == 200) {
         return AllSettingModel.fromJson(jsonDecode(res.data));
@@ -322,7 +323,7 @@ class SettingsServices {
     loaderController.loading(true);
 
     try {
-      var res = await Api().dio.get('/settings/otp_expiry_time');
+      var res = await dio.get('$appConfig/settings/otp_expiry_time');
 
       if (res.statusCode == 200) {
         return AllSettingModel.fromJson(jsonDecode(res.data));
@@ -341,7 +342,7 @@ class SettingsServices {
     loaderController.loading(true);
 
     try {
-      var res = await Api().dio.get('/settings/secondary_contact_phone');
+      var res = await dio.get('$appConfig/settings/secondary_contact_phone');
 
       if (res.statusCode == 200) {
         return AllSettingModel.fromJson(jsonDecode(res.data));
@@ -360,7 +361,7 @@ class SettingsServices {
     loaderController.loading(true);
 
     try {
-      var res = await Api().dio.get('/settings/app_name');
+      var res = await dio.get('$appConfig/settings/app_name');
 
       if (res.statusCode == 200) {
         return AllSettingModel.fromJson(jsonDecode(res.data));
@@ -379,7 +380,7 @@ class SettingsServices {
     loaderController.loading(true);
 
     try {
-      var res = await Api().dio.get('/settings/enable_dark_mode');
+      var res = await dio.get('$appConfig/settings/enable_dark_mode');
 
       if (res.statusCode == 200) {
         return AllSettingModel.fromJson(jsonDecode(res.data));
@@ -398,7 +399,7 @@ class SettingsServices {
     loaderController.loading(true);
 
     try {
-      var res = await Api().dio.get('/settings/welcome_message');
+      var res = await dio.get('$appConfig/settings/welcome_message');
 
       if (res.statusCode == 200) {
         return AllSettingModel.fromJson(jsonDecode(res.data));
@@ -417,7 +418,7 @@ class SettingsServices {
     loaderController.loading(true);
 
     try {
-      var res = await Api().dio.get('/settings/max_login_attempts');
+      var res = await dio.get('$appConfig/settings/max_login_attempts');
 
       if (res.statusCode == 200) {
         return AllSettingModel.fromJson(jsonDecode(res.data));
@@ -437,7 +438,7 @@ class SettingsServices {
     loaderController.loading(true);
 
     try {
-      var res = await Api().dio.get('/settings/First_contact_phone');
+      var res = await dio.get('$appConfig/settings/First_contact_phone');
 
       if (res.statusCode == 200) {
         return AllSettingModel.fromJson(jsonDecode(res.data));
@@ -456,7 +457,7 @@ class SettingsServices {
     loaderController.loading(true);
 
     try {
-      var res = await Api().dio.get('/settings/api_url');
+      var res = await dio.get('$appConfig/settings/api_url');
 
       if (res.statusCode == 200) {
         return AllSettingModel.fromJson(jsonDecode(res.data));

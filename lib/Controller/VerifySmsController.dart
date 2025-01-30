@@ -1,8 +1,5 @@
 import 'package:get/get.dart';
-import 'package:dio/dio.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:flutter/material.dart';
-
 import '../Model/SmsModel.dart';
 import '../Routes/Routes.dart';
 import '../Service/SmsService.dart';
@@ -47,6 +44,7 @@ class OtpController extends GetxController {
           if (responseData.message == 'تم التحقق بنجاح.') {
             print('Verification successful: ${responseData.message}');
             Get.offAllNamed(AppRoutes.homescreen);
+            print('ssssssssssssssss ${responseData.message}');
           } else {
             print('Error: ${responseData.message}');
           }

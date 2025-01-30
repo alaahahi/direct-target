@@ -4,12 +4,12 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../Api/Api.dart';
+
 import '../Controller/LoaderController.dart';
 import '../Model/VerificationWhatsappCodeModel.dart';
 import 'package:http/http.dart' as http;
 
-// Format phone number by removing spaces and dashes
+
 String formatPhoneNumber(String phoneNumber) {
   return phoneNumber.replaceAll(' ', '').replaceAll('-', '').trim();
 }
@@ -17,7 +17,6 @@ class VerificationService {
   final String sendCodeUrl = 'https://dowalyplus.aindubaico.com/api/v1/send-verification-code';
   final String verifyCodeUrl = 'https://dowalyplus.aindubaico.com/api/v1/verify-code';
 
-  // Send the verification code
   Future<VerificationResponse> sendVerificationCode(String phoneNumber) async {
     final formattedPhoneNumber = formatPhoneNumber(phoneNumber);
     print("Formatted phone number: $formattedPhoneNumber");

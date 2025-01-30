@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import '../../../Controller/LoaderController.dart';
 import '../../../Controller/ProfileCardController.dart';
 import '../../../Utils/AppStyle.dart';
 import '../../../Widgets/AuthFormFiled.dart';
@@ -18,7 +19,7 @@ class _ChangePasswordBodyState extends State<ChangePasswordBody> {
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController familyController = TextEditingController();
-
+  LoaderController loaderController = Get.put(LoaderController());
 
   final box = GetStorage();
 
@@ -73,11 +74,15 @@ class _ChangePasswordBodyState extends State<ChangePasswordBody> {
                 ],
               ),
             ),
+
             Obx(() {
-              if (controller.isLoading.value) {
-                return CircularProgressIndicator();
-              }
-              return ElevatedButton(
+              return  loaderController.loading.value
+                  ? const Center(
+                child: CircularProgressIndicator(
+                  color: PrimaryColor,
+                ),
+              )
+                  : ElevatedButton(
                 onPressed: () {
                   if (_formKey.currentState!.validate()) {
                     controller.updateProfile({
@@ -99,6 +104,7 @@ class _ChangePasswordBodyState extends State<ChangePasswordBody> {
                 ),
               );
             }),
+
             Padding(
               padding: const EdgeInsets.only(
                 right: 8.0,

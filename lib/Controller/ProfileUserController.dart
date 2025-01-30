@@ -1,7 +1,5 @@
 
-
 import 'package:get/get.dart';
-
 import '../Model/ProfileUserModel.dart';
 import '../Service/ProfileUserServices.dart';
 

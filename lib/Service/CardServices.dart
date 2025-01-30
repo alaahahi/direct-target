@@ -1,18 +1,17 @@
+
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
-import '../Api/Api.dart';
+import '../Api/AppConfig.dart';
 import '../Controller/LoaderController.dart';
-
 import '../Model/RequestCardModel.dart';
 import '../Model/CardServicesModel.dart';
-import 'package:http/http.dart' as http;
-class CardServices {
+import '../Controller/TokenController.dart';
+class CardServices extends GetConnect {
   static CardServices? _instance;
-
 
   var dio = Dio();
   factory CardServices() => _instance ??= CardServices._();
@@ -22,38 +21,75 @@ class CardServices {
   final LoaderController loaderController = Get.find<LoaderController>();
 
   GetStorage box = GetStorage();
-  static const String baseUrl = "https://dowalyplus.aindubaico.com/api/v1";
+  final tokenController = Get.find<TokenController>();
 
-  Future<RequestCardModel?> RequestCard([dynamic data]) async {
+
+  Future<RequestCardModel> RequestCard([dynamic data]) async {
     loaderController.loading(true);
     try {
-      final response = await Api().dio.post('/request-card',data:data);
+      final res = await dio.post('$appConfig/request-card',data:data);
 
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        return RequestCardModel.fromJson(response.data);
-      } else {
-        Get.snackbar("Error", "Failed to submit request: ${response.data}");
+      if (res.statusCode == 200 || res.statusCode==201  ) {
+        var data = res.data;
+        if (data is String) {
 
+          return RequestCardModel.fromJson(jsonDecode(data));
+        } else if (data is Map<String, dynamic>) {
+
+          return RequestCardModel.fromJson(data);
+        } else {
+          throw Exception('Unexpected data format');
+        }
       }
     } catch (e) {
-      Get.snackbar("Error", "An error occurred: $e");
+      if (e is DioException) {
+        if (e.response?.statusCode != 200) {
+          print('**********  Error *************${e.response}');
+        }
+      } else {
+        print('errorrrrrr $e');
+      }
 
+      loaderController.loading(false);
     }
     return RequestCardModel();
   }
 
-  Future<List<CardService>> fetchActiveCardServices(int cardId) async {
-    final response = await http.get(
-      Uri.parse('$baseUrl/card-services/active?card_id=$cardId'),
-    );
 
-    if (response.statusCode == 200) {
-      final jsonData = jsonDecode(response.body);
-      final List services = jsonData['data'];
 
-      return services.map((service) => CardService.fromJson(service)).toList();
-    } else {
-      throw Exception("Failed to load card services");
+
+
+  Future<CardServiceModel> fetchListAllServices(int cardId) async {
+    loaderController.loading(true);
+    try {
+      var res = await dio.get('$appConfig/card-services/active?card_id=1');
+
+      if (res.statusCode == 200 || res.statusCode==201  ) {
+        var data = res.data;
+        if (data is String) {
+
+          return CardServiceModel.fromJson(jsonDecode(data));
+        } else if (data is Map<String, dynamic>) {
+
+          return CardServiceModel.fromJson(data);
+        } else {
+          throw Exception('Unexpected data format');
+        }
+      }
+    } catch (e) {
+      if (e is DioException) {
+        if (e.response?.statusCode != 200 || e.response?.statusCode != 201) {
+          print('**********  Error *************${e.response}');
+          print('**********  Error *************${e.response?.statusCode}');
+        }
+      } else {
+        print('errorrrrrr $e');
+      }
+
+      loaderController.loading(false);
     }
+    return CardServiceModel();
   }
+
 }
+

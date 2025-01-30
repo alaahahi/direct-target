@@ -15,14 +15,14 @@ import 'package:direct_target/Screen/Services/ServiceScreen.dart';
 import 'package:direct_target/Screen/RequestCard/RequestScreen.dart';
 
 import '../../Controller/CardServiceController.dart';
+import '../../Controller/LoaderController.dart';
 import '../../Controller/TokenController.dart';
 
 
 class DashboardScreenBody extends StatelessWidget {
   DashboardScreenBody({super.key});
-  final CardServiceController controller = Get.put(CardServiceController());
    final tokenController = Get.put(TokenController());
-
+  LoaderController loaderController = Get.put(LoaderController());
    @override
   Widget build(BuildContext context) {
     return  SingleChildScrollView(
@@ -80,65 +80,18 @@ class DashboardScreenBody extends StatelessWidget {
         SizedBox(
           height: 20,
         ),
-        CarouselSlider(
-          items: [
+        ClipRRect(
+          borderRadius: BorderRadius.circular(20.0),
+          child: Image.asset(
             'Assets/images/4.jpg',
-            'Assets/images/5.jpg',
-          ].map((item) {
-            return Builder(
-              builder: (BuildContext context) {
-                return GestureDetector(
-                  onTap: () {
-
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => Servicescreen(),
-                      ),
-                    );
-                  },
-                  child: Container(
-                    decoration: BoxDecoration(borderRadius: BorderRadius.circular(20)),
-                    width: MediaQuery.of(context).size.width,
-                    height: 50,
-                    child: SingleChildScrollView(
-                      child: Column(
-                        children: [
-                          ClipRRect(
-                            borderRadius: BorderRadius.circular(20.0),
-                            child: Container(
-                              width: MediaQuery.of(context).size.width,
-                              height: 150,
-                              child: Image.asset(item, fit: BoxFit.cover),
-                            ),
-                          ),
-                          SizedBox(height: 8.0),
-                          Text(
-                            'News for up-to-the-minute news, breaking news, video, audio and feature stories.'.tr,
-
-                            maxLines: 2,
-
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                );
-              },
-            );
-          }).toList(),
-          options: CarouselOptions(
+            width: MediaQuery.of(context).size.width,
             height: 250,
-            enlargeCenterPage: true,
-            autoPlay: true,
-            aspectRatio: 4 / 3,
-            autoPlayCurve: Curves.fastOutSlowIn,
-            enableInfiniteScroll: true,
-            autoPlayAnimationDuration: Duration(milliseconds: 800),
-            viewportFraction: 0.8,
+            fit: BoxFit.cover,
           ),
         ),
-
+        SizedBox(
+          height: 20,
+        ),
         Row(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
@@ -149,9 +102,8 @@ class DashboardScreenBody extends StatelessWidget {
           ],
         ),
 
-
         const SizedBox(
-          height: 10,
+          height: 20,
         ),
 
         Obx(() {
@@ -229,31 +181,49 @@ class DashboardScreenBody extends StatelessWidget {
         Container(
           height: 220,
           width: 400,
-          child: ListView(
-            physics: BouncingScrollPhysics(),
-            scrollDirection: Axis.horizontal,
-            children: controller.cardServices.map((service) {
-              return GestureDetector(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    PageTransition(
-                      type: PageTransitionType.rightToLeft,
-                      child: DoctorDetails(doctorId: service.id),
+          child:GetBuilder<CardServiceController>(
+            builder: (controller) {
+              if (loaderController.loading.value) {
+                return Center(
+                  child: CircularProgressIndicator(color: PrimaryColor),
+                );
+              }
+
+              if (controller.allServiceList!.isEmpty) {
+                return Center(
+                  child: Text("No data available"),
+                );
+              }
+
+              return ListView(
+                physics: BouncingScrollPhysics(),
+                scrollDirection: Axis.horizontal,
+                children: controller.allServiceList!.map((service) {
+                  return GestureDetector(
+                    onTap: () {
+                      Navigator.push(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.rightToLeft,
+                          child: DoctorDetails(doctorId: service.id!),
+                        ),
+                      );
+                    },
+                    child: list_doctor1(
+                      distance: "800m Away",
+                      image: service.image != null
+                          ? service.image!
+                          : "Assets/icons/male-doctor.png",
+                      maintext: service.serviceName!.tr,
+                      numRating: "4.7",
+                      subtext: service.serviceName!.tr,
                     ),
                   );
-                },
-                child: list_doctor1(
-                  distance: "800m Away",
-                  image: service.image != null ? service.image! : "Assets/icons/male-doctor.png",
-                  maintext: service.serviceName.tr,
-                  numRating: "4.7",
-                  subtext: service.serviceName.tr,
-                ),
+                }).toList(),
               );
-            }).toList(),
-          ),
-        ),
+            },
+          )
+        )
       ]),
     );
 

@@ -7,11 +7,22 @@ import 'package:page_transition/page_transition.dart';
 import 'package:get/get.dart';
 
 import '../../../Controller/CardServiceController.dart';
+import '../../../Controller/LoaderController.dart';
+import '../../../Utils/AppStyle.dart';
 import '../../../Widgets/doctorList.dart';
 
-class doctor_search extends StatelessWidget {
-  doctor_search({super.key});
+
+
+class doctor_search extends StatefulWidget {
+  const doctor_search({super.key});
+
+  @override
+  State<doctor_search> createState() => _doctor_searchState();
+}
+
+class _doctor_searchState extends State<doctor_search> {
   final CardServiceController controller = Get.put(CardServiceController());
+  LoaderController loaderController = Get.put(LoaderController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,8 +39,8 @@ class doctor_search extends StatelessWidget {
               width: 10,
               decoration: const BoxDecoration(
                   image: DecorationImage(
-                image: AssetImage("Assets/icons/back1.png"),
-              )),
+                    image: AssetImage("Assets/icons/back1.png"),
+                  )),
             ),
           ),
           title: Text(
@@ -49,47 +60,43 @@ class doctor_search extends StatelessWidget {
                 width: 10,
                 decoration: const BoxDecoration(
                     image: DecorationImage(
-                  image: AssetImage("Assets/icons/more.png"),
-                )),
+                      image: AssetImage("Assets/icons/more.png"),
+                    )),
               ),
             ),
           ],
         ),
-        body: Obx(() {
-          if (controller.isLoading.value) {
-            return Center(child: CircularProgressIndicator());
-          }
-
-          if (controller.cardServices.isEmpty) {
-            return Center(
-                child: Text("No services available"));
-          }
-          return ListView.builder(
-              itemCount: controller.cardServices.length,
-              itemBuilder: (context, index) {
-                final service = controller.cardServices[index];
-                return SafeArea(
-                    child: Column(
-                  children: [
-                    GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                            context,
-                            PageTransition(
-                                type: PageTransitionType.rightToLeft,
-                                child: DoctorDetails(doctorId: service.id)));
-                      },
-                      child: doctorList(
-                          maintext: service.serviceName.tr,
-                          subtext: service.serviceName.tr,
-                        image: service.image != null
-                            ? service.image!
-                            : "Assets/icons/male-doctor.png",
+        body: GetBuilder<CardServiceController>(
+            builder: (controller )=> loaderController.loading.value ?
+        Center(
+          child: CircularProgressIndicator(color: PrimaryColor),
+        ): ListView.builder(
+            itemCount: controller.allServiceList!.length,
+            itemBuilder: (context, index) {
+              final service = controller.allServiceList![index];
+              return SafeArea(
+                  child: Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          Navigator.push(
+                              context,
+                              PageTransition(
+                                  type: PageTransitionType.rightToLeft,
+                                  child: DoctorDetails(doctorId: service.id!)));
+                        },
+                        child: doctorList(
+                          maintext: service.serviceName!.tr,
+                          subtext: service.serviceName!.tr,
+                          image: service.image != null
+                              ? service.image!
+                              : "Assets/icons/male-doctor.png",
+                        ),
                       ),
-                    ),
-                  ],
-                ));
-              });
-        }));
+                    ],
+                  ));
+            })
+        )
+    );
   }
 }

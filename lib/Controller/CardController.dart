@@ -7,6 +7,7 @@ import '../Routes/Routes.dart';
 import '../Service/CardServices.dart';
 import 'LoaderController.dart';
 import 'package:path/path.dart' as path;
+
 class CardController extends GetxController {
   LoaderController loaderController = Get.put(LoaderController());
   MessagesHandlerController msgController =
@@ -36,7 +37,6 @@ class CardController extends GetxController {
           filename: path.basename(cardRequest.image!),
         );
       }
-
       var formData = dio.FormData.fromMap({
         'name': cardRequest.name,
         'phone': cardRequest.phone,

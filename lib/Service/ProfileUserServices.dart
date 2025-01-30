@@ -2,30 +2,66 @@ import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 
+import '../Api/AppConfig.dart';
 import '../Controller/TokenController.dart';
 import '../Model/ProfileUserModel.dart';
-class ProfileUserService {
-  final Dio _dio = Dio();
 
-  final String _baseUrl = "https://dowalyplus.aindubaico.com/api/v1/profile/me";
+import 'dart:convert';
+import 'package:get_storage/get_storage.dart';
+
+
+import '../Controller/LoaderController.dart';
+
+class ProfileUserService extends GetConnect {
+  static ProfileUserService? _instance;
+
+  var dio = Dio();
+  factory ProfileUserService() => _instance ??= ProfileUserService._();
+
+  ProfileUserService._();
+
+  final LoaderController loaderController = Get.find<LoaderController>();
+
+  GetStorage box = GetStorage();
   final tokenController = Get.find<TokenController>();
-  Future<ProfileUserModel?> fetchProfile() async {
-    final String token = tokenController.getToken();
+  Future<ProfileUserModel> fetchProfile([dynamic data]) async {
     try {
-      final response = await _dio.get(_baseUrl,options: Options(
-        headers: {
-          'Authorization': 'Bearer $token',
-        },
-      ),);
+      final String token = tokenController.getToken();
+      var res = await dio.get(
+        '$appConfig/profile/me',
+        data: data,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
 
-      if (response.statusCode == 200) {
-        return ProfileUserModel.fromJson(response.data);
-      } else {
-        throw Exception("Failed to load profile");
+      if (res.statusCode == 200 || res.statusCode==201  ) {
+        var data = res.data;
+        if (data is String) {
+
+          return ProfileUserModel.fromJson(jsonDecode(data));
+        } else if (data is Map<String, dynamic>) {
+
+          return ProfileUserModel.fromJson(data);
+        } else {
+          throw Exception('Unexpected data format');
+        }
       }
     } catch (e) {
-      print("Error: $e");
-      return null;
+      if (e is DioException) {
+        if (e.response?.statusCode != 200) {
+          print('**********  Error *************${e.response}');
+        }
+      } else {
+        print('errorrrrrr $e');
+      }
+
+      loaderController.loading(false);
     }
+
+    return ProfileUserModel();
   }
 }

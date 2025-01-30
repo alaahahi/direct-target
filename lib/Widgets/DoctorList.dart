@@ -32,15 +32,18 @@ class doctorList extends StatelessWidget {
                 const SizedBox(
                   width: 10,
                 ),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.1200,
-                  width: MediaQuery.of(context).size.width * 0.2400,
-                  decoration: BoxDecoration(
-                      borderRadius: BorderRadius.circular(12),
-                      image: DecorationImage(
-                          image: AssetImage(image),
-                          filterQuality: FilterQuality.high,
-                          fit: BoxFit.contain)),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.1200,
+                    width: MediaQuery.of(context).size.width * 0.1200,
+                    decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(12),
+                        image: DecorationImage(
+                            image: AssetImage(image),
+                            filterQuality: FilterQuality.high,
+                            fit: BoxFit.contain)),
+                  ),
                 ),
                 const SizedBox(
                   width: 10,
