@@ -141,7 +141,8 @@ class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProvi
                         const SizedBox(width: 8),
                         Text(
                           '+964',
-                          style: TextStyle(fontSize: 16),
+                          style: TextStyle(fontSize: 16,
+                            color: Theme.of(context).textTheme.bodyMedium?.color,),
                         ),
                       ],
                     ),
@@ -187,6 +188,7 @@ class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProvi
                             "SMS Code".tr,
                             style: TextStyle(
                               fontSize: 18.0,
+                              color: Theme.of(context).textTheme.bodyMedium?.color,
                             ),
                           ),
                         ),
@@ -198,6 +200,7 @@ class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProvi
                             "WhatsApp".tr,
                             style: TextStyle(
                               fontSize: 18.0,
+                              color: Theme.of(context).textTheme.bodyMedium?.color,
                             ),
                           ),
                         ),
@@ -218,7 +221,7 @@ class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProvi
                             if (_selectedTab == 0) {
                               _sendCodeToPhoneNumber();
                             } else {
-                              controller.sendVerificationCode(_phoneController.text.trim(), context);
+                              controller.sendVerificationCode("+964" +_phoneController.text.trim(), context);
 
                             }
                           },

@@ -1,3 +1,5 @@
+import 'dart:convert';
+
 import 'package:dio/dio.dart' as dio;
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -42,7 +44,8 @@ class CardController extends GetxController {
         'phone': cardRequest.phone,
         'address': cardRequest.address,
         'card_number': cardRequest.cardNumber,
-        'family_members_names': cardRequest.familyMembersNames,
+        'family_members_names': jsonEncode(cardRequest.familyMembersNames),
+
         'image': file,
       });
       final response = await _service.RequestCard(formData);

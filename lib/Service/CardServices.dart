@@ -23,22 +23,26 @@ class CardServices extends GetConnect {
   GetStorage box = GetStorage();
   final tokenController = Get.find<TokenController>();
 
-
   Future<RequestCardModel> RequestCard([dynamic data]) async {
     loaderController.loading(true);
     try {
-      final res = await dio.post('$appConfig/request-card',data:data);
+      final res = await dio.post('$appConfig/request-card', data: data);
 
-      if (res.statusCode == 200 || res.statusCode==201  ) {
-        var data = res.data;
-        if (data is String) {
+      if (res.statusCode == 200 || res.statusCode == 201) {
+        var responseData = res.data;
 
-          return RequestCardModel.fromJson(jsonDecode(data));
-        } else if (data is Map<String, dynamic>) {
+        if (responseData is String) {
+          try {
+            responseData = jsonDecode(responseData); // تحويل النص إلى JSON
+          } catch (e) {
+            throw Exception('Failed to decode JSON response: $e');
+          }
+        }
 
-          return RequestCardModel.fromJson(data);
+        if (responseData is Map<String, dynamic>) {
+          return RequestCardModel.fromJson(responseData);
         } else {
-          throw Exception('Unexpected data format');
+          throw Exception('Unexpected data format: ${responseData.runtimeType}');
         }
       }
     } catch (e) {
@@ -49,11 +53,43 @@ class CardServices extends GetConnect {
       } else {
         print('errorrrrrr $e');
       }
-
+    } finally {
       loaderController.loading(false);
     }
+
     return RequestCardModel();
   }
+
+  // Future<RequestCardModel> RequestCard([dynamic data]) async {
+  //   loaderController.loading(true);
+  //   try {
+  //     final res = await dio.post('$appConfig/request-card',data:data);
+  //
+  //     if (res.statusCode == 200 || res.statusCode==201  ) {
+  //       var data = res.data;
+  //       if (data is String) {
+  //
+  //         return RequestCardModel.fromJson(jsonDecode(data));
+  //       } else if (data is Map<String, dynamic>) {
+  //
+  //         return RequestCardModel.fromJson(data);
+  //       } else {
+  //         throw Exception('Unexpected data format');
+  //       }
+  //     }
+  //   } catch (e) {
+  //     if (e is DioException) {
+  //       if (e.response?.statusCode != 200) {
+  //         print('**********  Error *************${e.response}');
+  //       }
+  //     } else {
+  //       print('errorrrrrr $e');
+  //     }
+  //
+  //     loaderController.loading(false);
+  //   }
+  //   return RequestCardModel();
+  // }
 
 
 

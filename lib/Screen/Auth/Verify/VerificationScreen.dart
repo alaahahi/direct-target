@@ -38,11 +38,11 @@ class OtpScreen extends StatelessWidget {
         elevation: 0,
       ),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20.0),
         child: Column(
           children: [
             const SizedBox(height: 50),
-            Text("Enter verification code we have sent to your number"),
+            Text("Enter verification code we have sent to your number".tr),
             const SizedBox(height: 20),
             Form(
               child: Column(
@@ -55,7 +55,7 @@ class OtpScreen extends StatelessWidget {
                     },
                     validator: (value) {
                       if (value == null || value.length != 6) {
-                        return 'Please enter a valid 6-digit OTP';
+                        return 'Please enter a valid 6-digit OTP'.tr;
                       }
                       return null;
                     },
@@ -66,7 +66,7 @@ class OtpScreen extends StatelessWidget {
                         ? CircularProgressIndicator()
                         : ElevatedButton(
                       onPressed: () => otpController.verifyOtp(otpController.otp.value),
-                      child: Text('Verify'),
+                      child: Text('Verify'.tr),
                           style: ElevatedButton.styleFrom(
                             foregroundColor: Colors.white,
                             backgroundColor: PrimaryColor,

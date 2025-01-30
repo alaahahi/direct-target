@@ -71,7 +71,7 @@ class DashboardScreenBody extends StatelessWidget {
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 border: OutlineInputBorder(
                   borderSide: BorderSide.none,
-                  borderRadius: BorderRadius.circular(10),
+                  borderRadius: BorderRadius.circular(30),
                 ),
               ),
             ),
@@ -80,15 +80,24 @@ class DashboardScreenBody extends StatelessWidget {
         SizedBox(
           height: 20,
         ),
-        ClipRRect(
-          borderRadius: BorderRadius.circular(20.0),
-          child: Image.asset(
-            'Assets/images/4.jpg',
-            width: MediaQuery.of(context).size.width,
-            height: 250,
-            fit: BoxFit.cover,
+        InkWell(
+          onTap: () {
+            Navigator.push(
+              context,
+              MaterialPageRoute(builder: (context) => doctor_search()),
+            );
+          },
+          child: ClipRRect(
+            borderRadius: BorderRadius.circular(10.0),
+            child: Image.asset(
+              'Assets/images/4.jpg',
+              width: MediaQuery.of(context).size.width,
+              height: 250,
+              fit: BoxFit.cover,
+            ),
           ),
         ),
+
         SizedBox(
           height: 20,
         ),
@@ -150,11 +159,11 @@ class DashboardScreenBody extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
             Text(
-              "Top Doctor".tr,
+              "Join Now".tr,
               style: GoogleFonts.inter(
                 fontSize: 18,
                 fontWeight: FontWeight.w700,
-                color: Theme.of(context).textTheme.bodyLarge?.color,
+                color: Theme.of(context).textTheme.bodyMedium?.color,
               ),
             ),
             GestureDetector(
@@ -169,7 +178,7 @@ class DashboardScreenBody extends StatelessWidget {
                 "See all".tr,
                 style: GoogleFonts.inter(
                   fontSize: 16,
-                  color: Theme.of(context).textTheme.bodyLarge?.color,
+                  color: Theme.of(context).textTheme.bodyMedium?.color,
                 ),
               ),
             ),
@@ -191,7 +200,8 @@ class DashboardScreenBody extends StatelessWidget {
 
               if (controller.allServiceList!.isEmpty) {
                 return Center(
-                  child: Text("No data available"),
+                  child: Text("No data available".tr,
+                  style: TextStyle( color: Theme.of(context).textTheme.bodyMedium?.color,),),
                 );
               }
 

@@ -38,9 +38,9 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
       ),
     );
     return Scaffold(
-      appBar: AppBar(title: Text('Verify Code')),
+      appBar: AppBar(title: Text('Verify Code'.tr)),
       body: Padding(
-        padding: const EdgeInsets.all(16.0),
+        padding: const EdgeInsets.all(20.0),
         child:GetBuilder<VerificationWhatsappController>(
           init: VerificationWhatsappController(),
           builder: (controller) {
@@ -48,7 +48,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
               children: [
                 const SizedBox(height: 50),
                 Text(
-                  "Enter verification code we have sent to your number",
+                  "Enter verification code we have sent to your number".tr,
                   style: GoogleFonts.poppins(
                     fontSize: 15,
                     fontWeight: FontWeight.w400,
@@ -82,7 +82,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                         },
                         validator: (value) {
                           if (value == null || value.length != 6) {
-                            return 'Please enter a valid 6-digit OTP';
+                            return 'Please enter a valid 6-digit OTP'.tr;
                           }
                           return null;
                         },
@@ -102,7 +102,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                                 context,
                               );
                             },
-                            child: Text('Verify Code'),
+                            child: Text('Verify Code'.tr),
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.white,
                               backgroundColor: PrimaryColor,
@@ -123,7 +123,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Text(
-                      "Don't receive code yet? ",
+                      "Don't receive code yet? ".tr,
                       style: GoogleFonts.poppins(
                         fontSize: 15,
                         color: Theme.of(context).textTheme.bodyLarge?.color,
@@ -133,7 +133,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                       onTap: () {
                       },
                       child: Text(
-                        "Resend",
+                        "Resend".tr,
                         style: GoogleFonts.poppins(
                           fontSize: 15,
                           color: Colors.blue,
@@ -143,8 +143,6 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                     ),
                   ],
                 ),
-
-
               ],
             );
           },

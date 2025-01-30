@@ -23,12 +23,29 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
   final _phoneController = TextEditingController();
   final _addressController = TextEditingController();
   final _cardNumberController = TextEditingController();
-  final _familyNamesController = TextEditingController();
+  // final _familyNamesController = TextEditingController();
   File? _selectedImage;
+  final TextEditingController _familyCountController = TextEditingController(); // عدد الأفراد
+  RxList<TextEditingController> familyNamesControllers = <TextEditingController>[].obs; // قائمة الحقول
 
   final ImagePicker _picker = ImagePicker();
   final CardController _controller = Get.put(CardController(CardServices()));
   final storage = GetStorage();
+
+  void updateFamilyFields() {
+    int count = int.tryParse(_familyCountController.text) ?? 0;
+    setState(() {
+      if (count > 0) {
+        familyNamesControllers.assignAll(
+          List.generate(count, (index) => TextEditingController()),
+        );
+      } else {
+        familyNamesControllers.clear();
+      }
+    });
+  }
+
+
 
   @override
   void initState() {
@@ -67,15 +84,15 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
                     _pickImage();
                   },
                   child: Container(
-                    width: 300,
-                    height: 200,
+                    height: MediaQuery.of(context).size.height * 0.07,
+                    width: MediaQuery.of(context).size.width * 0.9,
                     decoration: BoxDecoration(
                       color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(10),
                     ),
                     child: _selectedImage != null
                         ? ClipRRect(
-                      borderRadius: BorderRadius.circular(12),
+                      borderRadius: BorderRadius.circular(10),
                       child: Image.file(
                         _selectedImage!,
                         fit: BoxFit.cover,
@@ -91,12 +108,12 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
                           child: Icon(
                             Icons.add,
                             color: Colors.grey,
-                            size: 50,
+                            size: 30,
                           ),
                         ),
                         Center(
                           child: Text(
-                            'Add Card Image',
+                            'Add Card Image'.tr,
                             style: TextStyle(color: Colors.black12),
                           ),
                         ),
@@ -108,64 +125,90 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
 
                 AuthFormField(
                   controller: _nameController,
-                  hint: 'Full Name'.tr,
+                  hint: 'Full Name'.tr, onChanged: (value) {  },
                 ),
                 SizedBox(height: 20),
                 AuthFormField(
                   controller: _cardNumberController,
-                  hint: 'Card Number'.tr,
+                  hint: 'Card Number'.tr, onChanged: (value) {  },
                 ),
                 SizedBox(height: 20),
                 AuthFormField(
                   controller: _addressController,
-                  hint: 'Address'.tr,
+                  hint: 'Address'.tr, onChanged: (value) {  },
                 ),
                 SizedBox(height: 20),
-                AuthFormField(
-                  controller: _familyNamesController,
-                  hint: 'Family Names'.tr,
+                TextFormField(
+                  controller: _familyCountController,
+                  keyboardType: TextInputType.number,
+                  decoration: InputDecoration(
+                    labelText: 'Number of family members'.tr,
+                    border: OutlineInputBorder(),
+                  ),
+                  onChanged: (value) {
+                    updateFamilyFields();
+                  },
                 ),
+
+                const SizedBox(height: 10),
+
+                Column(
+                  children: List.generate(familyNamesControllers.length, (index) {
+                    return Padding(
+                      padding: const EdgeInsets.symmetric(vertical: 5),
+                      child: TextFormField(
+                        controller: familyNamesControllers[index],
+                        decoration: InputDecoration(
+                          labelText: 'Member Name ${index + 1}'.tr,
+                          border: OutlineInputBorder(),
+                        ),
+                      ),
+                    );
+                  }),
+                ),
+
+
+                const SizedBox(height: 20),
                 const SizedBox(
                   height: 20,
                 ),
                 Obx(() {
                   return _controller.isLoading.value
                       ? Center(child: CircularProgressIndicator())
-                      : Row(
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: [
-                      Container(
-                        height: MediaQuery.of(context).size.height * 0.05,
-                        width: MediaQuery.of(context).size.width * 0.8,
-                        child: ElevatedButton(
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              final cardRequest = RequestCardData(
-                                name: _nameController.text,
-                                phone: userPhone ?? _phoneController.text,
-                                address: _addressController.text,
-                                cardNumber: _cardNumberController.text,
-                                familyMembersNames: _familyNamesController.text,
-                                image: _selectedImage?.path,
-                              );
-                              _controller.RequestCard(cardRequest);
-                            }
-                          },
-                          child: Text('Request Card'),
-                          style: ElevatedButton.styleFrom(
-                            foregroundColor: Colors.white,
-                            backgroundColor: PrimaryColor,
-                            shadowColor: Colors.black,
-                            elevation: 5,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(30),
-                            ),
-                          ),
+                      : Container(
+                    height: MediaQuery.of(context).size.height * 0.07,
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        if (_formKey.currentState!.validate()) {
+                          final cardRequest = RequestCardData(
+                            name: _nameController.text,
+                            phone: userPhone ?? _phoneController.text,
+                            address: _addressController.text,
+                            cardNumber: _cardNumberController.text,
+                            familyMembersNames: familyNamesControllers.isNotEmpty
+                                ? familyNamesControllers.map((controller) => controller.text.trim()).where((name) => name.isNotEmpty).toList()
+                                : null,
+                            image: _selectedImage?.path,
+                          );
+                          _controller.RequestCard(cardRequest);
+                        }
+                      },
+
+                      child: Text('Request Card'.tr),
+                      style: ElevatedButton.styleFrom(
+                        foregroundColor: Colors.white,
+                        backgroundColor: PrimaryColor,
+                        shadowColor: Colors.black,
+                        elevation: 5,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
                         ),
                       ),
-                    ],
+                    ),
                   );
                 }),
+
               ],
             ),
           ),

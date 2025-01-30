@@ -1,4 +1,3 @@
-import 'package:direct_target/Screen/Profile/ProfileViewScreen.dart';
 import 'package:get/get.dart';
 import 'package:direct_target/Routes/Routes.dart';
 import 'package:direct_target/Screen/Auth/SignIn/SignInScreen.dart';
@@ -36,8 +35,8 @@ final pages = <GetPage>[
     name: AppRoutes.changeprofile,
     page: () =>  ChangePasswordScreen(),
   ),
-  GetPage(
-    name: AppRoutes.viewprofile,
-    page: () =>  ProfileView(),
-  ),
+  // GetPage(
+  //   name: AppRoutes.viewprofile,
+  //   page: () =>  ProfileView(),
+  // ),
 ];

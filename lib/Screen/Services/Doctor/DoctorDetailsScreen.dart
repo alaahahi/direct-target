@@ -8,6 +8,7 @@ import '../../../Controller/AppointmentController.dart';
 import '../../../Controller/CardServiceController.dart';
 import '../../../Controller/LoaderController.dart';
 import '../../../Controller/ProfileCardController.dart';
+import '../../Home/HomeScreen.dart';
 import 'SearchScreen.dart';
 import 'package:intl/intl.dart';
 
@@ -77,29 +78,41 @@ class _DoctorDetailsState extends State<DoctorDetails> {
         leading: GestureDetector(
           onTap: () {
             Navigator.pushReplacement(
-              context,
-              PageTransition(
-                type: PageTransitionType.fade,
-                child: doctor_search(),
-              ),
-            );
+                context,
+                PageTransition(
+                    type: PageTransitionType.fade, child: doctor_search()));
           },
-          child: Icon(
-            Icons.arrow_back,
-            size: 24,
-            color: PrimaryColor,
+          child: Container(
+            height: 10,
+            width: 10,
+            decoration: const BoxDecoration(
+                image: DecorationImage(
+                  image: AssetImage("Assets/icons/back1.png"),
+                )),
           ),
         ),
         title: Text(
-          "Doctor Details".tr,
+          "Book Appointment".tr,
           style: GoogleFonts.poppins(
-            color: Theme.of(context).textTheme.bodyLarge?.color,
-            fontSize: 18,
-          ),
+              color: Theme.of(context).textTheme.bodyLarge?.color,
+              fontSize: 18),
         ),
         centerTitle: true,
         elevation: 0,
         toolbarHeight: 100,
+        actions: [
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 20),
+            child: Container(
+              height: 10,
+              width: 10,
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("Assets/icons/more.png"),
+                  )),
+            ),
+          ),
+        ],
       ),
       body: GetBuilder<CardServiceController>(
         builder: (controller) {
@@ -109,22 +122,19 @@ class _DoctorDetailsState extends State<DoctorDetails> {
             );
           }
 
-          // البحث عن الطبيب
           final doctor = controller.allServiceList!
               .firstWhere((service) => service.id == widget.doctorId);
 
-          // التحقق مما إذا كان الطبيب غير موجود
           if (doctor == null) {
-            return Center(child: Text("Doctor not found"));
+            return Center(child: Text("Doctor not found".tr));
           }
 
           final doctorDays = doctor.workingDays;
           final String? startTime = doctor.workingHours?.start;
           final String? endTime = doctor.workingHours?.end;
 
-          // التأكد من أن القيم غير فارغة قبل استخدامها
           if (startTime == null || endTime == null) {
-            return Center(child: Text("No working hours available"));
+            return Center(child: Text("No working hours available".tr));
           }
 
           List<String> availableHours = getAvailableHours(startTime, endTime);
@@ -170,7 +180,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                 padding: const EdgeInsets.all(20.0),
                 child: TextField(
                   controller: noteController,
-                  decoration: InputDecoration(labelText: 'Note'),
+                  decoration: InputDecoration(labelText: 'Note'.tr),
                 ),
               ),
               SizedBox(height: 20),
@@ -201,7 +211,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                     ? PrimaryColor
                                     : Colors.white,
                                 shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20), // يمكنك تعديل القيمة هنا
+                                  borderRadius: BorderRadius.circular(20),
                                 ),
                               ),
                               child: Column(
@@ -267,7 +277,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                         ? PrimaryColor
                                         : Colors.white,
                                     shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20), // يمكنك تعديل القيمة هنا
+                                      borderRadius: BorderRadius.circular(20),
                                     ),
                                   ),
                                   child: Text(
@@ -315,7 +325,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                       ),
                     ),
                     child: Text(
-                      'Create Appointment',
+                      'Create Appointment'.tr,
                       style: TextStyle(
                         color: Colors.white,
                       ),

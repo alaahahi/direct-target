@@ -1,4 +1,5 @@
 import 'package:carousel_slider/carousel_options.dart';
+import 'package:carousel_slider/carousel_options.dart';
 import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:direct_target/Screen/Home/DashboardScreen.dart';
@@ -61,6 +62,7 @@ class _CardScreenBodyState extends State<CardScreenBody> {
                                   'News for up-to-the-minute news, breaking news, video, audio and feature stories.'.tr,
 
                                   maxLines: 2,
+                                  style: TextStyle( color: Theme.of(context).textTheme.bodyMedium?.color,),
 
                                 ),
                               ],

@@ -35,7 +35,6 @@ class _OnBoard3State extends State<OnBoard3> {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Obx(() {
-            // مراقبة تغيير الصورة
             return Container(
               height: MediaQuery.of(context).size.height * 0.5,
               width: MediaQuery.of(context).size.width * 0.8,

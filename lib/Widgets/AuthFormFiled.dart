@@ -14,7 +14,7 @@ class AuthFormField extends StatelessWidget {
       this.suffixIcon,
       this.prefixIcon,
       this.obscureText = false,
-      this.onTap});
+      this.onTap, required void Function(dynamic value) onChanged});
   final TextEditingController controller;
   TextInputType? keyboardType;
   String? hint;

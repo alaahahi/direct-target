@@ -42,7 +42,7 @@ class _ChangePasswordBodyState extends State<ChangePasswordBody> {
                     prefixIcon: Padding(
                       padding: const EdgeInsets.all(12.0),
                     ),
-                    hint: 'Your Name'.tr,
+                    hint: 'Your Name'.tr, onChanged: (value) {  },
 
                   ),
                   SizedBox(
@@ -53,7 +53,7 @@ class _ChangePasswordBodyState extends State<ChangePasswordBody> {
                     prefixIcon: Padding(
                       padding: const EdgeInsets.all(12.0),
                     ),
-                    hint: 'Your Phone Number'.tr,
+                    hint: 'Your Phone Number'.tr, onChanged: (value) {  },
 
                   ),
                   SizedBox(
@@ -65,7 +65,7 @@ class _ChangePasswordBodyState extends State<ChangePasswordBody> {
                       padding: const EdgeInsets.all(12.0),
 
                     ),
-                    hint: 'Your Family names'.tr,
+                    hint: 'Your Family names'.tr, onChanged: (value) {  },
 
                   ),
                   SizedBox(
@@ -82,27 +82,31 @@ class _ChangePasswordBodyState extends State<ChangePasswordBody> {
                   color: PrimaryColor,
                 ),
               )
-                  : ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    controller.updateProfile({
-                      "name": nameController.text,
-                      "phone_number": phoneController.text,
-                      "family": familyController.text,
-                    });
-                  }
-                },
-                child: Text("Update Profile"),
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: PrimaryColor,
-                  shadowColor: Colors.black,
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-              );
+                  : Container(
+                height: MediaQuery.of(context).size.height * 0.07,
+                width: MediaQuery.of(context).size.width * 0.9,
+                    child: ElevatedButton(
+                                    onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      controller.updateProfile({
+                        "name": nameController.text,
+                        "phone_number": phoneController.text,
+                        "family": familyController.text,
+                      });
+                    }
+                                    },
+                                    child: Text("Update Profile".tr),
+                                    style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: PrimaryColor,
+                    shadowColor: Colors.black,
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                                    ),
+                                  ),
+                  );
             }),
 
             Padding(

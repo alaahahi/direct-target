@@ -17,35 +17,46 @@ class _RequestScreenState extends State<RequestScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pushReplacement(
-                context,
-                PageTransition(
-                    type: PageTransitionType.fade, child: Homepage()));
-          },
-          child: Container(
-            height: 40,
-            width: 40,
-            decoration: BoxDecoration(
-              borderRadius: BorderRadius.circular(8),
-            ),
-            child: Icon(
-              Icons.arrow_back,
-              size: 24,
-              color: PrimaryColor,
+        appBar: AppBar(
+          leading: GestureDetector(
+            onTap: () {
+              Navigator.pushReplacement(
+                  context,
+                  PageTransition(
+                      type: PageTransitionType.fade, child: Homepage()));
+            },
+            child: Container(
+              height: 10,
+              width: 10,
+              decoration: const BoxDecoration(
+                  image: DecorationImage(
+                    image: AssetImage("Assets/icons/back1.png"),
+                  )),
             ),
           ),
+          title: Text(
+            "Request Card".tr,
+            style: GoogleFonts.poppins(
+                color: Theme.of(context).textTheme.bodyLarge?.color,
+                fontSize: 18),
+          ),
+          centerTitle: true,
+          elevation: 0,
+          toolbarHeight: 100,
+          actions: [
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 20),
+              child: Container(
+                height: 10,
+                width: 10,
+                decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage("Assets/icons/more.png"),
+                    )),
+              ),
+            ),
+          ],
         ),
-        title: Text(
-          "Request Card".tr,
-          style: GoogleFonts.poppins(color: Theme.of(context).textTheme.bodyLarge?.color, fontSize: 18),
-        ),
-        centerTitle: true,
-        elevation: 0,
-        toolbarHeight: 100,
-      ),
       body: RequestScreenBody()
 
     );

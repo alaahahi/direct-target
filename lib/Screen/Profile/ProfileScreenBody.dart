@@ -249,10 +249,6 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
             child: Column(
               children: [
                 SizedBox(height: 50),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                  child: Divider(),
-                ),
                 InkWell(
                   onTap: () {
                     Get.toNamed(AppRoutes.changeprofile);
@@ -310,10 +306,10 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
                 InkWell(
                   onTap: () {
                     Get.defaultDialog(
-                      title: "Confirm Logout",
-                      middleText: "Are you sure you want to log out?",
-                      textCancel: "No",
-                      textConfirm: "Yes",
+                      title: "Confirm Logout".tr,
+                      middleText: "Are you sure you want to log out?".tr,
+                      textCancel: "No".tr,
+                      textConfirm: "Yes".tr,
                       confirmTextColor: Colors.white,
                       onConfirm: () {
                         controller.logout();

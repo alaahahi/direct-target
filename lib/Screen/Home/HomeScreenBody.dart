@@ -17,7 +17,7 @@ class HomeScreenBody extends StatefulWidget {
 class _HomeScreenBodyState extends State<HomeScreenBody> {
   List<IconData> icons = [
     FontAwesomeIcons.home,
-    FontAwesomeIcons.gift,
+    // FontAwesomeIcons.gift,
     FontAwesomeIcons.clipboardCheck,
     FontAwesomeIcons.user,
   ];
@@ -26,7 +26,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
 
   List<Widget> pages = [
     CardScreen(),
-    Servicescreen(),
+    // Servicescreen(),
     shedule_screen(),
     ProfileScreen()
   ];
