@@ -1,10 +1,10 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 import '../../Controller/AllSettingController.dart';
 import '../../Service/SettingsServices.dart';
+import '../../Utils/AppStyle.dart';
 class OnBoard3 extends StatefulWidget {
   const OnBoard3({super.key});
 
@@ -76,10 +76,9 @@ class _OnBoard3State extends State<OnBoard3> {
                   child: Center(
                     child: Text(
                       "Consult only with a doctor\nyou trust".tr,
-                      style: GoogleFonts.inter(
-                          fontSize: 18.0,
-                          fontWeight: FontWeight.bold,
-                          color: const Color.fromARGB(255, 37, 37, 37)),
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: DarkBorderColor,
+                      ),
                     ),
                   ),
                 ),

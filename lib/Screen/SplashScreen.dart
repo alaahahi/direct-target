@@ -4,7 +4,6 @@ import 'package:direct_target/Screen/OnBoard/BoardingScreen.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
-
 import '../Controller/AllSettingController.dart';
 import '../Service/SettingsServices.dart';
 
@@ -32,12 +31,6 @@ class _SplashScreenState extends State<SplashScreen> {
     }
 
   }
-
-  // void _navigateToOnBoarding() {
-  //   Timer(const Duration(seconds: 1), () {
-  //     Get.off(() => const on_boarding());
-  //   });
-  // }
 
   @override
   void initState() {

@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:direct_target/Screen/Auth/SignIn/SignInScreen.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:direct_target/Screen/Home/HomeScreen.dart';
@@ -8,8 +7,8 @@ import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:direct_target/Widgets/ThemeToggleButton.dart';
 import 'package:direct_target/Widgets/LangToggleButton.dart';
 import 'package:direct_target/Controller/ThemeController.dart';
-class Startscreen extends StatelessWidget {
-  const Startscreen({super.key});
+class StartScreen extends StatelessWidget {
+  const StartScreen({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -59,12 +58,7 @@ class Startscreen extends StatelessWidget {
             children: [
               Text(
                 "Lets get Started!".tr,
-                style: GoogleFonts.poppins(
-                  fontSize: 22,
-                  color: Theme.of(context).textTheme.bodyLarge?.color,
-                  fontWeight: FontWeight.w700,
-                  letterSpacing: 1,
-                ),
+                style:  Theme.of(context).textTheme.headlineLarge,
               ),
             ],
           ),
@@ -78,13 +72,7 @@ class Startscreen extends StatelessWidget {
                 child: Text(
                   "Login to enjoy the features we've \nprovided, and stay healthy".tr,
                   textAlign: TextAlign.center,
-                  style: GoogleFonts.poppins(
-                    fontSize: 15,
-                    color: Theme.of(context).textTheme.bodyLarge?.color,
-
-                    fontWeight: FontWeight.w400,
-                    letterSpacing: 1,
-                  ),
+                  style:  Theme.of(context).textTheme.bodyLarge,
                 ),
               ),
             ],
@@ -108,11 +96,8 @@ class Startscreen extends StatelessWidget {
               child: Text(
                 "Login".tr,
                 textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(
-                  fontSize: 18,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
                   color: LightGrey,
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 0,
                 ),
               ),
             ),
@@ -132,12 +117,7 @@ class Startscreen extends StatelessWidget {
             child: Text(
               "Sign in as a Visitor".tr,
               textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(
-                fontSize: 18,
-                color: Theme.of(context).textTheme.bodyLarge?.color,
-                fontWeight: FontWeight.w500,
-                letterSpacing: 0,
-              ),
+              style:  Theme.of(context).textTheme.titleMedium,
             ),
           ),
           const SizedBox(

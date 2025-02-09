@@ -7,6 +7,7 @@ import 'package:direct_target/Screen/SplashScreen.dart';
 import '../Screen/Auth/Verify/VerificationScreenBody.dart';
 import '../Screen/Home/HomeScreen.dart';
 import '../Screen/Profile/ChangeProfile/ChangeProfileScreen.dart';
+import '../Screen/Schedule/ScheduleScreen.dart';
 
 final pages = <GetPage>[
   GetPage(
@@ -35,6 +36,12 @@ final pages = <GetPage>[
     name: AppRoutes.changeprofile,
     page: () =>  ChangePasswordScreen(),
   ),
+
+  GetPage(
+    name: AppRoutes.appointment,
+    page: () =>  shedule_screen(),
+  ),
+
   // GetPage(
   //   name: AppRoutes.viewprofile,
   //   page: () =>  ProfileView(),

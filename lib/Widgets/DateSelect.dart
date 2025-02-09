@@ -44,20 +44,11 @@ class _date_SelectState extends State<date_Select> {
               children: [
                 Text(
                   widget.maintext,
-                  style: GoogleFonts.poppins(
-                    fontSize: 15,
-                    color: isSelected ? Colors.white : Colors.black54,
-                  ),
+                    style: Theme.of(context).textTheme.bodyLarge
                 ),
                 Text(
                   widget.date,
-                  style: GoogleFonts.inter(
-                    fontSize: 18,
-                    color: isSelected
-                        ? Colors.white
-                        : const Color.fromARGB(255, 27, 27, 27),
-                    fontWeight: FontWeight.w500,
-                  ),
+                    style: Theme.of(context).textTheme.titleMedium
                 ),
               ],
             ),

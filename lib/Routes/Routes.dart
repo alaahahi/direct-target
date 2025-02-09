@@ -12,5 +12,6 @@ class AppRoutes {
   static const String splash = '/splash';
   static const String verify = '/verify';
   static const String changeprofile = '/changeprofile';
+  static const String appointment = '/appointment';
 
 }

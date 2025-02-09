@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:direct_target/Screen/Home/HomeScreen.dart';
 import 'package:direct_target/Screen/Services/Doctor/DoctorDetailsScreen.dart';
 import 'package:page_transition/page_transition.dart';
@@ -45,9 +44,7 @@ class _doctor_searchState extends State<doctor_search> {
           ),
           title: Text(
             "Top Doctors".tr,
-            style: GoogleFonts.poppins(
-                color: Theme.of(context).textTheme.bodyLarge?.color,
-                fontSize: 18),
+            style:  Theme.of(context).textTheme.bodyLarge,
           ),
           centerTitle: true,
           elevation: 0,

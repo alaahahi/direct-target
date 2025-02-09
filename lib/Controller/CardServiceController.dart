@@ -22,7 +22,6 @@ class CardServiceController extends GetxController {
   }
 
 
-
   Future<dynamic> fetchCardServices(int cardId) async {
     loaderController.loading(true);
     try {

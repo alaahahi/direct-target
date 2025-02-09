@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 
@@ -10,6 +9,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../../../Controller/VerificationWhatsappController.dart';
 import '../../Start/StartScreen.dart';
 import '../Verify/VerificationScreen.dart';
+
 class SignInScreenBody extends StatefulWidget {
   const SignInScreenBody({super.key});
 
@@ -17,17 +17,19 @@ class SignInScreenBody extends StatefulWidget {
   State<SignInScreenBody> createState() => _SignInScreenState();
 }
 
-class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProviderStateMixin  {
+class _SignInScreenState extends State<SignInScreenBody>
+    with SingleTickerProviderStateMixin {
   late TabController _tabController;
   final FirebaseAuth _auth = FirebaseAuth.instance;
   final TextEditingController _phoneController = TextEditingController();
   String? _verificationId;
-  final VerificationWhatsappController controller = Get.put(VerificationWhatsappController());
+  final VerificationWhatsappController controller =
+      Get.put(VerificationWhatsappController());
   final _formKey = GlobalKey<FormState>();
   void _sendCodeToPhoneNumber() async {
     if (_formKey.currentState!.validate()) {
       await FirebaseAuth.instance.verifyPhoneNumber(
-        phoneNumber: "+964" +_phoneController.text.trim(),
+        phoneNumber: "+964" + _phoneController.text.trim(),
         timeout: Duration(seconds: 60),
         verificationCompleted: (PhoneAuthCredential credential) {
           FirebaseAuth.instance.signInWithCredential(credential);
@@ -42,26 +44,29 @@ class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProvi
           if (resendToken != null) {
             final storage = GetStorage();
             await storage.write('token', resendToken.toString());
-            print('Token saved: ${resendToken.toString()}'); // تحقق من أنه تم حفظ التوكين
+            print(
+                'Token saved: ${resendToken.toString()}'); // تحقق من أنه تم حفظ التوكين
           }
 
           Navigator.push(
             context,
             MaterialPageRoute(
-              builder: (context) => OtpScreen(verificationId: verificationId, phoneNumber: "+964" +_phoneController.text.trim(), firebaseToken: resendToken.toString()),
+              builder: (context) => OtpScreen(
+                  verificationId: verificationId,
+                  phoneNumber: "+964" + _phoneController.text.trim(),
+                  firebaseToken: resendToken.toString()),
             ),
           );
         },
-
         codeAutoRetrievalTimeout: (String verificationId) {
           _verificationId = verificationId;
         },
       );
     }
   }
+
   int _selectedTab = 0;
   @override
-
   void initState() {
     super.initState();
     _tabController = TabController(vsync: this, length: 2);
@@ -71,12 +76,14 @@ class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProvi
       });
     });
   }
+
   @override
   void dispose() {
     _tabController.dispose();
     _phoneController.dispose();
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -92,7 +99,7 @@ class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProvi
               context,
               PageTransition(
                 type: PageTransitionType.leftToRight,
-                child: Startscreen(),
+                child: StartScreen(),
               ),
             );
           },
@@ -100,15 +107,9 @@ class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProvi
         centerTitle: true,
         title: Text(
           "Login".tr,
-          style: GoogleFonts.inter(
-            color: Theme.of(context).textTheme.bodyLarge?.color,
-            fontSize: 22,
-            fontWeight: FontWeight.w700,
-            letterSpacing: 0,
-          ),
+          style: Theme.of(context).textTheme.titleMedium,
         ),
         toolbarHeight: 110,
-
         elevation: 0,
       ),
       body: Padding(
@@ -129,8 +130,7 @@ class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProvi
                     Row(
                       children: [
                         ClipRRect(
-                          borderRadius:
-                          BorderRadius.circular(4),
+                          borderRadius: BorderRadius.circular(4),
                           child: Image.asset(
                             'Assets/images/iraq.png',
                             width: 28,
@@ -156,12 +156,12 @@ class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProvi
                           hintStyle: TextStyle(color: Colors.grey),
                         ),
                         keyboardType: TextInputType.phone,
+                        style: TextStyle(color:Colors.black),
                       ),
                     ),
                   ],
                 ),
               ),
-
               const SizedBox(
                 height: 50,
               ),
@@ -170,7 +170,6 @@ class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProvi
                   TabBar(
                     unselectedLabelColor: BorderGrey,
                     labelColor: Colors.white,
-
                     indicatorColor: Colors.transparent,
                     indicatorWeight: 2,
                     indicator: BoxDecoration(
@@ -180,7 +179,7 @@ class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProvi
                     indicatorSize: TabBarIndicatorSize.tab,
                     dividerColor: Colors.transparent,
                     controller: _tabController,
-                    tabs:  [
+                    tabs: [
                       Tab(
                         child: Padding(
                           padding: EdgeInsets.only(left: 24.0, right: 24.0),
@@ -208,7 +207,7 @@ class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProvi
                     ],
                   ),
                   const SizedBox(
-                    height:60,
+                    height: 60,
                   ),
                   Row(
                     mainAxisAlignment: MainAxisAlignment.center,
@@ -232,20 +231,18 @@ class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProvi
                             ),
                           ),
                           child: Text(
-                            _selectedTab == 0 ? "Verify SMS".tr : "Verify WhatsApp".tr,
+                            _selectedTab == 0
+                                ? "Verify SMS".tr
+                                : "Verify WhatsApp".tr,
                             textAlign: TextAlign.center,
-                            style: GoogleFonts.poppins(
-                              fontSize: 18,
+                            style: Theme.of(context).textTheme.titleMedium?.copyWith(
                               color: LightGrey,
-                              fontWeight: FontWeight.w500,
-                              letterSpacing: 0,
                             ),
                           ),
                         ),
                       ),
                     ],
                   ),
-
                 ],
               ),
             ],
@@ -253,7 +250,5 @@ class _SignInScreenState extends State<SignInScreenBody>  with SingleTickerProvi
         ),
       ),
     );
-
   }
-
 }

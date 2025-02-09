@@ -54,17 +54,11 @@ class DirectTarget extends StatelessWidget {
         fallbackLocale: const Locale('en', 'US'),
         translationsKeys: AppTranslation.translationKeys,
         theme: ThemeData(
-          fontFamily: (Get.locale?.languageCode ?? 'en') == 'ar'
+          fontFamily: Get.locale?.languageCode == 'ar'
               ? 'Univers Next Arabic Regular'
               : 'coolvetica',
-          brightness: Brightness.light,
-          textTheme: TextTheme(
-            bodyLarge: TextStyle(fontSize: 16, fontFamily: (Get.locale?.languageCode ?? 'en') == 'ar' ? 'Univers Next Arabic Regular' : 'coolvetica'),
-            bodyMedium: TextStyle(fontSize: 14, fontFamily: (Get.locale?.languageCode ?? 'en') == 'ar' ? 'Univers Next Arabic Regular' : 'coolvetica'),
-            bodySmall: TextStyle(fontSize: 12, fontFamily: (Get.locale?.languageCode ?? 'en') == 'ar' ? 'Univers Next Arabic Regular' : 'coolvetica'),
-            headlineLarge: TextStyle(fontSize: 24, fontFamily: (Get.locale?.languageCode ?? 'en') == 'ar' ? 'Univers Next Arabic Regular' : 'coolvetica'),
-            titleMedium: TextStyle(fontSize: 18, fontFamily: (Get.locale?.languageCode ?? 'en') == 'ar' ? 'Univers Next Arabic Regular' : 'coolvetica'),
-          ),
+          primaryColor: PrimaryColor,
+          scaffoldBackgroundColor: FormBackGraund,
           inputDecorationTheme: InputDecorationTheme(
             labelStyle: TextStyle(fontFamily: (Get.locale?.languageCode ?? 'en') == 'ar'
                 ? 'Univers Next Arabic Regular'
@@ -73,25 +67,33 @@ class DirectTarget extends StatelessWidget {
                 ? 'Univers Next Arabic Regular'
                 : 'coolvetica'),
           ),
-          primaryColor: PrimaryColor,
-          scaffoldBackgroundColor: FormBackGraund,
+          textTheme: TextTheme(
+            bodyLarge: TextStyle(fontSize: 16, color: Colors.black),  // لون للنص الفاتح
+            bodyMedium: TextStyle(fontSize: 14, color: PrimaryColor),
+            bodySmall: TextStyle(fontSize: 12, color: Colors.black54),
+            headlineLarge: TextStyle(fontSize: 22, color: Colors.black),
+            titleMedium: TextStyle(fontSize: 18, color: Colors.black87),
+          ),
+
+
           appBarTheme: const AppBarTheme(
             backgroundColor: FormBackGraund,
             elevation: 0,
             iconTheme: IconThemeData(color: Colors.black),
           ),
         ),
+
         darkTheme: ThemeData(
           fontFamily: (Get.locale?.languageCode ?? 'en') == 'ar'
               ? 'Univers Next Arabic Regular'
               : 'coolvetica',
           brightness: Brightness.dark,
           textTheme: TextTheme(
-            bodyLarge: TextStyle(fontSize: 16, fontFamily: (Get.locale?.languageCode ?? 'en') == 'ar' ? 'Univers Next Arabic Regular' : 'coolvetica'),
-            bodyMedium: TextStyle(fontSize: 14, fontFamily: (Get.locale?.languageCode ?? 'en') == 'ar' ? 'Univers Next Arabic Regular' : 'coolvetica'),
-            bodySmall: TextStyle(fontSize: 12, fontFamily: (Get.locale?.languageCode ?? 'en') == 'ar' ? 'Univers Next Arabic Regular' : 'coolvetica'),
-            headlineLarge: TextStyle(fontSize: 24, fontFamily: (Get.locale?.languageCode ?? 'en') == 'ar' ? 'Univers Next Arabic Regular' : 'coolvetica'),
-            titleMedium: TextStyle(fontSize: 18, fontFamily: (Get.locale?.languageCode ?? 'en') == 'ar' ? 'Univers Next Arabic Regular' : 'coolvetica'),
+            bodyLarge: TextStyle(fontSize: 16, color: LightGrey),  // لون للنص الداكن
+            bodyMedium: TextStyle(fontSize: 14, color: Colors.grey.shade300),
+            bodySmall: TextStyle(fontSize: 12, color: Colors.grey.shade400),
+            headlineLarge: TextStyle(fontSize: 24, color: LightGrey),
+            titleMedium: TextStyle(fontSize: 18, color: Colors.grey.shade300),
           ),
           inputDecorationTheme: InputDecorationTheme(
             labelStyle: TextStyle(fontFamily: (Get.locale?.languageCode ?? 'en') == 'ar'
@@ -105,8 +107,8 @@ class DirectTarget extends StatelessWidget {
           scaffoldBackgroundColor: DarkBGColor,
           appBarTheme: const AppBarTheme(
             backgroundColor: DarkBGColor,
-            iconTheme: IconThemeData(color: DarkTextColor),
-            titleTextStyle: TextStyle(fontSize: 22, color: DarkTextColor, fontWeight: FontWeight.w500),
+            iconTheme: IconThemeData(color: LightGrey),
+            titleTextStyle: TextStyle(fontSize: 22, color:  LightGrey, fontWeight: FontWeight.w500),
           ),
         ),
         themeMode: themeController.theme,

@@ -7,25 +7,25 @@ import '../../../Controller/AppointmentController.dart';
 import '../../../Controller/CardServiceController.dart';
 import '../../../Controller/LoaderController.dart';
 import '../../../Controller/ProfileCardController.dart';
-import '../../Home/HomeScreen.dart';
+import '../../Schedule/ScheduleScreen.dart';
 import 'SearchScreen.dart';
 import 'package:intl/intl.dart';
 
-class DoctorDetails extends StatefulWidget {
-  final int doctorId;
+class AppointmentScreen extends StatefulWidget {
+
   final int? appointmentId; // إذا كان الموعد موجودًا
 
-  DoctorDetails({required this.doctorId, this.appointmentId});
+  AppointmentScreen({ this.appointmentId});
   // DoctorDetails({required this.doctorId});
 
   @override
-  _DoctorDetailsState createState() => _DoctorDetailsState();
+  _AppointmentScreenState createState() => _AppointmentScreenState();
 }
 
-class _DoctorDetailsState extends State<DoctorDetails> {
+class _AppointmentScreenState extends State<AppointmentScreen> {
   final CardServiceController controller = Get.put(CardServiceController());
   final AppointmentController appointmencontroller =
-      Get.put(AppointmentController());
+  Get.put(AppointmentController());
   final TextEditingController noteController = TextEditingController();
   final TextEditingController startController = TextEditingController();
   final TextEditingController endController = TextEditingController();
@@ -50,6 +50,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
 
   DateTime parseTime(String timeStr) {
     return DateFormat("HH:mm:ss").parse(timeStr);
+
   }
 
   List<String> getAvailableHours(String start, String end) {
@@ -67,9 +68,14 @@ class _DoctorDetailsState extends State<DoctorDetails> {
   }
 
   String addHalfHour(String time) {
-    DateTime timeDateTime = parseTime(time);
-    DateTime newTime = timeDateTime.add(Duration(minutes: 30));
-    return DateFormat("HH:mm:ss").format(newTime);
+    try {
+      DateTime dateTime = DateFormat("yyyy-MM-dd HH:mm:ss").parse(time);
+      DateTime newTime = dateTime.add(Duration(minutes: 30));
+      return DateFormat("yyyy-MM-dd HH:mm:ss").format(newTime);
+    } catch (e) {
+      print("Error parsing time: $e");
+      return time; // تجنب الكراش بإرجاع نفس القيمة عند الخطأ
+    }
   }
 
   @override
@@ -81,7 +87,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
             Navigator.pushReplacement(
                 context,
                 PageTransition(
-                    type: PageTransitionType.fade, child: doctor_search()));
+                    type: PageTransitionType.fade, child: shedule_screen()));
           },
           child: Container(
             height: 10,
@@ -93,7 +99,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
           ),
         ),
         title: Text(
-          "Book Appointment".tr,
+          "Edit Book Appointment".tr,
           style:  Theme.of(context).textTheme.bodyLarge,
         ),
         centerTitle: true,
@@ -113,7 +119,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
           ),
         ],
       ),
-      body: GetBuilder<CardServiceController>(
+      body: GetBuilder<AppointmentController>(
         builder: (controller) {
           if (loaderController.loading.value) {
             return Center(
@@ -121,16 +127,16 @@ class _DoctorDetailsState extends State<DoctorDetails> {
             );
           }
 
-          final doctor = controller.allServiceList!
-              .firstWhere((service) => service.id == widget.doctorId);
+          final doctor = controller.appointments!
+              .firstWhere((service) => service.id == widget.appointmentId);
 
           if (doctor == null) {
             return Center(child: Text("Doctor not found".tr));
           }
 
-          final doctorDays = doctor.workingDays;
-          final String? startTime = doctor.workingHours?.start;
-          final String? endTime = doctor.workingHours?.end;
+          final doctorDays = doctor.serviceProvider?.workingDays;
+          final String? startTime = doctor.serviceProvider?.workingHours?.start;
+          final String? endTime = doctor.serviceProvider?.workingHours?.end;
 
           if (startTime == null || endTime == null) {
             return Center(child: Text("No working hours available".tr));
@@ -142,9 +148,9 @@ class _DoctorDetailsState extends State<DoctorDetails> {
             children: [
               const SizedBox(height: 10),
               doctorList(
-                image: doctor.image ?? "Assets/icons/person.png",
-                maintext: doctor.serviceName!.tr,
-                subtext: doctor.serviceName!.tr,
+                image: doctor.serviceProvider?.image ?? "Assets/icons/person.png",
+                maintext: doctor.serviceProvider!.serviceName!.tr,
+                subtext: doctor.serviceProvider!.serviceName!.tr,
 
               ),
               const SizedBox(height: 15),
@@ -160,10 +166,15 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                       ),
                       const SizedBox(height: 5),
                       Text(
-                        doctor.description!.tr,
-
+                        doctor.serviceProvider!.description!.tr,
                         style:  Theme.of(context).textTheme.bodyLarge,
+                      ),
+                      const SizedBox(height: 5),
+                    ],
+                  ),
+                ),
               ),
+              const SizedBox(height: 20),
               Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: TextField(
@@ -288,9 +299,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
               ),
               const SizedBox(height: 10),
               Obx(() {
-
                 return appointmencontroller.loaderController.loading.value
-
                     ? SizedBox(
                   height: 30,
                   width: 30,
@@ -300,17 +309,24 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                   padding: const EdgeInsets.all(20.0),
                   child: ElevatedButton(
                     onPressed: () {
-                      if (widget.appointmentId == null) {
-                        // إنشاء موعد جديد
-                        appointmencontroller.createAppointment(
-                          profileId: profcontroller.selectedCardId.value,
+                      if (widget.appointmentId != null && selectedDate != null && selectedTime != null) {
+                        String formattedStart = "$selectedDate $selectedTime";
+                        String formattedEnd = addHalfHour(formattedStart);
+
+                        print("Formatted Start: $formattedStart");  // Debugging
+                        print("Formatted End: $formattedEnd");      // Debugging
+
+                        appointmencontroller.updateAppointment(
                           note: noteController.text,
-                          start: "$selectedDate $selectedTime",
-                          end: addHalfHour("$selectedDate $selectedTime"),
-                          serviceProviderId: widget.doctorId,
+                          start: formattedStart,
+                          end: formattedEnd,
+                          appointmentId: widget.appointmentId!,
                         );
+                      } else {
+                        Get.snackbar("Error", "Please select a date and time");
                       }
                     },
+
                     style: ElevatedButton.styleFrom(
                       backgroundColor: PrimaryColor,
                       shape: RoundedRectangleBorder(
@@ -318,7 +334,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                       ),
                     ),
                     child: Text(
-                      widget.appointmentId == null ? 'Create Appointment'.tr : 'Update Appointment'.tr,
+                     'Update Appointmennt'.tr,
                       style: TextStyle(
                         color: Colors.white,
                       ),
@@ -330,8 +346,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
               // Text("Working Days: ${doctorDays?.join(", ")}"),
               // Text("Available Hours: ${availableHours.join(", ")}"),
             ],
-          )
-          ))]);
+          );
         },
       ),
 

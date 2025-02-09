@@ -23,9 +23,12 @@ class _ChangePasswordScreenState extends State<ChangePasswordScreen> {
               ),
               color: TextGrey,
             ),
-            title: Text('Change Profile'.tr),
+            title: Text('Change Profile'.tr,
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color: Theme.of(context).textTheme.bodyMedium?.color, 
+                  ),),
             centerTitle: true,
             titleTextStyle: AppBarTextStyle),
-        body: const ChangePasswordBody());
+        body: const ChangeProfileBody());
   }
 }

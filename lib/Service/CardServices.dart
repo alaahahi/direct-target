@@ -60,45 +60,13 @@ class CardServices extends GetConnect {
     return RequestCardModel();
   }
 
-  // Future<RequestCardModel> RequestCard([dynamic data]) async {
-  //   loaderController.loading(true);
-  //   try {
-  //     final res = await dio.post('$appConfig/request-card',data:data);
-  //
-  //     if (res.statusCode == 200 || res.statusCode==201  ) {
-  //       var data = res.data;
-  //       if (data is String) {
-  //
-  //         return RequestCardModel.fromJson(jsonDecode(data));
-  //       } else if (data is Map<String, dynamic>) {
-  //
-  //         return RequestCardModel.fromJson(data);
-  //       } else {
-  //         throw Exception('Unexpected data format');
-  //       }
-  //     }
-  //   } catch (e) {
-  //     if (e is DioException) {
-  //       if (e.response?.statusCode != 200) {
-  //         print('**********  Error *************${e.response}');
-  //       }
-  //     } else {
-  //       print('errorrrrrr $e');
-  //     }
-  //
-  //     loaderController.loading(false);
-  //   }
-  //   return RequestCardModel();
-  // }
-
-
 
 
 
   Future<CardServiceModel> fetchListAllServices(int cardId) async {
     loaderController.loading(true);
     try {
-      var res = await dio.get('$appConfig/card-services/active?card_id=1');
+      var res = await dio.get('$appConfig/card-services/active?card_id=cardId');
 
       if (res.statusCode == 200 || res.statusCode==201  ) {
         var data = res.data;

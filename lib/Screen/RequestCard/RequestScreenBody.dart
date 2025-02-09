@@ -195,7 +195,10 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
                         }
                       },
 
-                      child: Text('Request Card'.tr),
+                      child: Text('Request Card'.tr,
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: LightGrey,
+                        ),),
                       style: ElevatedButton.styleFrom(
                         foregroundColor: Colors.white,
                         backgroundColor: PrimaryColor,

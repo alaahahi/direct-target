@@ -44,7 +44,7 @@ class AuthFormField extends StatelessWidget {
         keyboardType: keyboardType,
         decoration: InputDecoration(
           filled: true,
-          fillColor: Colors.white.withOpacity(.5),
+          fillColor: Colors.white,
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(10.0),
             borderSide: BorderSide(color: TextGrey),

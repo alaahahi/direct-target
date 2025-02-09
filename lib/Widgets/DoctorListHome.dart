@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 class list_doctor1 extends StatelessWidget {
   final String image;
@@ -55,16 +54,12 @@ class list_doctor1 extends StatelessWidget {
 
                   Text(
                     maintext,
-                    style: GoogleFonts.poppins(
-                        fontSize: 13, fontWeight: FontWeight.bold),
+                      style: Theme.of(context).textTheme.bodySmall
                   ),
 
                   Text(
                     subtext,
-                    style: GoogleFonts.poppins(
-                        fontSize: 11,
-                        color: Colors.black45,
-                        fontWeight: FontWeight.bold),
+                      style: Theme.of(context).textTheme.bodySmall
                   ),
                   const SizedBox(
                     height: 15,
@@ -83,11 +78,7 @@ class list_doctor1 extends StatelessWidget {
                           const SizedBox(width: 5),
                           Text(
                             numRating,
-                            style: GoogleFonts.poppins(
-                              fontSize: 12,
-                              color: PrimaryColor,
-                              fontWeight: FontWeight.bold,
-                            ),
+                              style: Theme.of(context).textTheme.bodySmall
                           ),
                         ],
                       ),
@@ -111,11 +102,7 @@ class list_doctor1 extends StatelessWidget {
                           const SizedBox(width: 5),
                           Text(
                             distance,
-                            style: GoogleFonts.poppins(
-                              fontSize: 12,
-                              color: const Color.fromARGB(255, 133, 133, 133),
-                              fontWeight: FontWeight.bold,
-                            ),
+                              style: Theme.of(context).textTheme.bodySmall
                           ),
                         ],
                       ),

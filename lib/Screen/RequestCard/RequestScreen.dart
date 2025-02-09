@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:google_fonts/google_fonts.dart';
 import '../../Utils/AppStyle.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:direct_target/Screen/Home/HomeScreen.dart';
@@ -36,9 +35,7 @@ class _RequestScreenState extends State<RequestScreen> {
           ),
           title: Text(
             "Request Card".tr,
-            style: GoogleFonts.poppins(
-                color: Theme.of(context).textTheme.bodyLarge?.color,
-                fontSize: 18),
+            style:  Theme.of(context).textTheme.bodyLarge,
           ),
           centerTitle: true,
           elevation: 0,

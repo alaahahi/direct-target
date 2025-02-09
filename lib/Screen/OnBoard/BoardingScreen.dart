@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:direct_target/Screen/Start/StartScreen.dart';
 import 'package:direct_target/Screen/OnBoard/FirstBoardScreen.dart';
 import 'package:direct_target/Screen/OnBoard/SecondBoardScreen.dart';
@@ -51,7 +50,9 @@ class _on_boardingState extends State<on_boarding> {
                   },
                   child: Text(
                     "Skip".tr,
-                    style: GoogleFonts.inter(fontSize: 15, color: Colors.grey),
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: TextGrey,
+                  ),
                   ),
                 ),
                 SmoothPageIndicator(
@@ -74,7 +75,7 @@ class _on_boardingState extends State<on_boarding> {
                       context,
                       PageTransition(
                         type: PageTransitionType.bottomToTop,
-                        child: Startscreen(),
+                        child: StartScreen(),
                       ),
                     );
                   },
@@ -91,11 +92,8 @@ class _on_boardingState extends State<on_boarding> {
                         children: [
                           Text(
                             "Done".tr,
-                            style: GoogleFonts.inter(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              letterSpacing: 1,
+                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              color: LightGrey,
                             ),
                           ),
                           Container(
@@ -130,11 +128,8 @@ class _on_boardingState extends State<on_boarding> {
                         children: [
                           Text(
                             "Next".tr,
-                            style: GoogleFonts.inter(
-                              fontSize: 16,
-                              fontWeight: FontWeight.bold,
-                              color: Colors.white,
-                              letterSpacing: 1,
+                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              color: LightGrey,
                             ),
                           ),
                           Container(

@@ -1,7 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:direct_target/Utils/AppStyle.dart';
-import 'package:easy_localization/easy_localization.dart';
 class doctorList extends StatelessWidget {
   final String image;
   final String maintext;
@@ -57,17 +54,11 @@ class doctorList extends StatelessWidget {
                     children: [
                       Text(
                         maintext,
-                        style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w600,
-                        ),
+                          style: Theme.of(context).textTheme.bodyLarge
                       ),
                       Text(
                         subtext,
-                        style: GoogleFonts.poppins(
-                            fontSize: 12,
-                            fontWeight: FontWeight.w400,
-                            color: Colors.black54),
+                        style: Theme.of(context).textTheme.bodySmall,
                       ),
                     ],
                   ),

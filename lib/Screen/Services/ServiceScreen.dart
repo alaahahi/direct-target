@@ -3,7 +3,6 @@ import 'package:page_transition/page_transition.dart';
 import 'package:get/get.dart';
 import 'package:direct_target/Screen/Services/Doctor/SearchScreen.dart';
 import 'package:direct_target/Controller/ThemeController.dart';
-import 'package:google_fonts/google_fonts.dart';
 class Servicescreen extends StatelessWidget {
   final List<Map<String, dynamic>> centers = [
     {
@@ -83,10 +82,7 @@ class Servicescreen extends StatelessWidget {
                       const SizedBox(height: 10),
                       Text(
                         service['name'],
-                        style: GoogleFonts.poppins(
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold,
-                        ),
+                        style:  Theme.of(context).textTheme.bodyLarge,
                       ),
                     ],
                   ),

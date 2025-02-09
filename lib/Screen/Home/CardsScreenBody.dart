@@ -62,9 +62,8 @@ class _CardScreenBodyState extends State<CardScreenBody> {
                                   'News for up-to-the-minute news, breaking news, video, audio and feature stories.'.tr,
 
                                   maxLines: 2,
-                                  style: TextStyle( color: Theme.of(context).textTheme.bodyMedium?.color,),
+                                  style:  Theme.of(context).textTheme.bodyLarge),
 
-                                ),
                               ],
                             ),
                           ),

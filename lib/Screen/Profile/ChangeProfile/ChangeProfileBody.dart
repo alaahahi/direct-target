@@ -6,14 +6,14 @@ import '../../../Controller/ProfileCardController.dart';
 import '../../../Utils/AppStyle.dart';
 import '../../../Widgets/AuthFormFiled.dart';
 
-class ChangePasswordBody extends StatefulWidget {
-  const ChangePasswordBody({super.key});
+class ChangeProfileBody extends StatefulWidget {
+  const ChangeProfileBody({super.key});
 
   @override
-  State<ChangePasswordBody> createState() => _ChangePasswordBodyState();
+  State<ChangeProfileBody> createState() => _ChangeProfileBodyState();
 }
 
-class _ChangePasswordBodyState extends State<ChangePasswordBody> {
+class _ChangeProfileBodyState extends State<ChangeProfileBody> {
   final _formKey = GlobalKey<FormState>();
   final ProfileCardController controller = Get.put(ProfileCardController());
   final TextEditingController nameController = TextEditingController();
@@ -95,7 +95,10 @@ class _ChangePasswordBodyState extends State<ChangePasswordBody> {
                       });
                     }
                                     },
-                                    child: Text("Update Profile".tr),
+                                    child: Text("Update Profile".tr,
+                                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                        color: LightGrey,
+                                      ),),
                                     style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
                     backgroundColor: PrimaryColor,

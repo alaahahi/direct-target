@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:direct_target/Utils/AppStyle.dart';
-import 'package:get/get.dart';
+
 class ListIcons extends StatelessWidget {
   final IconData icon;
   final String text;
@@ -43,7 +41,7 @@ class ListIcons extends StatelessWidget {
               ),
               Text(
                 text,
-                style: GoogleFonts.inter(fontSize: 15, color: Colors.grey),
+                  style: Theme.of(context).textTheme.bodyLarge
               ),
             ],
           ),

@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:direct_target/Screen/Services/Doctor/SearchScreen.dart';
 import 'package:direct_target/Screen/Services/Doctor/FindDoctorScreen.dart';
 import 'package:direct_target/Widgets/DoctorListHome.dart';
@@ -8,10 +7,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:direct_target/Screen/Services/Doctor/DoctorDetailsScreen.dart';
 import 'package:get/get.dart';
-import 'package:carousel_slider/carousel_options.dart';
-import 'package:carousel_slider/carousel_slider.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:direct_target/Screen/Services/ServiceScreen.dart';
 import 'package:direct_target/Screen/RequestCard/RequestScreen.dart';
 
 import '../../Controller/CardServiceController.dart';
@@ -118,8 +114,8 @@ class DashboardScreenBody extends StatelessWidget {
         Obx(() {
           return tokenController.isTokenValid.value
               ? Container(
-                    height: MediaQuery.of(context).size.height * 0.05,
-                    width: MediaQuery.of(context).size.width * 0.8,
+            height: MediaQuery.of(context).size.height * 0.07,
+            width: MediaQuery.of(context).size.width * 0.9,
                 child: ElevatedButton(
                             onPressed: () {
                 Navigator.push(
@@ -138,12 +134,9 @@ class DashboardScreenBody extends StatelessWidget {
                             child: Text(
                 "Request Card".tr,
                 textAlign: TextAlign.center,
-                style: GoogleFonts.poppins(
-                  fontSize: 18,
-                  color: LightGrey,
-                  fontWeight: FontWeight.w500,
-                  letterSpacing: 0,
-                ),
+                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                color: LightGrey,
+                              ),
                             ),
                           ),
               )
@@ -160,11 +153,7 @@ class DashboardScreenBody extends StatelessWidget {
           children: [
             Text(
               "Join Now".tr,
-              style: GoogleFonts.inter(
-                fontSize: 18,
-                fontWeight: FontWeight.w700,
-                color: Theme.of(context).textTheme.bodyMedium?.color,
-              ),
+              style:  Theme.of(context).textTheme.bodyLarge,
             ),
             GestureDetector(
               onTap: () {
@@ -176,10 +165,7 @@ class DashboardScreenBody extends StatelessWidget {
               },
               child: Text(
                 "See all".tr,
-                style: GoogleFonts.inter(
-                  fontSize: 16,
-                  color: Theme.of(context).textTheme.bodyMedium?.color,
-                ),
+                style: Theme.of(context).textTheme.bodyLarge,
               ),
             ),
           ],

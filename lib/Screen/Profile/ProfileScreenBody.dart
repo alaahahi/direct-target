@@ -1,12 +1,8 @@
-
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:direct_target/Widgets/ProfileList.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:get/get.dart';
-
 import '../../Controller/ProfileUserController.dart';
 import '../../Controller/VerificationWhatsappController.dart';
 import '../../Routes/Routes.dart';
@@ -88,10 +84,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
                     children: [
                       Text(
                         "${profile.name ?? 'N/A'}".tr,
-                        style: GoogleFonts.poppins(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white),
+                        style:  Theme.of(context).textTheme.bodyLarge,
                       )
                     ],
                   ),
@@ -100,10 +93,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
                     children: [
                       Text(
                         "${profile.phoneNumber ?? 'N/A'}".tr,
-                        style: GoogleFonts.poppins(
-                            fontSize: 16,
-                            fontWeight: FontWeight.w600,
-                            color: Colors.white),
+                        style:  Theme.of(context).textTheme.bodyLarge,
                       )
                     ],
                   ),
@@ -137,20 +127,14 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
                     ),
                     Text(
                       "Calories".tr,
-                      style: GoogleFonts.poppins(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: Color.fromARGB(255, 245, 243, 243)),
+                      style:  Theme.of(context).textTheme.bodyLarge,
                     ),
                     const SizedBox(
                       height: 5,
                     ),
                     Text(
                       "103lbs".tr,
-                      style: GoogleFonts.poppins(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          color: Color.fromARGB(255, 255, 255, 255)),
+                      style:  Theme.of(context).textTheme.bodyLarge,
                     )
                   ]),
                 ),
@@ -174,20 +158,14 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
                     ),
                     Text(
                       "Weight".tr,
-                      style: GoogleFonts.poppins(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: Color.fromARGB(255, 245, 243, 243)),
+                      style:  Theme.of(context).textTheme.bodyLarge,
                     ),
                     const SizedBox(
                       height: 5,
                     ),
                     Text(
                       "756cal".tr,
-                      style: GoogleFonts.poppins(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          color: Color.fromARGB(255, 255, 255, 255)),
+                      style:  Theme.of(context).textTheme.bodyLarge,
                     )
                   ]),
                 ),
@@ -211,20 +189,14 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
                     ),
                     Text(
                       "Heart rate".tr,
-                      style: GoogleFonts.poppins(
-                          fontSize: 13,
-                          fontWeight: FontWeight.w600,
-                          color: Color.fromARGB(255, 245, 243, 243)),
+                      style:  Theme.of(context).textTheme.bodyLarge,
                     ),
                     const SizedBox(
                       height: 5,
                     ),
                     Text(
                       "215bpm",
-                      style: GoogleFonts.poppins(
-                          fontSize: 15,
-                          fontWeight: FontWeight.w600,
-                          color: Color.fromARGB(255, 255, 255, 255)),
+                      style:  Theme.of(context).textTheme.bodyLarge,
                     )
                   ]),
                 ),

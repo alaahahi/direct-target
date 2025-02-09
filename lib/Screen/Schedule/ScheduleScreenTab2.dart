@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:get/get.dart';
 class shedule_tab2 extends StatelessWidget {
   const shedule_tab2({super.key});
@@ -11,10 +10,7 @@ class shedule_tab2 extends StatelessWidget {
         Center(
           child: Text(
             "Nothing to show".tr,
-            style: GoogleFonts.poppins(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              color: Theme.of(context).textTheme.bodyLarge?.color,),
+              style: Theme.of(context).textTheme.bodyLarge
           ),
         )
       ]),

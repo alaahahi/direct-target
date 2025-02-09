@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
-import 'package:direct_target/Utils/AppStyle.dart';
-import 'package:get/get.dart';
+
 class ProfileList extends StatelessWidget {
   final String title;
   final IconData icon;
@@ -51,11 +49,7 @@ class ProfileList extends StatelessWidget {
                       padding: const EdgeInsets.symmetric(horizontal: 10),
                       child: Text(
                         title,
-                        style: GoogleFonts.inter(
-                          fontSize: 17,
-                          fontWeight: FontWeight.w600,
-                          color: Theme.of(context).textTheme.bodyLarge?.color,
-                        ),
+                          style: Theme.of(context).textTheme.titleMedium
                       ),
                     ),
                   ],

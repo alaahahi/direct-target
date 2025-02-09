@@ -62,12 +62,7 @@ class tab1 extends StatelessWidget {
             child: Text(
               "Reset Password",
               textAlign: TextAlign.center,
-              style: GoogleFonts.poppins(
-                fontSize: 18,
-                color: Color.fromARGB(255, 255, 255, 255),
-                fontWeight: FontWeight.w500,
-                letterSpacing: 0,
-              ),
+                style: Theme.of(context).textTheme.titleMedium
             ),
           ),
         ),

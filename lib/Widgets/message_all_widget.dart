@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
-import 'package:get/get.dart';
+
 class message_all_widget extends StatelessWidget {
   final String Maintext;
   final String subtext;
@@ -54,20 +53,12 @@ class message_all_widget extends StatelessWidget {
 
                     Text(
                       Maintext,
-                      style: GoogleFonts.poppins(
-                        fontSize: 15,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w500,
-                      ),
+                        style: Theme.of(context).textTheme.bodyLarge
                     ),
 
                     Text(
                       subtext,
-                      style: GoogleFonts.poppins(
-                        fontSize: 12,
-                        color: Colors.black,
-                        fontWeight: FontWeight.w300,
-                      ),
+                        style: Theme.of(context).textTheme.bodySmall
                     ),
                   ]),
             ),

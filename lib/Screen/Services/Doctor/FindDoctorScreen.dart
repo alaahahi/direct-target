@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:direct_target/Widgets/IconsList.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:get/get.dart';
@@ -28,11 +27,7 @@ class find_doctor extends StatelessWidget {
           children: [
             Text(
               "Find Doctor".tr,
-              style: GoogleFonts.inter(
-                  color: Color.fromARGB(255, 51, 47, 47),
-                  fontSize: 20,
-                  fontWeight: FontWeight.w600,
-                  letterSpacing: 1),
+              style:  Theme.of(context).textTheme.bodyLarge,
             ),
           ],
         ),
@@ -95,11 +90,7 @@ class find_doctor extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: Text(
                   "Top Doctor".tr,
-                  style: GoogleFonts.inter(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                      color: Theme.of(context).textTheme.bodyLarge?.color,
-                  ),
+                  style:  Theme.of(context).textTheme.bodyLarge,
                 ),
               ),
             ],
@@ -139,11 +130,7 @@ class find_doctor extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: Text(
                   "Recommended Doctors".tr,
-                  style: GoogleFonts.inter(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                      color: Theme.of(context).textTheme.bodyLarge?.color,
-                  ),
+                  style:  Theme.of(context).textTheme.bodyLarge,
                 ),
               ),
             ],
@@ -161,11 +148,7 @@ class find_doctor extends StatelessWidget {
                 padding: const EdgeInsets.symmetric(horizontal: 25),
                 child: Text(
                   "Your Recent Doctors".tr,
-                  style: GoogleFonts.inter(
-                    fontSize: 16,
-                    fontWeight: FontWeight.w700,
-                    color: Theme.of(context).textTheme.bodyLarge?.color,
-                  ),
+                  style:  Theme.of(context).textTheme.bodyLarge,
                 ),
               ),
             ],
