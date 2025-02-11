@@ -1,3 +1,5 @@
+import 'package:direct_target/Screen/Profile/PrivacyPolicy/PricavyPolicyScreen.dart';
+import 'package:direct_target/Screen/Profile/Terms/TermsScreen.dart';
 import 'package:get/get.dart';
 import 'package:direct_target/Routes/Routes.dart';
 import 'package:direct_target/Screen/Auth/SignIn/SignInScreen.dart';
@@ -41,9 +43,13 @@ final pages = <GetPage>[
     name: AppRoutes.appointment,
     page: () =>  shedule_screen(),
   ),
+  GetPage(
+    name: AppRoutes.privacy,
+    page: () =>  PrivacyPolicyScreen(),
+  ),
+  GetPage(
+    name: AppRoutes.terms,
+    page: () =>  TermsScreen(),
+  ),
 
-  // GetPage(
-  //   name: AppRoutes.viewprofile,
-  //   page: () =>  ProfileView(),
-  // ),
 ];

@@ -1,3 +1,4 @@
+import 'package:direct_target/Screen/Home/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:direct_target/Widgets/DoctorList.dart';
 import 'package:page_transition/page_transition.dart';
@@ -87,7 +88,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
             Navigator.pushReplacement(
                 context,
                 PageTransition(
-                    type: PageTransitionType.fade, child: shedule_screen()));
+                    type: PageTransitionType.fade, child: Homepage()));
           },
           child: Container(
             height: 10,

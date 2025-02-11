@@ -13,5 +13,6 @@ class AppRoutes {
   static const String verify = '/verify';
   static const String changeprofile = '/changeprofile';
   static const String appointment = '/appointment';
-
+  static const String privacy = '/privacy';
+  static const String terms = '/terms';
 }

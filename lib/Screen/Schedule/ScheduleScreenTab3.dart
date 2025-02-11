@@ -4,8 +4,8 @@ import 'package:get/get.dart';
 import '../../Controller/AppointmentController.dart';
 import '../Services/Doctor/AppointmentScreen.dart';
 
-class SheduleTab2 extends StatelessWidget {
-  SheduleTab2({super.key});
+class SheduleTab3 extends StatelessWidget {
+  SheduleTab3({super.key});
 
   final AppointmentController appointmentController = Get.put(AppointmentController());
 
@@ -27,8 +27,8 @@ class SheduleTab2 extends StatelessWidget {
             // تصفية المواعيد المكتملة
             var filteredAppointments = appointmentController.appointments!
                 .where((appointment) {
-              print("Appointment isCome: ${appointment.isCome}"); // طباعة القيمة للتحقق
-              return appointment.isCome == 2; // تأكد من أن القيمة هي 2 للمواعيد المكتملة
+              print("Appointment isCome: ${appointment.isCome}");
+              return appointment.isCome == 0;
             })
                 .toList();
 

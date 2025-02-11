@@ -44,23 +44,9 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
                       ],
                       shape: BoxShape.circle,
                       image: const DecorationImage(
-                        image: AssetImage("Assets/icons/avatar.png"),
+                        image: AssetImage("Assets/images/person.png"),
                         fit: BoxFit.cover,
                       )),
-                ),
-                Positioned(
-                  bottom: 0,
-                  right: 0,
-                  child: Container(
-                    height: 30,
-                    width: 30,
-                    decoration: BoxDecoration(
-                        shape: BoxShape.circle,
-                        border: Border.all(width: 1, color: Colors.white),
-                        color: Colors.white,
-                        image: DecorationImage(
-                            image: AssetImage("Assets/icons/camra.png"))),
-                  ),
                 ),
               ],
             ),
@@ -97,112 +83,210 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
                       )
                     ],
                   ),
+                  SizedBox(
+                    height: 30,
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 25),
+                    child: Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.12,
+                          width: MediaQuery.of(context).size.width * 0.2500,
+                          child: Column(children: [
+                            Container(
+                              child:
+                                Icon(
+                                  Icons.fitness_center,  // أيقونة تخص اللياقة البدنية (الوزن)
+                                  size: 30,  // الحجم
 
+                                )
+
+                            ),
+                            Text(
+                              "Weight".tr,
+                              style:  Theme.of(context).textTheme.bodyLarge,
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              "${profile.weight ?? 'N/A'}".tr,
+                              style:  Theme.of(context).textTheme.bodyLarge,
+                            )
+                          ]),
+                        ),
+                        Container(
+                          height: 50,
+                          width: 1,
+                          color: Colors.white,
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.12,
+                          width: MediaQuery.of(context).size.width * 0.2500,
+                          child: Column(children: [
+                            Container(
+                              height: MediaQuery.of(context).size.height * 0.0400,
+                              width: MediaQuery.of(context).size.width * 0.1500,
+                              decoration: const BoxDecoration(
+                                image: DecorationImage(
+                                    image: AssetImage("Assets/images/6.png"),
+                                    filterQuality: FilterQuality.high),
+                              ),
+                            ),
+                            Text(
+                              "Height".tr,
+                              style:  Theme.of(context).textTheme.bodyLarge,
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              "${profile.height ?? 'N/A'}".tr,
+                              style:  Theme.of(context).textTheme.bodyLarge,
+                            )
+                          ]),
+                        ),
+                        Container(
+                          height: 50,
+                          width: 1,
+                          color: Colors.white,
+                        ),
+                        Container(
+                          height: MediaQuery.of(context).size.height * 0.12,
+                          width: MediaQuery.of(context).size.width * 0.2500,
+                          child: Column(children: [
+                            Container(
+                              // height: MediaQuery.of(context).size.height * 0.0400,
+                              // width: MediaQuery.of(context).size.width * 0.1500,
+                              child :Icon(
+                                Icons.accessibility, // يمكنك تغيير هذا إلى Icons.female للجنس الأنثوي
+                                size: 30, // حجم الأيقونة
+
+                              ),
+                            ),
+                            Text(
+                              "Gender".tr,
+                              style:  Theme.of(context).textTheme.bodyLarge,
+                            ),
+                            const SizedBox(
+                              height: 5,
+                            ),
+                            Text(
+                              "${profile.gender ?? 'N/A'}".tr,
+                              style:  Theme.of(context).textTheme.bodyLarge,
+                            )
+                          ]),
+                        ),
+                      ],
+                    ),
+                  ),
                 ],
               ),
             )
                 : Center(child: Text("No profile data found"));
           }),
 
-          SizedBox(
-            height: 30,
-          ),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 25),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.12,
-                  width: MediaQuery.of(context).size.width * 0.2500,
-                  child: Column(children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.0400,
-                      width: MediaQuery.of(context).size.width * 0.1500,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage("Assets/icons/callories.png"),
-                            filterQuality: FilterQuality.high),
-                      ),
-                    ),
-                    Text(
-                      "Calories".tr,
-                      style:  Theme.of(context).textTheme.bodyLarge,
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "103lbs".tr,
-                      style:  Theme.of(context).textTheme.bodyLarge,
-                    )
-                  ]),
-                ),
-                Container(
-                  height: 50,
-                  width: 1,
-                  color: Colors.white,
-                ),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.12,
-                  width: MediaQuery.of(context).size.width * 0.2500,
-                  child: Column(children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.0400,
-                      width: MediaQuery.of(context).size.width * 0.1500,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage("Assets/icons/weight.png"),
-                            filterQuality: FilterQuality.high),
-                      ),
-                    ),
-                    Text(
-                      "Weight".tr,
-                      style:  Theme.of(context).textTheme.bodyLarge,
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "756cal".tr,
-                      style:  Theme.of(context).textTheme.bodyLarge,
-                    )
-                  ]),
-                ),
-                Container(
-                  height: 50,
-                  width: 1,
-                  color: Colors.white,
-                ),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.12,
-                  width: MediaQuery.of(context).size.width * 0.2500,
-                  child: Column(children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.0400,
-                      width: MediaQuery.of(context).size.width * 0.1500,
-                      decoration: const BoxDecoration(
-                        image: DecorationImage(
-                            image: AssetImage("Assets/icons/heart.png"),
-                            filterQuality: FilterQuality.high),
-                      ),
-                    ),
-                    Text(
-                      "Heart rate".tr,
-                      style:  Theme.of(context).textTheme.bodyLarge,
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    Text(
-                      "215bpm",
-                      style:  Theme.of(context).textTheme.bodyLarge,
-                    )
-                  ]),
-                ),
-              ],
-            ),
-          ),
+          // SizedBox(
+          //   height: 30,
+          // ),
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 25),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
+          //     children: [
+          //       Container(
+          //         height: MediaQuery.of(context).size.height * 0.12,
+          //         width: MediaQuery.of(context).size.width * 0.2500,
+          //         child: Column(children: [
+          //           Container(
+          //             height: MediaQuery.of(context).size.height * 0.0400,
+          //             width: MediaQuery.of(context).size.width * 0.1500,
+          //             decoration: const BoxDecoration(
+          //               image: DecorationImage(
+          //                   image: AssetImage("Assets/icons/callories.png"),
+          //                   filterQuality: FilterQuality.high),
+          //             ),
+          //           ),
+          //           Text(
+          //             "Calories".tr,
+          //             style:  Theme.of(context).textTheme.bodyLarge,
+          //           ),
+          //           const SizedBox(
+          //             height: 5,
+          //           ),
+          //           Text(
+          //             "103lbs".tr,
+          //             style:  Theme.of(context).textTheme.bodyLarge,
+          //           )
+          //         ]),
+          //       ),
+          //       Container(
+          //         height: 50,
+          //         width: 1,
+          //         color: Colors.white,
+          //       ),
+          //       Container(
+          //         height: MediaQuery.of(context).size.height * 0.12,
+          //         width: MediaQuery.of(context).size.width * 0.2500,
+          //         child: Column(children: [
+          //           Container(
+          //             height: MediaQuery.of(context).size.height * 0.0400,
+          //             width: MediaQuery.of(context).size.width * 0.1500,
+          //             decoration: const BoxDecoration(
+          //               image: DecorationImage(
+          //                   image: AssetImage("Assets/icons/weight.png"),
+          //                   filterQuality: FilterQuality.high),
+          //             ),
+          //           ),
+          //           Text(
+          //             "Weight".tr,
+          //             style:  Theme.of(context).textTheme.bodyLarge,
+          //           ),
+          //           const SizedBox(
+          //             height: 5,
+          //           ),
+          //           Text(
+          //             "756cal".tr,
+          //             style:  Theme.of(context).textTheme.bodyLarge,
+          //           )
+          //         ]),
+          //       ),
+          //       Container(
+          //         height: 50,
+          //         width: 1,
+          //         color: Colors.white,
+          //       ),
+          //       Container(
+          //         height: MediaQuery.of(context).size.height * 0.12,
+          //         width: MediaQuery.of(context).size.width * 0.2500,
+          //         child: Column(children: [
+          //           Container(
+          //             height: MediaQuery.of(context).size.height * 0.0400,
+          //             width: MediaQuery.of(context).size.width * 0.1500,
+          //             decoration: const BoxDecoration(
+          //               image: DecorationImage(
+          //                   image: AssetImage("Assets/icons/heart.png"),
+          //                   filterQuality: FilterQuality.high),
+          //             ),
+          //           ),
+          //           Text(
+          //             "Heart rate".tr,
+          //             style:  Theme.of(context).textTheme.bodyLarge,
+          //           ),
+          //           const SizedBox(
+          //             height: 5,
+          //           ),
+          //           Text(
+          //             "215bpm",
+          //             style:  Theme.of(context).textTheme.bodyLarge,
+          //           )
+          //         ]),
+          //       ),
+          //     ],
+          //   ),
+          // ),
           const SizedBox(
             height: 50,
           ),
@@ -235,42 +319,34 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
                   padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                   child: Divider(),
                 ),
-                ProfileList(
-                  icon: Icons.favorite,
-                  title: "My Saved".tr,
-                  iconColor: Colors.pink,
-                  textColor: Colors.black,
+                InkWell(
+                  onTap: () {
+                    Get.toNamed(AppRoutes.privacy);
+                  },
+                  child: ProfileList(
+                    icon: Icons.chat,
+                    title: "Privacy & Policy".tr,
+                    iconColor: Colors.green,
+                    textColor: Colors.black,
+                  ),
                 ),
+
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                   child: Divider(),
                 ),
-                ProfileList(
-                  icon: Icons.calendar_today,
-                  title: "Appointment".tr,
-                  iconColor: PrimaryColor,
-                  textColor: Colors.black,
+                InkWell(
+                  onTap: () {
+                    Get.toNamed(AppRoutes.terms);
+                  },
+                  child:ProfileList(
+                    icon: Icons.payment,
+                    title: "Terms & Condition".tr,
+                    iconColor: Colors.purple,
+                    textColor: Colors.black,
+                  ),
                 ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                  child: Divider(),
-                ),
-                ProfileList(
-                  icon: Icons.chat,
-                  title: "FAQs".tr,
-                  iconColor: Colors.green,
-                  textColor: Colors.black,
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                  child: Divider(),
-                ),
-                ProfileList(
-                  icon: Icons.payment,
-                  title: "Terms Condition".tr,
-                  iconColor: Colors.purple,
-                  textColor: Colors.black,
-                ),
+
                 const Padding(
                   padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                   child: Divider(),

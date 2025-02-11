@@ -10,8 +10,6 @@ import '../../../Controller/LoaderController.dart';
 import '../../../Utils/AppStyle.dart';
 import '../../../Widgets/doctorList.dart';
 
-
-
 class doctor_search extends StatefulWidget {
   const doctor_search({super.key});
 
@@ -22,6 +20,7 @@ class doctor_search extends StatefulWidget {
 class _doctor_searchState extends State<doctor_search> {
   final CardServiceController controller = Get.put(CardServiceController());
   LoaderController loaderController = Get.put(LoaderController());
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -44,7 +43,7 @@ class _doctor_searchState extends State<doctor_search> {
           ),
           title: Text(
             "Top Doctors".tr,
-            style:  Theme.of(context).textTheme.bodyLarge,
+            style: Theme.of(context).textTheme.bodyLarge,
           ),
           centerTitle: true,
           elevation: 0,
@@ -64,23 +63,33 @@ class _doctor_searchState extends State<doctor_search> {
           ],
         ),
         body: GetBuilder<CardServiceController>(
-            builder: (controller )=> loaderController.loading.value ?
-        Center(
-          child: CircularProgressIndicator(color: PrimaryColor),
-        ): ListView.builder(
-            itemCount: controller.allServiceList!.length,
-            itemBuilder: (context, index) {
-              final service = controller.allServiceList![index];
-              return SafeArea(
+            builder: (controller) => loaderController.loading.value
+                ? Center(
+              child: CircularProgressIndicator(color: PrimaryColor),
+            )
+                : controller.allServiceList!.isEmpty
+                ? Center(
+              child: Text(
+                "No Services Available".tr, // رسالة عند عدم وجود خدمات
+                style: TextStyle(fontSize: 18, color: Colors.grey),
+              ),
+            )
+                : ListView.builder(
+              itemCount: controller.allServiceList!.length,
+              itemBuilder: (context, index) {
+                final service = controller.allServiceList![index];
+                return SafeArea(
                   child: Column(
                     children: [
                       GestureDetector(
                         onTap: () {
                           Navigator.push(
-                              context,
-                              PageTransition(
-                                  type: PageTransitionType.rightToLeft,
-                                  child: DoctorDetails(doctorId: service.id!)));
+                            context,
+                            PageTransition(
+                                type: PageTransitionType.rightToLeft,
+                                child: DoctorDetails(
+                                    doctorId: service.id!)),
+                          );
                         },
                         child: doctorList(
                           maintext: service.serviceName!.tr,
@@ -91,9 +100,9 @@ class _doctor_searchState extends State<doctor_search> {
                         ),
                       ),
                     ],
-                  ));
-            })
-        )
-    );
+                  ),
+                );
+              },
+            )));
   }
 }

@@ -206,13 +206,13 @@ class DashboardScreenBody extends StatelessWidget {
                       );
                     },
                     child: list_doctor1(
-                      distance: "800m Away",
+
                       image: service.image != null
                           ? service.image!
                           : "Assets/icons/male-doctor.png",
                       maintext: service.serviceName!.tr,
-                      numRating: "4.7",
-                      subtext: service.serviceName!.tr,
+
+                      subtext: service.description!.tr,
                     ),
                   );
                 }).toList(),

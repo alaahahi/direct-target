@@ -59,7 +59,64 @@ class SettingsServices {
     }
     return AllSettingModel();
   }
+  Future<AllSetting?> getFirstAdsImage() async {
+    try {
+      final response = await dio.get('$appConfig/settings/first_ads_image');
 
+      if (response.statusCode == 200) {
+        // Parsing JSON and returning an AllSetting object
+        return AllSetting.fromJson(response.data['data']);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+      return null;
+    }
+  }
+  Future<AllSetting?> getSecondAdsImage() async {
+    try {
+      final response = await dio.get('$appConfig/settings/second_ads_image');
+
+      if (response.statusCode == 200) {
+        // Parsing JSON and returning an AllSetting object
+        return AllSetting.fromJson(response.data['data']);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+      return null;
+    }
+  }
+  Future<AllSetting?> getThirdAdsImage() async {
+    try {
+      final response = await dio.get('$appConfig/settings/third_ads_image');
+      if (response.statusCode == 200) {
+        return AllSetting.fromJson(response.data['data']);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+      return null;
+    }
+  }
+  Future<AllSetting?> getFourthAdsImage() async {
+    try {
+      final response = await dio.get('$appConfig/settings/fourth_ads_image');
+
+      if (response.statusCode == 200) {
+        // Parsing JSON and returning an AllSetting object
+        return AllSetting.fromJson(response.data['data']);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+      return null;
+    }
+  }
   Future<AllSetting?> getFirstWelcomeImage() async {
     try {
       final response = await dio.get('$appConfig/settings/first_welcome_image');
@@ -281,43 +338,37 @@ class SettingsServices {
     }
     return AllSettingModel();
   }
-  Future<AllSettingModel> getPrivacyPolicyUrl() async {
+  Future<AllSetting?> getPrivacyPolicyUrl() async {
     loaderController.loading(true);
-
     try {
-      var res = await dio.get('$appConfig/settings/privacy_policy_url');
+      final response = await dio.get('$appConfig/settings/privacy_policy_url');
 
-      if (res.statusCode == 200) {
-        return AllSettingModel.fromJson(jsonDecode(res.data));
+      if (response.statusCode == 200) {
+        // Parsing JSON and returning an AllSetting object
+        return AllSetting.fromJson(response.data['data']);
+      } else {
+        return null;
       }
     } catch (e) {
-      if (e is DioException) {
-        print('Exception :${e.response}');
-      } else {
-        print('errorrrrrr');
-      }
-      loaderController.loading(false);
+      print('Error fetching data: $e');
+      return null;
     }
-    return AllSettingModel();
   }
-  Future<AllSettingModel> getTermsConditionsUrl() async {
+  Future<AllSetting?> getTermsConditionsUrl() async {
     loaderController.loading(true);
-
     try {
-      var res = await dio.get('$appConfig/settings/terms_conditions_url');
+      final response = await dio.get('$appConfig/settings/terms_conditions_url');
 
-      if (res.statusCode == 200) {
-        return AllSettingModel.fromJson(jsonDecode(res.data));
+      if (response.statusCode == 200) {
+        // Parsing JSON and returning an AllSetting object
+        return AllSetting.fromJson(response.data['data']);
+      } else {
+        return null;
       }
     } catch (e) {
-      if (e is DioException) {
-        print('Exception :${e.response}');
-      } else {
-        print('errorrrrrr');
-      }
-      loaderController.loading(false);
+      print('Error fetching data: $e');
+      return null;
     }
-    return AllSettingModel();
   }
   Future<AllSettingModel> getOtpExpiryTime() async {
     loaderController.loading(true);

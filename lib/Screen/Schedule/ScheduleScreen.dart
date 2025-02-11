@@ -5,6 +5,8 @@ import 'package:direct_target/Screen/Schedule/ScheduleScreenTab2.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:get/get.dart';
 
+import 'ScheduleScreenTab3.dart';
+
 class shedule_screen extends StatefulWidget {
   const shedule_screen({Key? key}) : super(key: key);
 
@@ -99,8 +101,8 @@ class _TabBarExampleState extends State<shedule_screen>
                             controller: tabController,
                             children:  [
                               SheduleTab1(),
-                          shedule_tab2(),
-                          shedule_tab2(),
+                              SheduleTab2(),
+                              SheduleTab3(),
                         ]))
                   ],
                 ),

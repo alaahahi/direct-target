@@ -14,6 +14,13 @@ class AllSettingController extends GetxController {
   var firstImageUrl = ''.obs;
   var secondImageUrl = ''.obs;
   var thirdImageUrl = ''.obs;
+  var firstAdsImageUrl = ''.obs;
+  var secondAdsImageUrl = ''.obs;
+  var thirdAdsImageUrl = ''.obs;
+  var fourthAdsImageUrl = ''.obs;
+  var termsCondition =''.obs;
+  var privacyPolicy =''.obs;
+
   GetStorage box = GetStorage();
   final SettingsServices _service;
   var isLoading = false.obs;
@@ -26,6 +33,12 @@ class AllSettingController extends GetxController {
     _getFirstWelcomeImage();
     _getSecondWelcomeImage();
     _getThirdWelcomeImage();
+    _getFirstAdsImage();
+    _getSecondAdsImage();
+    _getThirdAdsImage();
+    _getFourthAdsImage();
+    _getTermsConditionsUrl();
+    _getPrivacyPolicyUrl();
   }
 
   Future<dynamic> getAllSettings() async {
@@ -69,6 +82,39 @@ class AllSettingController extends GetxController {
       firstImageUrl.value = '';
     }
   }
+  Future<void> _getFirstAdsImage() async {
+
+    AllSetting? setting = await _service.getFirstAdsImage();
+    if (setting != null) {
+      firstAdsImageUrl.value = setting.value ?? '';
+    } else {
+      firstAdsImageUrl.value = '';
+    }
+  }
+  Future<void> _getSecondAdsImage() async {
+    AllSetting? setting = await _service.getSecondAdsImage();
+    if (setting != null) {
+      secondAdsImageUrl.value = setting.value ?? '';
+    } else {
+      secondAdsImageUrl.value = '';
+    }
+  }
+  Future<void> _getThirdAdsImage() async {
+    AllSetting? setting = await _service.getThirdAdsImage();
+    if (setting != null) {
+      thirdAdsImageUrl.value = setting.value ?? '';
+    } else {
+      thirdAdsImageUrl.value = '';
+    }
+  }
+  Future<void> _getFourthAdsImage() async {
+    AllSetting? setting = await _service.getFourthAdsImage();
+    if (setting != null) {
+      fourthAdsImageUrl.value = setting.value ?? '';
+    } else {
+      fourthAdsImageUrl.value = '';
+    }
+  }
   Future<void> _getSecondWelcomeImage() async {
     AllSetting? setting = await _service.getSecondWelcomeImage();
     if (setting != null) {
@@ -99,6 +145,10 @@ class AllSettingController extends GetxController {
         _getFirstWelcomeImage(),
         _getSecondWelcomeImage(),
         _getThirdWelcomeImage(),
+        _getFirstAdsImage(),
+    _getSecondAdsImage(),
+    _getThirdAdsImage(),
+    _getFourthAdsImage(),
       ]);
     } catch (e) {
       print("Error fetching welcome images: $e");
@@ -263,37 +313,24 @@ class AllSettingController extends GetxController {
     }
   }
 
-  Future<void> getPrivacyPolicyUrl() async {
-    isLoading(true);
-    try {
-      AllSettingModel? res = await SettingsServices().getPrivacyPolicyUrl();
-      if (res != null && res.status == "success" && res.data != null) {
-        String firstWelcomeImage = res.data!.value ?? "alt First Welcome Image";
-        log("Primary Color: $firstWelcomeImage");
-      } else {
-        log("Failed to retrieve primary color");
-      }
-    } catch (e) {
-      print("Error fetching primary color: $e");
-    } finally {
-      isLoading(false);
+  Future<void> _getPrivacyPolicyUrl() async {
+
+    AllSetting? setting = await _service.getPrivacyPolicyUrl();
+    if (setting != null) {
+      privacyPolicy.value = setting.value ?? '';
+    } else {
+      privacyPolicy.value = '';
     }
   }
 
-  Future<void> getTermsConditionsUrl() async {
-    isLoading(true);
-    try {
-      AllSettingModel? res = await SettingsServices().getTermsConditionsUrl();
-      if (res != null && res.status == "success" && res.data != null) {
-        String firstWelcomeImage = res.data!.value ?? "alt First Welcome Image";
-        log("Primary Color: $firstWelcomeImage");
-      } else {
-        log("Failed to retrieve primary color");
-      }
-    } catch (e) {
-      print("Error fetching primary color: $e");
-    } finally {
-      isLoading(false);
+  Future<void> _getTermsConditionsUrl() async {
+print("ddddddddddddddddddddddddddd");
+    AllSetting? setting = await _service.getTermsConditionsUrl();
+    if (setting != null) {
+      termsCondition.value = setting.value ?? '';
+      print(termsCondition);
+    } else {
+      termsCondition.value = '';
     }
   }
 

@@ -172,15 +172,15 @@ class User {
   String? name;
   String? createdAt;
   String? updatedAt;
-  Null? typeId;
+  String? typeId;  // Changed from Null? to String?
   String? phoneNumber;
   String? verificationDate;
   String? verificationUserType;
-  Null? familyMembersNames;
-  Null? birthDate;
-  Null? weight;
-  Null? height;
-  Null? gender;
+  String? familyMembersNames;  // Changed from Null? to String?
+  String? birthDate;  // Changed from Null? to String?
+  String? weight;  // Changed from Null? to String?
+  String? height;  // Changed from Null? to String?
+  String? gender;  // Changed from Null? to String?
 
   User(
       {this.id,
@@ -231,6 +231,7 @@ class User {
     return data;
   }
 }
+
 
 class ServiceProvider {
   int? id;

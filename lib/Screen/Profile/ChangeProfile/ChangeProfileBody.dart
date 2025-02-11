@@ -16,10 +16,15 @@ class ChangeProfileBody extends StatefulWidget {
 class _ChangeProfileBodyState extends State<ChangeProfileBody> {
   final _formKey = GlobalKey<FormState>();
   final ProfileCardController controller = Get.put(ProfileCardController());
+  final LoaderController loaderController = Get.put(LoaderController());
+
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController familyController = TextEditingController();
-  LoaderController loaderController = Get.put(LoaderController());
+  final TextEditingController weightController = TextEditingController();
+  final TextEditingController heightController = TextEditingController();
+
+  String? selectedGender; // متغير لتخزين الجنس المختار
 
   final box = GetStorage();
 
@@ -34,72 +39,112 @@ class _ChangeProfileBodyState extends State<ChangeProfileBody> {
               key: _formKey,
               child: Column(
                 children: [
-                  SizedBox(
-                    height: Get.height * 0.05,
-                  ),
+                  SizedBox(height: Get.height * 0.05),
+
+                  // حقل الاسم
                   AuthFormField(
                     controller: nameController,
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                    ),
-                    hint: 'Your Name'.tr, onChanged: (value) {  },
+                    hint: 'Your Name'.tr,
+                    onChanged: (value) {},
+                  ),
 
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.05,
-                  ),
+                  SizedBox(height: Get.height * 0.03),
+
+                  // حقل رقم الهاتف
                   AuthFormField(
                     controller: phoneController,
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.all(12.0),
-                    ),
-                    hint: 'Your Phone Number'.tr, onChanged: (value) {  },
+                    hint: 'Your Phone Number'.tr,
+                    onChanged: (value) {},
+                  ),
 
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.05,
-                  ),
+                  SizedBox(height: Get.height * 0.03),
+
+                  // حقل اسم العائلة
                   AuthFormField(
                     controller: familyController,
-                    prefixIcon: Padding(
-                      padding: const EdgeInsets.all(12.0),
+                    hint: 'Your Family Names'.tr,
+                    onChanged: (value) {},
+                  ),
 
+                  SizedBox(height: Get.height * 0.03),
+
+                  // حقل الوزن
+                  AuthFormField(
+                    controller: weightController,
+                    hint: 'Your Weight (kg)'.tr,
+                    keyboardType: TextInputType.number,
+                    onChanged: (value) {},
+                  ),
+
+                  SizedBox(height: Get.height * 0.03),
+
+                  // حقل الطول
+                  AuthFormField(
+                    controller: heightController,
+                    hint: 'Your Height (cm)'.tr,
+                    keyboardType: TextInputType.number,
+                    onChanged: (value) {},
+                  ),
+
+                  SizedBox(height: Get.height * 0.03),
+
+                  // حقل الجنس (قائمة منسدلة)
+                  DropdownButtonFormField<String>(
+                    decoration: InputDecoration(
+                      hintText: "Select Gender".tr,
+                      border: OutlineInputBorder(
+                        borderRadius: BorderRadius.circular(10),
+                      ),
+                      contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
                     ),
-                    hint: 'Your Family names'.tr, onChanged: (value) {  },
+                    value: selectedGender,
+                    items: ["Male".tr, "Female".tr]
+                        .map((gender) => DropdownMenuItem(
+                      value: gender,
+                      child: Text(gender),
+                    ))
+                        .toList(),
+                    onChanged: (value) {
+                      setState(() {
+                        selectedGender = value;
+                      });
+                    },
+                  ),
 
-                  ),
-                  SizedBox(
-                    height: Get.height * 0.05,
-                  ),
+                  SizedBox(height: Get.height * 0.05),
                 ],
               ),
             ),
 
+            // زر التحديث
             Obx(() {
-              return  loaderController.loading.value
+              return loaderController.loading.value
                   ? const Center(
-                child: CircularProgressIndicator(
-                  color: PrimaryColor,
-                ),
+                child: CircularProgressIndicator(color: PrimaryColor),
               )
                   : Container(
                 height: MediaQuery.of(context).size.height * 0.07,
                 width: MediaQuery.of(context).size.width * 0.9,
-                    child: ElevatedButton(
-                                    onPressed: () {
+                child: ElevatedButton(
+                  onPressed: () {
                     if (_formKey.currentState!.validate()) {
                       controller.updateProfile({
                         "name": nameController.text,
                         "phone_number": phoneController.text,
                         "family": familyController.text,
+                        "weight": weightController.text,
+                        "height": heightController.text,
+                        "gender": selectedGender ?? "", // في حالة عدم اختيار جنس
                       });
                     }
-                                    },
-                                    child: Text("Update Profile".tr,
-                                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                        color: LightGrey,
-                                      ),),
-                                    style: ElevatedButton.styleFrom(
+                  },
+                  child: Text(
+                    "Update Profile".tr,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: LightGrey,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
                     foregroundColor: Colors.white,
                     backgroundColor: PrimaryColor,
                     shadowColor: Colors.black,
@@ -107,16 +152,13 @@ class _ChangeProfileBodyState extends State<ChangeProfileBody> {
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(30),
                     ),
-                                    ),
-                                  ),
-                  );
+                  ),
+                ),
+              );
             }),
 
             Padding(
-              padding: const EdgeInsets.only(
-                right: 8.0,
-                left: 8.0,
-              ),
+              padding: const EdgeInsets.only(right: 8.0, left: 8.0),
             ),
           ],
         ),

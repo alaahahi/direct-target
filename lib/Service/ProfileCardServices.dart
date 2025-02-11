@@ -23,6 +23,7 @@ class ProfileService extends GetConnect {
 
   GetStorage box = GetStorage();
   final tokenController = Get.find<TokenController>();
+  final String tokenn = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2Rvd2FseXBsdXMuYWluZHViYWljby5jb20vYXBpL3YxL3ZlcmlmeS1jb2RlIiwiaWF0IjoxNzM3OTAwMjIwLCJleHAiOjE3NDMwODQyMjAsIm5iZiI6MTczNzkwMDIyMCwianRpIjoiYklJdVh6R3FWTWhOOXRZdyIsInN1YiI6IjI3NSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.mMu9oC2cyafur7_KhHfrEAPBc2LyN1RReXQEU594CXI";
 
   Future<ProfileModel> fetchCards([dynamic data]) async {
     try {
@@ -32,7 +33,7 @@ class ProfileService extends GetConnect {
         data: data,
         options: Options(
           headers: {
-            'Authorization': 'Bearer $token',
+            'Authorization': 'Bearer $tokenn',
             'Content-Type': 'application/json',
           },
         ),
@@ -75,7 +76,7 @@ class ProfileService extends GetConnect {
         data: data,
         options: Options(
           headers: {
-            'Authorization': 'Bearer $token',
+            'Authorization': 'Bearer $tokenn',
             'Content-Type': 'application/json',
           },
         ),

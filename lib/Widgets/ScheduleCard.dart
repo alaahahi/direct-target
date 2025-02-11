@@ -7,8 +7,7 @@ class shedule_card extends StatelessWidget {
   final String subText;
   final String image;
   final String date;
-  final String time;
-  final String confirmation;
+
   final VoidCallback? onCancel;      // دالة عند النقر على إلغاء
   final VoidCallback? onReschedule;  // دالة عند النقر على إعادة الجدولة
 
@@ -16,8 +15,6 @@ class shedule_card extends StatelessWidget {
     required this.mainText,
     required this.subText,
     required this.date,
-    required this.confirmation,
-    required this.time,
     required this.image,
     this.onCancel,
     this.onReschedule,
@@ -95,15 +92,7 @@ class shedule_card extends StatelessWidget {
                   SizedBox(width: 12),
                   Icon(Icons.access_time, size: 18, color: TextGrey),
                   SizedBox(width: 4),
-                  Text(time, style: Theme.of(context).textTheme.bodySmall),
-                  SizedBox(width: 12),
-                  Icon(Icons.info, size: 18, color: TextGrey),
-                  SizedBox(width: 4),
-                  Text(confirmation,
-                      style: Theme.of(context)
-                          .textTheme
-                          .bodyLarge
-                          ?.copyWith(color: TextGrey)),
+
                 ],
               ),
             ),

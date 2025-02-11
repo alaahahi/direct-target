@@ -46,7 +46,10 @@ class AppointmentController extends GetxController {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         var data = json.decode(response.body);
+
+        // Check if the response status is success
         if (data['status'] == 'success') {
+          // Handle the list of appointments, mapping each item to the Appointment model
           appointments.value = (data['appointment'] as List)
               .map((item) => Appointment.fromJson(item))
               .toList();
@@ -63,6 +66,7 @@ class AppointmentController extends GetxController {
       throw Exception('فشل في تحميل المواعيد');
     }
   }
+
 
 
 

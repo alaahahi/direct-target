@@ -66,7 +66,7 @@ class CardServices extends GetConnect {
   Future<CardServiceModel> fetchListAllServices(int cardId) async {
     loaderController.loading(true);
     try {
-      var res = await dio.get('$appConfig/card-services/active?card_id=cardId');
+      var res = await dio.get('$appConfig/card-services/active?card_id=1');
 
       if (res.statusCode == 200 || res.statusCode==201  ) {
         var data = res.data;

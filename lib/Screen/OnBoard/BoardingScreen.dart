@@ -8,16 +8,31 @@ import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:get/get.dart';
 
+import 'package:direct_target/Controller/TokenController.dart';
+
+import '../../Routes/Routes.dart'; // استدعاء ملف التوكين
+
 class on_boarding extends StatefulWidget {
   const on_boarding({super.key});
 
   @override
-  State<on_boarding> createState() => _on_boardingState();
+  State<on_boarding> createState() => _OnBoardingState();
 }
 
-class _on_boardingState extends State<on_boarding> {
+class _OnBoardingState extends State<on_boarding> {
+  final TokenController tokenController = Get.put(TokenController());
   PageController _controller = PageController();
-  bool onLastpage = false;
+  bool onLastPage = false;
+
+  @override
+  void initState() {
+    super.initState();
+    Future.delayed(Duration.zero, () {
+      if (tokenController.isTokenValid.value) {
+        Get.offAllNamed(AppRoutes.homescreen);
+      }
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -28,7 +43,7 @@ class _on_boardingState extends State<on_boarding> {
             controller: _controller,
             onPageChanged: (index) {
               setState(() {
-                onLastpage = (index == 2);
+                onLastPage = (index == 2);
               });
             },
             children: [
@@ -51,8 +66,8 @@ class _on_boardingState extends State<on_boarding> {
                   child: Text(
                     "Skip".tr,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: TextGrey,
-                  ),
+                      color: TextGrey,
+                    ),
                   ),
                 ),
                 SmoothPageIndicator(
@@ -68,16 +83,10 @@ class _on_boardingState extends State<on_boarding> {
                     activeDotColor: PrimaryColor,
                   ),
                 ),
-                onLastpage
+                onLastPage
                     ? GestureDetector(
                   onTap: () {
-                    Navigator.push(
-                      context,
-                      PageTransition(
-                        type: PageTransitionType.bottomToTop,
-                        child: StartScreen(),
-                      ),
-                    );
+                    Get.offAll(() => StartScreen()); // الانتقال إلى StartScreen
                   },
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.05,
@@ -92,15 +101,14 @@ class _on_boardingState extends State<on_boarding> {
                         children: [
                           Text(
                             "Done".tr,
-                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              color: LightGrey,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.copyWith(color: LightGrey),
                           ),
                           Container(
-                            height: MediaQuery.of(context).size.height *
-                                0.04,
-                            width: MediaQuery.of(context).size.width *
-                                0.04,
+                            height: MediaQuery.of(context).size.height * 0.04,
+                            width: MediaQuery.of(context).size.width * 0.04,
                             child: Image.asset("Assets/icons/check.png"),
                           ),
                         ],
@@ -128,9 +136,10 @@ class _on_boardingState extends State<on_boarding> {
                         children: [
                           Text(
                             "Next".tr,
-                            style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                              color: LightGrey,
-                            ),
+                            style: Theme.of(context)
+                                .textTheme
+                                .bodyLarge
+                                ?.copyWith(color: LightGrey),
                           ),
                           Container(
                             height: MediaQuery.of(context).size.height * 0.06,
@@ -141,7 +150,6 @@ class _on_boardingState extends State<on_boarding> {
                               size: MediaQuery.of(context).size.height * 0.04,
                             ),
                           ),
-
                         ],
                       ),
                     ),
@@ -155,4 +163,5 @@ class _on_boardingState extends State<on_boarding> {
     );
   }
 }
+
 

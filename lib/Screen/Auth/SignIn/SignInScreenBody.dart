@@ -92,7 +92,12 @@ class _SignInScreenState extends State<SignInScreenBody>
           icon: Container(
             height: MediaQuery.of(context).size.height * 0.06,
             width: MediaQuery.of(context).size.width * 0.06,
-            child: Image.asset("Assets/icons/back2.png"),
+            child: Icon(
+              Icons.arrow_back_ios, // أيقونة الرجوع
+              color: Theme.of(context).textTheme.bodyMedium?.color, // يمكنك تغيير اللون
+              size: MediaQuery.of(context).size.height * 0.04, // التحكم في الحجم
+            ),
+
           ),
           onPressed: () {
             Navigator.push(
