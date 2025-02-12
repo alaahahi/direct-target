@@ -52,9 +52,9 @@ class _OnBoardingState extends State<on_boarding> {
             ],
           ),
           Positioned(
-            bottom: 30,
-            left: 20,
-            right: 20,
+            bottom: 50,
+            left: 40,
+            right: 40,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -65,8 +65,8 @@ class _OnBoardingState extends State<on_boarding> {
                   child: Text(
                     "Skip".tr,
                     style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: TextGrey,
-                    ),
+                          color: TextGrey,
+                        ),
                   ),
                 ),
                 SmoothPageIndicator(
@@ -78,82 +78,89 @@ class _OnBoardingState extends State<on_boarding> {
                     dotWidth: 14.0,
                     dotHeight: 7.0,
                     strokeWidth: 1.5,
-                    dotColor: Color(0xFFD1FAFA),
+                    dotColor: Color.fromARGB(255, 232, 209, 250),
                     activeDotColor: PrimaryColor,
                   ),
                 ),
                 onLastPage
                     ? GestureDetector(
-                  onTap: () {
-                    Get.offAll(() => StartScreen()); // الانتقال إلى StartScreen
-                  },
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.05,
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    decoration: BoxDecoration(
-                      color: PrimaryColor,
-                      borderRadius: BorderRadius.circular(35),
-                    ),
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Done".tr,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge
-                                ?.copyWith(color: LightGrey),
+                        onTap: () {
+                          Get.offAll(
+                              () => StartScreen()); // الانتقال إلى StartScreen
+                        },
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.05,
+                          width: MediaQuery.of(context).size.width * 0.25,
+                          decoration: BoxDecoration(
+                            color: PrimaryColor,
+                            borderRadius: BorderRadius.circular(35),
                           ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.04,
-                            width: MediaQuery.of(context).size.width * 0.04,
-                            child: Image.asset("Assets/icons/check.png"),
-                          ),
-                        ],
-                      ),
-                    ),
-                  ),
-                )
-                    : GestureDetector(
-                  onTap: () {
-                    _controller.nextPage(
-                      duration: Duration(milliseconds: 300),
-                      curve: Curves.easeIn,
-                    );
-                  },
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.05,
-                    width: MediaQuery.of(context).size.width * 0.3,
-                    decoration: BoxDecoration(
-                      color: PrimaryColor,
-                      borderRadius: BorderRadius.circular(35),
-                    ),
-                    child: Center(
-                      child: Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            "Next".tr,
-                            style: Theme.of(context)
-                                .textTheme
-                                .bodyLarge
-                                ?.copyWith(color: LightGrey),
-                          ),
-                          Container(
-                            height: MediaQuery.of(context).size.height * 0.06,
-                            width: MediaQuery.of(context).size.width * 0.06,
-                            child: Icon(
-                              Icons.arrow_forward,
-                              color: Colors.white,
-                              size: MediaQuery.of(context).size.height * 0.04,
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Done".tr,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(color: LightGrey),
+                                ),
+                                SizedBox(width: 4),
+                                Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.04,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.04,
+                                  child: Image.asset("Assets/icons/check.png"),
+                                ),
+                              ],
                             ),
                           ),
-                        ],
+                        ),
+                      )
+                    : GestureDetector(
+                        onTap: () {
+                          _controller.nextPage(
+                            duration: Duration(milliseconds: 300),
+                            curve: Curves.easeIn,
+                          );
+                        },
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.05,
+                          width: MediaQuery.of(context).size.width * 0.25,
+                          decoration: BoxDecoration(
+                            color: PrimaryColor,
+                            borderRadius: BorderRadius.circular(35),
+                          ),
+                          child: Center(
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Text(
+                                  "Next".tr,
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .bodyLarge
+                                      ?.copyWith(color: LightGrey),
+                                ),
+                                Container(
+                                  height:
+                                      MediaQuery.of(context).size.height * 0.06,
+                                  width:
+                                      MediaQuery.of(context).size.width * 0.06,
+                                  child: Icon(
+                                    Icons.arrow_forward,
+                                    color: Colors.white,
+                                    size: MediaQuery.of(context).size.height *
+                                        0.04,
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
-                    ),
-                  ),
-                ),
               ],
             ),
           ),
@@ -162,5 +169,3 @@ class _OnBoardingState extends State<on_boarding> {
     );
   }
 }
-
-

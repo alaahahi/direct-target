@@ -35,7 +35,7 @@ class _OnBoard3State extends State<OnBoard3> {
         children: [
           Obx(() {
             return Container(
-              height: MediaQuery.of(context).size.height * 0.5,
+              height: MediaQuery.of(context).size.height * 0.7,
               width: MediaQuery.of(context).size.width * 0.8,
               child: _controller.thirdImageUrl.value.isNotEmpty
                   ? CachedNetworkImage(
@@ -52,38 +52,38 @@ class _OnBoard3State extends State<OnBoard3> {
                 child: CircularProgressIndicator(),
               ),
             );
-          }),
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 15),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.2,
-                  width: MediaQuery.of(context).size.width * 0.9,
-                  decoration: BoxDecoration(
-                    borderRadius: BorderRadius.circular(12),
-                    gradient: LinearGradient(
-                      begin: Alignment.topCenter,
-                      end: Alignment.bottomCenter,
-                      colors: [
-                        Color.fromARGB(255, 247, 247, 247),
-                        const Color.fromARGB(255, 255, 255, 255),
-                      ],
-                    ),
-                  ),
-                  child: Center(
-                    child: Text(
-                      "Consult only with a doctor\nyou trust".tr,
-                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                        color: DarkBorderColor,
-                      ),
-                    ),
-                  ),
-                ),
-              ],
-            ),
-          ),
+          })
+          // Padding(
+          //   padding: const EdgeInsets.symmetric(horizontal: 15),
+          //   child: Row(
+          //     mainAxisAlignment: MainAxisAlignment.center,
+          //     children: [
+          //       Container(
+          //         height: MediaQuery.of(context).size.height * 0.2,
+          //         width: MediaQuery.of(context).size.width * 0.9,
+          //         decoration: BoxDecoration(
+          //           borderRadius: BorderRadius.circular(12),
+          //           gradient: LinearGradient(
+          //             begin: Alignment.topCenter,
+          //             end: Alignment.bottomCenter,
+          //             colors: [
+          //               Color.fromARGB(255, 247, 247, 247),
+          //               const Color.fromARGB(255, 255, 255, 255),
+          //             ],
+          //           ),
+          //         ),
+          //         child: Center(
+          //           child: Text(
+          //             "Consult only with a doctor\nyou trust".tr,
+          //             style: Theme.of(context).textTheme.titleMedium?.copyWith(
+          //               color: DarkBorderColor,
+          //             ),
+          //           ),
+          //         ),
+          //       ),
+          //     ],
+          //   ),
+          // ),
         ],
       ),
     );

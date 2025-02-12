@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-const PrimaryColor = Color(0xFF4F8ECB);
+const PrimaryColor = Color.fromARGB(255, 48, 3, 85);
 const LightGrey = Color(0xFFF2F2F2);
 const FormBackGraund = Color(0xFFF1F5F9);
 const TextGrey = Color(0xFF424A5D);
