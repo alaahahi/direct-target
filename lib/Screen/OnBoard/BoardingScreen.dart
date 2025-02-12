@@ -3,7 +3,6 @@ import 'package:direct_target/Screen/Start/StartScreen.dart';
 import 'package:direct_target/Screen/OnBoard/FirstBoardScreen.dart';
 import 'package:direct_target/Screen/OnBoard/SecondBoardScreen.dart';
 import 'package:direct_target/Screen/OnBoard/ThirdBoardScreen.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:get/get.dart';

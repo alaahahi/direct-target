@@ -32,13 +32,13 @@ class SheduleTab1 extends StatelessWidget {
             }
 
 // تأكد من أن `appointments` ليست null قبل التحقق من كونها فارغة
-            if (appointmentController.appointments == null || appointmentController.appointments!.isEmpty) {
+            if (appointmentController.appointments.isEmpty) {
               return const Center(child: Text("No Appointments Found"));
             }
 
 
             // Filter appointments where is_come == 1
-            var filteredAppointments = appointmentController.appointments!
+            var filteredAppointments = appointmentController.appointments
                 .where((appointment) => appointment.isCome == 1)
                 .toList();
 

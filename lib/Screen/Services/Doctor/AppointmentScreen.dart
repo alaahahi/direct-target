@@ -8,8 +8,6 @@ import '../../../Controller/AppointmentController.dart';
 import '../../../Controller/CardServiceController.dart';
 import '../../../Controller/LoaderController.dart';
 import '../../../Controller/ProfileCardController.dart';
-import '../../Schedule/ScheduleScreen.dart';
-import 'SearchScreen.dart';
 import 'package:intl/intl.dart';
 
 class AppointmentScreen extends StatefulWidget {
@@ -128,12 +126,8 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
             );
           }
 
-          final doctor = controller.appointments!
+          final doctor = controller.appointments
               .firstWhere((service) => service.id == widget.appointmentId);
-
-          if (doctor == null) {
-            return Center(child: Text("Doctor not found".tr));
-          }
 
           final doctorDays = doctor.serviceProvider?.workingDays;
           final String? startTime = doctor.serviceProvider?.workingHours?.start;

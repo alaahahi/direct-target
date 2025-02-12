@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 
 import '../../../Controller/AllSettingController.dart';
 import '../../../Service/SettingsServices.dart';
-import '../../../Utils/AppStyle.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 class PrivacyBody extends StatefulWidget {
   const PrivacyBody({super.key});

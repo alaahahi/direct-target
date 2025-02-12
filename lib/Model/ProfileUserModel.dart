@@ -93,15 +93,15 @@ class Data {
   String? name;
   String? createdAt;
   String? updatedAt;
-  Null? typeId;
+  Null typeId;
   String? phoneNumber;
   String? verificationDate;
   String? verificationUserType;
   String? familyMembersNames;
-  Null? birthDate;
-  Null? weight;
-  Null? height;
-  Null? gender;
+  Null birthDate;
+  Null weight;
+  Null height;
+  Null gender;
 
   Data(
       {this.id,

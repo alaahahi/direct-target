@@ -5,7 +5,6 @@ import 'package:direct_target/Screen/Profile/ProfileScreen.dart';
 import 'package:direct_target/Screen/Schedule/ScheduleScreen.dart';
 import 'package:get/get.dart';
 import 'package:direct_target/Screen/Home/CardsScreen.dart';
-import 'package:direct_target/Screen/Services/Servicescreen.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:direct_target/Controller/ThemeController.dart';
 

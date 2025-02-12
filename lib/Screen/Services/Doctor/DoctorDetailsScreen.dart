@@ -7,7 +7,6 @@ import '../../../Controller/AppointmentController.dart';
 import '../../../Controller/CardServiceController.dart';
 import '../../../Controller/LoaderController.dart';
 import '../../../Controller/ProfileCardController.dart';
-import '../../Home/HomeScreen.dart';
 import 'SearchScreen.dart';
 import 'package:intl/intl.dart';
 
@@ -123,10 +122,6 @@ class _DoctorDetailsState extends State<DoctorDetails> {
 
           final doctor = controller.allServiceList!
               .firstWhere((service) => service.id == widget.doctorId);
-
-          if (doctor == null) {
-            return Center(child: Text("Doctor not found".tr));
-          }
 
           final doctorDays = doctor.workingDays;
           final String? startTime = doctor.workingHours?.start;

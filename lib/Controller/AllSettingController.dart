@@ -62,7 +62,7 @@ class AllSettingController extends GetxController {
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getPrimaryColor();
-      if (res != null && res.status == "success" && res.data != null) {
+      if (res.status == "success" && res.data != null) {
         String primaryColor = res.data!.value ?? "#FFFFFF";
         log("Primary Color: $primaryColor");
       } else {
@@ -161,7 +161,7 @@ class AllSettingController extends GetxController {
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getThemeColor();
-      if (res != null && res.status == "success" && res.data != null) {
+      if (res.status == "success" && res.data != null) {
         String firstWelcomeImage = res.data!.value ?? "alt First Welcome Image";
         log("Primary Color: $firstWelcomeImage");
       } else {
@@ -178,7 +178,7 @@ class AllSettingController extends GetxController {
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getMaintenanceMode();
-      if (res != null && res.status == "success" && res.data != null) {
+      if (res.status == "success" && res.data != null) {
         String firstWelcomeImage = res.data!.value ?? "alt First Welcome Image";
         log("Primary Color: $firstWelcomeImage");
       } else {
@@ -194,7 +194,7 @@ class AllSettingController extends GetxController {
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getContactEmail();
-      if (res != null && res.status == "success" && res.data != null) {
+      if (res.status == "success" && res.data != null) {
         String firstWelcomeImage = res.data!.value ?? "alt First Welcome Image";
         log("Primary Color: $firstWelcomeImage");
       } else {
@@ -211,7 +211,7 @@ class AllSettingController extends GetxController {
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getContactPhone();
-      if (res != null && res.status == "success" && res.data != null) {
+      if (res.status == "success" && res.data != null) {
         String firstWelcomeImage = res.data!.value ?? "alt First Welcome Image";
         log("Primary Color: $firstWelcomeImage");
       } else {
@@ -228,7 +228,7 @@ class AllSettingController extends GetxController {
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getSocialLinks();
-      if (res != null && res.status == "success" && res.data != null) {
+      if (res.status == "success" && res.data != null) {
         String firstWelcomeImage = res.data!.value ?? "alt First Welcome Image";
         log("Primary Color: $firstWelcomeImage");
       } else {
@@ -245,7 +245,7 @@ class AllSettingController extends GetxController {
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getDefaultLanguage();
-      if (res != null && res.status == "success" && res.data != null) {
+      if (res.status == "success" && res.data != null) {
         String firstWelcomeImage = res.data!.value ?? "alt First Welcome Image";
         log("Primary Color: $firstWelcomeImage");
       } else {
@@ -263,7 +263,7 @@ class AllSettingController extends GetxController {
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getAppVersion();
-      if (res != null && res.status == "success" && res.data != null) {
+      if (res.status == "success" && res.data != null) {
         String firstWelcomeImage = res.data!.value ?? "alt First Welcome Image";
         log("Primary Color: $firstWelcomeImage");
       } else {
@@ -282,7 +282,7 @@ class AllSettingController extends GetxController {
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getMaxUploadSize();
-      if (res != null && res.status == "success" && res.data != null) {
+      if (res.status == "success" && res.data != null) {
         String firstWelcomeImage = res.data!.value ?? "alt First Welcome Image";
         log("Primary Color: $firstWelcomeImage");
       } else {
@@ -300,7 +300,7 @@ class AllSettingController extends GetxController {
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getNotificationEnabled();
-      if (res != null && res.status == "success" && res.data != null) {
+      if (res.status == "success" && res.data != null) {
         String firstWelcomeImage = res.data!.value ?? "alt First Welcome Image";
         log("Primary Color: $firstWelcomeImage");
       } else {
@@ -338,7 +338,7 @@ print("ddddddddddddddddddddddddddd");
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getOtpExpiryTime();
-      if (res != null && res.status == "success" && res.data != null) {
+      if (res.status == "success" && res.data != null) {
         String firstWelcomeImage = res.data!.value ?? "alt First Welcome Image";
         log("Primary Color: $firstWelcomeImage");
       } else {
@@ -355,7 +355,7 @@ print("ddddddddddddddddddddddddddd");
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getSecondaryContactPhone();
-      if (res != null && res.status == "success" && res.data != null) {
+      if (res.status == "success" && res.data != null) {
         String firstWelcomeImage = res.data!.value ?? "alt First Welcome Image";
         log("Primary Color: $firstWelcomeImage");
       } else {
@@ -372,7 +372,7 @@ print("ddddddddddddddddddddddddddd");
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getAppName();
-      if (res != null && res.status == "success" && res.data != null) {
+      if (res.status == "success" && res.data != null) {
         String firstWelcomeImage = res.data!.value ?? "alt First Welcome Image";
         log("Primary Color: $firstWelcomeImage");
       } else {
@@ -389,7 +389,7 @@ print("ddddddddddddddddddddddddddd");
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getEnableDarkMode();
-      if (res != null && res.status == "success" && res.data != null) {
+      if (res.status == "success" && res.data != null) {
         String firstWelcomeImage = res.data!.value ?? "alt First Welcome Image";
         log("Primary Color: $firstWelcomeImage");
       } else {
@@ -406,7 +406,7 @@ print("ddddddddddddddddddddddddddd");
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getWelcomeMessage();
-      if (res != null && res.status == "success" && res.data != null) {
+      if (res.status == "success" && res.data != null) {
         String firstWelcomeImage = res.data!.value ?? "alt First Welcome Image";
         log("Primary Color: $firstWelcomeImage");
       } else {
@@ -422,7 +422,7 @@ print("ddddddddddddddddddddddddddd");
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getMaxLoginAttempts();
-      if (res != null && res.status == "success" && res.data != null) {
+      if (res.status == "success" && res.data != null) {
         String firstWelcomeImage = res.data!.value ?? "alt First Welcome Image";
         log("Primary Color: $firstWelcomeImage");
       } else {
@@ -439,7 +439,7 @@ print("ddddddddddddddddddddddddddd");
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getFirstContactPhone();
-      if (res != null && res.status == "success" && res.data != null) {
+      if (res.status == "success" && res.data != null) {
         String firstWelcomeImage = res.data!.value ?? "alt First Welcome Image";
         log("Primary Color: $firstWelcomeImage");
       } else {
@@ -455,7 +455,7 @@ print("ddddddddddddddddddddddddddd");
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getApiUrl();
-      if (res != null && res.status == "success" && res.data != null) {
+      if (res.status == "success" && res.data != null) {
         String firstWelcomeImage = res.data!.value ?? "alt First Welcome Image";
         log("Primary Color: $firstWelcomeImage");
       } else {

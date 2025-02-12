@@ -7,7 +7,6 @@ import 'package:page_transition/page_transition.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:direct_target/Screen/Services/Doctor/DoctorDetailsScreen.dart';
 import 'package:get/get.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:direct_target/Screen/RequestCard/RequestScreen.dart';
 
 import '../../Controller/CardServiceController.dart';

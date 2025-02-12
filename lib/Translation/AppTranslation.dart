@@ -54,9 +54,7 @@ final Map<String, String> en = {
   "Book an Appointment": "Book an Appointment",
   "Book Now": "Book Now",
   "News for up-to-the-minute news, breaking news, video, audio and feature stories.": "News for up-to-the-minute news, breaking news, video, audio and feature stories.",
-  "Dr. Marcus Horizon": "Dr. Marcus Horizon",
   "Search doctor, drugs, articles...": "Search doctor, drugs, articles...",
-  "News for up-to-the-minute news, breaking news, video, audio and feature stories.": "News for up-to-the-minute news, breaking news, video, audio and feature stories.",
   "Doctor": "Doctor",
   "Top Doctor": "Top Doctor",
   "Pharmacy": "Pharmacy",
@@ -98,10 +96,7 @@ final Map<String, String> en = {
   "My Saved": "My Saved",
   "Appointment": "Appointment",
   "FAQs": "FAQs",
-  "Payment Method": "Payment Method",
   "Log out": "Log out",
-  'Show Details':'Show Details',
-  'Services:':'Services:',
   "All Services":"All Services"
 }
 ;
@@ -190,10 +185,7 @@ final Map<String, String> ar = {
   "My Saved": "محفوظاتي",
   "Appointment": "الموعد",
   "FAQs": "الأسئلة الشائعة",
-  "Payment Method": "طريقة الدفع",
   "Log out": "تسجيل الخروج",
-  'Show Details':"التفاصيل",
-  'Services:':"الخدمات",
   "All Services":"كافة الخدمات"
 }
 ;

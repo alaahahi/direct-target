@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:direct_target/Screen/OnBoard/BoardingScreen.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:get/get.dart';
-import 'package:get/get_core/src/get_main.dart';
 import '../Controller/AllSettingController.dart';
 import '../Service/SettingsServices.dart';
 

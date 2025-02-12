@@ -20,10 +20,8 @@ class ProfileUserController extends GetxController {
     try {
       isLoading(true);
       var profileData = await _profileService.fetchProfile();
-      if (profileData != null) {
-        profile.value = profileData;
-      }
-    } catch (e) {
+      profile.value = profileData;
+        } catch (e) {
       print("Error: $e");
     } finally {
       isLoading(false);

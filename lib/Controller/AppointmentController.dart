@@ -84,12 +84,8 @@ class AppointmentController extends GetxController {
 
       );
 
-      if (appointment != null) {
-        return appointment;
-      } else {
-        throw Exception('الموعد غير موجود.');
-      }
-    } catch (e) {
+      return appointment;
+        } catch (e) {
       print("Error: $e");
       Get.snackbar('خطأ', e.toString());
       return null;

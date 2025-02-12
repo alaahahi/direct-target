@@ -20,12 +20,12 @@ class SheduleTab2 extends StatelessWidget {
               return const Center(child: CircularProgressIndicator());
             }
 
-            if (appointmentController.appointments!.isEmpty) {
+            if (appointmentController.appointments.isEmpty) {
               return const Center(child: Text("No Completed Appointments"));
             }
 
             // تصفية المواعيد المكتملة
-            var filteredAppointments = appointmentController.appointments!
+            var filteredAppointments = appointmentController.appointments
                 .where((appointment) {
               print("Appointment isCome: ${appointment.isCome}"); // طباعة القيمة للتحقق
               return appointment.isCome == 2; // تأكد من أن القيمة هي 2 للمواعيد المكتملة

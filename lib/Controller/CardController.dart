@@ -50,7 +50,7 @@ class CardController extends GetxController {
       });
       final response = await _service.RequestCard(formData);
 
-      if (response != null && response.message == "Request submitted successfully. Our team will contact you shortly.") {
+      if (response.message == "Request submitted successfully. Our team will contact you shortly.") {
         msgController.showSuccessMessage('Request submitted successfully.', cardRequest.name);
         Get.offAllNamed(AppRoutes.homescreen);
       } else {

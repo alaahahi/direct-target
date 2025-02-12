@@ -25,8 +25,8 @@ class _HomepageState extends State<Homepage> {
           return Row(
             children: [
               SizedBox(
-                width: 65.0,
-                height: 47,
+                width: 50.0,
+                height: 31,
                 child: Image.asset(
                   logoPath,
                   fit: BoxFit.cover,

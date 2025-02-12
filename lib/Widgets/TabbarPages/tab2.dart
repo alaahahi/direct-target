@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
-import 'package:get/get.dart';
 class tab2 extends StatelessWidget {
   const tab2({super.key});
 

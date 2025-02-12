@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:direct_target/Utils/AppStyle.dart';
 class list_doctor1 extends StatelessWidget {
   final String image;
   final String maintext;

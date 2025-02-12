@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:direct_target/Widgets/ProfileList.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
