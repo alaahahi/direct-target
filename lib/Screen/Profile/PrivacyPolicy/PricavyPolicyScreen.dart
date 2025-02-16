@@ -17,13 +17,21 @@ class _PrivacyPolicyScreenState extends State<PrivacyPolicyScreen> {
     return Scaffold(
         appBar: AppBar(
             leading: IconButton(
-              onPressed: () => Get.back(),
-              icon: Icon(
-                Icons.arrow_back_ios,
+              icon: Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Icon(
+                  Icons.arrow_back_ios,
+                  color: Theme.of(context).textTheme.bodyMedium?.color,
+                  size: MediaQuery.of(context).size.height * 0.025,
+                ),
               ),
-              color: TextGrey,
+
+              onPressed: () => Get.back(),
             ),
-            title: Text('Privacy Policy'),
+            title: Text('Privacy Policy'.tr,
+              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                color: Theme.of(context).textTheme.bodyMedium?.color,
+              ),),
             centerTitle: true,
             titleTextStyle: AppBarTextStyle),
         body: Padding(

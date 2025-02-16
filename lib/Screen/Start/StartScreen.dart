@@ -15,15 +15,14 @@ class StartScreen extends StatelessWidget {
     final ThemeController themeController = Get.find<ThemeController>();
 
     String logoPath = themeController.isDarkMode.value
-        ? "Assets/images/logo1.png"
-        : "Assets/images/logo2.png";
+        ? "Assets/images/start2.png"
+        : "Assets/images/start.png";
     double screenHeight = MediaQuery.of(context).size.height;
     double screenWidth = MediaQuery.of(context).size.width;
     Color Iconcolor = themeController.isDarkMode.value
         ? LightGrey
         : PrimaryColor;
     return Scaffold(
-
       appBar: AppBar(
           automaticallyImplyLeading: false,
         title: Row(
@@ -35,8 +34,6 @@ class StartScreen extends StatelessWidget {
           ],
         ),
       ),
-
-
 
       body: Column(
         children: [

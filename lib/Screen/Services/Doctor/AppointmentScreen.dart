@@ -12,10 +12,9 @@ import 'package:intl/intl.dart';
 
 class AppointmentScreen extends StatefulWidget {
 
-  final int? appointmentId; // إذا كان الموعد موجودًا
+  final int? appointmentId;
 
   AppointmentScreen({ this.appointmentId});
-  // DoctorDetails({required this.doctorId});
 
   @override
   _AppointmentScreenState createState() => _AppointmentScreenState();
@@ -73,7 +72,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       return DateFormat("yyyy-MM-dd HH:mm:ss").format(newTime);
     } catch (e) {
       print("Error parsing time: $e");
-      return time; // تجنب الكراش بإرجاع نفس القيمة عند الخطأ
+      return time;
     }
   }
 
@@ -88,13 +87,13 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                 PageTransition(
                     type: PageTransitionType.fade, child: Homepage()));
           },
-          child: Container(
-            height: 10,
-            width: 10,
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("Assets/icons/back1.png"),
-                )),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: Theme.of(context).textTheme.bodyMedium?.color,
+              size: MediaQuery.of(context).size.height * 0.025,
+            ),
           ),
         ),
         title: Text(
@@ -104,19 +103,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
         centerTitle: true,
         elevation: 0,
         toolbarHeight: 100,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Container(
-              height: 10,
-              width: 10,
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("Assets/icons/more.png"),
-                  )),
-            ),
-          ),
-        ],
+
       ),
       body: GetBuilder<AppointmentController>(
         builder: (controller) {
@@ -143,7 +130,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
             children: [
               const SizedBox(height: 10),
               doctorList(
-                image: doctor.serviceProvider?.image ?? "Assets/icons/person.png",
+                image: doctor.serviceProvider?.image ?? "Assets/images/person.png",
                 maintext: doctor.serviceProvider!.serviceName!.tr,
                 subtext: doctor.serviceProvider!.serviceName!.tr,
 
@@ -307,10 +294,6 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       if (widget.appointmentId != null && selectedDate != null && selectedTime != null) {
                         String formattedStart = "$selectedDate $selectedTime";
                         String formattedEnd = addHalfHour(formattedStart);
-
-                        print("Formatted Start: $formattedStart");  // Debugging
-                        print("Formatted End: $formattedEnd");      // Debugging
-
                         appointmencontroller.updateAppointment(
                           note: noteController.text,
                           start: formattedStart,
@@ -318,7 +301,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                           appointmentId: widget.appointmentId!,
                         );
                       } else {
-                        Get.snackbar("Error", "Please select a date and time");
+                        Get.snackbar("Error", "Please select a date and time".tr);
                       }
                     },
 
@@ -329,7 +312,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       ),
                     ),
                     child: Text(
-                     'Update Appointmennt'.tr,
+                     'Update Appointment'.tr,
                       style: TextStyle(
                         color: Colors.white,
                       ),
@@ -338,8 +321,6 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                 );
               }),
 
-              // Text("Working Days: ${doctorDays?.join(", ")}"),
-              // Text("Available Hours: ${availableHours.join(", ")}"),
             ],
           );
         },

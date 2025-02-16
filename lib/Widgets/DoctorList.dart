@@ -1,19 +1,21 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
+
 class doctorList extends StatelessWidget {
   final String image;
   final String maintext;
   final String subtext;
-
   doctorList(
       {
-      required this.image,
-      required this.maintext,
-      required this.subtext});
+        required this.image,
+        required this.maintext,
+        required this.subtext});
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(18.0),
+        padding: const EdgeInsets.all(10.0),
         child: Center(
           child: Container(
             height: MediaQuery.of(context).size.height * 0.2,
@@ -24,41 +26,48 @@ class doctorList extends StatelessWidget {
               borderRadius: BorderRadius.circular(12),
             ),
             child: Row(
-
+              // mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.center,
               children: [
-                const SizedBox(
-                  width: 10,
-                ),
-                Padding(
-                  padding: const EdgeInsets.all(20.0),
+
+                Align(
+                  // alignment: Alignment.topCenter, // محاذاة الصورة في الأعلى قليلاً
                   child: Container(
-                    height: MediaQuery.of(context).size.height * 0.1200,
-                    width: MediaQuery.of(context).size.width * 0.1200,
+                    height: MediaQuery.of(context).size.height * 0.180,
+                    width: MediaQuery.of(context).size.width * 0.250,
                     decoration: BoxDecoration(
                         borderRadius: BorderRadius.circular(12),
-                        image: DecorationImage(
-                            image: AssetImage(image),
-                            filterQuality: FilterQuality.high,
-                            fit: BoxFit.contain)),
+                        image:DecorationImage(
+                          image: image.isNotEmpty && image.startsWith("http")
+                              ? NetworkImage(image) // تحميل الصورة من API إذا كانت متوفرة
+                              : AssetImage('Assets/images/person.png') as ImageProvider, // صورة افتراضية
+                          filterQuality: FilterQuality.high,
+                          fit: BoxFit.cover,
+                        ),),
                   ),
                 ),
                 const SizedBox(
-                  width: 10,
+                  width: 20,
                 ),
                 Container(
                   height: MediaQuery.of(context).size.height * 0.1200,
                   width: MediaQuery.of(context).size.width * 0.4,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Text(
                         maintext,
-                          style: Theme.of(context).textTheme.bodyLarge
+                        style: GoogleFonts.poppins(
+                          fontSize: 16,
+                          fontWeight: FontWeight.w600,
+                        ),
                       ),
                       Text(
                         subtext,
-                        style: Theme.of(context).textTheme.bodySmall,
+                        style: GoogleFonts.poppins(
+                            fontSize: 12,
+                            fontWeight: FontWeight.w400,
+                            color: Colors.black54),
                       ),
                     ],
                   ),
@@ -71,3 +80,4 @@ class doctorList extends StatelessWidget {
     );
   }
 }
+

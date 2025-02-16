@@ -23,13 +23,13 @@ class _RequestScreenState extends State<RequestScreen> {
                   PageTransition(
                       type: PageTransitionType.fade, child: Homepage()));
             },
-            child: Container(
-              height: 10,
-              width: 10,
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("Assets/icons/back1.png"),
-                  )),
+            child:Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Icon(
+                Icons.arrow_back_ios,
+                color: Theme.of(context).textTheme.bodyMedium?.color,
+                size: MediaQuery.of(context).size.height * 0.025,
+              ),
             ),
           ),
           title: Text(
@@ -39,19 +39,7 @@ class _RequestScreenState extends State<RequestScreen> {
           centerTitle: true,
           elevation: 0,
           toolbarHeight: 100,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Container(
-                height: 10,
-                width: 10,
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("Assets/icons/more.png"),
-                    )),
-              ),
-            ),
-          ],
+
         ),
       body: RequestScreenBody()
 

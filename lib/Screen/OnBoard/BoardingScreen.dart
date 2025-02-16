@@ -6,10 +6,8 @@ import 'package:direct_target/Screen/OnBoard/ThirdBoardScreen.dart';
 import 'package:smooth_page_indicator/smooth_page_indicator.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:get/get.dart';
-
 import 'package:direct_target/Controller/TokenController.dart';
-
-import '../../Routes/Routes.dart'; // استدعاء ملف التوكين
+import '../../Routes/Routes.dart';
 
 class on_boarding extends StatefulWidget {
   const on_boarding({super.key});
@@ -52,7 +50,7 @@ class _OnBoardingState extends State<on_boarding> {
             ],
           ),
           Positioned(
-            bottom: 50,
+            bottom: 20,
             left: 40,
             right: 40,
             child: Row(
@@ -86,7 +84,7 @@ class _OnBoardingState extends State<on_boarding> {
                     ? GestureDetector(
                         onTap: () {
                           Get.offAll(
-                              () => StartScreen()); // الانتقال إلى StartScreen
+                              () => StartScreen());
                         },
                         child: Container(
                           height: MediaQuery.of(context).size.height * 0.05,
@@ -108,11 +106,13 @@ class _OnBoardingState extends State<on_boarding> {
                                 ),
                                 SizedBox(width: 4),
                                 Container(
-                                  height:
-                                      MediaQuery.of(context).size.height * 0.04,
-                                  width:
-                                      MediaQuery.of(context).size.width * 0.04,
-                                  child: Image.asset("Assets/icons/check.png"),
+                                  height: MediaQuery.of(context).size.height * 0.06,
+                                  width: MediaQuery.of(context).size.width * 0.06,
+                                  child: Icon(
+                                    Icons.check,
+                                    color: Colors.white,
+                                    size: MediaQuery.of(context).size.height * 0.04,
+                                  ),
                                 ),
                               ],
                             ),

@@ -1,14 +1,10 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
-
 import '../Api/AppConfig.dart';
 import '../Controller/TokenController.dart';
 import '../Model/ProfileUserModel.dart';
-
 import 'dart:convert';
 import 'package:get_storage/get_storage.dart';
-
-
 import '../Controller/LoaderController.dart';
 
 class ProfileUserService extends GetConnect {
@@ -20,7 +16,6 @@ class ProfileUserService extends GetConnect {
   ProfileUserService._();
 
   final LoaderController loaderController = Get.find<LoaderController>();
-  final String tokenn = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2Rvd2FseXBsdXMuYWluZHViYWljby5jb20vYXBpL3YxL3ZlcmlmeS1jb2RlIiwiaWF0IjoxNzM3OTAwMjIwLCJleHAiOjE3NDMwODQyMjAsIm5iZiI6MTczNzkwMDIyMCwianRpIjoiYklJdVh6R3FWTWhOOXRZdyIsInN1YiI6IjI3NSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.mMu9oC2cyafur7_KhHfrEAPBc2LyN1RReXQEU594CXI";
 
   GetStorage box = GetStorage();
   final tokenController = Get.find<TokenController>();
@@ -32,7 +27,7 @@ class ProfileUserService extends GetConnect {
         data: data,
         options: Options(
           headers: {
-            'Authorization': 'Bearer $tokenn',
+            'Authorization': 'Bearer $token',
             'Content-Type': 'application/json',
           },
         ),

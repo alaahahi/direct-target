@@ -12,19 +12,17 @@ class ChangeProfileBody extends StatefulWidget {
   @override
   State<ChangeProfileBody> createState() => _ChangeProfileBodyState();
 }
-
 class _ChangeProfileBodyState extends State<ChangeProfileBody> {
   final _formKey = GlobalKey<FormState>();
   final ProfileCardController controller = Get.put(ProfileCardController());
   final LoaderController loaderController = Get.put(LoaderController());
-
   final TextEditingController nameController = TextEditingController();
   final TextEditingController phoneController = TextEditingController();
   final TextEditingController familyController = TextEditingController();
   final TextEditingController weightController = TextEditingController();
   final TextEditingController heightController = TextEditingController();
 
-  String? selectedGender; // متغير لتخزين الجنس المختار
+  String? selectedGender;
 
   final box = GetStorage();
 
@@ -40,55 +38,38 @@ class _ChangeProfileBodyState extends State<ChangeProfileBody> {
               child: Column(
                 children: [
                   SizedBox(height: Get.height * 0.05),
-
-                  // حقل الاسم
                   AuthFormField(
                     controller: nameController,
                     hint: 'Your Name'.tr,
                     onChanged: (value) {},
                   ),
-
                   SizedBox(height: Get.height * 0.03),
-
-                  // حقل رقم الهاتف
                   AuthFormField(
                     controller: phoneController,
                     hint: 'Your Phone Number'.tr,
                     onChanged: (value) {},
                   ),
-
                   SizedBox(height: Get.height * 0.03),
-
-                  // حقل اسم العائلة
                   AuthFormField(
                     controller: familyController,
                     hint: 'Your Family Names'.tr,
                     onChanged: (value) {},
                   ),
-
                   SizedBox(height: Get.height * 0.03),
-
-                  // حقل الوزن
                   AuthFormField(
                     controller: weightController,
                     hint: 'Your Weight (kg)'.tr,
                     keyboardType: TextInputType.number,
                     onChanged: (value) {},
                   ),
-
                   SizedBox(height: Get.height * 0.03),
-
-                  // حقل الطول
                   AuthFormField(
                     controller: heightController,
                     hint: 'Your Height (cm)'.tr,
                     keyboardType: TextInputType.number,
                     onChanged: (value) {},
                   ),
-
                   SizedBox(height: Get.height * 0.03),
-
-                  // حقل الجنس (قائمة منسدلة)
                   DropdownButtonFormField<String>(
                     decoration: InputDecoration(
                       hintText: "Select Gender".tr,
@@ -110,13 +91,11 @@ class _ChangeProfileBodyState extends State<ChangeProfileBody> {
                       });
                     },
                   ),
-
                   SizedBox(height: Get.height * 0.05),
                 ],
               ),
             ),
 
-            // زر التحديث
             Obx(() {
               return loaderController.loading.value
                   ? const Center(
@@ -134,7 +113,7 @@ class _ChangeProfileBodyState extends State<ChangeProfileBody> {
                         "family": familyController.text,
                         "weight": weightController.text,
                         "height": heightController.text,
-                        "gender": selectedGender ?? "", // في حالة عدم اختيار جنس
+                        "gender": selectedGender ?? "",
                       });
                     }
                   },

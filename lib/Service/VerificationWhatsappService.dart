@@ -1,10 +1,6 @@
 import 'dart:convert';
-
-
-
 import '../Model/VerificationWhatsappCodeModel.dart';
 import 'package:http/http.dart' as http;
-
 
 String formatPhoneNumber(String phoneNumber) {
   return phoneNumber.replaceAll(' ', '').replaceAll('-', '').trim();

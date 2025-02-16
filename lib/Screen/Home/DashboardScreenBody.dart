@@ -1,3 +1,4 @@
+import 'package:direct_target/Controller/CardController.dart';
 import 'package:flutter/material.dart';
 import 'package:direct_target/Screen/Services/Doctor/SearchScreen.dart';
 import 'package:direct_target/Screen/Services/Doctor/FindDoctorScreen.dart';
@@ -12,13 +13,17 @@ import 'package:direct_target/Screen/RequestCard/RequestScreen.dart';
 import '../../Controller/CardServiceController.dart';
 import '../../Controller/LoaderController.dart';
 import '../../Controller/TokenController.dart';
+import '../../Service/CardServices.dart';
 
 
 class DashboardScreenBody extends StatelessWidget {
   DashboardScreenBody({super.key});
-   final tokenController = Get.put(TokenController());
+  final tokenController = Get.put(TokenController());
+  final CardServiceController controller = Get.put(CardServiceController());
+  final CardController cardController =
+  Get.put(CardController(CardServices()));
   LoaderController loaderController = Get.put(LoaderController());
-   @override
+  @override
   Widget build(BuildContext context) {
     return  SingleChildScrollView(
       child: Column(children: [
@@ -52,12 +57,11 @@ class DashboardScreenBody extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(
                     horizontal: 10,
                   ),
-                  child: Container(
-                    height: 10,
-                    width: 10,
-                    child: Image.asset(
-                      "Assets/icons/search.png",
-                      filterQuality: FilterQuality.high,
+                  child:Container(
+                    child: Icon(
+                      Icons.search,
+                      size: MediaQuery.of(context).size.height * 0.025,
+                      color: Colors.black,
                     ),
                   ),
                 ),
@@ -75,23 +79,114 @@ class DashboardScreenBody extends StatelessWidget {
         SizedBox(
           height: 20,
         ),
-        InkWell(
-          onTap: () {
-            Navigator.push(
-              context,
-              MaterialPageRoute(builder: (context) => doctor_search()),
-            );
-          },
-          child: ClipRRect(
-            borderRadius: BorderRadius.circular(10.0),
-            child: Image.asset(
-              'Assets/images/4.jpg',
-              width: MediaQuery.of(context).size.width,
-              height: 250,
-              fit: BoxFit.cover,
-            ),
-          ),
+        Container(
+            height: 250,
+            width: 400,
+            child:GetBuilder<CardController>(
+              builder: (cardController) {
+                if (loaderController.loading.value) {
+                  return Center(
+                    child: CircularProgressIndicator(color: PrimaryColor),
+                  );
+                }
+
+                if (cardController.allCardList!.isEmpty) {
+                  return Center(
+                    child: Text("No data available".tr,
+                      style: TextStyle( color: Theme.of(context).textTheme.bodyMedium?.color,),),
+                  );
+                }
+
+                return ListView(
+                  physics: BouncingScrollPhysics(),
+                  children: cardController.allCardList!.map((service) {
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.rightToLeft,
+                            child: doctor_search(cardId: service.id!),
+                          ),
+                        );
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(10.0),
+                        child: Image.asset(
+                          'Assets/images/4.jpg',
+                          width: MediaQuery.of(context).size.width,
+                          height: 250,
+                          fit: BoxFit.cover,
+                        ),
+                      ),
+                    );
+                  }).toList(),
+                );
+              },
+            )
         ),
+        // InkWell(
+        //   onTap: () {
+        //     Navigator.push(
+        //       context,
+        //       MaterialPageRoute(builder: (context) => doctor_search()),
+        //     );
+        //   },
+        //   child: ClipRRect(
+        //     borderRadius: BorderRadius.circular(10.0),
+        //     child: Image.asset(
+        //       'Assets/images/4.jpg',
+        //       width: MediaQuery.of(context).size.width,
+        //       height: 250,
+        //       fit: BoxFit.cover,
+        //     ),
+        //   ),
+        // ),
+        // Container(
+        //     child:GetBuilder<CardController>(
+        //       builder: (controller) {
+        //         if (loaderController.loading.value) {
+        //           return Center(
+        //             child: CircularProgressIndicator(color: PrimaryColor),
+        //           );
+        //         }
+        //
+        //         if (controller.allCardList!.isEmpty) {
+        //           return Center(
+        //             child: Text("No data available".tr,
+        //               style: TextStyle( color: Theme.of(context).textTheme.bodyMedium?.color,),),
+        //           );
+        //         }
+        //
+        //         return ListView(
+        //           physics: BouncingScrollPhysics(),
+        //           scrollDirection: Axis.horizontal,
+        //           children: controller.allCardList!.map((card) {
+        //             return GestureDetector(
+        //               onTap: () {
+        //                 Navigator.push(
+        //                   context,
+        //                   PageTransition(
+        //                     type: PageTransitionType.rightToLeft,
+        //                     child: doctor_search(cardId: card.id!),
+        //                   ),
+        //                 );
+        //               },
+        //               child:ClipRRect(
+        //                 borderRadius: BorderRadius.circular(10.0),
+        //                 child: Image.asset(
+        //                   card.name!,
+        //                   width: MediaQuery.of(context).size.width,
+        //                   height: 250,
+        //                   fit: BoxFit.cover,
+        //                 ),
+        //               ),
+        //             );
+        //           }).toList(),
+        //         );
+        //       },
+        //     )
+        // ),
 
         SizedBox(
           height: 20,
@@ -110,37 +205,34 @@ class DashboardScreenBody extends StatelessWidget {
           height: 20,
         ),
 
-        Obx(() {
-          return tokenController.isTokenValid.value
-              ? Container(
-            height: MediaQuery.of(context).size.height * 0.07,
-            width: MediaQuery.of(context).size.width * 0.9,
-                child: ElevatedButton(
-                            onPressed: () {
-                Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                    builder: (context) => RequestScreen(),
-                  ),
-                );
-                            },
-                            style: ElevatedButton.styleFrom(
-                backgroundColor: PrimaryColor,
-                shape: RoundedRectangleBorder(
-                  borderRadius: BorderRadius.circular(30),
+        Container(
+          height: MediaQuery.of(context).size.height * 0.07,
+          width: MediaQuery.of(context).size.width * 0.9,
+          child: ElevatedButton(
+            onPressed: () {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => RequestScreen(),
                 ),
-                            ),
-                            child: Text(
-                "Request Card".tr,
-                textAlign: TextAlign.center,
-                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                                color: LightGrey,
-                              ),
-                            ),
-                          ),
-              )
-              : SizedBox();
-        }),
+              );
+            },
+            style: ElevatedButton.styleFrom(
+              backgroundColor: PrimaryColor,
+              shape: RoundedRectangleBorder(
+                borderRadius: BorderRadius.circular(30),
+              ),
+            ),
+            child: Text(
+              "Request Card".tr,
+              textAlign: TextAlign.center,
+              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                color: LightGrey,
+              ),
+            ),
+          ),
+        ),
+
 
 
         const SizedBox(
@@ -152,20 +244,35 @@ class DashboardScreenBody extends StatelessWidget {
           children: [
             Text(
               "Join Now".tr,
-              style:  Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context).textTheme.bodyLarge,
             ),
-            GestureDetector(
-              onTap: () {
-                Navigator.pushReplacement(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.rightToLeft,
-                        child: doctor_search()));
+            GetBuilder<CardController>(
+              builder: (controller) {
+                // تأكد من أن القائمة ليست فارغة قبل تمرير cardId
+                int? cardId = controller.allCardList!.isNotEmpty
+                    ? controller.allCardList?.first.id // استخدم أول عنصر
+                    : null; // إذا لم تكن هناك بيانات، اجعلها null
+
+                return GestureDetector(
+                  onTap: () {
+                    if (cardId != null) {
+                      Navigator.pushReplacement(
+                        context,
+                        PageTransition(
+                          type: PageTransitionType.rightToLeft,
+                          child: doctor_search(cardId: cardId),
+                        ),
+                      );
+                    } else {
+                      print("No card available to pass!");
+                    }
+                  },
+                  child: Text(
+                    "See all".tr,
+                    style: Theme.of(context).textTheme.bodyLarge,
+                  ),
+                );
               },
-              child: Text(
-                "See all".tr,
-                style: Theme.of(context).textTheme.bodyLarge,
-              ),
             ),
           ],
         ),
@@ -175,7 +282,7 @@ class DashboardScreenBody extends StatelessWidget {
         Container(
           height: 220,
           width: 400,
-          child:GetBuilder<CardServiceController>(
+          child: GetBuilder<CardServiceController>(
             builder: (controller) {
               if (loaderController.loading.value) {
                 return Center(
@@ -183,10 +290,23 @@ class DashboardScreenBody extends StatelessWidget {
                 );
               }
 
+              // التحقق من أن القائمة ليست null قبل محاولة استخدامها
+              if (controller.allServiceList == null) {
+                return Center(
+                  child: Text(
+                    "Loading data...".tr,
+                    style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
+                  ),
+                );
+              }
+
+              // التأكد من أن القائمة ليست فارغة
               if (controller.allServiceList!.isEmpty) {
                 return Center(
-                  child: Text("No data available".tr,
-                  style: TextStyle( color: Theme.of(context).textTheme.bodyMedium?.color,),),
+                  child: Text(
+                    "No data available".tr,
+                    style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
+                  ),
                 );
               }
 
@@ -200,25 +320,30 @@ class DashboardScreenBody extends StatelessWidget {
                         context,
                         PageTransition(
                           type: PageTransitionType.rightToLeft,
-                          child: DoctorDetails(doctorId: service.id!),
+                          child: DoctorDetails(doctorId: service.id ?? 0), // تجنب القيم null
                         ),
                       );
                     },
                     child: list_doctor1(
+                  image: service.image != null && service.image!.isNotEmpty
+                  ? service.image! // استخدم الرابط القادم من الـ API
+                    : "", // سنعالج الصورة الافتراضية في `list_doctor1`
+                    maintext: Get.locale?.languageCode == "ar"
+                        ? service.serviceNameAr?.tr ?? "لا يوجد اسم"
+                        : service.serviceNameEn?.tr ?? "No Name",
+                    subtext: Get.locale?.languageCode == "ar"
+                        ? service.descriptionAr?.tr ?? "لا يوجد وصف"
+                        : service.descriptionEn?.tr ?? "No Description",
+                  ),
 
-                      image: service.image != null
-                          ? service.image!
-                          : "Assets/icons/male-doctor.png",
-                      maintext: service.serviceName!.tr,
-
-                      subtext: service.description!.tr,
-                    ),
                   );
                 }).toList(),
               );
             },
-          )
+          ),
         )
+
+
       ]),
     );
 

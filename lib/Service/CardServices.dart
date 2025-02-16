@@ -7,6 +7,7 @@ import 'package:get_storage/get_storage.dart';
 
 import '../Api/AppConfig.dart';
 import '../Controller/LoaderController.dart';
+import '../Model/CardModel.dart';
 import '../Model/RequestCardModel.dart';
 import '../Model/CardServicesModel.dart';
 import '../Controller/TokenController.dart';
@@ -87,13 +88,50 @@ class CardServices extends GetConnect {
           print('**********  Error *************${e.response?.statusCode}');
         }
       } else {
-        print('errorrrrrr $e');
+        print('errorrrrrr in fetch $e');
       }
 
       loaderController.loading(false);
     }
     return CardServiceModel();
   }
+  Future<CardModel> fetchCard([dynamic data]) async {
+    try {
+      final String token = tokenController.getToken();
+      var res = await dio.get(
+        '$appConfig/cards/active',
+        data: data,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+      if (res.statusCode == 200 || res.statusCode==201  ) {
+        var data = res.data;
+        if (data is String) {
 
+          return CardModel.fromJson(jsonDecode(data));
+        } else if (data is Map<String, dynamic>) {
+
+          return CardModel.fromJson(data);
+        } else {
+          throw Exception('Unexpected data format');
+        }
+      }
+    } catch (e) {
+      if (e is DioException) {
+        if (e.response?.statusCode != 200 || e.response?.statusCode != 201) {
+          print('**********  Error *************${e.response}');
+        }
+      } else {
+        print('errorrrrrr in type $e');
+      }
+
+      loaderController.loading(false);
+    }
+    return CardModel();
+  }
 }
 

@@ -20,7 +20,11 @@ class AllSettingController extends GetxController {
   var fourthAdsImageUrl = ''.obs;
   var termsCondition =''.obs;
   var privacyPolicy =''.obs;
-
+  var appVersion =''.obs;
+  var contactEmail =''.obs;
+  var contactPhone =''.obs;
+  var socialLinks =''.obs;
+  var appName =''.obs;
   GetStorage box = GetStorage();
   final SettingsServices _service;
   var isLoading = false.obs;
@@ -39,6 +43,11 @@ class AllSettingController extends GetxController {
     _getFourthAdsImage();
     _getTermsConditionsUrl();
     _getPrivacyPolicyUrl();
+    _getAppVersion();
+    getContactPhone();
+    getContactEmail();
+    getSocialLinks();
+    getAppName();
   }
 
   Future<dynamic> getAllSettings() async {
@@ -190,54 +199,33 @@ class AllSettingController extends GetxController {
       isLoading(false);
     }
   }
+
+
   Future<void> getContactEmail() async {
-    isLoading(true);
-    try {
-      AllSettingModel? res = await SettingsServices().getContactEmail();
-      if (res.status == "success" && res.data != null) {
-        String firstWelcomeImage = res.data!.value ?? "alt First Welcome Image";
-        log("Primary Color: $firstWelcomeImage");
-      } else {
-        log("Failed to retrieve primary color");
-      }
-    } catch (e) {
-      print("Error fetching primary color: $e");
-    } finally {
-      isLoading(false);
+    AllSetting? setting = await _service.getContactEmail();
+    if (setting != null) {
+      secondImageUrl.value = setting.value ?? '';
+    } else {
+      secondImageUrl.value = '';
+    }
+  }
+  Future<void> getContactPhone() async {
+    AllSetting? setting = await _service.getContactPhone();
+    if (setting != null) {
+      secondImageUrl.value = setting.value ?? '';
+    } else {
+      secondImageUrl.value = '';
     }
   }
 
-  Future<void> getContactPhone() async {
-    isLoading(true);
-    try {
-      AllSettingModel? res = await SettingsServices().getContactPhone();
-      if (res.status == "success" && res.data != null) {
-        String firstWelcomeImage = res.data!.value ?? "alt First Welcome Image";
-        log("Primary Color: $firstWelcomeImage");
-      } else {
-        log("Failed to retrieve primary color");
-      }
-    } catch (e) {
-      print("Error fetching primary color: $e");
-    } finally {
-      isLoading(false);
-    }
-  }
+
 
   Future<void> getSocialLinks() async {
-    isLoading(true);
-    try {
-      AllSettingModel? res = await SettingsServices().getSocialLinks();
-      if (res.status == "success" && res.data != null) {
-        String firstWelcomeImage = res.data!.value ?? "alt First Welcome Image";
-        log("Primary Color: $firstWelcomeImage");
-      } else {
-        log("Failed to retrieve primary color");
-      }
-    } catch (e) {
-      print("Error fetching primary color: $e");
-    } finally {
-      isLoading(false);
+      AllSetting? setting = await _service.getSocialLinks();
+    if (setting != null) {
+      secondImageUrl.value = setting.value ?? '';
+    } else {
+      secondImageUrl.value = '';
     }
   }
 
@@ -257,24 +245,17 @@ class AllSettingController extends GetxController {
       isLoading(false);
     }
   }
+  Future<void> _getAppVersion() async {
 
-
-  Future<void> getAppVersion() async {
-    isLoading(true);
-    try {
-      AllSettingModel? res = await SettingsServices().getAppVersion();
-      if (res.status == "success" && res.data != null) {
-        String firstWelcomeImage = res.data!.value ?? "alt First Welcome Image";
-        log("Primary Color: $firstWelcomeImage");
-      } else {
-        log("Failed to retrieve primary color");
-      }
-    } catch (e) {
-      print("Error fetching primary color: $e");
-    } finally {
-      isLoading(false);
+    AllSetting? setting = await _service.getAppVersion();
+    if (setting != null) {
+      appVersion.value = setting.value ?? '';
+    } else {
+      appVersion.value = '';
     }
   }
+
+
 
 
 
@@ -324,11 +305,9 @@ class AllSettingController extends GetxController {
   }
 
   Future<void> _getTermsConditionsUrl() async {
-print("ddddddddddddddddddddddddddd");
     AllSetting? setting = await _service.getTermsConditionsUrl();
     if (setting != null) {
       termsCondition.value = setting.value ?? '';
-      print(termsCondition);
     } else {
       termsCondition.value = '';
     }
@@ -369,19 +348,12 @@ print("ddddddddddddddddddddddddddd");
   }
 
   Future<void> getAppName() async {
-    isLoading(true);
-    try {
-      AllSettingModel? res = await SettingsServices().getAppName();
-      if (res.status == "success" && res.data != null) {
-        String firstWelcomeImage = res.data!.value ?? "alt First Welcome Image";
-        log("Primary Color: $firstWelcomeImage");
-      } else {
-        log("Failed to retrieve primary color");
-      }
-    } catch (e) {
-      print("Error fetching primary color: $e");
-    } finally {
-      isLoading(false);
+
+    AllSetting? setting = await _service.getAppName();
+    if (setting != null) {
+      appName.value = setting.value ?? '';
+    } else {
+      appName.value = '';
     }
   }
 
@@ -440,8 +412,8 @@ print("ddddddddddddddddddddddddddd");
     try {
       AllSettingModel? res = await SettingsServices().getFirstContactPhone();
       if (res.status == "success" && res.data != null) {
-        String firstWelcomeImage = res.data!.value ?? "alt First Welcome Image";
-        log("Primary Color: $firstWelcomeImage");
+        String contactPhone = res.data!.value ?? "alt First Welcome Image";
+        log("Primary Color: $contactPhone");
       } else {
         log("Failed to retrieve primary color");
       }

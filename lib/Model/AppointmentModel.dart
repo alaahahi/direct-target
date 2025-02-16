@@ -238,7 +238,7 @@ class ServiceProvider {
   int? cardId;
   String? serviceName;
   String? description;
-  Null price;
+  int? price;
   String? createdAt;
   String? updatedAt;
   List<String>? workingDays;
@@ -246,7 +246,7 @@ class ServiceProvider {
   int? appointmentsPerDay;
   String? expirDate;
   bool? showOnApp;
-  Null image;
+  String? image;
 
   ServiceProvider(
       {this.id,

@@ -14,10 +14,14 @@ class find_doctor extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         leading: IconButton(
-          icon: Container(
-              height: MediaQuery.of(context).size.height * 0.06,
-              width: MediaQuery.of(context).size.width * 0.06,
-              child: Image.asset("Assets/icons/back2.png")),
+          icon:  Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: Theme.of(context).textTheme.bodyMedium?.color,
+              size: MediaQuery.of(context).size.height * 0.025,
+            ),
+          ),
           onPressed: () {
             Navigator.of(context).pop();
           },
@@ -61,11 +65,12 @@ class find_doctor extends StatelessWidget {
                       horizontal: 10,
                     ),
                     child: Container(
-                      height: MediaQuery.of(context).size.height * 0.01,
-                      width: MediaQuery.of(context).size.width * 0.01,
-                      child: Image.asset(
-                        "Assets/icons/search.png",
-                        filterQuality: FilterQuality.high,
+                      height: 10,
+                      width: 10,
+                      child: Icon(
+                        Icons.search,
+                        size: 10,
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
                       ),
                     ),
                   ),
@@ -93,31 +98,6 @@ class find_doctor extends StatelessWidget {
                   style:  Theme.of(context).textTheme.bodyLarge,
                 ),
               ),
-            ],
-          ),
-          const SizedBox(
-            height: 20,
-          ),
-          Row(
-            children: [
-              const SizedBox(
-                width: 10,
-              ),
-              ListIcons(icon: Icons.person, text: "General".tr, color: PrimaryColor),
-              ListIcons(icon: Icons.air, text: "Lungs Prob".tr, color: PrimaryColor),
-              ListIcons(icon: Icons.healing, text: "Dentist".tr, color: PrimaryColor),
-              ListIcons(icon: Icons.psychology, text: "Psychiatrist".tr, color:PrimaryColor),
-
-            ],
-          ),
-          Row(
-            children: [
-              const SizedBox(
-                width: 10,
-              ),
-              ListIcons(icon: Icons.coronavirus, text: "Covid".tr, color: PrimaryColor),
-              ListIcons(icon: Icons.vaccines, text: "Injection".tr, color: PrimaryColor),
-              ListIcons(icon: Icons.favorite, text: "Cardiologist".tr, color: PrimaryColor),
             ],
           ),
           const SizedBox(
@@ -168,13 +148,13 @@ class find_doctor extends StatelessWidget {
                     decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
-                            image: AssetImage("Assets/icons/male-doctor.png"),
+                            image: AssetImage( "Assets/images/person.png"),
                             filterQuality: FilterQuality.high)),
                   ),
                   const SizedBox(
                     height: 10,
                   ),
-                   Row(
+                  Row(
                     mainAxisAlignment: MainAxisAlignment.center,
                     children: [Text(
                         "Dr. Marcus".tr
@@ -192,7 +172,7 @@ class find_doctor extends StatelessWidget {
                     decoration: const BoxDecoration(
                         shape: BoxShape.circle,
                         image: DecorationImage(
-                            image: AssetImage("Assets/icons/female-doctor.png"),
+                            image: AssetImage( "Assets/images/person.png"),
                             filterQuality: FilterQuality.high,
                             fit: BoxFit.contain)),
                   ),
@@ -216,7 +196,7 @@ class find_doctor extends StatelessWidget {
                         shape: BoxShape.circle,
                         image: DecorationImage(
                             image: AssetImage(
-                              "Assets/icons/black-doctor.png",
+                              "Assets/images/person.png",
                             ),
                             fit: BoxFit.contain,
                             filterQuality: FilterQuality.high)),

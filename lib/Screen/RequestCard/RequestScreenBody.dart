@@ -23,10 +23,9 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
   final _phoneController = TextEditingController();
   final _addressController = TextEditingController();
   final _cardNumberController = TextEditingController();
-  // final _familyNamesController = TextEditingController();
   File? _selectedImage;
-  final TextEditingController _familyCountController = TextEditingController(); // عدد الأفراد
-  RxList<TextEditingController> familyNamesControllers = <TextEditingController>[].obs; // قائمة الحقول
+  final TextEditingController _familyCountController = TextEditingController();
+  RxList<TextEditingController> familyNamesControllers = <TextEditingController>[].obs;
 
   final ImagePicker _picker = ImagePicker();
   final CardController _controller = Get.put(CardController(CardServices()));
@@ -195,7 +194,7 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
                         }
                       },
 
-                      child: Text('Request Card'.tr,
+                      child: Text("Request Card".tr,
                         style: Theme.of(context).textTheme.titleMedium?.copyWith(
                           color: LightGrey,
                         ),),

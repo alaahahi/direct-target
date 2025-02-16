@@ -1,3 +1,4 @@
+import 'package:direct_target/Screen/Home/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:direct_target/Widgets/DoctorList.dart';
 import 'package:page_transition/page_transition.dart';
@@ -12,11 +13,9 @@ import 'package:intl/intl.dart';
 
 class DoctorDetails extends StatefulWidget {
   final int doctorId;
-  final int? appointmentId; // إذا كان الموعد موجودًا
+  final int? appointmentId;
 
   DoctorDetails({required this.doctorId, this.appointmentId});
-  // DoctorDetails({required this.doctorId});
-
   @override
   _DoctorDetailsState createState() => _DoctorDetailsState();
 }
@@ -80,15 +79,15 @@ class _DoctorDetailsState extends State<DoctorDetails> {
             Navigator.pushReplacement(
                 context,
                 PageTransition(
-                    type: PageTransitionType.fade, child: doctor_search()));
+                    type: PageTransitionType.fade, child: Homepage()));
           },
-          child: Container(
-            height: 10,
-            width: 10,
-            decoration: const BoxDecoration(
-                image: DecorationImage(
-                  image: AssetImage("Assets/icons/back1.png"),
-                )),
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: Theme.of(context).textTheme.bodyMedium?.color,
+              size: MediaQuery.of(context).size.height * 0.025,
+            ),
           ),
         ),
         title: Text(
@@ -98,19 +97,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
         centerTitle: true,
         elevation: 0,
         toolbarHeight: 100,
-        actions: [
-          Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 20),
-            child: Container(
-              height: 10,
-              width: 10,
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("Assets/icons/more.png"),
-                  )),
-            ),
-          ),
-        ],
+
       ),
       body: GetBuilder<CardServiceController>(
         builder: (controller) {
@@ -135,12 +122,18 @@ class _DoctorDetailsState extends State<DoctorDetails> {
 
           return ListView(
             children: [
-              const SizedBox(height: 10),
-              doctorList(
-                image: doctor.image ?? "Assets/icons/person.png",
-                maintext: doctor.serviceName!.tr,
-                subtext: doctor.serviceName!.tr,
 
+              doctorList(
+                maintext: Get.locale?.languageCode == "ar"
+                    ? doctor.serviceNameAr?.tr ?? "لا يوجد اسم"
+                    : doctor.serviceNameEn?.tr ?? "No Name",
+                subtext: Get.locale?.languageCode == "ar"
+                    ? doctor.descriptionAr?.tr ?? "لا يوجد وصف"
+                    : doctor.descriptionEn?.tr ?? "No Description",
+
+                image: doctor.image != null && doctor.image!.isNotEmpty
+                    ? doctor.image! // استخدم الرابط القادم من الـ API
+                    : "", // سنعالج الصورة الافتراضية في `list_doctor1`
               ),
               const SizedBox(height: 15),
               GestureDetector(
@@ -155,7 +148,9 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                       ),
                       const SizedBox(height: 5),
                       Text(
-                        doctor.description!.tr,
+                        Get.locale?.languageCode == "ar"
+                            ? doctor.descriptionAr?.tr ?? "لا يوجد وصف"
+                            : doctor.descriptionEn?.tr ?? "No Description",
 
                         style:  Theme.of(context).textTheme.bodyLarge,
               ),
@@ -291,42 +286,49 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                   width: 30,
                   child: CircularProgressIndicator(),
                 )
-                    : Padding(
-                  padding: const EdgeInsets.all(20.0),
-                  child: ElevatedButton(
-                    onPressed: () {
-                      if (widget.appointmentId == null) {
-                        // إنشاء موعد جديد
-                        appointmencontroller.createAppointment(
-                          profileId: profcontroller.selectedCardId.value,
-                          note: noteController.text,
-                          start: "$selectedDate $selectedTime",
-                          end: addHalfHour("$selectedDate $selectedTime"),
-                          serviceProviderId: widget.doctorId,
-                        );
-                      }
-                    },
-                    style: ElevatedButton.styleFrom(
-                      backgroundColor: PrimaryColor,
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(30),
-                      ),
-                    ),
-                    child: Text(
-                      widget.appointmentId == null ? 'Create Appointment'.tr : 'Update Appointment'.tr,
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                );
+                    : Center(
+                      child: Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Container(
+                                          height: MediaQuery.of(context).size.height * 0.07,
+                                          width: MediaQuery.of(context).size.width * 0.9,
+                                          child: ElevatedButton(
+                                                                onPressed: () {
+                                                                  if (widget.appointmentId == null) {
+                                                                    appointmencontroller.createAppointment(
+                                                                      profileId: profcontroller.selectedCardId.value,
+                                                                      note: noteController.text,
+                                                                      start: "$selectedDate $selectedTime",
+                                                                      end: addHalfHour("$selectedDate $selectedTime"),
+                                                                      serviceProviderId: widget.doctorId,
+                                                                    );
+                                                                  }
+                                                                },
+                                                                style: ElevatedButton.styleFrom(
+                                                                  backgroundColor: PrimaryColor,
+                                                                  shape: RoundedRectangleBorder(
+                                                                    borderRadius: BorderRadius.circular(30),
+                                                                  ),
+                                                                ),
+                                                                child: Text(
+                                                                  widget.appointmentId == null ? 'Create Appointment'.tr : 'Update Appointment'.tr,
+                                                                  style: TextStyle(
+                                                                    color: Colors.white,
+                                                                  ),
+                                                                ),
+                                          ),
+                                        ),
+                                      ),
+                    );
               }),
 
-              // Text("Working Days: ${doctorDays?.join(", ")}"),
-              // Text("Available Hours: ${availableHours.join(", ")}"),
             ],
           )
-          ))]);
+          ))
+
+
+
+            ]);
         },
       ),
 

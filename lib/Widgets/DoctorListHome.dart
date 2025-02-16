@@ -31,16 +31,22 @@ class list_doctor1 extends StatelessWidget {
             Center(
               child: Container(
                 alignment: Alignment.topCenter,
-                height: 80,
+                height: 100,
                 width: 100,
                 decoration: BoxDecoration(
-                    image: DecorationImage(
-                        image: AssetImage(image),
-                        filterQuality: FilterQuality.high,
-                        fit: BoxFit.cover),
-                    shape: BoxShape.circle),
+                  shape: BoxShape.circle,
+                  image: DecorationImage(
+                    image: image.isNotEmpty && image.startsWith("http")
+                        ? NetworkImage(image) // تحميل الصورة من API إذا كانت متوفرة
+                        : AssetImage('Assets/icons/male-doctor.png') as ImageProvider, // صورة افتراضية
+                    filterQuality: FilterQuality.high,
+                    fit: BoxFit.cover,
+                  ),
+                ),
               ),
             ),
+
+
             Padding(
               padding: const EdgeInsets.all(10.0),
               child: Column(

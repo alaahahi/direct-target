@@ -3,8 +3,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import '../Model/SmsModel.dart';
 import '../Routes/Routes.dart';
 import '../Service/SmsService.dart';
-
-
+import 'package:get_storage/get_storage.dart';
 
 
 class OtpController extends GetxController {
@@ -39,12 +38,17 @@ class OtpController extends GetxController {
 
         );
 
+
         if (response.statusCode == 200) {
           SmsModel responseData = SmsModel.fromJson(response.data);
           if (responseData.message == 'تم التحقق بنجاح.') {
             print('Verification successful: ${responseData.message}');
+            final box = GetStorage();
+            box.write('token', firebaseToken);
+
             Get.offAllNamed(AppRoutes.homescreen);
-            print('ssssssssssssssss ${responseData.message}');
+            Get.offAllNamed(AppRoutes.homescreen);
+            print('successful ${responseData.message}');
           } else {
             print('Error: ${responseData.message}');
           }

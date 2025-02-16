@@ -1,3 +1,5 @@
+import 'package:direct_target/Screen/Profile/App%20Info/AppInfoScreen.dart';
+import 'package:direct_target/Screen/Profile/Contact/ContactScreen.dart';
 import 'package:direct_target/Screen/Profile/PrivacyPolicy/PricavyPolicyScreen.dart';
 import 'package:direct_target/Screen/Profile/Terms/TermsScreen.dart';
 import 'package:get/get.dart';
@@ -51,5 +53,12 @@ final pages = <GetPage>[
     name: AppRoutes.terms,
     page: () =>  TermsScreen(),
   ),
-
+  GetPage(
+    name: AppRoutes.appinfo,
+    page: () =>  AppInfoScreen(),
+  ),
+  GetPage(
+    name: AppRoutes.contact,
+    page: () =>  ContactScreen(),
+  ),
 ];

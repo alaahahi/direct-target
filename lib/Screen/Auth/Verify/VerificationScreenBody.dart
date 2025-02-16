@@ -1,13 +1,8 @@
 import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:pinput/pinput.dart';
-
 import '../../../Controller/VerificationWhatsappController.dart';
-
-
 import 'package:get/get.dart';
-
 import '../../../Utils/AppStyle.dart';
 
 class VerifyCodeScreen extends StatefulWidget {
@@ -19,10 +14,12 @@ class VerifyCodeScreen extends StatefulWidget {
 
 class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
   final VerificationWhatsappController _controller =
-  Get.find<VerificationWhatsappController>(); // جلب الكونترولر
-
+  Get.find<VerificationWhatsappController>();
+  final VerificationWhatsappController controller =
+  Get.put(VerificationWhatsappController());
   final TextEditingController _verificationCodeController =
   TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
   final _formKey = GlobalKey<FormState>();
   Timer? _timer;
   int _timeLeft = 60;
@@ -81,7 +78,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
         toolbarHeight: 80,
         elevation: 0,
         title: Text(
-          'Verify Phone Number'.tr,
+          "Verify Phone Number".tr,
           style: Theme.of(context).textTheme.bodyLarge,
         ),
         centerTitle: true,
@@ -175,15 +172,19 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
               GestureDetector(
                 onTap: () {
                   _startTimer();
-                  // _controller.resendCode();
+                     controller.sendVerificationCode(controller.phoneNumber.value, context);
+                  setState(() {
+                    _isTimerActive = true;
+                  });
                 },
                 child: Text(
                   "Resend Code".tr,
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                    color:Theme.of(context).textTheme.bodyMedium?.color, 
+                    color: Theme.of(context).textTheme.bodyMedium?.color,
                   ),
                 ),
               ),
+
           ],
         ),
       ),

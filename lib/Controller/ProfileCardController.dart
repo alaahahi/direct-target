@@ -22,8 +22,6 @@ class ProfileCardController extends GetxController {
 
   Future<dynamic> fetchCards() async {
     loaderController.loading(true);
-    // dio.FormData request =
-    // dio.FormData.fromMap();
     var response = await ProfileService().fetchCards();
     cardsList.assignAll(response.data!);
     try {

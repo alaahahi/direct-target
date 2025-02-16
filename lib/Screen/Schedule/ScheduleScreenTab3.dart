@@ -21,19 +21,17 @@ class SheduleTab3 extends StatelessWidget {
             }
 
             if (appointmentController.appointments.isEmpty) {
-              return const Center(child: Text("No Completed Appointments"));
+              return const Center(child: Text("No Canceled Appointments"));
             }
 
-            // تصفية المواعيد المكتملة
             var filteredAppointments = appointmentController.appointments
                 .where((appointment) {
-              print("Appointment isCome: ${appointment.isCome}");
               return appointment.isCome == 0;
             })
                 .toList();
 
             if (filteredAppointments.isEmpty) {
-              return const Center(child: Text("No Completed Appointments"));
+              return const Center(child: Text("No Canceled Appointments"));
             }
 
             return ListView.builder(
@@ -47,14 +45,11 @@ class SheduleTab3 extends StatelessWidget {
                       mainText: appointment.serviceProvider!.serviceName!.toString(),
                       subText: appointment.note ?? "Note",
                       date: appointment.start!,
-                      image: "Assets/icons/male-doctor.png",
+                      image: "Assets/images/person.png",
                       onCancel: () {
-                        print("تم إلغاء الموعد!");
                         appointmentController.deleteAppointment(AppointmentId: appointment.id!);
                       },
                       onReschedule: () {
-                        print("إعادة جدولة الموعد!");
-                        // نقل المعاملات بشكل صحيح
                         Get.to(() => AppointmentScreen(appointmentId: appointment.id!));
                       },
                     ),

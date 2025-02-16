@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/rendering.dart';
 import 'package:direct_target/Screen/SplashScreen.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
@@ -13,27 +14,16 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   await GetStorage.init();
-
-  Get.put(LoaderController()); // تسجيل الـ Controller هنا
-  final GetStorage storage = GetStorage();
-  String? savedLanguage = storage.read('language');
-  Locale initialLocale = const Locale('en', 'US');
-
-  if (savedLanguage == 'ar') {
-    initialLocale = const Locale('ar', 'EG');
-  }
-
+  Get.put(LoaderController());
   Get.put(ThemeController());
-  // Get.put(VerificationWhatsappController());
   Get.put(TokenController());
-  runApp(DirectTarget(initialLocale: initialLocale));
+  runApp(const DirectTarget());
+
 }
 
 class DirectTarget extends StatelessWidget {
-  final Locale initialLocale;
 
-  const DirectTarget({Key? key, required this.initialLocale}) : super(key: key);
-
+  const DirectTarget({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +32,8 @@ class DirectTarget extends StatelessWidget {
     return Obx(() {
       return GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        locale: initialLocale,
-        fallbackLocale: const Locale('en', 'US'),
+        locale: const Locale('ar'),
+        fallbackLocale: const Locale('ar'),
         translationsKeys: AppTranslation.translationKeys,
         theme: ThemeData(
           fontFamily: Get.locale?.languageCode == 'ar'
@@ -66,15 +56,12 @@ class DirectTarget extends StatelessWidget {
             headlineLarge: TextStyle(fontSize: 22, color: Colors.black),
             titleMedium: TextStyle(fontSize: 18, color: Colors.black87),
           ),
-
-
           appBarTheme: const AppBarTheme(
             backgroundColor: FormBackGraund,
             elevation: 0,
             iconTheme: IconThemeData(color: Colors.black),
           ),
         ),
-
         darkTheme: ThemeData(
           fontFamily: (Get.locale?.languageCode ?? 'en') == 'ar'
               ? 'Univers Next Arabic Regular'

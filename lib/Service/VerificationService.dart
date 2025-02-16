@@ -1,10 +1,8 @@
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-
 import '../Api/AppConfig.dart';
 import '../Model/VerificationResponse.dart';
-
 import '../Controller/LoaderController.dart';
 class VerificationService {
   var dio = Dio();

@@ -28,7 +28,6 @@ class _SplashScreenState extends State<SplashScreen> {
         await precacheImage(NetworkImage(url), context);
       }
     }
-
   }
 
   @override

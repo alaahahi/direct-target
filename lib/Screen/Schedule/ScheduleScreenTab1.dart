@@ -31,13 +31,10 @@ class SheduleTab1 extends StatelessWidget {
               );
             }
 
-// تأكد من أن `appointments` ليست null قبل التحقق من كونها فارغة
             if (appointmentController.appointments.isEmpty) {
               return const Center(child: Text("No Appointments Found"));
             }
 
-
-            // Filter appointments where is_come == 1
             var filteredAppointments = appointmentController.appointments
                 .where((appointment) => appointment.isCome == 1)
                 .toList();
@@ -55,14 +52,11 @@ class SheduleTab1 extends StatelessWidget {
                       subText: appointment.note ?? "Note",
                       date: appointment.start!,
 
-                      image: "Assets/icons/male-doctor.png",
+                      image:"Assets/images/person.png",
                       onCancel: () {
-                        print("تم إلغاء الموعد!");
                         appointmentController.deleteAppointment(AppointmentId: appointment.id!);
                       },
                       onReschedule: () {
-                        print("إعادة جدولة الموعد!");
-                        // نقل المعاملات بشكل صحيح
                         Get.to(() => AppointmentScreen(appointmentId: appointment.id!));
                       },
                     ),

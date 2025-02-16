@@ -5,7 +5,14 @@ import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
 import '../../../Controller/VerifySmsController.dart';
 import '../../../Utils/AppStyle.dart';
+import 'package:flutter/material.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:direct_target/Utils/AppStyle.dart';
+import 'package:get/get.dart';
+import 'package:firebase_auth/firebase_auth.dart';
 
+import '../../../Controller/VerificationWhatsappController.dart';
+import '../Verify/VerificationScreen.dart';
 class OtpScreen extends StatefulWidget {
   final String verificationId;
   final String phoneNumber;
@@ -26,6 +33,44 @@ class _OtpScreenState extends State<OtpScreen> {
   Timer? _timer;
   int _timeLeft = 60;
   bool _isTimerActive = true;
+  final TextEditingController _phoneController = TextEditingController();
+  final FirebaseAuth _auth = FirebaseAuth.instance;
+
+  String? _verificationId;
+  final VerificationWhatsappController controller =
+  Get.put(VerificationWhatsappController());
+  final _formKey = GlobalKey<FormState>();
+
+  void _sendCodeToPhoneNumber() async {
+    if (_formKey.currentState!.validate()) {
+      await _auth.verifyPhoneNumber(
+        phoneNumber: "+964" + _phoneController.text.trim(),
+        timeout: Duration(seconds: 120),
+        verificationCompleted: (PhoneAuthCredential credential) {
+          _auth.signInWithCredential(credential);
+        },
+        verificationFailed: (FirebaseAuthException e) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('فشل التحقق: ${e.message}'.tr)),
+          );
+        },
+        codeSent: (String verificationId, int? resendToken) async {
+          _verificationId = verificationId;
+          if (resendToken != null) {
+            final storage = GetStorage();
+            await storage.write('token', resendToken.toString());
+          }
+          _startTimer();
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(content: Text('تم إرسال الرمز بنجاح'.tr)),
+          );
+        },
+        codeAutoRetrievalTimeout: (String verificationId) {
+          _verificationId = verificationId;
+        },
+      );
+    }
+  }
 
   @override
   void initState() {
@@ -108,6 +153,7 @@ class _OtpScreenState extends State<OtpScreen> {
             const SizedBox(height: 30),
 
             Form(
+              key: _formKey,
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
@@ -172,8 +218,7 @@ class _OtpScreenState extends State<OtpScreen> {
             if (!_isTimerActive)
               GestureDetector(
                 onTap: () {
-                  _startTimer();
-            
+                  _sendCodeToPhoneNumber();
                 },
                 child: Text(
                   "Resend Code".tr,

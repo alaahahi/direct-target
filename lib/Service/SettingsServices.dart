@@ -1,10 +1,8 @@
 import 'dart:convert';
-
 import 'package:dio/dio.dart';
 import 'package:direct_target/Api/AppConfig.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-
 import '../Controller/LoaderController.dart';
 import '../Model/AllSettingModel.dart';
 
@@ -77,9 +75,7 @@ class SettingsServices {
   Future<AllSetting?> getSecondAdsImage() async {
     try {
       final response = await dio.get('$appConfig/settings/second_ads_image');
-
       if (response.statusCode == 200) {
-        // Parsing JSON and returning an AllSetting object
         return AllSetting.fromJson(response.data['data']);
       } else {
         return null;
@@ -105,9 +101,7 @@ class SettingsServices {
   Future<AllSetting?> getFourthAdsImage() async {
     try {
       final response = await dio.get('$appConfig/settings/fourth_ads_image');
-
       if (response.statusCode == 200) {
-        // Parsing JSON and returning an AllSetting object
         return AllSetting.fromJson(response.data['data']);
       } else {
         return null;
@@ -120,9 +114,7 @@ class SettingsServices {
   Future<AllSetting?> getFirstWelcomeImage() async {
     try {
       final response = await dio.get('$appConfig/settings/first_welcome_image');
-
       if (response.statusCode == 200) {
-        // Parsing JSON and returning an AllSetting object
         return AllSetting.fromJson(response.data['data']);
       } else {
         return null;
@@ -135,9 +127,7 @@ class SettingsServices {
   Future<AllSetting?> getSecondWelcomeImage() async {
     try {
       final response = await dio.get('$appConfig/settings/second_welcome_image');
-
       if (response.statusCode == 200) {
-        // Parsing JSON and returning an AllSetting object
         return AllSetting.fromJson(response.data['data']);
       } else {
         return null;
@@ -151,9 +141,7 @@ class SettingsServices {
     loaderController.loading(true);
     try {
       final response = await dio.get('$appConfig/settings/third_welcome_image');
-
       if (response.statusCode == 200) {
-        // Parsing JSON and returning an AllSetting object
         return AllSetting.fromJson(response.data['data']);
       } else {
         return null;
@@ -205,62 +193,47 @@ class SettingsServices {
     }
     return AllSettingModel();
   }
-  Future<AllSettingModel> getContactEmail() async {
-    loaderController.loading(true);
-
+  Future<AllSetting?> getContactEmail() async {
     try {
-      var res = await dio.get('$appConfig/settings/contact_email');
-
-      if (res.statusCode == 200) {
-        return AllSettingModel.fromJson(jsonDecode(res.data));
+      final response = await dio.get('$appConfig/settings/contact_email');
+      if (response.statusCode == 200) {
+        return AllSetting.fromJson(response.data['data']);
+      } else {
+        return null;
       }
     } catch (e) {
-      if (e is DioException) {
-        print('Exception :${e.response}');
-      } else {
-        print('errorrrrrr');
-      }
-      loaderController.loading(false);
+      print('Error fetching data: $e');
+      return null;
     }
-    return AllSettingModel();
+
   }
-  Future<AllSettingModel> getContactPhone() async {
-    loaderController.loading(true);
-
+  Future<AllSetting?> getContactPhone() async {
     try {
-      var res = await dio.get('$appConfig/settings/contact_phone');
-
-      if (res.statusCode == 200) {
-        return AllSettingModel.fromJson(jsonDecode(res.data));
+      final response = await dio.get('$appConfig/settings/contact_phone');
+      if (response.statusCode == 200) {
+        return AllSetting.fromJson(response.data['data']);
+      } else {
+        return null;
       }
     } catch (e) {
-      if (e is DioException) {
-        print('Exception :${e.response}');
-      } else {
-        print('errorrrrrr');
-      }
-      loaderController.loading(false);
+      print('Error fetching data: $e');
+      return null;
     }
-    return AllSettingModel();
+
+
   }
-  Future<AllSettingModel> getSocialLinks() async {
-    loaderController.loading(true);
-
+  Future<AllSetting?> getSocialLinks() async {
     try {
-      var res = await dio.get('$appConfig/settings/social_links');
-
-      if (res.statusCode == 200) {
-        return AllSettingModel.fromJson(jsonDecode(res.data));
+      final response = await dio.get('$appConfig/settings/social_links');
+      if (response.statusCode == 200) {
+        return AllSetting.fromJson(response.data['data']);
+      } else {
+        return null;
       }
     } catch (e) {
-      if (e is DioException) {
-        print('Exception :${e.response}');
-      } else {
-        print('errorrrrrr');
-      }
-      loaderController.loading(false);
+      print('Error fetching data: $e');
+      return null;
     }
-    return AllSettingModel();
   }
   Future<AllSettingModel> getDefaultLanguage() async {
     loaderController.loading(true);
@@ -281,25 +254,23 @@ class SettingsServices {
     }
     return AllSettingModel();
   }
-  Future<AllSettingModel> getAppVersion() async {
+
+  Future<AllSetting?> getAppVersion() async {
     loaderController.loading(true);
-
     try {
-      var res = await dio.get('$appConfig/settings/app_version');
-
-      if (res.statusCode == 200) {
-        return AllSettingModel.fromJson(jsonDecode(res.data));
+      final response = await dio.get('$appConfig/settings/app_version');
+      if (response.statusCode == 200) {
+        return AllSetting.fromJson(response.data['data']);
+      } else {
+        return null;
       }
     } catch (e) {
-      if (e is DioException) {
-        print('Exception :${e.response}');
-      } else {
-        print('errorrrrrr');
-      }
-      loaderController.loading(false);
+      print('Error fetching data: $e');
+      return null;
     }
-    return AllSettingModel();
+
   }
+
   Future<AllSettingModel> getMaxUploadSize() async {
     loaderController.loading(true);
 
@@ -408,24 +379,20 @@ class SettingsServices {
     }
     return AllSettingModel();
   }
-  Future<AllSettingModel> getAppName() async {
+  Future<AllSetting?> getAppName() async {
     loaderController.loading(true);
-
     try {
-      var res = await dio.get('$appConfig/settings/app_name');
-
-      if (res.statusCode == 200) {
-        return AllSettingModel.fromJson(jsonDecode(res.data));
+      final response = await dio.get('$appConfig/settings/app_name');
+      if (response.statusCode == 200) {
+        return AllSetting.fromJson(response.data['data']);
+      } else {
+        return null;
       }
     } catch (e) {
-      if (e is DioException) {
-        print('Exception :${e.response}');
-      } else {
-        print('errorrrrrr');
-      }
-      loaderController.loading(false);
+      print('Error fetching data: $e');
+      return null;
     }
-    return AllSettingModel();
+
   }
   Future<AllSettingModel> getEnableDarkMode() async {
     loaderController.loading(true);

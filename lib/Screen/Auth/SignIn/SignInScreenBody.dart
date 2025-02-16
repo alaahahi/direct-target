@@ -1,12 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../Controller/VerificationWhatsappController.dart';
-import '../../Start/StartScreen.dart';
 import '../Verify/VerificationScreen.dart';
 
 class SignInScreenBody extends StatefulWidget {
@@ -26,8 +24,8 @@ class _SignInScreenState extends State<SignInScreenBody>
       Get.put(VerificationWhatsappController());
   final _formKey = GlobalKey<FormState>();
   int _selectedTab = 0;
-  bool _hasError = false; // قم بإزالة final هنا
-  String _errorMessage = ''; // لتخزين رسالة الخطأ
+  bool _hasError = false;
+  String _errorMessage = '';
 
   @override
   void initState() {
@@ -57,7 +55,7 @@ class _SignInScreenState extends State<SignInScreenBody>
         },
         verificationFailed: (FirebaseAuthException e) {
           ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Verification failed: ${e.message}')),
+            SnackBar(content: Text('Verification failed: ${e.message}'.tr)),
           );
         },
         codeSent: (String verificationId, int? resendToken) async {
@@ -87,24 +85,6 @@ class _SignInScreenState extends State<SignInScreenBody>
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-          icon: Icon(Icons.arrow_back_ios, color: Theme.of(context).textTheme.bodyMedium?.color),
-          onPressed: () {
-            Navigator.push(
-              context,
-              PageTransition(
-                type: PageTransitionType.leftToRight,
-                child: StartScreen(),
-              ),
-            );
-          },
-        ),
-        centerTitle: true,
-        title: Text("Login".tr, style: Theme.of(context).textTheme.titleMedium),
-        toolbarHeight: 110,
-        elevation: 0,
-      ),
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 30),
         child: Form(
@@ -117,7 +97,7 @@ class _SignInScreenState extends State<SignInScreenBody>
                   color: Colors.white,
                   borderRadius: BorderRadius.circular(8),
                   border: Border.all(
-                    color: _hasError ? Colors.red : Colors.grey, // تغيير اللون إلى الأحمر عند وجود خطأ
+                    color: _hasError ? Colors.red : Colors.grey,
                     width: 2,
                   ),
                 ),
@@ -137,7 +117,7 @@ class _SignInScreenState extends State<SignInScreenBody>
                       '+964',
                       style: TextStyle(
                         fontSize: 16,
-                        color: Theme.of(context).textTheme.bodyMedium?.color,
+                        color: Colors.grey,
                       ),
                     ),
                     const SizedBox(width: 10),
@@ -154,20 +134,20 @@ class _SignInScreenState extends State<SignInScreenBody>
                         validator: (value) {
                           if (value == null || value.isEmpty) {
                             setState(() {
-                              _hasError = true; // تفعيل الخطأ
-                              _errorMessage = "يجب إدخال رقم الهاتف";
+                              _hasError = true;
+                              _errorMessage = "يجب إدخال رقم الهاتف".tr;
                             });
-                            return ''; // إرجاع قيمة فارغة لمنع رسالة الخطأ من الظهور داخل الـ Input
+                            return '';
                           } else if (value.length != 10) {
                             setState(() {
-                              _hasError = true; // تفعيل الخطأ
-                              _errorMessage = "يجب أن يكون الرقم مكونًا من 10 أرقام";
+                              _hasError = true;
+                              _errorMessage = "يجب أن يكون الرقم مكونًا من 10 أرقام".tr;
                             });
-                            return ''; // إرجاع قيمة فارغة
+                            return '';
                           }
                           setState(() {
-                            _hasError = false; // إلغاء الخطأ إذا كانت القيمة صحيحة
-                            _errorMessage = ''; // إلغاء رسالة الخطأ
+                            _hasError = false;
+                            _errorMessage = '';
                           });
                           return null;
                         },
@@ -176,7 +156,7 @@ class _SignInScreenState extends State<SignInScreenBody>
                   ],
                 ),
               ),
-              if (_hasError) // عرض الرسالة إذا كان هناك خطأ
+              if (_hasError)
                 Padding(
                   padding: const EdgeInsets.only(top: 4.0),
                   child: Text(
@@ -208,7 +188,7 @@ class _SignInScreenState extends State<SignInScreenBody>
                         "SMS Code".tr,
                         style: TextStyle(
                           fontSize: 18.0,
-                          color: Theme.of(context).textTheme.bodyMedium?.color,
+                          color:_selectedTab==0 ? LightGrey :Theme.of(context).textTheme.bodyMedium?.color,
                         ),
                       ),
                     ),
@@ -220,7 +200,7 @@ class _SignInScreenState extends State<SignInScreenBody>
                         "WhatsApp".tr,
                         style: TextStyle(
                           fontSize: 18.0,
-                          color: Theme.of(context).textTheme.bodyMedium?.color,
+                          color:_selectedTab==1 ? LightGrey :Theme.of(context).textTheme.bodyMedium?.color,
                         ),
                       ),
                     ),

@@ -1,17 +1,17 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:direct_target/Screen/Profile/Language/CahngeLanguageBody.dart';
 
 import '../../../Utils/AppStyle.dart';
-import 'TermsBody.dart';
 
-class TermsScreen extends StatefulWidget {
-  const TermsScreen({super.key});
+class ChangeLanguageScreen extends StatefulWidget {
+  const ChangeLanguageScreen({super.key});
 
   @override
-  State<TermsScreen> createState() => _TermsScreenState();
+  State<ChangeLanguageScreen> createState() => _ChangeLanguageScreenState();
 }
 
-class _TermsScreenState extends State<TermsScreen> {
+class _ChangeLanguageScreenState extends State<ChangeLanguageScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -25,18 +25,12 @@ class _TermsScreenState extends State<TermsScreen> {
                   size: MediaQuery.of(context).size.height * 0.025,
                 ),
               ),
-
               onPressed: () => Get.back(),
+              color: TextGrey,
             ),
-            title: Text('Terms & Conditions'.tr,
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: Theme.of(context).textTheme.bodyMedium?.color,
-              ),),
+            title: Text('Change Language'.tr),
             centerTitle: true,
             titleTextStyle: AppBarTextStyle),
-        body: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TermsBody(),
-        ));
+        body: ChangeLanguageBody());
   }
 }

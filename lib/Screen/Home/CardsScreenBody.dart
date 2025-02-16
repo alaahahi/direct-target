@@ -1,11 +1,11 @@
 import 'package:carousel_slider/carousel_slider.dart';
+import 'package:direct_target/Screen/Home/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../Controller/AllSettingController.dart';
 import '../../Service/SettingsServices.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-import 'package:direct_target/Screen/Services/ServiceScreen.dart';
 import 'package:direct_target/Screen/Home/DashboardScreen.dart';
 
 class CardScreenBody extends StatefulWidget {
@@ -30,16 +30,16 @@ class _CardScreenBodyState extends State<CardScreenBody> {
               items: [
                 _controller.firstAdsImageUrl.value.isNotEmpty
                     ? ShimmerImage(imageUrl: _controller.firstAdsImageUrl.value)
-                    : ShimmerImage(imageUrl: 'Assets/images/2.jpg'), // صورة افتراضية
+                    : ShimmerImage(imageUrl: 'Assets/images/2.jpg'),
                 _controller.secondAdsImageUrl.value.isNotEmpty
                     ? ShimmerImage(imageUrl: _controller.secondAdsImageUrl.value)
-                    : ShimmerImage(imageUrl: 'Assets/images/2.jpg'), // صورة افتراضية
+                    : ShimmerImage(imageUrl: 'Assets/images/2.jpg'),
                 _controller.thirdAdsImageUrl.value.isNotEmpty
                     ? ShimmerImage(imageUrl: _controller.thirdAdsImageUrl.value)
-                    : ShimmerImage(imageUrl: 'Assets/images/2.jpg'), // صورة افتراضية
+                    : ShimmerImage(imageUrl: 'Assets/images/2.jpg'),
                 _controller.fourthAdsImageUrl.value.isNotEmpty
                     ? ShimmerImage(imageUrl: _controller.fourthAdsImageUrl.value)
-                    : ShimmerImage(imageUrl: 'Assets/images/2.jpg'), // صورة افتراضية
+                    : ShimmerImage(imageUrl: 'Assets/images/2.jpg'),
               ].map((item) {
                 return Builder(
                   builder: (BuildContext context) {
@@ -47,7 +47,7 @@ class _CardScreenBodyState extends State<CardScreenBody> {
                       onTap: () {
                         Navigator.push(
                           context,
-                          MaterialPageRoute(builder: (context) => Servicescreen()),
+                          MaterialPageRoute(builder: (context) => Homepage()),
                         );
                       },
                       child: ClipRRect(
@@ -55,7 +55,7 @@ class _CardScreenBodyState extends State<CardScreenBody> {
                         child: Container(
                           width: MediaQuery.of(context).size.width,
                           height: 150,
-                          child: item, // الآن العناصر هي Widgets جاهزة للعرض
+                          child: item,
                         ),
                       ),
                     );
@@ -92,8 +92,8 @@ class ShimmerImage extends StatelessWidget {
       imageUrl: imageUrl,
       fit: BoxFit.cover,
       placeholder: (context, url) => Shimmer.fromColors(
-        baseColor: Colors.grey[300]!, // اللون الأساسي لتأثير shimmer
-        highlightColor: Colors.white, // اللون المميز
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.white,
         child: Container(
           color: Colors.grey[300],
           width: double.infinity,

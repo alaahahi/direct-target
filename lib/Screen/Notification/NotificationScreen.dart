@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../../../Utils/AppStyle.dart';
-import 'TermsBody.dart';
+import '../Profile/Terms/TermsBody.dart';
 
-class TermsScreen extends StatefulWidget {
-  const TermsScreen({super.key});
+
+class NotificationScreen extends StatefulWidget {
+  const NotificationScreen({super.key});
 
   @override
-  State<TermsScreen> createState() => _TermsScreenState();
+  State<NotificationScreen> createState() => _NotificationScreenState();
 }
 
-class _TermsScreenState extends State<TermsScreen> {
+class _NotificationScreenState extends State<NotificationScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(

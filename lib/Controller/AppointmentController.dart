@@ -13,18 +13,19 @@ import 'dart:developer';
 
 import 'package:dio/dio.dart' as dio;
 
+import 'TokenController.dart';
+
 class AppointmentController extends GetxController {
   final AppointmentService _appointmentService = AppointmentService();
   LoaderController loaderController = Get.put(LoaderController());
   MessagesHandlerController msgController =
   Get.put(MessagesHandlerController());
-
+  final tokenController = Get.find<TokenController>();
   GetStorage box = GetStorage();
   var isLoading = false.obs;
   var message = ''.obs;
 
   var appointments = <Appointment>[].obs;
-  final String token = "eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2Rvd2FseXBsdXMuYWluZHViYWljby5jb20vYXBpL3YxL3ZlcmlmeS1jb2RlIiwiaWF0IjoxNzM3OTAwMjIwLCJleHAiOjE3NDMwODQyMjAsIm5iZiI6MTczNzkwMDIyMCwianRpIjoiYklJdVh6R3FWTWhOOXRZdyIsInN1YiI6IjI3NSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.mMu9oC2cyafur7_KhHfrEAPBc2LyN1RReXQEU594CXI";
 
   @override
   void onInit() {
@@ -33,6 +34,7 @@ class AppointmentController extends GetxController {
   }
 
   Future<List<Appointment>> fetchAppointments() async {
+    final String token = tokenController.getToken();
     try {
       final response = await http.get(
         Uri.parse("https://dowalyplus.aindubaico.com/api/v1/appointment/me"),
@@ -46,10 +48,7 @@ class AppointmentController extends GetxController {
 
       if (response.statusCode == 200 || response.statusCode == 201) {
         var data = json.decode(response.body);
-
-        // Check if the response status is success
         if (data['status'] == 'success') {
-          // Handle the list of appointments, mapping each item to the Appointment model
           appointments.value = (data['appointment'] as List)
               .map((item) => Appointment.fromJson(item))
               .toList();
@@ -73,17 +72,12 @@ class AppointmentController extends GetxController {
 
   Future<Appointment?> fetchAppointmentById(int id) async {
     try {
-
       if (appointments.isEmpty) {
         await fetchAppointments();
       }
-
-
       final appointment = appointments.firstWhere(
             (appointment) => appointment.id == id,
-
       );
-
       return appointment;
         } catch (e) {
       print("Error: $e");
@@ -95,21 +89,19 @@ class AppointmentController extends GetxController {
 
   void updateAppointment({required int appointmentId, String? note, String? start, String? end}) async {
     print("Attempting to update appointment: $appointmentId");
-
     try {
       Map<String, dynamic> updatedFields = {};
-
       if (note != null) updatedFields['note'] = note;
       if (start != null) updatedFields['start'] = start;
       if (end != null) updatedFields['end'] = end;
 
       if (updatedFields.isEmpty) {
-        Get.snackbar('تنبيه', 'لم يتم تعديل أي بيانات');
+        Get.snackbar('تنبيه', 'لم يتم تعديل أي بيانات'.tr);
         return;
       }
 
       print("Updated fields: $updatedFields");
-
+      final String token = tokenController.getToken();
       final response = await http.post(
         Uri.parse("https://dowalyplus.aindubaico.com/api/v1/appointment/update/$appointmentId"),
         headers: {
@@ -123,15 +115,15 @@ class AppointmentController extends GetxController {
       print("Response body: ${response.body}");
 
       if (response.statusCode == 200 || response.statusCode == 201) {
-        Get.snackbar('نجاح', 'تم تحديث الموعد بنجاح');
+        Get.snackbar('نجاح'.tr, 'تم تحديث الموعد بنجاح'.tr);
         Get.offAllNamed(AppRoutes.appointment);
       } else {
         var data = json.decode(response.body);
-        Get.snackbar('خطأ', 'فشل في تحديث الموعد: ${data['message'] ?? 'خطأ غير معروف'}');
+        Get.snackbar('خطأ'.tr, 'فشل في تحديث الموعد: ${data['message'] ?? 'خطأ غير معروف'.tr}');
       }
     } catch (e) {
       print("Exception: $e");
-      Get.snackbar('خطأ', 'حدث خطأ أثناء تحديث الموعد');
+      Get.snackbar('خطأ'.tr, 'حدث خطأ أثناء تحديث الموعد'.tr);
     }
   }
 

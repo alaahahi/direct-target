@@ -20,21 +20,31 @@ class VerificationWhatsappController extends GetxController {
     try {
       final response = await _verificationService.sendVerificationCode(phoneNumber);
       message.value = response.message;
-
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('تم إرسال الرمز بنجاح'.tr),
+          backgroundColor: Colors.green,
+          duration: Duration(seconds: 3),
+        ),
+      );
       Get.toNamed('/verify');
     } catch (e) {
       message.value = 'Error: $e';
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(
+          content: Text('حدث خطأ أثناء إرسال الرمز: $e'.tr),
+          backgroundColor: Colors.red,
+          duration: Duration(seconds: 3),
+        ),
+      );
     } finally {
       isLoading.value = false;
     }
   }
 
-
   String formatPhoneNumber(String phoneNumber) {
     return phoneNumber.replaceAll(' ', '').replaceAll('-', '').trim();
   }
-
-
   Future<void> verifyCode(String verificationCode, BuildContext context) async {
     isLoading.value = true;
     final formattedPhoneNumber = formatPhoneNumber(phoneNumber.value);
@@ -66,6 +76,7 @@ class VerificationWhatsappController extends GetxController {
     }
   }
   Future<void> logout() async {
+    box.remove('token');
     token.value = '';
     isAdmin.value = false;
     print("User logged out");

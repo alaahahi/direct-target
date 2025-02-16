@@ -15,4 +15,6 @@ class AppRoutes {
   static const String appointment = '/appointment';
   static const String privacy = '/privacy';
   static const String terms = '/terms';
+  static const String appinfo = '/appinfo';
+  static const String contact = '/contact';
 }

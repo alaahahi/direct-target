@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../Controller/AllSettingController.dart';
 import '../../Service/SettingsServices.dart';
-import '../../Utils/AppStyle.dart';
 
 class OnBoard2 extends StatelessWidget {
   OnBoard2({super.key});
@@ -11,65 +10,46 @@ class OnBoard2 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-
     return Container(
       color: Colors.white,
       child: Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
+            Obx(() {
+              return Container(
+                height: MediaQuery.of(context).size.height * 0.85,
+                width: MediaQuery.of(context).size.width * 0.88,
+                decoration: BoxDecoration(
+                  borderRadius: BorderRadius.circular(20),
+                  boxShadow: [
+                    BoxShadow(
+                      color: Colors.black26,
+                      blurRadius: 10,
+                      spreadRadius: 2,
+                    ),
+                  ],
+                ),
+                child: ClipRRect(
+                  borderRadius: BorderRadius.circular(20),
+                  child: _controller.secondImageUrl.value.isNotEmpty
+                      ? CachedNetworkImage(
+                    imageUrl: _controller.secondImageUrl.value,
+                    placeholder: (context, url) => Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                    errorWidget: (context, url, error) => Center(
+                      child: Icon(Icons.error, color: Colors.red),
+                    ),
+                    fit: BoxFit.cover,
+                  )
+                      : Center(
+                    child: CircularProgressIndicator(),
+                  ),
+                ),
+              );
+            }),
 
-        Obx(() {
-          return Container(
-            height: MediaQuery.of(context).size.height * 0.7,
-            width: MediaQuery.of(context).size.width * 0.8,
-            child: _controller.secondImageUrl.value.isNotEmpty
-                ? CachedNetworkImage(
-              imageUrl: _controller.secondImageUrl.value,
-              placeholder: (context, url) => Center(
-                child: CircularProgressIndicator(),
-              ),
-              errorWidget: (context, url, error) => Center(
-                child: Icon(Icons.error, color: Colors.red),
-              ),
-              fit: BoxFit.cover,
-            )
-                : Center(
-              child: CircularProgressIndicator(),
-            ),
-          );
-        })
-        // Padding(
-        //   padding: const EdgeInsets.symmetric(horizontal: 15),
-        //   child: Row(
-        //     mainAxisAlignment: MainAxisAlignment.center,
-        //     children: [
-        //       Container(
-        //         height: MediaQuery.of(context).size.height * 0.2,
-        //         width: MediaQuery.of(context).size.width * 0.9,
-        //         decoration: BoxDecoration(
-        //           borderRadius: BorderRadius.circular(12),
-        //           gradient: LinearGradient(
-        //             begin: Alignment.topCenter,
-        //             end: Alignment.bottomCenter,
-        //             colors: [
-        //               Color.fromARGB(255, 247, 247, 247),
-        //               const Color.fromARGB(255, 255, 255, 255),
-        //             ],
-        //           ),
-        //         ),
-        //         child: Center(
-        //           child: Text(
-        //             "Consult only with a doctor\nyou trust".tr,
-        //             style: Theme.of(context).textTheme.titleMedium?.copyWith(
-        //               color: DarkBorderColor,
-        //             ),
-        //           ),
-        //         ),
-        //       )
-        //     ],
-        //   ),
-        // )
-      ]),
+          ]),
     );
   }
 }

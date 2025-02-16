@@ -1,6 +1,7 @@
 import 'dart:convert';
-
+import 'dart:developer';
 import 'package:dio/dio.dart' as dio;
+import 'package:direct_target/Model/CardModel.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:direct_target/Controller/MessageHandlerController.dart';
@@ -19,12 +20,14 @@ class CardController extends GetxController {
   GetStorage box = GetStorage();
   final CardServices _service;
   var isLoading = false.obs;
-
+  // var allCardsList = <CardData>[].obs;
+  List<CardData>? allCardList = [];
   CardController(this._service);
 
   @override
   void onInit() {
     super.onInit();
+    getCards();
   }
 
   Future<void> RequestCard(RequestCardData cardRequest) async {
@@ -64,5 +67,52 @@ class CardController extends GetxController {
       isLoading(false);
     }
   }
+  // void getCards() async {
+  //   try {
+  //     isLoading(true);
+  //     var response = await CardServices().getCards();
+  //     allCardsList.assignAll(response.data!);
+  //   } catch (e) {
+  //     print("Error: $e");
+  //   } finally {
+  //     isLoading(false);
+  //   }
+  // }
 
+  Future<dynamic> getCards() async {
+    loaderController.loading(true);
+    try {
+      var res = await CardServices().fetchCard();
+      allCardList = res.CardsData!;
+      print('Fetched Data Length: ${allCardList?.length}');
+      print('Fetched Data: $allCardList');
+    } catch (e) {
+      if (e is dio.DioException) {
+        log(e.toString());
+      } else {
+        print('Error fetching data: $e');
+      }
+    }
+    update();
+    loaderController.loading(false);
+  }
+
+  //
+  // Future<dynamic> getCards() async {
+  //   loaderController.loading(true);
+  //   var response = await CardServices().getCards();
+  //   allCardsList.assignAll(response.data!);
+  //   try {
+  //     print("sssssssssssssssssssssss");
+  //     // msgController.showSuccessMessage(response.status, response.status);
+  //   } catch (e) {
+  //     if (e is dio.DioException) {
+  //       log(e.toString());
+  //       msgController.showErrorMessage(response.status, response.status);
+  //     } else {
+  //       msgController.showErrorMessage(response.status, response.status);
+  //     }
+  //     loaderController.loading(false);
+  //   }
+  // }
 }

@@ -2,16 +2,17 @@ import 'package:flutter/material.dart';
 import 'package:direct_target/Screen/Home/HomeScreen.dart';
 import 'package:direct_target/Screen/Services/Doctor/DoctorDetailsScreen.dart';
 import 'package:page_transition/page_transition.dart';
-
 import 'package:get/get.dart';
-
+import '../../../Controller/CardController.dart';
 import '../../../Controller/CardServiceController.dart';
 import '../../../Controller/LoaderController.dart';
+import '../../../Service/CardServices.dart';
 import '../../../Utils/AppStyle.dart';
 import '../../../Widgets/doctorList.dart';
 
 class doctor_search extends StatefulWidget {
-  const doctor_search({super.key});
+  final int cardId;
+  const doctor_search({required this.cardId});
 
   @override
   State<doctor_search> createState() => _doctor_searchState();
@@ -20,89 +21,152 @@ class doctor_search extends StatefulWidget {
 class _doctor_searchState extends State<doctor_search> {
   final CardServiceController controller = Get.put(CardServiceController());
   LoaderController loaderController = Get.put(LoaderController());
+  final CardController cardController =
+  Get.put(CardController(CardServices()));
+  @override
+  void initState() {
+    super.initState();
+    cardController.getCards(); // جلب بيانات البطاقات عند فتح الصفحة
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-          leading: GestureDetector(
-            onTap: () {
-              Navigator.pushReplacement(
-                  context,
-                  PageTransition(
-                      type: PageTransitionType.fade, child: Homepage()));
-            },
-            child: Container(
-              height: 10,
-              width: 10,
-              decoration: const BoxDecoration(
-                  image: DecorationImage(
-                    image: AssetImage("Assets/icons/back1.png"),
-                  )),
-            ),
-          ),
-          title: Text(
-            "Top Doctors".tr,
-            style: Theme.of(context).textTheme.bodyLarge,
-          ),
-          centerTitle: true,
-          elevation: 0,
-          toolbarHeight: 100,
-          actions: [
-            Padding(
-              padding: const EdgeInsets.symmetric(horizontal: 20),
-              child: Container(
-                height: 10,
-                width: 10,
-                decoration: const BoxDecoration(
-                    image: DecorationImage(
-                      image: AssetImage("Assets/icons/more.png"),
-                    )),
+      appBar: AppBar(
+        leading: GestureDetector(
+          onTap: () {
+            Navigator.pushReplacement(
+              context,
+              PageTransition(
+                type: PageTransitionType.fade,
+                child: Homepage(),
               ),
+            );
+          },
+          child: Padding(
+            padding: const EdgeInsets.all(20.0),
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: Theme.of(context).textTheme.bodyMedium?.color,
+              size: MediaQuery.of(context).size.height * 0.025,
             ),
-          ],
+          ),
         ),
-        body: GetBuilder<CardServiceController>(
-            builder: (controller) => loaderController.loading.value
-                ? Center(
+        title: Text(
+          "Top Doctors".tr,
+          style: Theme.of(context).textTheme.bodyLarge,
+        ),
+        centerTitle: true,
+        elevation: 0,
+        toolbarHeight: 100,
+      ),
+      body: GetBuilder<CardController>(
+        builder: (controller) {
+          if (loaderController.loading.value) {
+            return Center(
               child: CircularProgressIndicator(color: PrimaryColor),
-            )
-                : controller.allServiceList!.isEmpty
-                ? Center(
+            );
+          }
+
+          // العثور على البطاقة المحددة باستخدام `cardId`
+          final selectedCard = controller.allCardList?.firstWhere(
+                (card) => card.id == widget.cardId,
+            // orElse: () => null,
+          );
+
+          if (selectedCard == null) {
+            return Center(
               child: Text(
-                "No Services Available".tr, // رسالة عند عدم وجود خدمات
+                "No Card Found".tr,
                 style: TextStyle(fontSize: 18, color: Colors.grey),
               ),
-            )
-                : ListView.builder(
-              itemCount: controller.allServiceList!.length,
-              itemBuilder: (context, index) {
-                final service = controller.allServiceList![index];
-                return SafeArea(
-                  child: Column(
-                    children: [
-                      GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            PageTransition(
-                                type: PageTransitionType.rightToLeft,
-                                child: DoctorDetails(
-                                    doctorId: service.id!)),
-                          );
-                        },
-                        child: doctorList(
-                          maintext: service.serviceName!.tr,
-                          subtext: service.serviceName!.tr,
-                          image: service.image != null
-                              ? service.image!
-                              : "Assets/icons/male-doctor.png",
-                        ),
-                      ),
-                    ],
+            );
+          }
+
+          return Column(
+            children: [
+              // ✅ عرض معلومات البطاقة أعلى الصفحة
+              Container(
+                width: double.infinity, // لتحديد العرض الكامل
+                height: 220, // لتحديد الارتفاع
+                child: Card(
+                  margin: EdgeInsets.all(16.0),
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
                   ),
-                );
-              },
-            )));
+                  child: Padding(
+                    padding: EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          selectedCard.name ?? "Unknown Name",
+                          style: Theme.of(context)
+                              .textTheme
+                              .bodyLarge
+                              ?.copyWith(fontWeight: FontWeight.bold),
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          "Price: ${selectedCard.price} \$",
+                          style: Theme.of(context).textTheme.bodyLarge,
+                        ),
+                        SizedBox(height: 10),
+                        Text(
+                          selectedCard.nameEn ?? "No Description Available",
+                          style: Theme.of(context).textTheme.bodyMedium,
+                        ),
+                      ],
+                    ),
+                  ),
+                ),
+              ),
+
+              // ✅ عرض قائمة الأطباء تحت البطاقة
+              Expanded(
+                child:GetBuilder<CardServiceController>(
+          builder: (controller) => controller.allServiceList!.isEmpty
+          ? Center(
+          child: Text(
+          "No Services Available".tr,
+          style: TextStyle(fontSize: 18, color: Colors.grey),
+          ),
+          )
+              : ListView.builder(
+                  itemCount: controller.allServiceList!.length,
+                  itemBuilder: (context, index) {
+                    final service = controller.allServiceList![index];
+                    return GestureDetector(
+                      onTap: () {
+                        Navigator.push(
+                          context,
+                          PageTransition(
+                            type: PageTransitionType.rightToLeft,
+                            child: DoctorDetails(doctorId: service.id!),
+                          ),
+                        );
+                      },
+                      child:doctorList(
+                        maintext: Get.locale?.languageCode == "ar"
+                            ? service.serviceNameAr?.tr ?? "لا يوجد اسم"
+                            : service.serviceNameEn?.tr ?? "No Name",
+                        subtext: Get.locale?.languageCode == "ar"
+                            ? service.descriptionAr?.tr ?? "لا يوجد وصف"
+                            : service.descriptionEn?.tr ?? "No Description",
+
+                        image: service.image != null && service.image!.isNotEmpty
+                            ? service.image! // استخدم الرابط القادم من الـ API
+                            : "", // سنعالج الصورة الافتراضية في `list_doctor1`
+                      ),
+                    );
+                  },
+                ),
+              ))
+            ],
+          );
+        },
+      ),
+    );
   }
 }
