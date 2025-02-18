@@ -26,7 +26,7 @@ class _doctor_searchState extends State<doctor_search> {
   @override
   void initState() {
     super.initState();
-    cardController.getCards(); // جلب بيانات البطاقات عند فتح الصفحة
+    cardController.getCards();
   }
 
   @override
@@ -53,7 +53,7 @@ class _doctor_searchState extends State<doctor_search> {
           ),
         ),
         title: Text(
-          "Top Doctors".tr,
+          "Services of Card".tr,
           style: Theme.of(context).textTheme.bodyLarge,
         ),
         centerTitle: true,
@@ -68,10 +68,9 @@ class _doctor_searchState extends State<doctor_search> {
             );
           }
 
-          // العثور على البطاقة المحددة باستخدام `cardId`
           final selectedCard = controller.allCardList?.firstWhere(
                 (card) => card.id == widget.cardId,
-            // orElse: () => null,
+
           );
 
           if (selectedCard == null) {
@@ -85,10 +84,9 @@ class _doctor_searchState extends State<doctor_search> {
 
           return Column(
             children: [
-              // ✅ عرض معلومات البطاقة أعلى الصفحة
               Container(
-                width: double.infinity, // لتحديد العرض الكامل
-                height: 220, // لتحديد الارتفاع
+                width: double.infinity,
+                height: 220,
                 child: Card(
                   margin: EdgeInsets.all(16.0),
                   elevation: 5,
@@ -122,8 +120,18 @@ class _doctor_searchState extends State<doctor_search> {
                   ),
                 ),
               ),
-
-              // ✅ عرض قائمة الأطباء تحت البطاقة
+              Padding(
+                padding: const EdgeInsets.all(20.0),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "All Services".tr,
+                      style: Theme.of(context).textTheme.bodyLarge,
+                    ),
+                  ],
+                ),
+              ),
               Expanded(
                 child:GetBuilder<CardServiceController>(
           builder: (controller) => controller.allServiceList!.isEmpty
@@ -156,8 +164,8 @@ class _doctor_searchState extends State<doctor_search> {
                             : service.descriptionEn?.tr ?? "No Description",
 
                         image: service.image != null && service.image!.isNotEmpty
-                            ? service.image! // استخدم الرابط القادم من الـ API
-                            : "", // سنعالج الصورة الافتراضية في `list_doctor1`
+                            ? service.image!
+                            : "",
                       ),
                     );
                   },

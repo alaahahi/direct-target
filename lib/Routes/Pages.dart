@@ -1,3 +1,4 @@
+import 'package:direct_target/Screen/Notification/NotificationScreen.dart';
 import 'package:direct_target/Screen/Profile/App%20Info/AppInfoScreen.dart';
 import 'package:direct_target/Screen/Profile/Contact/ContactScreen.dart';
 import 'package:direct_target/Screen/Profile/PrivacyPolicy/PricavyPolicyScreen.dart';
@@ -60,5 +61,9 @@ final pages = <GetPage>[
   GetPage(
     name: AppRoutes.contact,
     page: () =>  ContactScreen(),
+  ),
+  GetPage(
+    name: AppRoutes.notification,
+    page: () =>  NotificationScreen(),
   ),
 ];

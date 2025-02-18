@@ -62,7 +62,6 @@ class SettingsServices {
       final response = await dio.get('$appConfig/settings/first_ads_image');
 
       if (response.statusCode == 200) {
-        // Parsing JSON and returning an AllSetting object
         return AllSetting.fromJson(response.data['data']);
       } else {
         return null;
@@ -315,7 +314,6 @@ class SettingsServices {
       final response = await dio.get('$appConfig/settings/privacy_policy_url');
 
       if (response.statusCode == 200) {
-        // Parsing JSON and returning an AllSetting object
         return AllSetting.fromJson(response.data['data']);
       } else {
         return null;
@@ -331,7 +329,6 @@ class SettingsServices {
       final response = await dio.get('$appConfig/settings/terms_conditions_url');
 
       if (response.statusCode == 200) {
-        // Parsing JSON and returning an AllSetting object
         return AllSetting.fromJson(response.data['data']);
       } else {
         return null;

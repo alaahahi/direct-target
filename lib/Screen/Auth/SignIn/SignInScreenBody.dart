@@ -81,6 +81,8 @@ class _SignInScreenState extends State<SignInScreenBody>
       );
     }
   }
+  bool _isLoading = false;
+  bool _isDisabled = false;
 
   @override
   Widget build(BuildContext context) {
@@ -215,16 +217,28 @@ class _SignInScreenState extends State<SignInScreenBody>
                     height: MediaQuery.of(context).size.height * 0.05,
                     width: MediaQuery.of(context).size.width * 0.8,
                     child: ElevatedButton(
-                      onPressed: () {
+                      onPressed: _isDisabled
+                          ? null
+                          : () async {
                         if (_formKey.currentState!.validate()) {
+                          setState(() {
+                            _isLoading = true;
+                            _isDisabled = true;
+                          });
+
                           if (_selectedTab == 0) {
-                            _sendCodeToPhoneNumber();
+                             _sendCodeToPhoneNumber();
                           } else {
-                            controller.sendVerificationCode(
+                            await controller.sendVerificationCode(
                               "+964" + _phoneController.text.trim(),
                               context,
                             );
                           }
+
+                          setState(() {
+                            _isLoading = false;
+                            _isDisabled = false;
+                          });
                         }
                       },
                       style: ElevatedButton.styleFrom(
@@ -233,7 +247,9 @@ class _SignInScreenState extends State<SignInScreenBody>
                           borderRadius: BorderRadius.circular(30),
                         ),
                       ),
-                      child: Text(
+                      child: _isLoading
+                          ? CircularProgressIndicator(color: LightGrey)
+                          : Text(
                         _selectedTab == 0 ? "Verify SMS".tr : "Verify WhatsApp".tr,
                         textAlign: TextAlign.center,
                         style: Theme.of(context).textTheme.titleMedium?.copyWith(
@@ -244,6 +260,7 @@ class _SignInScreenState extends State<SignInScreenBody>
                   ),
                 ],
               ),
+
             ],
           ),
         ),

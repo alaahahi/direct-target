@@ -8,7 +8,6 @@ import '../../../Controller/AppointmentController.dart';
 import '../../../Controller/CardServiceController.dart';
 import '../../../Controller/LoaderController.dart';
 import '../../../Controller/ProfileCardController.dart';
-import 'SearchScreen.dart';
 import 'package:intl/intl.dart';
 
 class DoctorDetails extends StatefulWidget {
@@ -64,10 +63,23 @@ class _DoctorDetailsState extends State<DoctorDetails> {
     return hours;
   }
 
+
   String addHalfHour(String time) {
-    DateTime timeDateTime = parseTime(time);
-    DateTime newTime = timeDateTime.add(Duration(minutes: 30));
-    return DateFormat("HH:mm:ss").format(newTime);
+    try {
+      DateTime dateTime = DateFormat("HH:mm:ss").parse(time);
+      DateTime fullDateTime = DateTime.now().copyWith(
+        hour: dateTime.hour,
+        minute: dateTime.minute,
+        second: dateTime.second,
+      );
+
+      DateTime newTime = fullDateTime.add(Duration(minutes: 30));
+
+      return DateFormat("HH:mm:ss").format(newTime);
+    } catch (e) {
+      print("Error parsing time: $e");
+      return time;
+    }
   }
 
   @override
@@ -132,8 +144,8 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                     : doctor.descriptionEn?.tr ?? "No Description",
 
                 image: doctor.image != null && doctor.image!.isNotEmpty
-                    ? doctor.image! // استخدم الرابط القادم من الـ API
-                    : "", // سنعالج الصورة الافتراضية في `list_doctor1`
+                    ? doctor.image!
+                    : "",
               ),
               const SizedBox(height: 15),
               GestureDetector(

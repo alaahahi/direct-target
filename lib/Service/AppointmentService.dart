@@ -141,7 +141,6 @@ class AppointmentService extends GetConnect {
   Future<AppointmentModel> updateProfile([dynamic data,int? id]) async {
     loaderController.loading(true);
     try {
-      // var res = await dio.post('$appConfig/profile/update');
       final String token = tokenController.getToken();
       var res = await dio.post(
         '$appConfig/appointment/update',

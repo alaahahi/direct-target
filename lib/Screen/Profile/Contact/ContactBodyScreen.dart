@@ -61,7 +61,7 @@ class __ContactBodyScreenState extends State<ContactBodyScreen> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                    'Get in Touch',
+                    'Get in Touch'.tr,
                     style: TextStyle(fontSize: 22, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 10),
@@ -72,12 +72,12 @@ class __ContactBodyScreenState extends State<ContactBodyScreen> {
                         TextFormField(
                           controller: nameController,
                           decoration: InputDecoration(
-                            labelText: 'Your Name',
+                            labelText: 'Your Name'.tr,
                             border: OutlineInputBorder(),
                           ),
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Please enter your name';
+                              return 'Please enter your name'.tr;
                             }
                             return null;
                           },
@@ -87,12 +87,12 @@ class __ContactBodyScreenState extends State<ContactBodyScreen> {
                         TextFormField(
                           controller: emailController,
                           decoration: InputDecoration(
-                            labelText: 'Your Email',
+                            labelText: 'your_email'.tr,
                             border: OutlineInputBorder(),
                           ),
                           validator: (value) {
                             if (value!.isEmpty || !value.contains('@')) {
-                              return 'Please enter a valid email';
+                              return 'Please enter a valid email'.tr;
                             }
                             return null;
                           },
@@ -103,12 +103,12 @@ class __ContactBodyScreenState extends State<ContactBodyScreen> {
                           controller: messageController,
                           maxLines: 4,
                           decoration: InputDecoration(
-                            labelText: 'Your Message',
+                            labelText: 'your_message'.tr,
                             border: OutlineInputBorder(),
                           ),
                           validator: (value) {
                             if (value!.isEmpty) {
-                              return 'Please enter your message';
+                              return 'Please enter your message'.tr;
                             }
                             return null;
                           },
@@ -122,13 +122,16 @@ class __ContactBodyScreenState extends State<ContactBodyScreen> {
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
                                 // تنفيذ إرسال الرسالة عبر البريد الإلكتروني
-                                print('Message Sent: ${messageController.text}');
+                                print('Message Sent: ${messageController.text}'.tr);
                                 ScaffoldMessenger.of(context).showSnackBar(
-                                  SnackBar(content: Text('Message Sent Successfully!')),
+                                  SnackBar(content: Text('success_message'.tr)),
                                 );
                               }
                             },
-                            child: Text('Send Message',
+                            child: Text('send_message'.tr,
+                              style: TextStyle(color:LightGrey,
+                              fontSize: 18),
+
                             ),
                             style: ElevatedButton.styleFrom(
                               backgroundColor: PrimaryColor,
@@ -146,7 +149,7 @@ class __ContactBodyScreenState extends State<ContactBodyScreen> {
 
                   // معلومات الاتصال
                   Text(
-                    'Contact Information',
+                    'contact_info'.tr,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                   ),
                   SizedBox(height: 10),

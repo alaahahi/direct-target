@@ -5,6 +5,8 @@ import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:direct_target/Controller/ThemeController.dart';
 import 'package:direct_target/Widgets/ThemeToggleButton.dart';
 
+import '../../Routes/Routes.dart';
+
 class Homepage extends StatefulWidget {
   @override
   State<Homepage> createState() => _HomepageState();
@@ -42,7 +44,9 @@ class _HomepageState extends State<Homepage> {
                 ? LightGrey
                 : PrimaryColor;
             return IconButton(
-              onPressed: () {},
+              onPressed: () {
+                Get.toNamed(AppRoutes.notification);
+              },
               icon: Icon(Icons.notifications_on),
               color: iconColor,
             );

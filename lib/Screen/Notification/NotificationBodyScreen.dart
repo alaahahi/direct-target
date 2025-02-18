@@ -18,9 +18,7 @@ class _NotificationBodyScreenState extends State<NotificationBodyScreen> {
     return SingleChildScrollView(
       child: Column(
         children: [
-          HtmlWidget(
-            _controller.termsCondition.toString(),
-          ),
+          Text("Notification")
         ],
       ),
     );

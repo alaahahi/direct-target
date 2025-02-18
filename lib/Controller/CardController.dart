@@ -5,6 +5,7 @@ import 'package:direct_target/Model/CardModel.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:direct_target/Controller/MessageHandlerController.dart';
+import '../Model/CardServicesModel.dart';
 import '../Model/RequestCardModel.dart';
 import '../Routes/Routes.dart';
 import '../Service/CardServices.dart';
@@ -20,20 +21,23 @@ class CardController extends GetxController {
   GetStorage box = GetStorage();
   final CardServices _service;
   var isLoading = false.obs;
-  // var allCardsList = <CardData>[].obs;
   List<CardData>? allCardList = [];
+  List<CardService>? allServicesList = [];
   CardController(this._service);
-
+  GetStorage storage = GetStorage();
   @override
   void onInit() {
     super.onInit();
     getCards();
+    getPopularService();
   }
 
   Future<void> RequestCard(RequestCardData cardRequest) async {
     isLoading(true);
     loaderController.loading(true);
-
+    bool isAdmin = storage.read('isAdmin') ?? false;
+    int adminValue = isAdmin ? 1 : 0;
+    print(adminValue);
     try {
       dio.MultipartFile? file;
       if (cardRequest.image != null) {
@@ -48,8 +52,8 @@ class CardController extends GetxController {
         'address': cardRequest.address,
         'card_number': cardRequest.cardNumber,
         'family_members_names': jsonEncode(cardRequest.familyMembersNames),
-
         'image': file,
+        'is_admin': adminValue,
       });
       final response = await _service.RequestCard(formData);
 
@@ -67,17 +71,6 @@ class CardController extends GetxController {
       isLoading(false);
     }
   }
-  // void getCards() async {
-  //   try {
-  //     isLoading(true);
-  //     var response = await CardServices().getCards();
-  //     allCardsList.assignAll(response.data!);
-  //   } catch (e) {
-  //     print("Error: $e");
-  //   } finally {
-  //     isLoading(false);
-  //   }
-  // }
 
   Future<dynamic> getCards() async {
     loaderController.loading(true);
@@ -96,23 +89,22 @@ class CardController extends GetxController {
     update();
     loaderController.loading(false);
   }
+  Future<dynamic> getPopularService() async {
+    loaderController.loading(true);
+    try {
+      var res = await CardServices().fetchPopularService();
+      allServicesList = res?.CardServiceData;
+      print('Fetched Data Length: ${allServicesList?.length}');
+      print('Fetched Data: $allServicesList');
+    } catch (e) {
+      if (e is dio.DioException) {
+        log(e.toString());
+      } else {
+        print('Error fetching data: $e');
+      }
+    }
+    update();
+    loaderController.loading(false);
+  }
 
-  //
-  // Future<dynamic> getCards() async {
-  //   loaderController.loading(true);
-  //   var response = await CardServices().getCards();
-  //   allCardsList.assignAll(response.data!);
-  //   try {
-  //     print("sssssssssssssssssssssss");
-  //     // msgController.showSuccessMessage(response.status, response.status);
-  //   } catch (e) {
-  //     if (e is dio.DioException) {
-  //       log(e.toString());
-  //       msgController.showErrorMessage(response.status, response.status);
-  //     } else {
-  //       msgController.showErrorMessage(response.status, response.status);
-  //     }
-  //     loaderController.loading(false);
-  //   }
-  // }
 }

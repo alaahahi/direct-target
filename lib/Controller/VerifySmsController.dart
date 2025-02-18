@@ -12,7 +12,7 @@ class OtpController extends GetxController {
   late String verificationId;
   late String phoneNumber;
   late String firebaseToken;
-
+  var isAdmin = false.obs;
   void setVerificationData(String verificationId, String phoneNumber, String firebaseToken) {
     this.verificationId = verificationId;
     this.phoneNumber = phoneNumber;
@@ -45,7 +45,8 @@ class OtpController extends GetxController {
             print('Verification successful: ${responseData.message}');
             final box = GetStorage();
             box.write('token', firebaseToken);
-
+            box.write('isAdmin', responseData.isAdmin ?? false);
+            print('is Admin ${responseData.isAdmin}');
             Get.offAllNamed(AppRoutes.homescreen);
             Get.offAllNamed(AppRoutes.homescreen);
             print('successful ${responseData.message}');

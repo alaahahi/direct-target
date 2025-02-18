@@ -5,6 +5,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:image_picker/image_picker.dart';
 import '../../Controller/CardController.dart';
+import '../../Controller/TokenController.dart';
 import '../../Model/RequestCardModel.dart';
 import '../../Service/CardServices.dart';
 import '../../Widgets/AuthFormFiled.dart';
@@ -18,6 +19,7 @@ class RequestScreenBody extends StatefulWidget {
 
 class _RequestScreenBodyState extends State<RequestScreenBody> {
   String? userPhone;
+  bool? isAdmin;
   final _formKey = GlobalKey<FormState>();
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
@@ -26,7 +28,7 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
   File? _selectedImage;
   final TextEditingController _familyCountController = TextEditingController();
   RxList<TextEditingController> familyNamesControllers = <TextEditingController>[].obs;
-
+  final TokenController tokenController = Get.put(TokenController());
   final ImagePicker _picker = ImagePicker();
   final CardController _controller = Get.put(CardController(CardServices()));
   final storage = GetStorage();
@@ -52,6 +54,7 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
     GetStorage.init().then((_) {
       setState(() {
         userPhone = storage.read('phoneNumber');
+         isAdmin = storage.read('isAdmin') ?? false;
       });
     });
   }
@@ -64,6 +67,7 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
       });
     }
   }
+
 
   @override
   Widget build(BuildContext context) {
@@ -78,139 +82,293 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
               mainAxisAlignment: MainAxisAlignment.start,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                GestureDetector(
-                  onTap: () {
-                    _pickImage();
-                  },
-                  child: Container(
-                    height: MediaQuery.of(context).size.height * 0.07,
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    decoration: BoxDecoration(
-                      color: Colors.grey[200],
-                      borderRadius: BorderRadius.circular(10),
-                    ),
-                    child: _selectedImage != null
-                        ? ClipRRect(
-                      borderRadius: BorderRadius.circular(10),
-                      child: Image.file(
-                        _selectedImage!,
-                        fit: BoxFit.cover,
-                        width: 300,
-                        height: 200,
+                Obx(() {
+                  if (tokenController.token.value.isNotEmpty){
+                   return Column(
+                     children: [
+                       GestureDetector(
+                         onTap: () {
+                           _pickImage();
+                         },
+                         child: Container(
+                           height: MediaQuery.of(context).size.height * 0.07,
+                           width: MediaQuery.of(context).size.width * 0.9,
+                           decoration: BoxDecoration(
+                             color: Colors.grey[200],
+                             borderRadius: BorderRadius.circular(10),
+                           ),
+                           child: _selectedImage != null
+                               ? ClipRRect(
+                             borderRadius: BorderRadius.circular(10),
+                             child: Image.file(
+                               _selectedImage!,
+                               fit: BoxFit.cover,
+                               width: 300,
+                               height: 200,
+                             ),
+                           )
+                               : Column(
+                             mainAxisAlignment: MainAxisAlignment.center,
+                             crossAxisAlignment: CrossAxisAlignment.center,
+                             children: [
+                               Center(
+                                 child: Icon(
+                                   Icons.add,
+                                   color: Colors.grey,
+                                   size: 30,
+                                 ),
+                               ),
+                               Center(
+                                 child: Text(
+                                   'Add Card Image'.tr,
+                                   style: TextStyle(color: Colors.black12),
+                                 ),
+                               ),
+                             ],
+                           ),
+                         ),
+                       ),
+                       SizedBox(height: 20),
+
+                       AuthFormField(
+                         controller: _nameController,
+                         hint: 'Full Name'.tr, onChanged: (value) {  },
+                       ),
+                       SizedBox(height: 20),
+                       AuthFormField(
+                         controller: _addressController,
+                         hint: 'Address'.tr, onChanged: (value) {  },
+                       ),
+                       SizedBox(height: 20),
+                       if (isAdmin!)
+                         AuthFormField(
+                           controller: _phoneController,
+                           hint: 'Phone Number'.tr,
+                           onChanged: (value) {},
+                         ),
+                       SizedBox(height: 20),
+                       if (isAdmin!)
+                         AuthFormField(
+                           controller: _cardNumberController,
+                           hint: 'Card Number'.tr,
+                           onChanged: (value) {},
+                         ),
+                       SizedBox(height: 20),
+                       TextFormField(
+                         controller: _familyCountController,
+                         keyboardType: TextInputType.number,
+                         decoration: InputDecoration(
+                           labelText: 'Number of family members'.tr,
+                           border: OutlineInputBorder(),
+                         ),
+                         onChanged: (value) {
+                           updateFamilyFields();
+                         },
+                       ),
+
+                       const SizedBox(height: 10),
+
+                       Column(
+                         children: List.generate(familyNamesControllers.length, (index) {
+                           return Padding(
+                             padding: const EdgeInsets.symmetric(vertical: 5),
+                             child: TextFormField(
+                               controller: familyNamesControllers[index],
+                               decoration: InputDecoration(
+                                 labelText: 'Member Name ${index + 1}'.tr,
+                                 border: OutlineInputBorder(),
+                               ),
+                             ),
+                           );
+                         }),
+                       ),
+
+
+                       const SizedBox(height: 20),
+                       const SizedBox(
+                         height: 20,
+                       ),
+                       Obx(() {
+                         return _controller.isLoading.value
+                             ? Center(child: CircularProgressIndicator())
+                             : Container(
+                           height: MediaQuery.of(context).size.height * 0.07,
+                           width: MediaQuery.of(context).size.width * 0.9,
+                           child: ElevatedButton(
+                             onPressed: () {
+                               if (_formKey.currentState!.validate()) {
+                                 final cardRequest = RequestCardData(
+                                   name: _nameController.text,
+                                   phone:isAdmin! ? _phoneController.text : userPhone ,
+                                   address: _addressController.text,
+                                   familyMembersNames: familyNamesControllers.isNotEmpty
+                                       ? familyNamesControllers.map((controller) => controller.text.trim()).where((name) => name.isNotEmpty).toList()
+                                       : null,
+                                   cardNumber: tokenController.token.value.isNotEmpty && isAdmin!
+                                       ? _cardNumberController.text
+                                       : '',
+                                   image: _selectedImage?.path,
+                                 );
+                                 _controller.RequestCard(cardRequest);
+                               }
+                             },
+
+                             child: Text("Request Card".tr,
+                               style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                 color: LightGrey,
+                               ),),
+                             style: ElevatedButton.styleFrom(
+                               foregroundColor: Colors.white,
+                               backgroundColor: PrimaryColor,
+                               shadowColor: Colors.black,
+                               elevation: 5,
+                               shape: RoundedRectangleBorder(
+                                 borderRadius: BorderRadius.circular(30),
+                               ),
+                             ),
+                           ),
+                         );
+                       }),
+                     ],
+                   );
+                  }
+                  return Column(
+                    children: [
+                      GestureDetector(
+                        onTap: () {
+                          _pickImage();
+                        },
+                        child: Container(
+                          height: MediaQuery.of(context).size.height * 0.07,
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          decoration: BoxDecoration(
+                            color: Colors.grey[200],
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          child: _selectedImage != null
+                              ? ClipRRect(
+                            borderRadius: BorderRadius.circular(10),
+                            child: Image.file(
+                              _selectedImage!,
+                              fit: BoxFit.cover,
+                              width: 300,
+                              height: 200,
+                            ),
+                          )
+                              : Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            crossAxisAlignment: CrossAxisAlignment.center,
+                            children: [
+                              Center(
+                                child: Icon(
+                                  Icons.add,
+                                  color: Colors.grey,
+                                  size: 30,
+                                ),
+                              ),
+                              Center(
+                                child: Text(
+                                  'Add Card Image'.tr,
+                                  style: TextStyle(color: Colors.black12),
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
                       ),
-                    )
-                        : Column(
-                      mainAxisAlignment: MainAxisAlignment.center,
-                      crossAxisAlignment: CrossAxisAlignment.center,
-                      children: [
-                        Center(
-                          child: Icon(
-                            Icons.add,
-                            color: Colors.grey,
-                            size: 30,
-                          ),
-                        ),
-                        Center(
-                          child: Text(
-                            'Add Card Image'.tr,
-                            style: TextStyle(color: Colors.black12),
-                          ),
-                        ),
-                      ],
-                    ),
-                  ),
-                ),
-                SizedBox(height: 20),
+                      SizedBox(height: 20),
 
-                AuthFormField(
-                  controller: _nameController,
-                  hint: 'Full Name'.tr, onChanged: (value) {  },
-                ),
-                SizedBox(height: 20),
-                AuthFormField(
-                  controller: _cardNumberController,
-                  hint: 'Card Number'.tr, onChanged: (value) {  },
-                ),
-                SizedBox(height: 20),
-                AuthFormField(
-                  controller: _addressController,
-                  hint: 'Address'.tr, onChanged: (value) {  },
-                ),
-                SizedBox(height: 20),
-                TextFormField(
-                  controller: _familyCountController,
-                  keyboardType: TextInputType.number,
-                  decoration: InputDecoration(
-                    labelText: 'Number of family members'.tr,
-                    border: OutlineInputBorder(),
-                  ),
-                  onChanged: (value) {
-                    updateFamilyFields();
-                  },
-                ),
-
-                const SizedBox(height: 10),
-
-                Column(
-                  children: List.generate(familyNamesControllers.length, (index) {
-                    return Padding(
-                      padding: const EdgeInsets.symmetric(vertical: 5),
-                      child: TextFormField(
-                        controller: familyNamesControllers[index],
+                      AuthFormField(
+                        controller: _nameController,
+                        hint: 'Full Name'.tr, onChanged: (value) {  },
+                      ),
+                      SizedBox(height: 20),
+                      AuthFormField(
+                        controller: _phoneController,
+                        hint: 'Phone Number'.tr, onChanged: (value) {  },
+                      ),
+                      SizedBox(height: 20),
+                      AuthFormField(
+                        controller: _addressController,
+                        hint: 'Address'.tr, onChanged: (value) {  },
+                      ),
+                      SizedBox(height: 20),
+                      TextFormField(
+                        controller: _familyCountController,
+                        keyboardType: TextInputType.number,
                         decoration: InputDecoration(
-                          labelText: 'Member Name ${index + 1}'.tr,
+                          labelText: 'Number of family members'.tr,
                           border: OutlineInputBorder(),
                         ),
+                        onChanged: (value) {
+                          updateFamilyFields();
+                        },
                       ),
-                    );
-                  }),
-                ),
 
+                      const SizedBox(height: 10),
 
-                const SizedBox(height: 20),
-                const SizedBox(
-                  height: 20,
-                ),
-                Obx(() {
-                  return _controller.isLoading.value
-                      ? Center(child: CircularProgressIndicator())
-                      : Container(
-                    height: MediaQuery.of(context).size.height * 0.07,
-                    width: MediaQuery.of(context).size.width * 0.9,
-                    child: ElevatedButton(
-                      onPressed: () {
-                        if (_formKey.currentState!.validate()) {
-                          final cardRequest = RequestCardData(
-                            name: _nameController.text,
-                            phone: userPhone ?? _phoneController.text,
-                            address: _addressController.text,
-                            cardNumber: _cardNumberController.text,
-                            familyMembersNames: familyNamesControllers.isNotEmpty
-                                ? familyNamesControllers.map((controller) => controller.text.trim()).where((name) => name.isNotEmpty).toList()
-                                : null,
-                            image: _selectedImage?.path,
+                      Column(
+                        children: List.generate(familyNamesControllers.length, (index) {
+                          return Padding(
+                            padding: const EdgeInsets.symmetric(vertical: 5),
+                            child: TextFormField(
+                              controller: familyNamesControllers[index],
+                              decoration: InputDecoration(
+                                labelText: 'Member Name ${index + 1}'.tr,
+                                border: OutlineInputBorder(),
+                              ),
+                            ),
                           );
-                          _controller.RequestCard(cardRequest);
-                        }
-                      },
-
-                      child: Text("Request Card".tr,
-                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                          color: LightGrey,
-                        ),),
-                      style: ElevatedButton.styleFrom(
-                        foregroundColor: Colors.white,
-                        backgroundColor: PrimaryColor,
-                        shadowColor: Colors.black,
-                        elevation: 5,
-                        shape: RoundedRectangleBorder(
-                          borderRadius: BorderRadius.circular(30),
-                        ),
+                        }),
                       ),
-                    ),
-                  );
-                }),
 
+
+                      const SizedBox(height: 20),
+                      const SizedBox(
+                        height: 20,
+                      ),
+                      Obx(() {
+                        return _controller.isLoading.value
+                            ? Center(child: CircularProgressIndicator())
+                            : Container(
+                          height: MediaQuery.of(context).size.height * 0.07,
+                          width: MediaQuery.of(context).size.width * 0.9,
+                          child: ElevatedButton(
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                final cardRequest = RequestCardData(
+                                  name: _nameController.text,
+                                  phone: _phoneController.text,
+                                  address: _addressController.text,
+                                  familyMembersNames: familyNamesControllers.isNotEmpty
+                                      ? familyNamesControllers.map((controller) => controller.text.trim()).where((name) => name.isNotEmpty).toList()
+                                      : null,
+                                  image: _selectedImage?.path,
+                                );
+                                _controller.RequestCard(cardRequest);
+                              }
+                            },
+
+                            child: Text("Request Card".tr,
+                              style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                                color: LightGrey,
+                              ),),
+                            style: ElevatedButton.styleFrom(
+                              foregroundColor: Colors.white,
+                              backgroundColor: PrimaryColor,
+                              shadowColor: Colors.black,
+                              elevation: 5,
+                              shape: RoundedRectangleBorder(
+                                borderRadius: BorderRadius.circular(30),
+                              ),
+                            ),
+                          ),
+                        );
+                      }),
+                    ],
+                  );
+
+                }),
               ],
             ),
           ),

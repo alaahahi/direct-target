@@ -52,7 +52,6 @@ class AppointmentController extends GetxController {
           appointments.value = (data['appointment'] as List)
               .map((item) => Appointment.fromJson(item))
               .toList();
-
           return appointments.value;
         } else {
           throw Exception('فشل في تحميل المواعيد: ${data['message']}');

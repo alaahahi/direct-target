@@ -55,7 +55,8 @@ class VerificationWhatsappController extends GetxController {
       if (response.message == "تم التحقق بنجاح.") {
         message.value = response.message!;
         token.value = response.token!;
-        isAdmin.value = response.isAdmin!;
+        bool isAdmin = response.isAdmin!;
+        box.write('isAdmin', isAdmin);
         String userPhone = response.user?.phoneNumber ?? "رقم غير متوفر";
         String userName = response.user?.name ?? "اسم غير متوفر";
 

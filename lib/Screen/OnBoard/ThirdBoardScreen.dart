@@ -10,46 +10,44 @@ class OnBoard3 extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Container(
-      color: Colors.white,
-      child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            Obx(() {
-              return Container(
-                height: MediaQuery.of(context).size.height * 0.85,
-                width: MediaQuery.of(context).size.width * 0.88,
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(20),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black26,
-                      blurRadius: 10,
-                      spreadRadius: 2,
-                    ),
-                  ],
+    return Scaffold(
+      body: Obx(() {
+        return SizedBox.expand(
+          child: Container(
+            decoration: BoxDecoration(
+              boxShadow: [
+                BoxShadow(
+                  color: Colors.black26,
+                  blurRadius: 10,
+                  spreadRadius: 2,
                 ),
-                child: ClipRRect(
-                  borderRadius: BorderRadius.circular(20),
-                  child: _controller.thirdImageUrl.value.isNotEmpty
-                      ? CachedNetworkImage(
-                    imageUrl: _controller.thirdImageUrl.value,
-                    placeholder: (context, url) => Center(
-                      child: CircularProgressIndicator(),
-                    ),
-                    errorWidget: (context, url, error) => Center(
-                      child: Icon(Icons.error, color: Colors.red),
-                    ),
-                    fit: BoxFit.cover,
-                  )
-                      : Center(
-                    child: CircularProgressIndicator(),
-                  ),
+              ],
+            ),
+            child: ClipRRect(
+              borderRadius: BorderRadius.circular(0),
+              child: _controller.thirdImageUrl.value.isNotEmpty
+                  ? CachedNetworkImage(
+                imageUrl: _controller.thirdImageUrl.value,
+                placeholder: (context, url) => Center(
+                  child: CircularProgressIndicator(),
                 ),
-              );
-            }),
-
-          ]),
+                errorWidget: (context, url, error) => Image.asset(
+                  'Assets/images/02-D.jpg',
+                  fit: BoxFit.cover,
+                  width: double.infinity,
+                  height: double.infinity,
+                ),
+                fit: BoxFit.cover,
+                width: double.infinity,
+                height: double.infinity,
+              )
+                  : Center(
+                child: CircularProgressIndicator(),
+              ),
+            ),
+          ),
+        );
+      }),
     );
   }
 }

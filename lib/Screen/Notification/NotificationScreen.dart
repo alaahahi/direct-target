@@ -29,7 +29,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
 
               onPressed: () => Get.back(),
             ),
-            title: Text('Terms & Conditions'.tr,
+            title: Text('Notification'.tr,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 color: Theme.of(context).textTheme.bodyMedium?.color,
               ),),

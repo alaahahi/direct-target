@@ -31,7 +31,7 @@ class _ContactScreenState extends State<ContactScreen> {
 
               onPressed: () => Get.back(),
             ),
-            title: Text('App Information'.tr,
+            title: Text("Contact Us".tr,
               style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                 color: Theme.of(context).textTheme.bodyMedium?.color,
               ),),

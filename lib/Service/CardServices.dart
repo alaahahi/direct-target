@@ -34,7 +34,7 @@ class CardServices extends GetConnect {
 
         if (responseData is String) {
           try {
-            responseData = jsonDecode(responseData); // تحويل النص إلى JSON
+            responseData = jsonDecode(responseData);
           } catch (e) {
             throw Exception('Failed to decode JSON response: $e');
           }
@@ -67,7 +67,7 @@ class CardServices extends GetConnect {
   Future<CardServiceModel> fetchListAllServices(int cardId) async {
     loaderController.loading(true);
     try {
-      var res = await dio.get('$appConfig/card-services/active?card_id=1');
+      var res = await dio.get('$appConfig/card-services/active?card_id=$cardId');
 
       if (res.statusCode == 200 || res.statusCode==201  ) {
         var data = res.data;
@@ -133,5 +133,40 @@ class CardServices extends GetConnect {
     }
     return CardModel();
   }
+
+  Future<CardServiceModel?> fetchPopularService([dynamic data]) async {
+
+    try {
+      var res = await dio.get(
+        '$appConfig/get-popular-service',
+        data: data
+      );
+      if (res.statusCode == 200 || res.statusCode==201  ) {
+        var data = res.data;
+        if (data is String) {
+
+          return CardServiceModel.fromJson(jsonDecode(data));
+        } else if (data is Map<String, dynamic>) {
+
+          return CardServiceModel.fromJson(data);
+        } else {
+          throw Exception('Unexpected data format');
+        }
+      }
+    } catch (e) {
+      if (e is DioException) {
+        if (e.response?.statusCode != 200 || e.response?.statusCode != 201) {
+          print('**********  Error *************${e.response}');
+        }
+      } else {
+        print('errorrrrrr in type $e');
+      }
+
+      loaderController.loading(false);
+    }
+    return CardServiceModel();
+
+  }
+
 }
 

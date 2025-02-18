@@ -14,6 +14,7 @@ import '../../Controller/CardServiceController.dart';
 import '../../Controller/LoaderController.dart';
 import '../../Controller/TokenController.dart';
 import '../../Service/CardServices.dart';
+import '../Services/Doctor/TopDoctorScreen.dart';
 
 
 class DashboardScreenBody extends StatelessWidget {
@@ -125,69 +126,6 @@ class DashboardScreenBody extends StatelessWidget {
               },
             )
         ),
-        // InkWell(
-        //   onTap: () {
-        //     Navigator.push(
-        //       context,
-        //       MaterialPageRoute(builder: (context) => doctor_search()),
-        //     );
-        //   },
-        //   child: ClipRRect(
-        //     borderRadius: BorderRadius.circular(10.0),
-        //     child: Image.asset(
-        //       'Assets/images/4.jpg',
-        //       width: MediaQuery.of(context).size.width,
-        //       height: 250,
-        //       fit: BoxFit.cover,
-        //     ),
-        //   ),
-        // ),
-        // Container(
-        //     child:GetBuilder<CardController>(
-        //       builder: (controller) {
-        //         if (loaderController.loading.value) {
-        //           return Center(
-        //             child: CircularProgressIndicator(color: PrimaryColor),
-        //           );
-        //         }
-        //
-        //         if (controller.allCardList!.isEmpty) {
-        //           return Center(
-        //             child: Text("No data available".tr,
-        //               style: TextStyle( color: Theme.of(context).textTheme.bodyMedium?.color,),),
-        //           );
-        //         }
-        //
-        //         return ListView(
-        //           physics: BouncingScrollPhysics(),
-        //           scrollDirection: Axis.horizontal,
-        //           children: controller.allCardList!.map((card) {
-        //             return GestureDetector(
-        //               onTap: () {
-        //                 Navigator.push(
-        //                   context,
-        //                   PageTransition(
-        //                     type: PageTransitionType.rightToLeft,
-        //                     child: doctor_search(cardId: card.id!),
-        //                   ),
-        //                 );
-        //               },
-        //               child:ClipRRect(
-        //                 borderRadius: BorderRadius.circular(10.0),
-        //                 child: Image.asset(
-        //                   card.name!,
-        //                   width: MediaQuery.of(context).size.width,
-        //                   height: 250,
-        //                   fit: BoxFit.cover,
-        //                 ),
-        //               ),
-        //             );
-        //           }).toList(),
-        //         );
-        //       },
-        //     )
-        // ),
-
         SizedBox(
           height: 20,
         ),
@@ -248,24 +186,19 @@ class DashboardScreenBody extends StatelessWidget {
             ),
             GetBuilder<CardController>(
               builder: (controller) {
-                // تأكد من أن القائمة ليست فارغة قبل تمرير cardId
-                int? cardId = controller.allCardList!.isNotEmpty
-                    ? controller.allCardList?.first.id // استخدم أول عنصر
-                    : null; // إذا لم تكن هناك بيانات، اجعلها null
+
 
                 return GestureDetector(
                   onTap: () {
-                    if (cardId != null) {
+
                       Navigator.pushReplacement(
                         context,
                         PageTransition(
                           type: PageTransitionType.rightToLeft,
-                          child: doctor_search(cardId: cardId),
+                          child: TopDoctorScreen(),
                         ),
                       );
-                    } else {
-                      print("No card available to pass!");
-                    }
+
                   },
                   child: Text(
                     "See all".tr,
@@ -282,16 +215,14 @@ class DashboardScreenBody extends StatelessWidget {
         Container(
           height: 220,
           width: 400,
-          child: GetBuilder<CardServiceController>(
+          child: GetBuilder<CardController>(
             builder: (controller) {
               if (loaderController.loading.value) {
                 return Center(
                   child: CircularProgressIndicator(color: PrimaryColor),
                 );
               }
-
-              // التحقق من أن القائمة ليست null قبل محاولة استخدامها
-              if (controller.allServiceList == null) {
+              if (controller.allServicesList == null) {
                 return Center(
                   child: Text(
                     "Loading data...".tr,
@@ -300,8 +231,7 @@ class DashboardScreenBody extends StatelessWidget {
                 );
               }
 
-              // التأكد من أن القائمة ليست فارغة
-              if (controller.allServiceList!.isEmpty) {
+              if (controller.allServicesList!.isEmpty) {
                 return Center(
                   child: Text(
                     "No data available".tr,
@@ -313,37 +243,35 @@ class DashboardScreenBody extends StatelessWidget {
               return ListView(
                 physics: BouncingScrollPhysics(),
                 scrollDirection: Axis.horizontal,
-                children: controller.allServiceList!.map((service) {
+                children: controller.allServicesList!.map((service) {
                   return GestureDetector(
                     onTap: () {
                       Navigator.push(
                         context,
                         PageTransition(
                           type: PageTransitionType.rightToLeft,
-                          child: DoctorDetails(doctorId: service.id ?? 0), // تجنب القيم null
+                          child: DoctorDetails(doctorId: service.id ?? 0),
                         ),
                       );
                     },
                     child: list_doctor1(
-                  image: service.image != null && service.image!.isNotEmpty
-                  ? service.image! // استخدم الرابط القادم من الـ API
-                    : "", // سنعالج الصورة الافتراضية في `list_doctor1`
-                    maintext: Get.locale?.languageCode == "ar"
-                        ? service.serviceNameAr?.tr ?? "لا يوجد اسم"
-                        : service.serviceNameEn?.tr ?? "No Name",
-                    subtext: Get.locale?.languageCode == "ar"
-                        ? service.descriptionAr?.tr ?? "لا يوجد وصف"
-                        : service.descriptionEn?.tr ?? "No Description",
-                  ),
+                      image: service.image != null && service.image!.isNotEmpty
+                          ? service.image!
+                          : "",
+                      maintext: Get.locale?.languageCode == "ar"
+                          ? service.serviceNameAr?.tr ?? "لا يوجد اسم"
+                          : service.serviceNameEn?.tr ?? "No Name",
+                      subtext: Get.locale?.languageCode == "ar"
+                          ? service.descriptionAr?.tr ?? "لا يوجد وصف"
+                          : service.descriptionEn?.tr ?? "No Description",
+                    ),
 
                   );
                 }).toList(),
               );
             },
           ),
-        )
-
-
+        ),
       ]),
     );
 

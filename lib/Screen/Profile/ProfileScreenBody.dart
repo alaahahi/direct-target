@@ -347,7 +347,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
                     child:ProfileList(
                       icon: Icons.info,
                       title: "App Information".tr,
-                      iconColor: Colors.greenAccent,
+                      iconColor: Colors.blue,
                       textColor: Colors.black,
                     ),
                   ),

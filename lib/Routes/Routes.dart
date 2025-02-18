@@ -17,4 +17,5 @@ class AppRoutes {
   static const String terms = '/terms';
   static const String appinfo = '/appinfo';
   static const String contact = '/contact';
+  static const String notification = '/notification';
 }

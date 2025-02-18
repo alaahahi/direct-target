@@ -176,7 +176,7 @@ final Map<String, String> en = {
 "An error occurred while sending the code": "An error occurred while sending the code",
   'App Information':'App Information',
   'Contact Us':'Contact Us',
-  'get_in_touch': 'Get in Touch',
+  'Get in Touch': 'Get in Touch',
   'your_name': 'Your Name',
   'your_email': 'Your Email',
   'your_message': 'Your Message',
@@ -185,10 +185,13 @@ final Map<String, String> en = {
   'phone': 'Phone',
   'email': 'Email',
   'location': 'Location',
-  'error_name': 'Please enter your name',
-  'error_email': 'Please enter a valid email',
-  'error_message': 'Please enter your message',
+  'Please enter your name': 'Please enter your name',
+  'Please enter a valid email': 'Please enter a valid email',
+  'Please enter your message': 'Please enter your message',
   'success_message': 'Message Sent Successfully!',
+  "Services of Card":"Services of Card",
+  'Phone Number':'Phone Number',
+  "Featured Services":"Featured Services"
 }
 ;
 final Map<String, String> ar = {
@@ -365,7 +368,7 @@ final Map<String, String> ar = {
   "An error occurred while sending the code": "حدث خطأ أثناء إرسال الرمز",
   "App Information": "معلومات التطبيق",
   "Contact Us": "اتصل بنا",
-  'get_in_touch': 'تواصل معنا',
+  'Get in Touch': 'تواصل معنا',
   'your_name': 'اسمك',
   'your_email': 'بريدك الإلكتروني',
   'your_message': 'رسالتك',
@@ -374,10 +377,13 @@ final Map<String, String> ar = {
   'phone': 'رقم الهاتف',
   'email': 'البريد الإلكتروني',
   'location': 'الموقع',
-  'error_name': 'يرجى إدخال اسمك',
-  'error_email': 'يرجى إدخال بريد إلكتروني صالح',
-  'error_message': 'يرجى إدخال رسالتك',
+  'Please enter your name': 'يرجى إدخال اسمك',
+  'Please enter a valid email': 'يرجى إدخال بريد إلكتروني صالح',
+  'Please enter your message': 'يرجى إدخال رسالتك',
   'success_message': 'تم إرسال الرسالة بنجاح!',
+  "Services of Card":"خدمات البطاقة",
+  'Phone Number':'رقم الهاتف',
+"Featured Services":"الخدمات المميزة"
 }
 ;
 

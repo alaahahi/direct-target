@@ -1,76 +1,3 @@
-// class AppointmentModel {
-//   String? status;
-//   String? message;
-//   Appointment? appointment;
-//
-//   AppointmentModel({this.status, this.message, this.appointment});
-//
-//   AppointmentModel.fromJson(Map<String, dynamic> json) {
-//     status = json['status'];
-//     message = json['message'];
-//     appointment = json['appointment'] != null
-//         ? new Appointment.fromJson(json['appointment'])
-//         : null;
-//   }
-//
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = new Map<String, dynamic>();
-//     data['status'] = this.status;
-//     data['message'] = this.message;
-//     if (this.appointment != null) {
-//       data['appointment'] = this.appointment!.toJson();
-//     }
-//     return data;
-//   }
-// }
-//
-// class Appointment {
-//   int? userId;
-//   int? cardId;
-//   String? note;
-//   String? start;
-//   String? end;
-//   String? updatedAt;
-//   String? createdAt;
-//   int? id;
-//
-//   Appointment(
-//       {this.userId,
-//         this.cardId,
-//         this.note,
-//         this.start,
-//         this.end,
-//         this.updatedAt,
-//         this.createdAt,
-//         this.id});
-//
-//   Appointment.fromJson(Map<String, dynamic> json) {
-//     userId = json['user_id'];
-//     cardId = json['card_id'];
-//     note = json['note'];
-//     start = json['start'];
-//     end = json['end'];
-//     updatedAt = json['updated_at'];
-//     createdAt = json['created_at'];
-//     id = json['id'];
-//   }
-//
-//   Map<String, dynamic> toJson() {
-//     final Map<String, dynamic> data = new Map<String, dynamic>();
-//     data['user_id'] = this.userId;
-//     data['card_id'] = this.cardId;
-//     data['note'] = this.note;
-//     data['start'] = this.start;
-//     data['end'] = this.end;
-//     data['updated_at'] = this.updatedAt;
-//     data['created_at'] = this.createdAt;
-//     data['id'] = this.id;
-//     return data;
-//   }
-// }
-
-
-
 class AppointmentModel {
   String? status;
   String? message;
@@ -238,7 +165,7 @@ class ServiceProvider {
   int? cardId;
   String? serviceName;
   String? description;
-  int? price;
+  int? price; // Nullable int
   String? createdAt;
   String? updatedAt;
   List<String>? workingDays;
@@ -268,10 +195,13 @@ class ServiceProvider {
     cardId = json['card_id'];
     serviceName = json['service_name'];
     description = json['description'];
-    price = json['price'];
+
+    // Ensure price is parsed as an integer, even if it's a string
+    price = json['price'] != null ? int.tryParse(json['price'].toString()) : null;
+
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    workingDays = json['working_days'].cast<String>();
+    workingDays = json['working_days']?.cast<String>();
     workingHours = json['working_hours'] != null
         ? new WorkingHours.fromJson(json['working_hours'])
         : null;
@@ -301,6 +231,7 @@ class ServiceProvider {
     return data;
   }
 }
+
 
 class WorkingHours {
   String? start;

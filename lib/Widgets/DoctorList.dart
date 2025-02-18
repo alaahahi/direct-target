@@ -31,7 +31,6 @@ class doctorList extends StatelessWidget {
               children: [
 
                 Align(
-                  // alignment: Alignment.topCenter, // محاذاة الصورة في الأعلى قليلاً
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.180,
                     width: MediaQuery.of(context).size.width * 0.250,
