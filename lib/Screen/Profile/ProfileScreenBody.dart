@@ -3,6 +3,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:direct_target/Widgets/ProfileList.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import '../../Controller/ProfileUserController.dart';
 import '../../Controller/TokenController.dart';
@@ -33,38 +34,32 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                // أيقونة فيسبوك
                 CircleAvatar(
-                  radius: 20, // أصغر من الأيقونات السابقة
-                  backgroundColor: Colors.blue,
+                  radius: 20,
+                  backgroundColor: Colors.blue[900],
                   child: IconButton(
                     icon: Icon(Icons.facebook, color: Colors.white),
                     onPressed: () {
-                      // إضافة الرابط أو الحدث
                     },
                   ),
                 ),
                 SizedBox(width: 15),
-                // أيقونة تويتر
                 CircleAvatar(
-                  radius: 20, // أصغر من الأيقونات السابقة
+                  radius: 20,
                   backgroundColor: Colors.blueAccent,
                   child: IconButton(
                     icon: Icon(Icons.telegram, color: Colors.white),
                     onPressed: () {
-                      // إضافة الرابط أو الحدث
                     },
                   ),
                 ),
                 SizedBox(width: 15),
-                // أيقونة يوتيوب
                 CircleAvatar(
-                  radius: 20, // أصغر من الأيقونات السابقة
-                  backgroundColor: Colors.red,
+                  radius: 20,
+                  backgroundColor: Colors.green,
                   child: IconButton(
-                    icon: Icon(Icons.play_arrow, color: Colors.white),
+                    icon: Icon(FontAwesomeIcons.whatsapp, color: Colors.white),
                     onPressed: () {
-                      // إضافة الرابط أو الحدث
                     },
                   ),
                 ),

@@ -257,15 +257,10 @@ class DashboardScreenBody extends StatelessWidget {
                     child: list_doctor1(
                       image: service.image != null && service.image!.isNotEmpty
                           ? service.image!
-                          : "",
-                      maintext: Get.locale?.languageCode == "ar"
-                          ? service.serviceNameAr?.tr ?? "لا يوجد اسم"
-                          : service.serviceNameEn?.tr ?? "No Name",
-                      subtext: Get.locale?.languageCode == "ar"
-                          ? service.descriptionAr?.tr ?? "لا يوجد وصف"
-                          : service.descriptionEn?.tr ?? "No Description",
+                          : "Assets/images/person.png",
+                      maintext: service.serviceName ?? "No Name",
+                      subtext: service.description ?? "No Description",
                     ),
-
                   );
                 }).toList(),
               );

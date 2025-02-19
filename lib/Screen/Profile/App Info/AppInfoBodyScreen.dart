@@ -1,10 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../Controller/AllSettingController.dart';
 import '../../../Service/SettingsServices.dart';
-import '../../../Utils/AppStyle.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 class AppInfoBodyScreen extends StatefulWidget {
   const AppInfoBodyScreen({super.key});
 
@@ -30,6 +27,7 @@ class __AppInfoBodyScreenState extends State<AppInfoBodyScreen> {
             Text(
               _controller.appName.toString(),
             ),
+
           ],
         ),
       ),

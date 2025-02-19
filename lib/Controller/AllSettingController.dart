@@ -1,3 +1,4 @@
+import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart' as dio;
 import 'package:get/get.dart';
@@ -6,6 +7,52 @@ import 'package:direct_target/Controller/MessageHandlerController.dart';
 import '../Model/AllSettingModel.dart';
 import '../Service/SettingsServices.dart';
 import 'LoaderController.dart';
+import 'dart:convert';
+import 'dart:developer';
+import 'package:dio/dio.dart' as dio;
+import 'package:direct_target/Model/CardModel.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import 'package:direct_target/Controller/MessageHandlerController.dart';
+import '../Model/CardServicesModel.dart';
+import '../Model/RequestCardModel.dart';
+import '../Routes/Routes.dart';
+import '../Service/CardServices.dart';
+import 'LoaderController.dart';
+import 'package:path/path.dart' as path;
+import 'package:dio/dio.dart' as dio;
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+
+import '../Api/AppConfig.dart';
+import '../Controller/LoaderController.dart';
+import '../Model/CardModel.dart';
+import '../Model/RequestCardModel.dart';
+import '../Model/CardServicesModel.dart';
+import '../Controller/TokenController.dart';
+import 'dart:convert';
+
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import '../Model/AppointmentModel.dart';
+import '../Routes/Routes.dart';
+import '../Service/AppointmentService.dart';
+import 'LoaderController.dart';
+import 'MessageHandlerController.dart';
+import 'ProfileCardController.dart';
+import 'package:http/http.dart' as http;
+import 'dart:developer';
+
+import 'package:dio/dio.dart' as dio;
+
+import 'TokenController.dart';
+
+
+
+
 
 class AllSettingController extends GetxController {
   LoaderController loaderController = Get.put(LoaderController());
@@ -25,11 +72,15 @@ class AllSettingController extends GetxController {
   var contactPhone =''.obs;
   var socialLinks =''.obs;
   var appName =''.obs;
+  var appSetting = ''.obs;
   GetStorage box = GetStorage();
   final SettingsServices _service;
   var isLoading = false.obs;
   var primaryColor = ''.obs;
   var firstWelcomeImage = ''.obs;
+  var appSmsActivate = false.obs;
+  var appWhatsappActivate = false.obs;
+
   AllSettingController(this._service);
   @override
   void onInit() {
@@ -48,6 +99,7 @@ class AllSettingController extends GetxController {
     getContactEmail();
     getSocialLinks();
     getAppName();
+    getAppSetting();
   }
 
   Future<dynamic> getAllSettings() async {
@@ -66,6 +118,36 @@ class AllSettingController extends GetxController {
       }
       loaderController.loading(false);
     }
+  }
+
+
+  Future<dynamic> getAppSetting() async {
+    loaderController.loading(true);
+
+    AllSettingModel? setting = await _service.fetchAppSettings();
+    if (setting != null) {
+      appSetting.value = setting.data?.value ?? '';
+
+      try {
+
+        Map<String, dynamic> settingData = jsonDecode(appSetting.value);
+
+        bool smsActivate = settingData["sms_activate"] == 1;
+        bool whatsappActivate = settingData["whatsapp_activate"] == 1;
+
+        appSmsActivate.value = smsActivate;
+        appWhatsappActivate.value = whatsappActivate;
+
+        print("📌 SMS Activate: $appSmsActivate");
+        print("📌 WhatsApp Activate: $appWhatsappActivate");
+      } catch (e) {
+        print("error in decode $e");
+      }
+    } else {
+      appSetting.value = '';
+    }
+
+    loaderController.loading(false);
   }
   Future<void> getPrimaryColor() async {
     isLoading(true);

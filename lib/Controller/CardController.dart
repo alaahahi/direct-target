@@ -74,6 +74,7 @@ class CardController extends GetxController {
 
   Future<dynamic> getCards() async {
     loaderController.loading(true);
+    update();
     try {
       var res = await CardServices().fetchCard();
       allCardList = res.CardsData!;
@@ -91,6 +92,7 @@ class CardController extends GetxController {
   }
   Future<dynamic> getPopularService() async {
     loaderController.loading(true);
+    update();
     try {
       var res = await CardServices().fetchPopularService();
       allServicesList = res?.CardServiceData;

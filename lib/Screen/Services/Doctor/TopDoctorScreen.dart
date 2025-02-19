@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:direct_target/Screen/Home/HomeScreen.dart';
 import 'package:direct_target/Screen/Services/Doctor/DoctorDetailsScreen.dart';
 import 'package:page_transition/page_transition.dart';
@@ -72,13 +71,9 @@ class TopDoctorScreen extends StatelessWidget {
                           child:  doctorList(
                             image: service.image != null && service.image!.isNotEmpty
                                 ? service.image!
-                                : "",
-                            maintext: Get.locale?.languageCode == "ar"
-                                ? service.serviceNameAr?.tr ?? "لا يوجد اسم"
-                                : service.serviceNameEn?.tr ?? "No Name",
-                            subtext: Get.locale?.languageCode == "ar"
-                                ? service.descriptionAr?.tr ?? "لا يوجد وصف"
-                                : service.descriptionEn?.tr ?? "No Description",
+                                : "Assets/images/person.png",
+                            maintext: service.serviceName ?? "No Name",
+                            subtext: service.description ?? "No Description",
                           ),
                         ),
                       ],

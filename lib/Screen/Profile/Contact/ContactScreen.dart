@@ -1,8 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../Utils/AppStyle.dart';
-import '../PrivacyPolicy/PrivacyBody.dart';
 import 'ContactBodyScreen.dart';
 
 
@@ -23,9 +21,9 @@ class _ContactScreenState extends State<ContactScreen> {
               icon: Padding(
                 padding: const EdgeInsets.all(20.0),
                 child: Icon(
-                  Icons.arrow_back_ios, // أيقونة الرجوع
-                  color: Theme.of(context).textTheme.bodyMedium?.color, // يمكنك تغيير اللون
-                  size: MediaQuery.of(context).size.height * 0.025, // التحكم في الحجم
+                  Icons.arrow_back_ios,
+                  color: Theme.of(context).textTheme.bodyMedium?.color,
+                  size: MediaQuery.of(context).size.height * 0.025,
                 ),
               ),
 

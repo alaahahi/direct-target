@@ -38,6 +38,42 @@ class SettingsServices {
     }
     return AllSettingModel();
   }
+  Future<AllSettingModel> fetchAppSettings([dynamic data]) async {
+    try {
+
+      var res = await dio.get(
+        '$appConfig/settings/app_setting',
+        data: data,
+      );
+
+      print("Response Status Code: ${res.statusCode}");
+      print("Response Data: ${res.data}");
+
+      if (res.statusCode == 200 || res.statusCode == 201) {
+        var data = res.data;
+
+        if (data is String) {
+          return AllSettingModel.fromJson(jsonDecode(data));
+        } else if (data is Map<String, dynamic>) {
+          return AllSettingModel.fromJson(data);
+        } else {
+          throw Exception('Unexpected data format');
+        }
+      }
+    } catch (e) {
+      if (e is DioException) {
+        print("********** Error *************");
+        print("Response: ${e.response}");
+        print("Error Message: ${e.message}");
+      } else {
+        print('Error in type $e');
+      }
+
+      loaderController.loading(false);
+    }
+
+    return AllSettingModel();
+  }
   Future<AllSettingModel> getPrimaryColor() async {
     loaderController.loading(true);
 

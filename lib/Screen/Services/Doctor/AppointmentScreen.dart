@@ -133,7 +133,6 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                 image: doctor.serviceProvider?.image ?? "Assets/images/person.png",
                 maintext: doctor.serviceProvider!.serviceName!.tr,
                 subtext: doctor.serviceProvider!.serviceName!.tr,
-
               ),
               const SizedBox(height: 15),
               GestureDetector(
@@ -320,7 +319,6 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                   ),
                 );
               }),
-
             ],
           );
         },

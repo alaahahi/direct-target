@@ -11,7 +11,7 @@ import '../Model/CardModel.dart';
 import '../Model/RequestCardModel.dart';
 import '../Model/CardServicesModel.dart';
 import '../Controller/TokenController.dart';
-class CardServices extends GetConnect {
+class CardServices extends GetxService  {
   static CardServices? _instance;
 
   var dio = Dio();
@@ -60,22 +60,27 @@ class CardServices extends GetConnect {
 
     return RequestCardModel();
   }
-
-
-
-
   Future<CardServiceModel> fetchListAllServices(int cardId) async {
     loaderController.loading(true);
+    final String? language = Get.locale?.languageCode;
+    print("Selected Language: $language");
+
     try {
-      var res = await dio.get('$appConfig/card-services/active?card_id=$cardId');
+      var res = await dio.get('$appConfig/card-services/active?card_id=$cardId',
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept-Language': language,
+          },
+        ),);
 
       if (res.statusCode == 200 || res.statusCode==201  ) {
         var data = res.data;
         if (data is String) {
-
+          print("Selected dataaaaaaaaaaaa $data");
           return CardServiceModel.fromJson(jsonDecode(data));
         } else if (data is Map<String, dynamic>) {
-
+          print(" dataaaaaaaaaaaa $data");
           return CardServiceModel.fromJson(data);
         } else {
           throw Exception('Unexpected data format');
@@ -98,6 +103,9 @@ class CardServices extends GetConnect {
   Future<CardModel> fetchCard([dynamic data]) async {
     try {
       final String token = tokenController.getToken();
+      final String? language = Get.locale?.languageCode;
+      print("Selected Language: $language");
+
       var res = await dio.get(
         '$appConfig/cards/active',
         data: data,
@@ -105,16 +113,20 @@ class CardServices extends GetConnect {
           headers: {
             'Authorization': 'Bearer $token',
             'Content-Type': 'application/json',
+            'Accept-Language': language,
           },
         ),
       );
-      if (res.statusCode == 200 || res.statusCode==201  ) {
-        var data = res.data;
-        if (data is String) {
 
+      print("Response Status Code: ${res.statusCode}");
+      print("Response Data: ${res.data}");
+
+      if (res.statusCode == 200 || res.statusCode == 201) {
+        var data = res.data;
+
+        if (data is String) {
           return CardModel.fromJson(jsonDecode(data));
         } else if (data is Map<String, dynamic>) {
-
           return CardModel.fromJson(data);
         } else {
           throw Exception('Unexpected data format');
@@ -122,32 +134,42 @@ class CardServices extends GetConnect {
       }
     } catch (e) {
       if (e is DioException) {
-        if (e.response?.statusCode != 200 || e.response?.statusCode != 201) {
-          print('**********  Error *************${e.response}');
-        }
+        print("********** Error *************");
+        print("Response: ${e.response}");
+        print("Error Message: ${e.message}");
       } else {
-        print('errorrrrrr in type $e');
+        print('Error in type $e');
       }
 
       loaderController.loading(false);
     }
+
     return CardModel();
   }
-
   Future<CardServiceModel?> fetchPopularService([dynamic data]) async {
-
+    final String? language = Get.locale?.languageCode;
+    print("Selected Language: $language");
     try {
       var res = await dio.get(
         '$appConfig/get-popular-service',
-        data: data
+        data: data,
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept-Language': language,
+          },
+        ),
       );
-      if (res.statusCode == 200 || res.statusCode==201  ) {
-        var data = res.data;
-        if (data is String) {
 
+      print("Response Status Code: ${res.statusCode}");
+      print("Response Data: ${res.data}");
+
+      if (res.statusCode == 200 || res.statusCode == 201) {
+        var data = res.data;
+
+        if (data is String) {
           return CardServiceModel.fromJson(jsonDecode(data));
         } else if (data is Map<String, dynamic>) {
-
           return CardServiceModel.fromJson(data);
         } else {
           throw Exception('Unexpected data format');
@@ -155,18 +177,17 @@ class CardServices extends GetConnect {
       }
     } catch (e) {
       if (e is DioException) {
-        if (e.response?.statusCode != 200 || e.response?.statusCode != 201) {
-          print('**********  Error *************${e.response}');
-        }
+        print("**********  Error *************");
+        print("Response: ${e.response}");
+        print("Error Message: ${e.message}");
       } else {
-        print('errorrrrrr in type $e');
+        print('Error in type: $e');
       }
-
-      loaderController.loading(false);
     }
-    return CardServiceModel();
 
+    return CardServiceModel();
   }
+
 
 }
 

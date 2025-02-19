@@ -1,3 +1,4 @@
+import 'package:direct_target/Screen/Notification/NotificationBodyScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
@@ -37,7 +38,7 @@ class _NotificationScreenState extends State<NotificationScreen> {
             titleTextStyle: AppBarTextStyle),
         body: Padding(
           padding: const EdgeInsets.all(8.0),
-          child: TermsBody(),
+          child: NotificationBodyScreen(),
         ));
   }
 }

@@ -136,16 +136,11 @@ class _DoctorDetailsState extends State<DoctorDetails> {
             children: [
 
               doctorList(
-                maintext: Get.locale?.languageCode == "ar"
-                    ? doctor.serviceNameAr?.tr ?? "لا يوجد اسم"
-                    : doctor.serviceNameEn?.tr ?? "No Name",
-                subtext: Get.locale?.languageCode == "ar"
-                    ? doctor.descriptionAr?.tr ?? "لا يوجد وصف"
-                    : doctor.descriptionEn?.tr ?? "No Description",
-
+                maintext: doctor.serviceName ?? "No Name",
+                subtext: doctor.description ?? "No Description",
                 image: doctor.image != null && doctor.image!.isNotEmpty
                     ? doctor.image!
-                    : "",
+                    : "Assets/images/person.png",
               ),
               const SizedBox(height: 15),
               GestureDetector(
@@ -160,10 +155,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                       ),
                       const SizedBox(height: 5),
                       Text(
-                        Get.locale?.languageCode == "ar"
-                            ? doctor.descriptionAr?.tr ?? "لا يوجد وصف"
-                            : doctor.descriptionEn?.tr ?? "No Description",
-
+                       doctor.description ?? "No Description",
                         style:  Theme.of(context).textTheme.bodyLarge,
               ),
               Padding(

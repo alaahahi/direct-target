@@ -114,14 +114,11 @@ class __ContactBodyScreenState extends State<ContactBodyScreen> {
                           },
                         ),
                         SizedBox(height: 20),
-
-                        // زر الإرسال
                         SizedBox(
                           width: double.infinity,
                           child: ElevatedButton(
                             onPressed: () {
                               if (_formKey.currentState!.validate()) {
-                                // تنفيذ إرسال الرسالة عبر البريد الإلكتروني
                                 print('Message Sent: ${messageController.text}'.tr);
                                 ScaffoldMessenger.of(context).showSnackBar(
                                   SnackBar(content: Text('success_message'.tr)),
@@ -144,10 +141,7 @@ class __ContactBodyScreenState extends State<ContactBodyScreen> {
                       ],
                     ),
                   ),
-
                   SizedBox(height: 30),
-
-                  // معلومات الاتصال
                   Text(
                     'contact_info'.tr,
                     style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold),

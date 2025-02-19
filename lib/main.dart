@@ -5,10 +5,12 @@ import 'package:get_storage/get_storage.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
+import 'Controller/LanguageController.dart';
 import 'Controller/LoaderController.dart';
 import 'Controller/ThemeController.dart';
 import 'Controller/TokenController.dart';
 import 'Routes/Pages.dart';
+import 'Service/CardServices.dart';
 import 'Translation/AppTranslation.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -17,6 +19,8 @@ void main() async {
   Get.put(LoaderController());
   Get.put(ThemeController());
   Get.put(TokenController());
+  // Get.put(LanguageController());
+  Get.put(CardServices());
   runApp(const DirectTarget());
 
 }

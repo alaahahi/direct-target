@@ -156,16 +156,11 @@ class _doctor_searchState extends State<doctor_search> {
                         );
                       },
                       child:doctorList(
-                        maintext: Get.locale?.languageCode == "ar"
-                            ? service.serviceNameAr?.tr ?? "لا يوجد اسم"
-                            : service.serviceNameEn?.tr ?? "No Name",
-                        subtext: Get.locale?.languageCode == "ar"
-                            ? service.descriptionAr?.tr ?? "لا يوجد وصف"
-                            : service.descriptionEn?.tr ?? "No Description",
-
+                        maintext: service.serviceName ?? "No Name",
+                        subtext: service.description ?? "No Description",
                         image: service.image != null && service.image!.isNotEmpty
                             ? service.image!
-                            : "",
+                            : "Assets/images/person.png",
                       ),
                     );
                   },
