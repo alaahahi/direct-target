@@ -300,8 +300,8 @@ class DashboardScreenBody extends StatelessWidget {
               List<Services> selectedServices = controller.selectedServices;
 
               if (selectedCategory == null) {
-                selectedCategory = controller.servicesList![1].categoryName;
-                selectedServices = controller.servicesList![1].services ?? [];
+                selectedCategory = controller.servicesList![0].categoryName;
+                selectedServices = controller.servicesList![0].services ?? [];
                 controller.selectedCategory = selectedCategory;
                 controller.selectedServices = selectedServices;
               }

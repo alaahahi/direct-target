@@ -19,7 +19,7 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
   List<IconData> icons = [
     FontAwesomeIcons.home,
     FontAwesomeIcons.vcard,
-    FontAwesomeIcons.clipboardCheck,
+
     FontAwesomeIcons.user,
   ];
 
