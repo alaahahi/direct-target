@@ -26,29 +26,35 @@ class CardModel {
 
 class CardData {
   int? id;
-  String? name;
+  String? nameAr;
   String? nameEn;
   int? day;
   int? price;
   bool? showOnApp;
   String? expirDate;
   String? createdAt;
-  String? updatedAt;
+  Null? updatedAt;
+  String? image;
+  String? currency;
+  String? name;
 
   CardData(
       {this.id,
-        this.name,
+        this.nameAr,
         this.nameEn,
         this.day,
         this.price,
         this.showOnApp,
         this.expirDate,
         this.createdAt,
-        this.updatedAt});
+        this.updatedAt,
+        this.image,
+        this.currency,
+        this.name});
 
   CardData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
-    name = json['name'];
+    nameAr = json['name_ar'];
     nameEn = json['name_en'];
     day = json['day'];
     price = json['price'];
@@ -56,12 +62,15 @@ class CardData {
     expirDate = json['expir_date'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    image = json['image'];
+    currency = json['currency'];
+    name = json['name'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
-    data['name'] = this.name;
+    data['name_ar'] = this.nameAr;
     data['name_en'] = this.nameEn;
     data['day'] = this.day;
     data['price'] = this.price;
@@ -69,6 +78,9 @@ class CardData {
     data['expir_date'] = this.expirDate;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    data['image'] = this.image;
+    data['currency'] = this.currency;
+    data['name'] = this.name;
     return data;
   }
 }

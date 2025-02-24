@@ -90,12 +90,12 @@ class _doctor_searchState extends State<doctor_search> {
                           topLeft: Radius.circular(10),
                           topRight: Radius.circular(10),
                         ),
-                        child: Image.asset(
-                          'Assets/images/4.jpg',
-                          width: double.infinity,
-                          height: 220,
+                        child:  Image.network(
+                          selectedCard.image ?? 'Assets/images/4.jpg',
+                          width: MediaQuery.of(context).size.width,
+                          height: 250,
                           fit: BoxFit.cover,
-                        ),
+                        )
                       ),
 
                       Padding(
@@ -109,14 +109,11 @@ class _doctor_searchState extends State<doctor_search> {
                             ),
                             SizedBox(height: 10),
                             Text(
-                              "Card Number: ${selectedCard.price}",
+                              "Price: ${selectedCard.price}",
                               style: Theme.of(context).textTheme.bodyLarge,
                             ),
                             SizedBox(height: 10),
-                            Text(
-                              "Card Description: ${selectedCard.name ?? "No Description"}",
-                              style: Theme.of(context).textTheme.bodyMedium,
-                            ),
+
                           ],
                         ),
                       ),

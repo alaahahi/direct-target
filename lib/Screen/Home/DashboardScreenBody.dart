@@ -123,12 +123,12 @@ class DashboardScreenBody extends StatelessWidget {
                       },
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10.0),
-                        child: Image.asset(
-                          'Assets/images/4.jpg',
+                        child:   Image.network(
+                          service.image ?? 'Assets/images/4.jpg',
                           width: MediaQuery.of(context).size.width,
                           height: 250,
                           fit: BoxFit.cover,
-                        ),
+                        )
                       ),
                     ),
                   );
@@ -318,6 +318,7 @@ class DashboardScreenBody extends StatelessWidget {
                       itemBuilder: (context, index) {
                         return GestureDetector(
                           onTap: () {
+
                             controller.selectedCategory = controller.servicesList![index].categoryName;
                             controller.selectedServices = controller.servicesList![index].services ?? [];
                             controller.update();
