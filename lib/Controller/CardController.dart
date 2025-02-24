@@ -7,15 +7,16 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:direct_target/Controller/MessageHandlerController.dart';
 import '../Model/AllCardServicesModel.dart';
-import '../Model/CardServicesModel.dart';
 import '../Model/ProfileCardModel.dart';
 import '../Model/RequestCardModel.dart';
 import '../Routes/Routes.dart';
 import '../Service/CardServices.dart';
 import '../Service/ProfileCardServices.dart';
+import '../Service/SettingsServices.dart';
+import 'AllSettingController.dart';
 import 'LoaderController.dart';
 import 'package:path/path.dart' as path;
-
+import '../Model/ServiceModel.dart';
 class CardController extends GetxController {
   LoaderController loaderController = Get.put(LoaderController());
   MessagesHandlerController msgController =
@@ -23,7 +24,7 @@ class CardController extends GetxController {
   var firstImageUrl = ''.obs;
   String? selectedCategory;
 
-
+  final AllSettingController _appController = Get.put(AllSettingController(SettingsServices()));
   GetStorage box = GetStorage();
   final CardServices _service;
   var isLoading = false.obs;
@@ -35,7 +36,7 @@ class CardController extends GetxController {
   CardController(this._service);
   var searchTerm = "".obs;
   GetStorage storage = GetStorage();
-
+  var services = <Service>[].obs;
   List<Services> selectedServices = [];
   void setSelectedCategory(String? categoryName, List<Services> services) {
     selectedCategory = categoryName;
@@ -47,9 +48,8 @@ class CardController extends GetxController {
     super.onInit();
     getCards();
     getPopularService();
-    getCardServices(1);
     fetchMyCards();
-    searchServices("");
+    getCardServices(_appController.appCardValue.value);
   }
 
   void updateSelectedCategory(String category) {
@@ -170,15 +170,12 @@ class CardController extends GetxController {
     update();
     loaderController.loading(false);
   }
-  Future<dynamic> searchServices(String term) async {
-    if (term.isEmpty) return;
+
+  void searchServices(String searchTerm) async {
     isLoading.value = true;
-    searchTerm.value = term;
     try {
-      var fetchedServices = await CardServices().searchServices(term);
-      print("Fetched : $fetchedServices");
-      searchServicesList = fetchedServices?.data;
-      print("Fetched : $searchServicesList");
+      var fetchedServices = await CardServices().fetchSearchServices(searchTerm);
+      services.value = fetchedServices;
     } catch (e) {
       Get.snackbar("Error", "Failed to fetch services");
     } finally {

@@ -79,6 +79,7 @@ class AllSettingController extends GetxController {
   var firstWelcomeImage = ''.obs;
   var appSmsActivate = false.obs;
   var appWhatsappActivate = false.obs;
+  var appCardValue = 0.obs;
 
   AllSettingController(this._service);
   @override
@@ -122,23 +123,21 @@ class AllSettingController extends GetxController {
 
   Future<dynamic> getAppSetting() async {
     loaderController.loading(true);
-
     AllSettingModel? setting = await _service.fetchAppSettings();
     if (setting != null) {
       appSetting.value = setting.data?.value ?? '';
-
       try {
-
         Map<String, dynamic> settingData = jsonDecode(appSetting.value);
-
         bool smsActivate = settingData["sms_activate"] == 1;
         bool whatsappActivate = settingData["whatsapp_activate"] == 1;
-
         appSmsActivate.value = smsActivate;
         appWhatsappActivate.value = whatsappActivate;
+        int cardValue = settingData["card"] ?? 0; // استخراج قيمة "card"
 
+        appCardValue.value = cardValue; // تأكد من تعريف obs لهذه القيمة
         print("📌 SMS Activate: $appSmsActivate");
         print("📌 WhatsApp Activate: $appWhatsappActivate");
+        print("📌 appCardValue Activate: $appCardValue");
       } catch (e) {
         print("error in decode $e");
       }
@@ -520,8 +519,4 @@ class AllSettingController extends GetxController {
       isLoading(false);
     }
   }
-
-
-
-
 }

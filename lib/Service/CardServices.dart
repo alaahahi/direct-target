@@ -12,6 +12,7 @@ import '../Model/AllCardServicesModel.dart';
 import '../Model/CardModel.dart';
 import '../Model/RequestCardModel.dart';
 import '../Model/CardServicesModel.dart';
+import '../Model/ServiceModel.dart';
 import '../Controller/TokenController.dart';
 class CardServices extends GetxService  {
   static CardServices? _instance;
@@ -62,44 +63,30 @@ class CardServices extends GetxService  {
 
     return RequestCardModel();
   }
-  Future<AllCardServicesModel> searchServices(String searchTerm) async {
-    loaderController.loading(true);
+  Future<List<Service>> fetchSearchServices(String searchTerm) async {
     final String? language = Get.locale?.languageCode;
-    print("Selected Language: $language");
-    print("Tesssssssssssssst: $language");
     try {
-      var res = await dio.get('$appConfig/card-services/search?search_term=$searchTerm',
+      var response = await dio.get('$appConfig/card-services/search?search_term=$searchTerm',
         options: Options(
           headers: {
             'Content-Type': 'application/json',
             'Accept-Language': language,
           },
         ),);
-      if (res.statusCode == 200 || res.statusCode==201  ) {
-        var data = res.data;
-        if (data is String) {
-          print("Selected dataaaaaaaaaaaa $data");
-          return AllCardServicesModel.fromJson(jsonDecode(data));
-        } else if (data is Map<String, dynamic>) {
-          print(" dataaaaaaaaaaaa $data");
-          return AllCardServicesModel.fromJson(data);
-        } else {
-          throw Exception('Unexpected data format');
-        }
+
+      print("Response Status: ${response.statusCode}");
+      print("Response Body: ${response.data}");
+
+      if (response.statusCode == 200) {
+        var servicesData = response.data['data'] as List;
+        return servicesData.map((service) => Service.fromJson(service)).toList();
+      } else {
+        throw Exception('Failed to load services');
       }
     } catch (e) {
-      if (e is DioException) {
-        if (e.response?.statusCode != 200 || e.response?.statusCode != 201) {
-          print('**********  Error *************${e.response}');
-          print('**********  Error *************${e.response?.statusCode}');
-        }
-      } else {
-        print('errorrrrrr in fetch $e');
-      }
-
-      loaderController.loading(false);
+      print("Error: $e");
+      throw Exception('Error fetching services');
     }
-    return AllCardServicesModel();
   }
   Future<AllCardServicesModel> fetchListAllServices(int cardId) async {
     loaderController.loading(true);

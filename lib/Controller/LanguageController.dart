@@ -2,12 +2,15 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../Service/CardServices.dart';
+import '../Service/SettingsServices.dart';
 import '../Utils/Constant.dart';
+import 'AllSettingController.dart';
 import 'CardController.dart';
 
 
 class LanguageController extends GetxController {
   SingingCharacter? character;
+  final AllSettingController _appController = Get.put(AllSettingController(SettingsServices()));
 
   @override
   void onInit() {
@@ -33,7 +36,7 @@ class LanguageController extends GetxController {
     Future.delayed(Duration(milliseconds: 300), () async {
       final cardService = Get.find<CardServices>();
       Get.find<CardController>().getCards();
-      Get.find<CardController>()..getCardServices(1);
+      Get.find<CardController>().getCardServices(_appController.appCardValue.value);
       Get.find<CardController>().getPopularService();
 
       update();
