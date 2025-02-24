@@ -5,7 +5,6 @@ import 'package:page_transition/page_transition.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:get/get.dart';
 import '../../../Controller/AppointmentController.dart';
-import '../../../Controller/CardServiceController.dart';
 import '../../../Controller/LoaderController.dart';
 import '../../../Controller/ProfileCardController.dart';
 import 'package:intl/intl.dart';
@@ -21,7 +20,6 @@ class AppointmentScreen extends StatefulWidget {
 }
 
 class _AppointmentScreenState extends State<AppointmentScreen> {
-  final CardServiceController controller = Get.put(CardServiceController());
   final AppointmentController appointmencontroller =
   Get.put(AppointmentController());
   final TextEditingController noteController = TextEditingController();
@@ -80,30 +78,25 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () {
-            Navigator.pushReplacement(
-                context,
-                PageTransition(
-                    type: PageTransitionType.fade, child: Homepage()));
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
+        leading: IconButton(
+          icon: Padding(
+            padding: const EdgeInsets.all(28.0),
             child: Icon(
               Icons.arrow_back_ios,
               color: Theme.of(context).textTheme.bodyMedium?.color,
               size: MediaQuery.of(context).size.height * 0.025,
             ),
           ),
+
+          onPressed: () => Get.back(),
         ),
         title: Text(
           "Edit Book Appointment".tr,
-          style:  Theme.of(context).textTheme.bodyLarge,
+          style: Theme.of(context).textTheme.headlineLarge,
         ),
         centerTitle: true,
         elevation: 0,
         toolbarHeight: 100,
-
       ),
       body: GetBuilder<AppointmentController>(
         builder: (controller) {
@@ -129,11 +122,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
           return ListView(
             children: [
               const SizedBox(height: 10),
-              doctorList(
-                image: doctor.serviceProvider?.image ?? "Assets/images/person.png",
-                maintext: doctor.serviceProvider!.serviceName!.tr,
-                subtext: doctor.serviceProvider!.serviceName!.tr,
-              ),
+
               const SizedBox(height: 15),
               GestureDetector(
                 child: Padding(
@@ -311,7 +300,7 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       ),
                     ),
                     child: Text(
-                     'Update Appointment'.tr,
+                      'Update Appointment'.tr,
                       style: TextStyle(
                         color: Colors.white,
                       ),

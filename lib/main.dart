@@ -5,7 +5,6 @@ import 'package:get_storage/get_storage.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
-import 'Controller/LanguageController.dart';
 import 'Controller/LoaderController.dart';
 import 'Controller/ThemeController.dart';
 import 'Controller/TokenController.dart';
@@ -54,11 +53,12 @@ class DirectTarget extends StatelessWidget {
                 : 'coolvetica'),
           ),
           textTheme: TextTheme(
-            bodyLarge: TextStyle(fontSize: 16, color: Colors.black),  // لون للنص الفاتح
+            bodyLarge: TextStyle(fontSize: 16, color: Colors.black),
             bodyMedium: TextStyle(fontSize: 14, color: PrimaryColor),
             bodySmall: TextStyle(fontSize: 12, color: Colors.black54),
             headlineLarge: TextStyle(fontSize: 22, color: Colors.black),
             titleMedium: TextStyle(fontSize: 18, color: Colors.black87),
+            displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.black),
           ),
           appBarTheme: const AppBarTheme(
             backgroundColor: FormBackGraund,
@@ -72,7 +72,7 @@ class DirectTarget extends StatelessWidget {
               : 'coolvetica',
           brightness: Brightness.dark,
           textTheme: TextTheme(
-            bodyLarge: TextStyle(fontSize: 16, color: LightGrey),  // لون للنص الداكن
+            bodyLarge: TextStyle(fontSize: 16, color: LightGrey),
             bodyMedium: TextStyle(fontSize: 14, color: Colors.grey.shade300),
             bodySmall: TextStyle(fontSize: 12, color: Colors.grey.shade400),
             headlineLarge: TextStyle(fontSize: 24, color: LightGrey),

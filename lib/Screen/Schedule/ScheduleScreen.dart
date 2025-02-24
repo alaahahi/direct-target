@@ -32,83 +32,70 @@ class _TabBarExampleState extends State<shedule_screen>
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: SingleChildScrollView(
-        physics: NeverScrollableScrollPhysics(),
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 00),
-          child: Column(
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height,
-                child: Column(
-                  children: [
-                    Padding(
-                      padding: const EdgeInsets.symmetric(horizontal: 20),
-                      child: Container(
-
-                        width: MediaQuery.of(context).size.height,
-                        decoration: BoxDecoration(
-                          border: Border.all(
-                              color: Color.fromARGB(255, 235, 235, 235)),
-                          color: Color.fromARGB(255, 241, 241, 241),
-                          borderRadius: BorderRadius.circular(10),
-                        ),
-                        child: Column(
-                          children: [
-                            Padding(
-                              padding: EdgeInsets.all(5),
-                              child: TabBar(
-                                indicator: BoxDecoration(
-                                  color:PrimaryColor,
-                                  borderRadius: BorderRadius.circular(8),
+    return  SingleChildScrollView(
+      physics: NeverScrollableScrollPhysics(),
+      child: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 00),
+        child: Column(
+          children: [
+            Container(
+              height: MediaQuery.of(context).size.height,
+              child: Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 20),
+                    child: Container(
+                      width: MediaQuery.of(context).size.height,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: EdgeInsets.all(5),
+                            child: TabBar(
+                              dividerColor: Colors.transparent,
+                              indicatorColor:
+                              PrimaryColor,
+                              unselectedLabelColor:
+                              const Color.fromARGB(255, 32, 32, 32),
+                              labelColor:PrimaryColor,
+                              controller: tabController,
+                              tabs:  [
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                  child: Tab(
+                                    text: "Upcoming".tr,
+                                  ),
                                 ),
-                                  dividerColor: Colors.transparent,
-                                indicatorColor:
-                                    const Color.fromARGB(255, 241, 241, 241),
-                                unselectedLabelColor:
-                                    const Color.fromARGB(255, 32, 32, 32),
-                                labelColor: Color.fromARGB(255, 255, 255, 255),
-                                controller: tabController,
-                                tabs:  [
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                    child: Tab(
-                                      text: "Upcoming".tr,
-                                    ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                  child: Tab(
+                                    text: "Completed".tr,
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                    child: Tab(
-                                      text: "Completed".tr,
-                                    ),
+                                ),
+                                Padding(
+                                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                                  child: Tab(
+                                    text: "Cancel".tr,
                                   ),
-                                  Padding(
-                                    padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                    child: Tab(
-                                      text: "Cancel".tr,
-                                    ),
-                                  ),
-                                ],
-                              ),
+                                ),
+                              ],
                             ),
-                          ],
-                        ),
+                          ),
+                        ],
                       ),
                     ),
-                    Expanded(
-                        child: TabBarView(
-                            controller: tabController,
-                            children:  [
-                              SheduleTab1(),
-                              SheduleTab2(),
-                              SheduleTab3(),
-                        ]))
-                  ],
-                ),
+                  ),
+                  Expanded(
+                      child: TabBarView(
+                          controller: tabController,
+                          children:  [
+                            SheduleTab1(),
+                            SheduleTab2(),
+                            SheduleTab3(),
+                          ]))
+                ],
               ),
-            ],
-          ),
+            ),
+          ],
         ),
       ),
     );

@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import '../Service/CardServices.dart';
 import '../Utils/Constant.dart';
 import 'CardController.dart';
-import 'CardServiceController.dart';
+
 
 class LanguageController extends GetxController {
   SingingCharacter? character;
@@ -32,9 +32,9 @@ class LanguageController extends GetxController {
 
     Future.delayed(Duration(milliseconds: 300), () async {
       final cardService = Get.find<CardServices>();
-       Get.find<CardController>().getCards();
-       Get.find<CardServiceController>().fetchCardServices(1);
-       Get.find<CardController>().getPopularService();
+      Get.find<CardController>().getCards();
+      Get.find<CardController>()..getCardServices(1);
+      Get.find<CardController>().getPopularService();
 
       update();
     });

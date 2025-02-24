@@ -1,14 +1,18 @@
+import 'package:direct_target/Controller/CardController.dart';
 import 'package:direct_target/Screen/Home/HomeScreen.dart';
+import 'package:direct_target/Service/CardServices.dart';
 import 'package:flutter/material.dart';
 import 'package:direct_target/Widgets/DoctorList.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:get/get.dart';
 import '../../../Controller/AppointmentController.dart';
-import '../../../Controller/CardServiceController.dart';
 import '../../../Controller/LoaderController.dart';
 import '../../../Controller/ProfileCardController.dart';
 import 'package:intl/intl.dart';
+
+import '../../../Model/CardServicesModel.dart';
+import '../../../Widgets/DoctorDetailsList.dart';
 
 class DoctorDetails extends StatefulWidget {
   final int doctorId;
@@ -20,9 +24,9 @@ class DoctorDetails extends StatefulWidget {
 }
 
 class _DoctorDetailsState extends State<DoctorDetails> {
-  final CardServiceController controller = Get.put(CardServiceController());
+
   final AppointmentController appointmencontroller =
-      Get.put(AppointmentController());
+  Get.put(AppointmentController());
   final TextEditingController noteController = TextEditingController();
   final TextEditingController startController = TextEditingController();
   final TextEditingController endController = TextEditingController();
@@ -111,7 +115,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
         toolbarHeight: 100,
 
       ),
-      body: GetBuilder<CardServiceController>(
+      body: GetBuilder<CardController>(
         builder: (controller) {
           if (loaderController.loading.value) {
             return Center(
@@ -119,8 +123,12 @@ class _DoctorDetailsState extends State<DoctorDetails> {
             );
           }
 
-          final doctor = controller.allServiceList!
-              .firstWhere((service) => service.id == widget.doctorId);
+          final doctor = controller.servicesList?.expand((category) => category.services ?? [])
+              .firstWhere((service) => service.id == widget.doctorId, orElse: () => null);
+
+          if (doctor == null) {
+            return Center(child: Text("Doctor not found"));
+          }
 
           final doctorDays = doctor.workingDays;
           final String? startTime = doctor.workingHours?.start;
@@ -133,206 +141,222 @@ class _DoctorDetailsState extends State<DoctorDetails> {
           List<String> availableHours = getAvailableHours(startTime, endTime);
 
           return ListView(
-            children: [
-
-              doctorList(
-                maintext: doctor.serviceName ?? "No Name",
-                subtext: doctor.description ?? "No Description",
-                image: doctor.image != null && doctor.image!.isNotEmpty
-                    ? doctor.image!
-                    : "Assets/images/person.png",
-              ),
-              const SizedBox(height: 15),
-              GestureDetector(
-                child: Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 20),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        "About".tr,
-                        style:  Theme.of(context).textTheme.bodyLarge,
-                      ),
-                      const SizedBox(height: 5),
-                      Text(
-                       doctor.description ?? "No Description",
-                        style:  Theme.of(context).textTheme.bodyLarge,
-              ),
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: TextField(
-                  controller: noteController,
-                  decoration: InputDecoration(labelText: 'Note'.tr),
+              children: [
+                DoctorDetailsList(
+                  maintext: doctor.serviceName ?? "No Name",
+                  subtext: doctor.specialty ?? "No Description",
+                  image:  "Assets/images/person.png",
+                  firstmaintext: doctor.reviewRate  ?? "No Name",
+                  secondmaintext: doctor.exYear  ?? "No Name",
+                  thirdmaintext: doctor.appointmentsCount ?? "No Name",
                 ),
-              ),
-              SizedBox(height: 20),
-              Padding(
-                padding: const EdgeInsets.all(1.0),
-                child: Column(
-                  children: [
-                    Container(
-                      height: MediaQuery.of(context).size.height * 0.1,
-                      child: ListView.builder(
-                        scrollDirection: Axis.horizontal,
-                        physics: BouncingScrollPhysics(),
-                        itemCount: doctorDays!.length,
-                        itemBuilder: (context, index) {
-                          final day = doctorDays[index];
-                          final correspondingDate = getDateForDay(day);
-                          return Padding(
-                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                            child: ElevatedButton(
-                              onPressed: () {
-                                setState(() {
-                                  selectedDay = day;
-                                  selectedDate = correspondingDate;
-                                });
-                              },
-                              style: ElevatedButton.styleFrom(
-                                backgroundColor: selectedDay == day
-                                    ? PrimaryColor
-                                    : Colors.white,
-                                shape: RoundedRectangleBorder(
-                                  borderRadius: BorderRadius.circular(20),
-                                ),
+                const SizedBox(height: 15),
+                GestureDetector(
+                    child: Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 20),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "About".tr,
+                              style:  Theme.of(context).textTheme.headlineLarge,
+                            ),
+                            const SizedBox(height: 5),
+                            Text(
+                              doctor.description ?? "No Description",
+                              style:  Theme.of(context).textTheme.bodyLarge,
+                            ),
+                            Padding(
+                              padding: const EdgeInsets.all(20.0),
+                              child: TextField(
+                                controller: noteController,
+                                decoration: InputDecoration(labelText: 'Note'.tr),
                               ),
+                            ),
+                            SizedBox(height: 20),
+                            Padding(
+                              padding: const EdgeInsets.all(1.0),
                               child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
+                                crossAxisAlignment: CrossAxisAlignment.start,
                                 children: [
-                                  Text(
-                                    day,
-                                    style: TextStyle(
-                                      color: selectedDay == day
-                                          ? Colors.white
-                                          : PrimaryColor,
+                                  Padding(
+                                    padding: const EdgeInsets.all(20.0),
+                                    child: Text(
+                                      "Available Days".tr,
+                                      style:  Theme.of(context).textTheme.headlineLarge,
                                     ),
                                   ),
-                                  SizedBox(height: 4),
-                                  Text(
-                                    correspondingDate,
-                                    style: TextStyle(
-                                      color: selectedDay == day
-                                          ? Colors.white
-                                          : PrimaryColor,
-                                      fontSize: 12,
+                                  Container(
+                                    height: MediaQuery.of(context).size.height * 0.1,
+                                    child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      physics: BouncingScrollPhysics(),
+                                      itemCount: doctorDays!.length,
+                                      itemBuilder: (context, index) {
+                                        final day = doctorDays[index];
+                                        final correspondingDate = getDateForDay(day);
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                selectedDay = day;
+                                                selectedDate = correspondingDate;
+                                              });
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: selectedDay == day
+                                                  ? PrimaryColor
+                                                  : Colors.white,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(20),
+                                              ),
+                                            ),
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  day,
+                                                  style: TextStyle(
+                                                    color: selectedDay == day
+                                                        ? Colors.white
+                                                        : PrimaryColor,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 4),
+                                                Text(
+                                                  correspondingDate,
+                                                  style: TextStyle(
+                                                    color: selectedDay == day
+                                                        ? Colors.white
+                                                        : PrimaryColor,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
                                     ),
+                                  ),
+                                  SizedBox(height: 20),
+                                  const SizedBox(height: 20),
+                                  const Padding(
+                                    padding: EdgeInsets.symmetric(horizontal: 20),
+                                    child: Divider(
+                                      color: Colors.black12,
+                                      thickness: 1,
+                                    ),
+                                  ),
+                                  Column(
+                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    children: [
+                                      Padding(
+                                        padding: const EdgeInsets.all(20.0),
+                                        child: Text(
+                                          "Available Hours".tr,
+                                          style:  Theme.of(context).textTheme.headlineLarge,
+                                        ),
+                                      ),
+                                      SizedBox(height: 20),
+                                      Container(
+                                        height: MediaQuery.of(context).size.height * 0.05,
+                                        child: ListView.builder(
+                                          scrollDirection: Axis.horizontal,
+                                          physics: BouncingScrollPhysics(),
+                                          itemCount: availableHours.length,
+                                          itemBuilder: (context, index) {
+                                            final hour = availableHours[index];
+                                            return Padding(
+                                              padding:
+                                              const EdgeInsets.symmetric(horizontal: 8.0),
+                                              child: ElevatedButton(
+                                                onPressed: () {
+                                                  setState(() {
+                                                    selectedTime = hour;
+                                                    String endTime = addHalfHour(selectedTime!);
+                                                  });
+                                                },
+                                                style: ElevatedButton.styleFrom(
+                                                  backgroundColor: selectedTime == hour
+                                                      ? PrimaryColor
+                                                      : Colors.white,
+                                                  shape: RoundedRectangleBorder(
+                                                    borderRadius: BorderRadius.circular(20),
+                                                  ),
+                                                ),
+                                                child: Text(
+                                                  hour,
+                                                  style: TextStyle(
+                                                    color: selectedTime == hour
+                                                        ? Colors.white
+                                                        : PrimaryColor,
+                                                  ),
+                                                ),
+                                              ),
+                                            );
+                                          },
+                                        ),
+                                      ),
+                                    ],
                                   ),
                                 ],
                               ),
                             ),
-                          );
-                        },
-                      ),
-                    ),
-                    SizedBox(height: 20),
-                    const SizedBox(height: 20),
-                    const Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20),
-                      child: Divider(
-                        color: Colors.black12,
-                        thickness: 1,
-                      ),
-                    ),
-                    Column(
-                      children: [
-                        SizedBox(height: 10),
-                        Container(
-                          height: MediaQuery.of(context).size.height * 0.05,
-                          child: ListView.builder(
-                            scrollDirection: Axis.horizontal,
-                            physics: BouncingScrollPhysics(),
-                            itemCount: availableHours.length,
-                            itemBuilder: (context, index) {
-                              final hour = availableHours[index];
-                              return Padding(
-                                padding:
-                                const EdgeInsets.symmetric(horizontal: 8.0),
-                                child: ElevatedButton(
-                                  onPressed: () {
-                                    setState(() {
-                                      selectedTime = hour;
-                                      String endTime = addHalfHour(selectedTime!);
-                                    });
-                                  },
-                                  style: ElevatedButton.styleFrom(
-                                    backgroundColor: selectedTime == hour
-                                        ? PrimaryColor
-                                        : Colors.white,
-                                    shape: RoundedRectangleBorder(
-                                      borderRadius: BorderRadius.circular(20),
-                                    ),
-                                  ),
-                                  child: Text(
-                                    hour,
-                                    style: TextStyle(
-                                      color: selectedTime == hour
-                                          ? Colors.white
-                                          : PrimaryColor,
+                            const SizedBox(height: 10),
+                            Obx(() {
+
+                              return appointmencontroller.loaderController.loading.value
+
+                                  ? SizedBox(
+                                height: 30,
+                                width: 30,
+                                child: CircularProgressIndicator(),
+                              )
+                                  : Center(
+                                child: Padding(
+                                  padding: const EdgeInsets.all(20.0),
+                                  child: Container(
+                                    height: MediaQuery.of(context).size.height * 0.07,
+                                    width: MediaQuery.of(context).size.width * 0.9,
+                                    child: ElevatedButton(
+                                      onPressed: () {
+                                        if (widget.appointmentId == null) {
+                                          appointmencontroller.createAppointment(
+                                            profileId: profcontroller.selectedCardId.value,
+                                            note: noteController.text,
+                                            start: "$selectedDate $selectedTime",
+                                            end: addHalfHour("$selectedDate $selectedTime"),
+                                            serviceProviderId: widget.doctorId,
+                                          );
+                                        }
+                                      },
+                                      style: ElevatedButton.styleFrom(
+                                        backgroundColor: PrimaryColor,
+                                        shape: RoundedRectangleBorder(
+                                          borderRadius: BorderRadius.circular(30),
+                                        ),
+                                      ),
+                                      child: Text(
+                                        widget.appointmentId == null ? 'Create Appointment'.tr : 'Update Appointment'.tr,
+                                        style: TextStyle(
+                                          color: Colors.white,
+                                        ),
+                                      ),
                                     ),
                                   ),
                                 ),
                               );
-                            },
-                          ),
-                        ),
-                      ],
-                    ),
-                  ],
-                ),
-              ),
-              const SizedBox(height: 10),
-              Obx(() {
+                            }),
 
-                return appointmencontroller.loaderController.loading.value
-
-                    ? SizedBox(
-                  height: 30,
-                  width: 30,
-                  child: CircularProgressIndicator(),
-                )
-                    : Center(
-                      child: Padding(
-                                        padding: const EdgeInsets.all(20.0),
-                                        child: Container(
-                                          height: MediaQuery.of(context).size.height * 0.07,
-                                          width: MediaQuery.of(context).size.width * 0.9,
-                                          child: ElevatedButton(
-                                                                onPressed: () {
-                                                                  if (widget.appointmentId == null) {
-                                                                    appointmencontroller.createAppointment(
-                                                                      profileId: profcontroller.selectedCardId.value,
-                                                                      note: noteController.text,
-                                                                      start: "$selectedDate $selectedTime",
-                                                                      end: addHalfHour("$selectedDate $selectedTime"),
-                                                                      serviceProviderId: widget.doctorId,
-                                                                    );
-                                                                  }
-                                                                },
-                                                                style: ElevatedButton.styleFrom(
-                                                                  backgroundColor: PrimaryColor,
-                                                                  shape: RoundedRectangleBorder(
-                                                                    borderRadius: BorderRadius.circular(30),
-                                                                  ),
-                                                                ),
-                                                                child: Text(
-                                                                  widget.appointmentId == null ? 'Create Appointment'.tr : 'Update Appointment'.tr,
-                                                                  style: TextStyle(
-                                                                    color: Colors.white,
-                                                                  ),
-                                                                ),
-                                          ),
-                                        ),
-                                      ),
-                    );
-              }),
-
-            ],
-          )
-          ))
+                          ],
+                        )
+                    ))
 
 
 
-            ]);
+              ]);
         },
       ),
 

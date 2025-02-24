@@ -10,17 +10,22 @@ import 'package:direct_target/Screen/Services/Doctor/DoctorDetailsScreen.dart';
 import 'package:get/get.dart';
 import 'package:direct_target/Screen/RequestCard/RequestScreen.dart';
 
-import '../../Controller/CardServiceController.dart';
+
 import '../../Controller/LoaderController.dart';
 import '../../Controller/TokenController.dart';
+import '../../Model/AllCardServicesModel.dart';
 import '../../Service/CardServices.dart';
+import '../../Widgets/CategoryList.dart';
+import '../../Widgets/DoctorList.dart';
 import '../Services/Doctor/TopDoctorScreen.dart';
+import 'Search.dart';
 
 
 class DashboardScreenBody extends StatelessWidget {
   DashboardScreenBody({super.key});
   final tokenController = Get.put(TokenController());
-  final CardServiceController controller = Get.put(CardServiceController());
+  String? selectedCategory;
+  List<Services> selectedServices = [];
   final CardController cardController =
   Get.put(CardController(CardServices()));
   LoaderController loaderController = Get.put(LoaderController());
@@ -42,7 +47,7 @@ class DashboardScreenBody extends StatelessWidget {
                     context,
                     PageTransition(
                         type: PageTransitionType.rightToLeft,
-                        child: find_doctor()));
+                        child:SearchPage()));
               },
               textAlign: TextAlign.start,
               textInputAction: TextInputAction.none,
@@ -77,31 +82,36 @@ class DashboardScreenBody extends StatelessWidget {
             ),
           ),
         ),
+
         SizedBox(
           height: 20,
         ),
         Container(
-            height: 250,
-            width: 400,
-            child:GetBuilder<CardController>(
-              builder: (cardController) {
-                if (loaderController.loading.value) {
-                  return Center(
-                    child: CircularProgressIndicator(color: PrimaryColor),
-                  );
-                }
+          width: 400,
+          child: GetBuilder<CardController>(
+            builder: (cardController) {
+              if (loaderController.loading.value) {
+                return Center(
+                  child: CircularProgressIndicator(color: PrimaryColor),
+                );
+              }
 
-                if (cardController.allCardList!.isEmpty) {
-                  return Center(
-                    child: Text("No data available".tr,
-                      style: TextStyle( color: Theme.of(context).textTheme.bodyMedium?.color,),),
-                  );
-                }
+              if (cardController.allCardList!.isEmpty) {
+                return Center(
+                  child: Text(
+                    "No data available".tr,
+                    style: TextStyle(
+                      color: Theme.of(context).textTheme.bodyMedium?.color,
+                    ),
+                  ),
+                );
+              }
 
-                return ListView(
-                  physics: BouncingScrollPhysics(),
-                  children: cardController.allCardList!.map((service) {
-                    return GestureDetector(
+              return Column(
+                children: cardController.allCardList!.map((service) {
+                  return Padding(
+                    padding: const EdgeInsets.only(bottom: 10.0),
+                    child: GestureDetector(
                       onTap: () {
                         Navigator.push(
                           context,
@@ -120,23 +130,16 @@ class DashboardScreenBody extends StatelessWidget {
                           fit: BoxFit.cover,
                         ),
                       ),
-                    );
-                  }).toList(),
-                );
-              },
-            )
+                    ),
+                  );
+                }).toList(),
+              );
+            },
+          ),
         ),
+
         SizedBox(
           height: 20,
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            ListIcons(icon: Icons.medical_services_outlined, text: "Doctor".tr, color: PrimaryColor),
-            ListIcons(icon: Icons.local_pharmacy, text: "Pharmacy".tr, color: PrimaryColor),
-            ListIcons(icon: Icons.local_hospital, text: "Hospital".tr, color: PrimaryColor),
-            ListIcons(icon: Icons.local_taxi, text: "Ambulance".tr, color: PrimaryColor),
-          ],
         ),
 
         const SizedBox(
@@ -171,8 +174,6 @@ class DashboardScreenBody extends StatelessWidget {
           ),
         ),
 
-
-
         const SizedBox(
           height: 20,
         ),
@@ -186,18 +187,16 @@ class DashboardScreenBody extends StatelessWidget {
             ),
             GetBuilder<CardController>(
               builder: (controller) {
-
-
                 return GestureDetector(
                   onTap: () {
 
-                      Navigator.pushReplacement(
-                        context,
-                        PageTransition(
-                          type: PageTransitionType.rightToLeft,
-                          child: TopDoctorScreen(),
-                        ),
-                      );
+                    Navigator.pushReplacement(
+                      context,
+                      PageTransition(
+                        type: PageTransitionType.rightToLeft,
+                        child: TopDoctorScreen(),
+                      ),
+                    );
 
                   },
                   child: Text(
@@ -259,7 +258,7 @@ class DashboardScreenBody extends StatelessWidget {
                           ? service.image!
                           : "Assets/images/person.png",
                       maintext: service.serviceName ?? "No Name",
-                      subtext: service.description ?? "No Description",
+                      subtext: service.specialty ?? "No Description",
                     ),
                   );
                 }).toList(),
@@ -267,6 +266,127 @@ class DashboardScreenBody extends StatelessWidget {
             },
           ),
         ),
+        SizedBox(
+          height: 20,
+        ),
+        Container(
+          height: MediaQuery.of(context).size.height * 0.9,
+          child: GetBuilder<CardController>(
+            builder: (controller) {
+              if (loaderController.loading.value) {
+                return Center(
+                  child: CircularProgressIndicator(color: PrimaryColor),
+                );
+              }
+              if (controller.servicesList == null) {
+                return Center(
+                  child: Text(
+                    "Loading data...".tr,
+                    style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
+                  ),
+                );
+              }
+
+              if (controller.servicesList!.isEmpty) {
+                return Center(
+                  child: Text(
+                    "No data available".tr,
+                    style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
+                  ),
+                );
+              }
+
+              String? selectedCategory = controller.selectedCategory;
+              List<Services> selectedServices = controller.selectedServices;
+
+              if (selectedCategory == null) {
+                selectedCategory = controller.servicesList![1].categoryName;
+                selectedServices = controller.servicesList![1].services ?? [];
+                controller.selectedCategory = selectedCategory;
+                controller.selectedServices = selectedServices;
+              }
+
+              return Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  Container(
+                    height: 180,
+                    child: ListView.builder(
+                      scrollDirection: Axis.horizontal,
+                      itemCount: controller.servicesList!.length,
+                      itemBuilder: (context, index) {
+                        return GestureDetector(
+                          onTap: () {
+
+                            controller.selectedCategory = controller.servicesList![index].categoryName;
+                            controller.selectedServices = controller.servicesList![index].services ?? [];
+                            controller.update();
+                          },
+                          child: Container(
+                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            margin: EdgeInsets.all(5),
+                            decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(8),
+                              color: selectedCategory == controller.servicesList![index].categoryName
+                                  ? PrimaryColor
+                                  : Colors.grey[200],
+                            ),
+                            child: Center(
+                              child: ListIcons(
+                                icon: controller.servicesList![index].categoryIcon ?? "default",
+                                text: controller.servicesList![index].categoryName ?? "No Name",
+                                categoryDiscount: controller.servicesList![index].categoryDiscount,
+                                textStyle: TextStyle(
+                                  fontSize: 16,
+                                  fontWeight: FontWeight.bold,
+                                  color: selectedCategory == controller.servicesList![index].categoryName
+                                      ? Colors.white
+                                      : Colors.black,
+                                ),
+
+                              ),
+
+                            ),
+                          ),
+                        );
+                      },
+                    ),
+                  ),
+
+                  Expanded(
+                    child: ListView.builder(
+                      physics: BouncingScrollPhysics(),
+                      itemCount: selectedServices.length,
+                      itemBuilder: (context, index) {
+                        var service = selectedServices[index];
+                        return GestureDetector(
+                          onTap: () {
+
+                            Navigator.push(
+                              context,
+                              PageTransition(
+                                type: PageTransitionType.rightToLeft,
+                                child: DoctorDetails(doctorId: service.id!),
+                              ),
+                            );
+                          },
+                          child:doctorList(
+                            maintext: service.serviceName ?? "No Name",
+                            subtext: service.specialty ?? "No Description",
+                            image:  "Assets/images/person.png",
+                            firstmaintext :service.reviewRate ??  "1",
+                          ),
+
+                        );
+                      },
+                    ),
+                  ),
+                ],
+              );
+            },
+          ),
+        )
       ]),
     );
 

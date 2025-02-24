@@ -112,7 +112,7 @@ final Map<String, String> en = {
   'Verify Code':'Verify Code',
 
   "Request Card":"Request Card",
-      "Join Now":"Join Now",
+  "Join Now":"Join Now",
   "No data available":"No data available",
   'Your Name':'Your Name',
   'Your Phone Number':'Your Phone Number',
@@ -144,7 +144,7 @@ final Map<String, String> en = {
   'Member Name':'Member Name',
   "No Appointments Found":"No Appointments Found",
   "Note":"Note",
-      "No Completed Appointments":"No Completed Appointments",
+  "No Completed Appointments":"No Completed Appointments",
   "No Canceled Appointments":"No Canceled Appointments",
   "Edit Book Appointment":"Edit Book Appointment",
   "No profile data found":"No profile data found",
@@ -152,28 +152,28 @@ final Map<String, String> en = {
   "About":"About",
   'Update Appointment':'Update Appointment',
   "Error" :"Error",
-"Please select a date and time":"Please select a date and time",
+  "Please select a date and time":"Please select a date and time",
   "Book Appointment":"Book Appointment",
   'Create Appointment':'Create Appointment',
   'Update Appointment':'Update Appointment',
   "No Services Available":"No Services Available",
   "Confirm Logout":"Confirm Logout",
   "Language":"Language",
-"Privacy & Policy":"Privacy & Policy",
+  "Privacy & Policy":"Privacy & Policy",
   "Terms & Condition":"Terms & Condition",
   "Are you sure you want to log out?":"Are you sure you want to log out?",
   "No":"No",
   "Yes":"Yes",
   "Log out":"Log out",
-"The code was sent successfully":"The code was sent successfully",
-"Alert":"Alert",
-"No data was modified":"No data was modified",
-"Success": "Success",
-"The appointment was updated successfully":"The appointment was updated successfully",
-"An error occurred while updating the appointment":"An error occurred while updating the appointment",
-"Unknown error":"Unknown error",
-"The code was sent successfully":"The code was sent successfully",
-"An error occurred while sending the code": "An error occurred while sending the code",
+  "The code was sent successfully":"The code was sent successfully",
+  "Alert":"Alert",
+  "No data was modified":"No data was modified",
+  "Success": "Success",
+  "The appointment was updated successfully":"The appointment was updated successfully",
+  "An error occurred while updating the appointment":"An error occurred while updating the appointment",
+  "Unknown error":"Unknown error",
+  "The code was sent successfully":"The code was sent successfully",
+  "An error occurred while sending the code": "An error occurred while sending the code",
   'App Information':'App Information',
   'Contact Us':'Contact Us',
   'Get in Touch': 'Get in Touch',
@@ -191,7 +191,9 @@ final Map<String, String> en = {
   'success_message': 'Message Sent Successfully!',
   "Services of Card":"Services of Card",
   'Phone Number':'Phone Number',
-  "Featured Services":"Featured Services"
+  "Featured Services":"Featured Services",
+  "Available Hours":"Available Hours",
+  "Available Days":"Available Days"
 }
 ;
 final Map<String, String> ar = {
@@ -383,7 +385,9 @@ final Map<String, String> ar = {
   'success_message': 'تم إرسال الرسالة بنجاح!',
   "Services of Card":"خدمات البطاقة",
   'Phone Number':'رقم الهاتف',
-"Featured Services":"الخدمات المميزة"
+  "Featured Services":"الخدمات المميزة",
+  "Available Hours":"الساعات المتاحة",
+  "Available Days":"الأيام المتاحة"
 }
 ;
 

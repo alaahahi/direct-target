@@ -1,106 +1,208 @@
-import 'package:carousel_slider/carousel_slider.dart';
-import 'package:direct_target/Screen/Home/HomeScreen.dart';
+
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../Controller/AllSettingController.dart';
-import '../../Service/SettingsServices.dart';
-import 'package:shimmer/shimmer.dart';
-import 'package:cached_network_image/cached_network_image.dart';
-import 'package:direct_target/Screen/Home/DashboardScreen.dart';
+import '../../../Controller/CardController.dart';
+
+import '../../../Controller/LoaderController.dart';
+import '../../../Service/CardServices.dart';
+import '../../Utils/AppStyle.dart';
+import '../Schedule/ScheduleScreen.dart';
+
+import 'CardServicesTab.dart';
+
 
 class CardScreenBody extends StatefulWidget {
-  const CardScreenBody({super.key});
+  final int cardId;
+  const CardScreenBody({required this.cardId});
 
   @override
   State<CardScreenBody> createState() => _CardScreenBodyState();
 }
 
-class _CardScreenBodyState extends State<CardScreenBody> {
-  final AllSettingController _controller = Get.put(AllSettingController(SettingsServices()));
+class _CardScreenBodyState extends State<CardScreenBody> with SingleTickerProviderStateMixin{
+
+  LoaderController loaderController = Get.put(LoaderController());
+  final CardController cardController =
+  Get.put(CardController(CardServices()));
 
   @override
+  void initState() {
+    super.initState();
+    tabController = TabController(length: 2, vsync: this);
+  }
+
+  @override
+  void dispose() {
+    tabController.dispose();
+    super.dispose();
+  }
+  late TabController tabController;
+  @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisSize: MainAxisSize.min,
-          children: [
-            CarouselSlider(
-              items: [
-                _controller.firstAdsImageUrl.value.isNotEmpty
-                    ? ShimmerImage(imageUrl: _controller.firstAdsImageUrl.value)
-                    : ShimmerImage(imageUrl: 'Assets/images/2.jpg'),
-                _controller.secondAdsImageUrl.value.isNotEmpty
-                    ? ShimmerImage(imageUrl: _controller.secondAdsImageUrl.value)
-                    : ShimmerImage(imageUrl: 'Assets/images/2.jpg'),
-                _controller.thirdAdsImageUrl.value.isNotEmpty
-                    ? ShimmerImage(imageUrl: _controller.thirdAdsImageUrl.value)
-                    : ShimmerImage(imageUrl: 'Assets/images/2.jpg'),
-                _controller.fourthAdsImageUrl.value.isNotEmpty
-                    ? ShimmerImage(imageUrl: _controller.fourthAdsImageUrl.value)
-                    : ShimmerImage(imageUrl: 'Assets/images/2.jpg'),
-              ].map((item) {
-                return Builder(
-                  builder: (BuildContext context) {
-                    return GestureDetector(
-                      onTap: () {
-                        Navigator.push(
-                          context,
-                          MaterialPageRoute(builder: (context) => Homepage()),
-                        );
-                      },
-                      child: ClipRRect(
-                        borderRadius: BorderRadius.circular(20.0),
-                        child: Container(
-                          width: MediaQuery.of(context).size.width,
-                          height: 150,
-                          child: item,
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Padding(
+            padding: const EdgeInsets.all(28.0),
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: Theme.of(context).textTheme.bodyMedium?.color,
+              size: MediaQuery.of(context).size.height * 0.025,
+            ),
+          ),
+
+          onPressed: () => Get.back(),
+        ),
+        title: Text(
+          "Services of Card".tr,
+          style: Theme.of(context).textTheme.headlineLarge,
+        ),
+        centerTitle: true,
+        elevation: 0,
+        toolbarHeight: 100,
+      ),
+      body: GetBuilder<CardController>(
+        builder: (cardController) {
+          final selectedCard = cardController.allCardList?.firstWhere(
+                (card) => card.id == widget.cardId,
+          );
+          if (selectedCard == null) {
+            return Center(
+              child: Text(
+                "No Card Found".tr,
+                style: TextStyle(fontSize: 18, color: Colors.grey),
+              ),
+            );
+          }
+
+          return  Column(
+            children: [
+              Container(
+                width: double.infinity,
+                height: 400,
+                child: Card(
+                  margin: EdgeInsets.all(16.0),
+                  elevation: 5,
+                  color: Colors.white,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10),
+                  ),
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      ClipRRect(
+                        borderRadius: BorderRadius.only(
+                          topLeft: Radius.circular(10),
+                          topRight: Radius.circular(10),
+                        ),
+                        child: Image.asset(
+                          'Assets/images/4.jpg',
+                          width: double.infinity,
+                          height: 220,
+                          fit: BoxFit.cover,
                         ),
                       ),
-                    );
-                  },
-                );
-              }).toList(),
-              options: CarouselOptions(
-                height: 250,
-                enlargeCenterPage: true,
-                autoPlay: true,
-                aspectRatio: 4 / 3,
-                autoPlayCurve: Curves.fastOutSlowIn,
-                enableInfiniteScroll: true,
-                autoPlayAnimationDuration: Duration(milliseconds: 800),
-                viewportFraction: 0.8,
+
+
+                      Padding(
+                        padding: EdgeInsets.all(16.0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              selectedCard.name ?? "No Name",
+                              style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "Card Number: ${selectedCard.price}",
+                              style: Theme.of(context).textTheme.bodyLarge,
+                            ),
+                            SizedBox(height: 10),
+                            Text(
+                              "Card Description: ${selectedCard.name ?? "No Description"}",
+                              style: Theme.of(context).textTheme.bodyMedium,
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
               ),
-            ),
-            DashboardScreen(),
-          ],
-        ),
+
+              SizedBox(height: 20),
+              Expanded(child: SingleChildScrollView(
+                child: Column(
+                  children: [
+                    Container(
+                      height: MediaQuery.of(context).size.height,
+                      child: Column(
+                        children: [
+                          Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 20),
+                            child: Container(
+                              width: MediaQuery.of(context).size.height,
+                              child: Column(
+                                children: [
+                                  Padding(
+                                    padding: EdgeInsets.all(10),
+                                    child: TabBar(
+                                      indicator: BoxDecoration(
+                                        color:PrimaryColor,
+                                        borderRadius: BorderRadius.circular(28),
+                                      ),
+                                      dividerColor: Colors.transparent,
+                                      indicatorColor:
+                                      const Color.fromARGB(255, 241, 241, 241),
+                                      unselectedLabelColor:
+                                      const Color.fromARGB(255, 32, 32, 32),
+                                      labelColor: Color.fromARGB(255, 255, 255, 255),
+                                      controller: tabController,
+                                      tabs:  [
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 32, vertical: 2),
+                                          child: Tab(
+                                            text: "Services".tr,
+                                          ),
+                                        ),
+                                        Padding(
+                                          padding: EdgeInsets.symmetric(horizontal: 32, vertical: 2),
+                                          child: Tab(
+                                            text: "Appointment".tr,
+                                          ),
+                                        ),
+
+                                      ],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
+                          Expanded(
+                            child: TabBarView(
+                              controller: tabController,
+                              children: [
+                                CardServicesTab(cardId: selectedCard.id!,),
+                                shedule_screen(),
+                              ],
+                            ),
+                          )
+
+                        ],
+                      ),
+                    ),
+                  ],
+                ),
+              ),),
+            ],
+          );
+
+        },
       ),
-    );
-  }
-}
 
-class ShimmerImage extends StatelessWidget {
-  final String imageUrl;
 
-  ShimmerImage({required this.imageUrl});
-
-  @override
-  Widget build(BuildContext context) {
-    return CachedNetworkImage(
-      imageUrl: imageUrl,
-      fit: BoxFit.cover,
-      placeholder: (context, url) => Shimmer.fromColors(
-        baseColor: Colors.grey[300]!,
-        highlightColor: Colors.white,
-        child: Container(
-          color: Colors.grey[300],
-          width: double.infinity,
-          height: double.infinity,
-        ),
-      ),
-      errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red),
     );
   }
 }

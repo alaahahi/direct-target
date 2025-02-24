@@ -2,11 +2,13 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:direct_target/Model/PopularServiceModel.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 
 import '../Api/AppConfig.dart';
 import '../Controller/LoaderController.dart';
+import '../Model/AllCardServicesModel.dart';
 import '../Model/CardModel.dart';
 import '../Model/RequestCardModel.dart';
 import '../Model/CardServicesModel.dart';
@@ -60,28 +62,27 @@ class CardServices extends GetxService  {
 
     return RequestCardModel();
   }
-  Future<CardServiceModel> fetchListAllServices(int cardId) async {
+  Future<AllCardServicesModel> searchServices(String searchTerm) async {
     loaderController.loading(true);
     final String? language = Get.locale?.languageCode;
     print("Selected Language: $language");
-
+    print("Tesssssssssssssst: $language");
     try {
-      var res = await dio.get('$appConfig/card-services/active?card_id=$cardId',
+      var res = await dio.get('$appConfig/card-services/search?search_term=$searchTerm',
         options: Options(
           headers: {
             'Content-Type': 'application/json',
             'Accept-Language': language,
           },
         ),);
-
       if (res.statusCode == 200 || res.statusCode==201  ) {
         var data = res.data;
         if (data is String) {
           print("Selected dataaaaaaaaaaaa $data");
-          return CardServiceModel.fromJson(jsonDecode(data));
+          return AllCardServicesModel.fromJson(jsonDecode(data));
         } else if (data is Map<String, dynamic>) {
           print(" dataaaaaaaaaaaa $data");
-          return CardServiceModel.fromJson(data);
+          return AllCardServicesModel.fromJson(data);
         } else {
           throw Exception('Unexpected data format');
         }
@@ -98,7 +99,46 @@ class CardServices extends GetxService  {
 
       loaderController.loading(false);
     }
-    return CardServiceModel();
+    return AllCardServicesModel();
+  }
+  Future<AllCardServicesModel> fetchListAllServices(int cardId) async {
+    loaderController.loading(true);
+    final String? language = Get.locale?.languageCode;
+    print("Selected Language: $language");
+    try {
+      var res = await dio.get('$appConfig/card-services/active?card_id=$cardId',
+        options: Options(
+          headers: {
+            'Content-Type': 'application/json',
+            'Accept-Language': language,
+          },
+        ),);
+
+      if (res.statusCode == 200 || res.statusCode==201  ) {
+        var data = res.data;
+        if (data is String) {
+          print("Selected dataaaaaaaaaaaa $data");
+          return AllCardServicesModel.fromJson(jsonDecode(data));
+        } else if (data is Map<String, dynamic>) {
+          print(" dataaaaaaaaaaaa $data");
+          return AllCardServicesModel.fromJson(data);
+        } else {
+          throw Exception('Unexpected data format');
+        }
+      }
+    } catch (e) {
+      if (e is DioException) {
+        if (e.response?.statusCode != 200 || e.response?.statusCode != 201) {
+          print('**********  Error *************${e.response}');
+          print('**********  Error *************${e.response?.statusCode}');
+        }
+      } else {
+        print('errorrrrrr in fetch $e');
+      }
+
+      loaderController.loading(false);
+    }
+    return AllCardServicesModel();
   }
   Future<CardModel> fetchCard([dynamic data]) async {
     try {
@@ -146,7 +186,7 @@ class CardServices extends GetxService  {
 
     return CardModel();
   }
-  Future<CardServiceModel?> fetchPopularService([dynamic data]) async {
+  Future<PopularServiceModel?> fetchPopularService([dynamic data]) async {
     final String? language = Get.locale?.languageCode;
     print("Selected Language: $language");
     try {
@@ -168,9 +208,9 @@ class CardServices extends GetxService  {
         var data = res.data;
 
         if (data is String) {
-          return CardServiceModel.fromJson(jsonDecode(data));
+          return PopularServiceModel.fromJson(jsonDecode(data));
         } else if (data is Map<String, dynamic>) {
-          return CardServiceModel.fromJson(data);
+          return PopularServiceModel.fromJson(data);
         } else {
           throw Exception('Unexpected data format');
         }
@@ -185,7 +225,7 @@ class CardServices extends GetxService  {
       }
     }
 
-    return CardServiceModel();
+    return PopularServiceModel();
   }
 
 

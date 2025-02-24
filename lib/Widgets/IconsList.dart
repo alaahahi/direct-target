@@ -1,14 +1,37 @@
+
 import 'package:flutter/material.dart';
 
 class ListIcons extends StatelessWidget {
-  final IconData icon;
+  final String icon;
   final String text;
-  final Color color;
+  final int? categoryDiscount;
+  final TextStyle? textStyle;
 
-  ListIcons({required this.icon, required this.text, required this.color});
+  ListIcons({
+    required this.icon,
+    required this.text,
+    required this.categoryDiscount,
+    this.textStyle,
+  });
+
+
+  IconData? getIconData(String name) {
+    Map<String, IconData> iconMap = {
+      "home": Icons.home,
+      "settings": Icons.settings,
+      "search": Icons.search,
+      "person": Icons.person,
+      "notifications": Icons.notifications,
+      "favorite": Icons.favorite,
+    };
+
+    return iconMap[name] ?? Icons.help;
+  }
 
   @override
   Widget build(BuildContext context) {
+    bool isUrl = icon.startsWith("http");
+
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Row(
@@ -30,19 +53,37 @@ class ListIcons extends StatelessWidget {
                     ),
                   ],
                 ),
-                child: Icon(
+                child: isUrl
+                    ? Image.network(
                   icon,
-                  color: color,
+                  width: 24,
+                  height: 24,
+                  errorBuilder: (context, error, stackTrace) {
+                    return Icon(Icons.error, color: Colors.red);
+                  },
+                )
+                    : Icon(
+                  getIconData(icon),
                   size: 24,
+                  color: Colors.black,
                 ),
               ),
-              const SizedBox(
-                height: 15,
-              ),
+              const SizedBox(height: 15),
+
               Text(
                 text,
-                  style: Theme.of(context).textTheme.bodyLarge
+                style: textStyle ?? TextStyle(fontSize: 14, color: Colors.black),
               ),
+
+              if (categoryDiscount != null)
+                Text(
+                  "$categoryDiscount%",
+                  style: textStyle ?? TextStyle(
+                    color: Colors.red,
+                    fontWeight: FontWeight.bold,
+                    fontSize: 14,
+                  ),
+                ),
             ],
           ),
         ],

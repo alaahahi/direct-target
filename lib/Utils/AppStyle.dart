@@ -6,7 +6,7 @@ const FormBackGraund = Color(0xFFF1F5F9);
 const TextGrey = Color(0xFF424A5D);
 const BorderGrey = Color(0xFFBFBFBF);
 const BGColor = Color(0xFF253685);
-
+const ButtonGrey = Color(0xFFf5f5f5);
 const DarkPrimaryColor = Color(0xFF1A73E8);
 const DarkBGColor = Color(0xFF003564);
 const DarkTextColor = Color(0xFFE0E0E0);

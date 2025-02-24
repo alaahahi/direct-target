@@ -6,7 +6,8 @@ import 'package:get/get.dart';
 import '../../../Controller/CardController.dart';
 import '../../../Controller/LoaderController.dart';
 import '../../../Service/CardServices.dart';
-import '../../../Widgets/doctorList.dart';
+import '../../../Widgets/DoctorList.dart';
+
 
 class TopDoctorScreen extends StatelessWidget {
   TopDoctorScreen({super.key});
@@ -73,7 +74,8 @@ class TopDoctorScreen extends StatelessWidget {
                                 ? service.image!
                                 : "Assets/images/person.png",
                             maintext: service.serviceName ?? "No Name",
-                            subtext: service.description ?? "No Description",
+                            subtext: service.specialty ?? "No Description",
+                            firstmaintext :service.reviewRate ??  "1",
                           ),
                         ),
                       ],

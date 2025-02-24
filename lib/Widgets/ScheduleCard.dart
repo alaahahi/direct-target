@@ -8,8 +8,8 @@ class shedule_card extends StatelessWidget {
   final String image;
   final String date;
 
-  final VoidCallback? onCancel;      // دالة عند النقر على إلغاء
-  final VoidCallback? onReschedule;  // دالة عند النقر على إعادة الجدولة
+  final VoidCallback? onCancel;
+  final VoidCallback? onReschedule;
 
   shedule_card({
     required this.mainText,
@@ -103,7 +103,6 @@ class shedule_card extends StatelessWidget {
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
-                // زر الإلغاء
                 GestureDetector(
                   onTap: onCancel,
                   child: Container(
@@ -124,7 +123,6 @@ class shedule_card extends StatelessWidget {
                     ),
                   ),
                 ),
-                // زر إعادة الجدولة
                 GestureDetector(
                   onTap: onReschedule,
                   child: Container(

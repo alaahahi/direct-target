@@ -7,9 +7,9 @@ class list_doctor1 extends StatelessWidget {
 
   list_doctor1(
       {
-      required this.image,
-      required this.maintext,
-      required this.subtext});
+        required this.image,
+        required this.maintext,
+        required this.subtext});
 
   @override
   Widget build(BuildContext context) {
@@ -37,8 +37,8 @@ class list_doctor1 extends StatelessWidget {
                   shape: BoxShape.circle,
                   image: DecorationImage(
                     image: image.isNotEmpty && image.startsWith("http")
-                        ? NetworkImage(image) // تحميل الصورة من API إذا كانت متوفرة
-                        : AssetImage('Assets/icons/male-doctor.png') as ImageProvider, // صورة افتراضية
+                        ? NetworkImage(image)
+                        : AssetImage('Assets/icons/male-doctor.png') as ImageProvider,
                     filterQuality: FilterQuality.high,
                     fit: BoxFit.cover,
                   ),
@@ -57,13 +57,13 @@ class list_doctor1 extends StatelessWidget {
                   ),
 
                   Text(
-                    maintext,
-                      style: Theme.of(context).textTheme.bodySmall
+                      maintext,
+                      style: Theme.of(context).textTheme.bodyLarge
                   ),
 
                   Text(
                     subtext,
-                      style: Theme.of(context).textTheme.bodySmall,
+                    style: Theme.of(context).textTheme.bodySmall,
                     softWrap:true,
                   ),
                 ],

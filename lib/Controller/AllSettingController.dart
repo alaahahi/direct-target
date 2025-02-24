@@ -7,7 +7,6 @@ import 'package:direct_target/Controller/MessageHandlerController.dart';
 import '../Model/AllSettingModel.dart';
 import '../Service/SettingsServices.dart';
 import 'LoaderController.dart';
-import 'dart:convert';
 import 'dart:developer';
 import 'package:dio/dio.dart' as dio;
 import 'package:direct_target/Model/CardModel.dart';
@@ -237,9 +236,9 @@ class AllSettingController extends GetxController {
         _getSecondWelcomeImage(),
         _getThirdWelcomeImage(),
         _getFirstAdsImage(),
-    _getSecondAdsImage(),
-    _getThirdAdsImage(),
-    _getFourthAdsImage(),
+        _getSecondAdsImage(),
+        _getThirdAdsImage(),
+        _getFourthAdsImage(),
       ]);
     } catch (e) {
       print("Error fetching welcome images: $e");
@@ -303,7 +302,7 @@ class AllSettingController extends GetxController {
 
 
   Future<void> getSocialLinks() async {
-      AllSetting? setting = await _service.getSocialLinks();
+    AllSetting? setting = await _service.getSocialLinks();
     if (setting != null) {
       secondImageUrl.value = setting.value ?? '';
     } else {

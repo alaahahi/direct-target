@@ -4,9 +4,11 @@ import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:direct_target/Screen/Profile/ProfileScreen.dart';
 import 'package:direct_target/Screen/Schedule/ScheduleScreen.dart';
 import 'package:get/get.dart';
-import 'package:direct_target/Screen/Home/CardsScreen.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:direct_target/Controller/ThemeController.dart';
+
+import 'AdsScreen.dart';
+import 'AllCardScreen.dart';
 
 class HomeScreenBody extends StatefulWidget {
   @override
@@ -16,6 +18,7 @@ class HomeScreenBody extends StatefulWidget {
 class _HomeScreenBodyState extends State<HomeScreenBody> {
   List<IconData> icons = [
     FontAwesomeIcons.home,
+    FontAwesomeIcons.vcard,
     FontAwesomeIcons.clipboardCheck,
     FontAwesomeIcons.user,
   ];
@@ -23,8 +26,8 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
   int page = 0;
 
   List<Widget> pages = [
-    CardScreen(),
-    shedule_screen(),
+    AdsScreen(),
+    AllCardScreen(),
     ProfileScreen()
   ];
 
