@@ -1,17 +1,15 @@
 import 'package:direct_target/Service/CardServices.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:page_transition/page_transition.dart';
-
+import '../../Controller/AppointmentController.dart';
 import '../../Controller/CardController.dart';
-
 import '../../Model/ServiceModel.dart';
 import '../../Widgets/DoctorList.dart';
-import '../Services/Doctor/DoctorDetailsScreen.dart';
 class SearchPage extends StatelessWidget {
   final serviceController = Get.put(CardController(CardServices()));
   final TextEditingController searchController = TextEditingController();
-
+  final AppointmentController appointmencontroller =
+  Get.put(AppointmentController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -52,14 +50,8 @@ class SearchPage extends StatelessWidget {
                     itemBuilder: (context, index) {
                       Service service = serviceController.services[index];
                       return GestureDetector(
-                        onTap: () {
-                          Navigator.push(
-                            context,
-                            PageTransition(
-                              type: PageTransitionType.rightToLeft,
-                              child: DoctorDetails(doctorId: service.id!),
-                            ),
-                          );
+                        onTap: () async {
+                          await appointmencontroller.canBookAppointment(serviceId: service.id ?? 0);
                         },
                         child: doctorList(
                           maintext: service.serviceName ?? "No Name",

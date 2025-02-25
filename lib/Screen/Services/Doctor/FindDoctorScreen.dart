@@ -1,10 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:direct_target/Widgets/IconsList.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:get/get.dart';
-
-
-
 
 class find_doctor extends StatelessWidget {
   const find_doctor({super.key});

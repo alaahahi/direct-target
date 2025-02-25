@@ -7,51 +7,6 @@ import 'package:direct_target/Controller/MessageHandlerController.dart';
 import '../Model/AllSettingModel.dart';
 import '../Service/SettingsServices.dart';
 import 'LoaderController.dart';
-import 'dart:developer';
-import 'package:dio/dio.dart' as dio;
-import 'package:direct_target/Model/CardModel.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import 'package:direct_target/Controller/MessageHandlerController.dart';
-import '../Model/CardServicesModel.dart';
-import '../Model/RequestCardModel.dart';
-import '../Routes/Routes.dart';
-import '../Service/CardServices.dart';
-import 'LoaderController.dart';
-import 'package:path/path.dart' as path;
-import 'package:dio/dio.dart' as dio;
-import 'dart:convert';
-
-import 'package:dio/dio.dart';
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-
-import '../Api/AppConfig.dart';
-import '../Controller/LoaderController.dart';
-import '../Model/CardModel.dart';
-import '../Model/RequestCardModel.dart';
-import '../Model/CardServicesModel.dart';
-import '../Controller/TokenController.dart';
-import 'dart:convert';
-
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import '../Model/AppointmentModel.dart';
-import '../Routes/Routes.dart';
-import '../Service/AppointmentService.dart';
-import 'LoaderController.dart';
-import 'MessageHandlerController.dart';
-import 'ProfileCardController.dart';
-import 'package:http/http.dart' as http;
-import 'dart:developer';
-
-import 'package:dio/dio.dart' as dio;
-
-import 'TokenController.dart';
-
-
-
-
 
 class AllSettingController extends GetxController {
   LoaderController loaderController = Get.put(LoaderController());
@@ -120,26 +75,29 @@ class AllSettingController extends GetxController {
     }
   }
 
-
   Future<dynamic> getAppSetting() async {
     loaderController.loading(true);
+
     AllSettingModel? setting = await _service.fetchAppSettings();
     if (setting != null) {
       appSetting.value = setting.data?.value ?? '';
+
       try {
         Map<String, dynamic> settingData = jsonDecode(appSetting.value);
+
         bool smsActivate = settingData["sms_activate"] == 1;
         bool whatsappActivate = settingData["whatsapp_activate"] == 1;
+        int cardValue = settingData["card"] ?? 0;
+
         appSmsActivate.value = smsActivate;
         appWhatsappActivate.value = whatsappActivate;
-        int cardValue = settingData["card"] ?? 0; // استخراج قيمة "card"
+        appCardValue.value = cardValue;
 
-        appCardValue.value = cardValue; // تأكد من تعريف obs لهذه القيمة
         print("📌 SMS Activate: $appSmsActivate");
         print("📌 WhatsApp Activate: $appWhatsappActivate");
-        print("📌 appCardValue Activate: $appCardValue");
+        print("📌 Card Value: $appCardValue");
       } catch (e) {
-        print("error in decode $e");
+        print("❌ Error in decode: $e");
       }
     } else {
       appSetting.value = '';
@@ -147,8 +105,11 @@ class AllSettingController extends GetxController {
 
     loaderController.loading(false);
   }
+
+
   Future<void> getPrimaryColor() async {
     isLoading(true);
+
     try {
       AllSettingModel? res = await SettingsServices().getPrimaryColor();
       if (res.status == "success" && res.data != null) {
@@ -163,6 +124,7 @@ class AllSettingController extends GetxController {
       isLoading(false);
     }
   }
+
   Future<void> _getFirstWelcomeImage() async {
     AllSetting? setting = await _service.getFirstWelcomeImage();
     if (setting != null) {
@@ -171,6 +133,7 @@ class AllSettingController extends GetxController {
       firstImageUrl.value = '';
     }
   }
+
   Future<void> _getFirstAdsImage() async {
 
     AllSetting? setting = await _service.getFirstAdsImage();
@@ -180,6 +143,7 @@ class AllSettingController extends GetxController {
       firstAdsImageUrl.value = '';
     }
   }
+
   Future<void> _getSecondAdsImage() async {
     AllSetting? setting = await _service.getSecondAdsImage();
     if (setting != null) {
@@ -188,6 +152,7 @@ class AllSettingController extends GetxController {
       secondAdsImageUrl.value = '';
     }
   }
+
   Future<void> _getThirdAdsImage() async {
     AllSetting? setting = await _service.getThirdAdsImage();
     if (setting != null) {
@@ -196,6 +161,7 @@ class AllSettingController extends GetxController {
       thirdAdsImageUrl.value = '';
     }
   }
+
   Future<void> _getFourthAdsImage() async {
     AllSetting? setting = await _service.getFourthAdsImage();
     if (setting != null) {
@@ -204,6 +170,7 @@ class AllSettingController extends GetxController {
       fourthAdsImageUrl.value = '';
     }
   }
+
   Future<void> _getSecondWelcomeImage() async {
     AllSetting? setting = await _service.getSecondWelcomeImage();
     if (setting != null) {
@@ -212,6 +179,7 @@ class AllSettingController extends GetxController {
       secondImageUrl.value = '';
     }
   }
+
   Future<void> _getThirdWelcomeImage() async {
     isLoading(true);
     try {
@@ -227,6 +195,7 @@ class AllSettingController extends GetxController {
       isLoading(false);
     }
   }
+
   Future<void> fetchWelcomeImages() async {
     isLoading(true);
     try {
@@ -280,7 +249,6 @@ class AllSettingController extends GetxController {
     }
   }
 
-
   Future<void> getContactEmail() async {
     AllSetting? setting = await _service.getContactEmail();
     if (setting != null) {
@@ -289,6 +257,7 @@ class AllSettingController extends GetxController {
       secondImageUrl.value = '';
     }
   }
+
   Future<void> getContactPhone() async {
     AllSetting? setting = await _service.getContactPhone();
     if (setting != null) {
@@ -297,7 +266,6 @@ class AllSettingController extends GetxController {
       secondImageUrl.value = '';
     }
   }
-
 
 
   Future<void> getSocialLinks() async {

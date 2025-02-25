@@ -78,6 +78,7 @@ class CardController extends GetxController {
         'family_members_names': jsonEncode(cardRequest.familyMembersNames),
         'image': file,
         'is_admin': adminValue,
+        'card_id':_appController.appCardValue.value
       });
       final response = await _service.RequestCard(formData);
 
@@ -158,8 +159,8 @@ class CardController extends GetxController {
     try {
       var res = await ProfileService().fetchCards();
       allMyCardList = res?.data;
-      print('Fetched Dataaaaaaaaaa Length: ${allMyCardList?.length}');
-      print('Fetched Dataaaaaaaaa: $allMyCardList');
+      print('Fetched MyCards Dataaaaaaaaaa Length: ${allMyCardList?.length}');
+      print('Fetched MyCards Dataaaaaaaaa: $allMyCardList');
     } catch (e) {
       if (e is dio.DioException) {
         log(e.toString());

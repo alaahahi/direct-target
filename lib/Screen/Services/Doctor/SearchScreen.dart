@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:direct_target/Screen/Home/HomeScreen.dart';
-import 'package:direct_target/Screen/Services/Doctor/DoctorDetailsScreen.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:get/get.dart';
+import '../../../Controller/AppointmentController.dart';
 import '../../../Controller/CardController.dart';
 import '../../../Controller/LoaderController.dart';
 import '../../../Service/CardServices.dart';
 import '../../../Utils/AppStyle.dart';
+import '../../../Widgets/CategoryList.dart';
 import '../../../Widgets/DoctorList.dart';
 import '../../RequestCard/RequestScreen.dart';
-
 
 class doctor_search extends StatefulWidget {
   final int cardId;
@@ -21,8 +19,9 @@ class doctor_search extends StatefulWidget {
 
 class _doctor_searchState extends State<doctor_search> {
   LoaderController loaderController = Get.put(LoaderController());
-  final CardController cardController =
-  Get.put(CardController(CardServices()));
+  final CardController cardController = Get.put(CardController(CardServices()));
+  final AppointmentController appointmencontroller =
+      Get.put(AppointmentController());
   @override
   void initState() {
     super.initState();
@@ -42,7 +41,6 @@ class _doctor_searchState extends State<doctor_search> {
               size: MediaQuery.of(context).size.height * 0.025,
             ),
           ),
-
           onPressed: () => Get.back(),
         ),
         title: Text(
@@ -55,10 +53,8 @@ class _doctor_searchState extends State<doctor_search> {
       ),
       body: GetBuilder<CardController>(
         builder: (cardController) {
-
           final selectedCard = cardController.allCardList?.firstWhere(
                 (card) => card.id == widget.cardId,
-
           );
 
           if (selectedCard == null) {
@@ -69,157 +65,175 @@ class _doctor_searchState extends State<doctor_search> {
               ),
             );
           }
-
-          return Column(
-            children: [
-              Container(
-                width: double.infinity,
-                height: 400,
-                child: Card(
-                  margin: EdgeInsets.all(16.0),
-                  elevation: 5,
-                  color: Colors.white,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(10),
+          return SingleChildScrollView(
+            child: Column(
+              children: [
+                Container(
+                  width: double.infinity,
+                  height: 400,
+                  child: Card(
+                    margin: EdgeInsets.all(16.0),
+                    elevation: 5,
+                    color: Colors.white,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(10),
+                    ),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        ClipRRect(
+                          borderRadius: BorderRadius.only(
+                            topLeft: Radius.circular(10),
+                            topRight: Radius.circular(10),
+                          ),
+                          child: Image.network(
+                            selectedCard.image ?? 'Assets/images/4.jpg',
+                            width: MediaQuery.of(context).size.width,
+                            height: 250,
+                            fit: BoxFit.cover,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.all(16.0),
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Text(
+                                selectedCard.name ?? "No Name",
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyLarge
+                                    ?.copyWith(fontWeight: FontWeight.bold),
+                              ),
+                              SizedBox(height: 10),
+                              Text(
+                                "Price: ${selectedCard.price}".tr,
+                                style: Theme.of(context).textTheme.bodyLarge,
+                              ),
+                              SizedBox(height: 10),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
                   ),
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      ClipRRect(
-                        borderRadius: BorderRadius.only(
-                          topLeft: Radius.circular(10),
-                          topRight: Radius.circular(10),
+                ),
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.07,
+                  width: MediaQuery.of(context).size.width * 0.9,
+                  child: ElevatedButton(
+                    onPressed: () {
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          builder: (context) => RequestScreen(),
                         ),
-                        child:  Image.network(
-                          selectedCard.image ?? 'Assets/images/4.jpg',
-                          width: MediaQuery.of(context).size.width,
-                          height: 250,
-                          fit: BoxFit.cover,
-                        )
+                      );
+                    },
+                    style: ElevatedButton.styleFrom(
+                      backgroundColor: PrimaryColor,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(30),
                       ),
-
-                      Padding(
-                        padding: EdgeInsets.all(16.0),
-                        child: Column(
-                          crossAxisAlignment: CrossAxisAlignment.start,
-                          children: [
-                            Text(
-                              selectedCard.name ?? "No Name",
-                              style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
-                            ),
-                            SizedBox(height: 10),
-                            Text(
-                              "Price: ${selectedCard.price}",
-                              style: Theme.of(context).textTheme.bodyLarge,
-                            ),
-                            SizedBox(height: 10),
-
-                          ],
-                        ),
+                    ),
+                    child: Text(
+                      "Request Card".tr,
+                      textAlign: TextAlign.center,
+                      style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                        color: LightGrey,
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(height: 10),
+                Padding(
+                  padding: const EdgeInsets.all(20.0),
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      Text(
+                        "All Services".tr,
+                        style: Theme.of(context).textTheme.bodyLarge,
                       ),
                     ],
                   ),
                 ),
-              ),
-              Container(
-                height: MediaQuery.of(context).size.height * 0.07,
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => RequestScreen(),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                    backgroundColor: PrimaryColor,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
-                  ),
-                  child: Text(
-                    "Request Card".tr,
-                    textAlign: TextAlign.center,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: LightGrey,
-                    ),
-                  ),
-                ),
-              ),
-              SizedBox(height: 10),
-              Padding(
-                padding: const EdgeInsets.all(20.0),
-                child: Row(
-                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                  children: [
-                    Text(
-                      "All Services".tr,
-                      style: Theme.of(context).textTheme.bodyLarge,
-                    ),
-                  ],
-                ),
-              ),
-
-              Expanded(
-                child: GetBuilder<CardController>(
-                  builder: (controller) {
-                    if (controller.servicesList == null) {
-                      return Center(
-                        child: CircularProgressIndicator(),
-                      );
-                    }
-
-                    final allServices = controller.servicesList!
-                        .expand((serviceGroup) => serviceGroup.services ?? [])
-                        .toList();
-
-                    final filteredServices = allServices
-                        .where((service) => service.cardId == widget.cardId)
-                        .toList();
-
-                    return filteredServices.isEmpty
-                        ? Center(
-                      child: Text(
-                        "No Services Available".tr,
-                        style: TextStyle(fontSize: 18, color: Colors.grey),
-                      ),
-                    )
-                        : ListView.builder(
-                      physics: BouncingScrollPhysics(),
-                      itemCount: filteredServices.length,
-                      itemBuilder: (context, index) {
-                        final service = filteredServices[index];
-                        return GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                              context,
-                              PageTransition(
-                                type: PageTransitionType.rightToLeft,
-                                child: DoctorDetails(doctorId: service.id!),
-                              ),
-                            );
-                          },
-                          child: doctorList(
-                            maintext: service.serviceName ?? "No Name",
-                            subtext: service.specialty ?? "No Description",
-                            image:  "Assets/images/person.png",
-                            firstmaintext :service.reviewRate ??  "1",
+                SizedBox(
+                  height: MediaQuery.of(context).size.height * 0.6,
+                  child: GetBuilder<CardController>(
+                    builder: (controller) {
+                      if (loaderController.loading.value) {
+                        return Center(
+                          child: CircularProgressIndicator(color: PrimaryColor),
+                        );
+                      }
+                      if (controller.servicesList == null) {
+                        return Center(
+                          child: Text(
+                            "Loading data...".tr,
+                            style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
                           ),
                         );
-                      },
-                    );
-                  },
-                ),
-              ),
+                      }
 
-            ],
+                      if (controller.servicesList!.isEmpty) {
+                        return Center(
+                          child: Text(
+                            "No data available".tr,
+                            style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
+                          ),
+                        );
+                      }
+
+                      return ListView.builder(
+                        physics: BouncingScrollPhysics(),
+                        itemCount: controller.servicesList!.length,
+                        itemBuilder: (context, categoryIndex) {
+                          var category = controller.servicesList![categoryIndex];
+
+                          return Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              CategoryList(
+                                image: category.categoryIcon ?? "default",
+                                maintext: category.categoryName ?? "No Name",
+                                subtext: category.categoryDiscount ?? 0,
+                              ),
+                              SizedBox(height: 10),
+                              ListView.builder(
+                                physics: NeverScrollableScrollPhysics(),
+                                shrinkWrap: true,
+                                itemCount: category.services?.length ?? 0,
+                                itemBuilder: (context, serviceIndex) {
+                                  var service = category.services![serviceIndex];
+
+                                  return GestureDetector(
+                                    onTap: () async {
+                                      await appointmencontroller.canBookAppointment(serviceId: service.id ?? 0);
+                                    },
+                                    child: doctorList(
+                                      maintext: service.serviceName ?? "No Name",
+                                      subtext: service.specialty ?? "No Description",
+                                      image: "Assets/images/person.png",
+                                      firstmaintext: service.reviewRate ?? "1",
+                                    ),
+                                  );
+                                },
+                              ),
+                              Divider(thickness: 1, color: Colors.grey[300]),
+                            ],
+                          ) ;
+                        },
+                      );
+                    },
+                  ),
+                ),
+              ],
+            ),
           );
+
         },
       ),
-
-
     );
   }
 }

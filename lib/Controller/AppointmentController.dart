@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../Model/AppointmentModel.dart';
 import '../Routes/Routes.dart';
+import '../Screen/Services/Doctor/DoctorDetailsScreen.dart';
 import '../Service/AppointmentService.dart';
 import 'LoaderController.dart';
 import 'MessageHandlerController.dart';
@@ -64,11 +65,6 @@ class AppointmentController extends GetxController {
       throw Exception('فشل في تحميل المواعيد');
     }
   }
-
-
-
-
-
   Future<Appointment?> fetchAppointmentById(int id) async {
     try {
       if (appointments.isEmpty) {
@@ -84,8 +80,6 @@ class AppointmentController extends GetxController {
       return null;
     }
   }
-
-
   void updateAppointment({required int appointmentId, String? note, String? start, String? end}) async {
     print("Attempting to update appointment: $appointmentId");
     try {
@@ -148,9 +142,6 @@ class AppointmentController extends GetxController {
       loaderController.loading(false);
     }
   }
-
-
-
   Future<dynamic> getAllAppointment() async {
     loaderController.loading(true);
 
@@ -191,4 +182,34 @@ class AppointmentController extends GetxController {
     }
   }
 
+  Future<dynamic> canBookAppointment({required int serviceId}) async {
+    final box = GetStorage();
+    loaderController.loading(true);
+    update();
+    dio.FormData request = dio.FormData.fromMap({'service_id': serviceId});
+    var response = await AppointmentService().canBookAppointment(request);
+    try {
+      if (response.status == "success") {
+        int? cardId = response.data?.cardId;
+        print("📌 تم تخزين card_id: ${box.read("card_id")}");
+        box.write("card_id", cardId);
+        Get.offAllNamed(AppRoutes.appointment, arguments: {"doctorId": serviceId});
+      } else {
+        Get.snackbar('ليس لديك بطاقة'.tr, 'تم تحويلك لطلب البطاقة حتى تستطيع طلب الخدمة بنجاح'.tr);
+        Get.offAllNamed(AppRoutes.requestcard);
+      }
+    } catch (e) {
+      if (e is dio.DioException) {
+        log(e.toString());
+        msgController.showErrorMessage(
+            e.response?.statusCode.toString() ?? "خطأ غير معروف",
+            e.message ?? "");
+      } else {
+        msgController.showErrorMessage("خطأ غير معروف", e.toString());
+      }
+    } finally {
+      update();
+      loaderController.loading(false);
+    }
+  }
 }

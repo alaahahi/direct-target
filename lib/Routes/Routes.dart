@@ -18,4 +18,6 @@ class AppRoutes {
   static const String appinfo = '/appinfo';
   static const String contact = '/contact';
   static const String notification = '/notification';
+  static const String bookappointment = '/bookappointment';
+  static const String requestcard = '/requestcard';
 }

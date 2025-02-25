@@ -48,7 +48,7 @@ class OtpController extends GetxController {
             box.write('isAdmin', responseData.isAdmin ?? false);
             print('is Admin ${responseData.isAdmin}');
             Get.offAllNamed(AppRoutes.homescreen);
-            Get.offAllNamed(AppRoutes.homescreen);
+
             print('successful ${responseData.message}');
           } else {
             print('Error: ${responseData.message}');

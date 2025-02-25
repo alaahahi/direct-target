@@ -6,6 +6,7 @@ import 'package:page_transition/page_transition.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:get/get.dart';
 import '../../Controller/LoaderController.dart';
+
 class AllCardBodyScreen extends StatefulWidget {
   const AllCardBodyScreen({super.key});
 

@@ -52,7 +52,7 @@ class ProfileService extends GetConnect {
     } catch (e) {
       if (e is DioException) {
         if (e.response?.statusCode != 200) {
-          print('**********  Error *************${e.response}');
+          print('**********  Error fetchCards *************${e.response}');
         }
       } else {
         print('errorrrrrr $e');
@@ -93,7 +93,7 @@ class ProfileService extends GetConnect {
     } catch (e) {
       if (e is DioException) {
         if (e.response?.statusCode != 200) {
-          print('**********  Error *************${e.response}');
+          print('**********  Error updateProfile*************${e.response}');
         }
       } else {
         print('errorrrrrr $e');

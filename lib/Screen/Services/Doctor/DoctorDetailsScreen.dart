@@ -10,8 +10,6 @@ import '../../../Controller/AppointmentController.dart';
 import '../../../Controller/LoaderController.dart';
 import '../../../Controller/ProfileCardController.dart';
 import 'package:intl/intl.dart';
-
-import '../../../Model/CardServicesModel.dart';
 import '../../../Widgets/DoctorDetailsList.dart';
 
 class DoctorDetails extends StatefulWidget {

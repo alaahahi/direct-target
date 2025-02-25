@@ -48,7 +48,7 @@ class ProfileUserService extends GetConnect {
     } catch (e) {
       if (e is DioException) {
         if (e.response?.statusCode != 200) {
-          print('**********  Error *************${e.response}');
+          print('**********  Error fetchProfile *************${e.response}');
         }
       } else {
         print('errorrrrrr $e');

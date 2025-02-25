@@ -194,7 +194,8 @@ final Map<String, String> en = {
   "Featured Services":"Featured Services",
   "Available Hours":"Available Hours",
   "Available Days":"Available Days",
-  'Search Services':'Search Services'
+  'Search Services':'Search Services',
+  "Price":"Price"
 }
 ;
 final Map<String, String> ar = {
@@ -389,7 +390,8 @@ final Map<String, String> ar = {
   "Featured Services":"الخدمات المميزة",
   "Available Hours":"الساعات المتاحة",
   "Available Days":"الأيام المتاحة",
-      'Search Services':'البحث عن الخدمات'
+      'Search Services':'البحث عن الخدمات',
+  "Price":"التكلفة"
 }
 ;
 

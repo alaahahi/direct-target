@@ -3,6 +3,7 @@ import 'package:direct_target/Screen/Home/HomeScreen.dart';
 import 'package:direct_target/Screen/Services/Doctor/DoctorDetailsScreen.dart';
 import 'package:page_transition/page_transition.dart';
 import 'package:get/get.dart';
+import '../../../Controller/AppointmentController.dart';
 import '../../../Controller/CardController.dart';
 import '../../../Controller/LoaderController.dart';
 import '../../../Service/CardServices.dart';
@@ -14,6 +15,8 @@ class TopDoctorScreen extends StatelessWidget {
   final CardController cardController =
   Get.put(CardController(CardServices()));
   LoaderController loaderController = Get.put(LoaderController());
+  final AppointmentController appointmencontroller =
+  Get.put(AppointmentController());
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -62,12 +65,8 @@ class TopDoctorScreen extends StatelessWidget {
                     child: Column(
                       children: [
                         GestureDetector(
-                          onTap: () {
-                            Navigator.push(
-                                context,
-                                PageTransition(
-                                    type: PageTransitionType.rightToLeft,
-                                    child: DoctorDetails(doctorId: service.id!)));
+                          onTap: () async {
+                            await appointmencontroller.canBookAppointment(serviceId: service.id ?? 0);
                           },
                           child:  doctorList(
                             image: service.image != null && service.image!.isNotEmpty

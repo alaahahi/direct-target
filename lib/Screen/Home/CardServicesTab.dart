@@ -1,12 +1,7 @@
 import 'package:direct_target/Controller/CardController.dart';
 import 'package:flutter/material.dart';
-import 'package:direct_target/Widgets/ScheduleCard.dart';
 import 'package:get/get.dart';
-import 'package:page_transition/page_transition.dart';
-
-import '../../Widgets/DoctorList.dart';
-import '../Services/Doctor/AppointmentScreen.dart';
-import '../Services/Doctor/DoctorDetailsScreen.dart';
+import '../../Controller/AppointmentController.dart';
 
 class CardServicesTab extends StatefulWidget {
 
@@ -15,21 +10,20 @@ class CardServicesTab extends StatefulWidget {
   @override
   State<CardServicesTab> createState() => _CardServicesTabState();
 }
-
 class _CardServicesTabState extends State<CardServicesTab> {
+  final AppointmentController appointmencontroller =
+  Get.put(AppointmentController());
   @override
   Widget build(BuildContext context) {
     return  SingleChildScrollView(
       child: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 16.0),
-        child:     Expanded(
+        child:   Expanded(
           child: GetBuilder<CardController>(
             builder: (controller) {
-
               final filteredServices = controller.allServicesList!
                   .where((service) => service.cardId == widget.cardId)
                   .toList();
-
               return filteredServices.isEmpty
                   ? Row(
                 mainAxisAlignment: MainAxisAlignment.center,
@@ -48,14 +42,8 @@ class _CardServicesTabState extends State<CardServicesTab> {
                 itemBuilder: (context, index) {
                   final service = filteredServices[index];
                   return GestureDetector(
-                    onTap: () {
-                      Navigator.push(
-                        context,
-                        PageTransition(
-                          type: PageTransitionType.rightToLeft,
-                          child: DoctorDetails(doctorId: service.id!),
-                        ),
-                      );
+                    onTap: () async {
+                      await appointmencontroller.canBookAppointment(serviceId: service.id ?? 0);
                     },
 
                   );

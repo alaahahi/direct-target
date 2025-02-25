@@ -1,14 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:direct_target/Screen/Schedule/ScheduleScreenTab1.dart';
-import 'package:direct_target/Screen/Schedule/ScheduleScreenTab2.dart';
-
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:get/get.dart';
-
 import '../../Controller/CardController.dart';
 import '../Schedule/ScheduleScreen.dart';
 import 'CardServicesTab.dart';
-
 
 class CardServicesScreen extends StatefulWidget {
   const CardServicesScreen({Key? key}) : super(key: key);
@@ -76,7 +71,6 @@ class _TabBarExampleState extends State<CardServicesScreen>
                                   text: "Appointment".tr,
                                 ),
                               ),
-
                             ],
                           ),
                         ),
@@ -90,7 +84,7 @@ class _TabBarExampleState extends State<CardServicesScreen>
                     children: [
                       GetBuilder<CardController>(
                         builder: (cardController) {
-                          if (cardController.allCardList == null || cardController.allCardList!.isEmpty) {
+                          if (cardController.allMyCardList == null || cardController.allMyCardList!.isEmpty) {
                             return Center(
                               child: Text(
                                 "No data available".tr,
@@ -102,9 +96,9 @@ class _TabBarExampleState extends State<CardServicesScreen>
                           }
                           return ListView.builder(
                             padding: EdgeInsets.symmetric(vertical: 10),
-                            itemCount: cardController.allCardList!.length,
+                            itemCount: cardController.allMyCardList!.length,
                             itemBuilder: (context, index) {
-                              final service = cardController.allCardList![index];
+                              final service = cardController.allMyCardList![index];
                               return Padding(
                                 padding: const EdgeInsets.only(bottom: 10.0),
                                 child: CardServicesTab(cardId: service.id!),
@@ -113,8 +107,6 @@ class _TabBarExampleState extends State<CardServicesScreen>
                           );
                         },
                       ),
-
-
                       shedule_screen(),
                     ],
                   ),

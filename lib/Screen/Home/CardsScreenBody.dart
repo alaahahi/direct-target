@@ -2,14 +2,11 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../Controller/CardController.dart';
-
 import '../../../Controller/LoaderController.dart';
 import '../../../Service/CardServices.dart';
 import '../../Utils/AppStyle.dart';
 import '../Schedule/ScheduleScreen.dart';
-
 import 'CardServicesTab.dart';
-
 
 class CardScreenBody extends StatefulWidget {
   final int cardId;

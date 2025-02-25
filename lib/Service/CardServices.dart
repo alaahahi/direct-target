@@ -52,7 +52,7 @@ class CardServices extends GetxService  {
     } catch (e) {
       if (e is DioException) {
         if (e.response?.statusCode != 200) {
-          print('**********  Error *************${e.response}');
+          print('**********  Error RequestCard *************${e.response}');
         }
       } else {
         print('errorrrrrr $e');
@@ -116,8 +116,8 @@ class CardServices extends GetxService  {
     } catch (e) {
       if (e is DioException) {
         if (e.response?.statusCode != 200 || e.response?.statusCode != 201) {
-          print('**********  Error *************${e.response}');
-          print('**********  Error *************${e.response?.statusCode}');
+          print('**********  Error fetchListAllServices *************${e.response}');
+          print('**********  Error fetchListAllServices *************${e.response?.statusCode}');
         }
       } else {
         print('errorrrrrr in fetch $e');
@@ -161,7 +161,7 @@ class CardServices extends GetxService  {
       }
     } catch (e) {
       if (e is DioException) {
-        print("********** Error *************");
+        print("********** Error fetchCard*************");
         print("Response: ${e.response}");
         print("Error Message: ${e.message}");
       } else {
@@ -204,7 +204,7 @@ class CardServices extends GetxService  {
       }
     } catch (e) {
       if (e is DioException) {
-        print("**********  Error *************");
+        print("**********  Error fetchPopularService*************");
         print("Response: ${e.response}");
         print("Error Message: ${e.message}");
       } else {
