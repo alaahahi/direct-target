@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:google_fonts/google_fonts.dart';
-
+import 'package:get/get.dart';
 import '../Utils/AppStyle.dart';
 
 class doctorList extends StatelessWidget {
@@ -71,7 +71,7 @@ class doctorList extends StatelessWidget {
                 ),
                 Container(
                   height: MediaQuery.of(context).size.height * 0.1200,
-                  width: MediaQuery.of(context).size.width * 0.4,
+                  width: MediaQuery.of(context).size.width * 0.5,
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
@@ -105,7 +105,7 @@ class doctorList extends StatelessWidget {
                                 borderRadius: BorderRadius.circular(8),
                                 child: Center(
                                   child: Text(
-                                    'موعد',
+                                    "Appointment".tr,
                                     style: GoogleFonts.poppins(
                                       fontSize: 14,
                                       fontWeight: FontWeight.w500,

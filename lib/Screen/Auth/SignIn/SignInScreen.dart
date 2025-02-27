@@ -26,15 +26,7 @@ class SignInScreen extends StatelessWidget {
               ),
             ),
 
-            onPressed: () {
-              Navigator.push(
-                context,
-                PageTransition(
-                  type: PageTransitionType.leftToRight,
-                  child: StartScreen(),
-                ),
-              );
-            },
+            onPressed: () => Get.back(),
           ),
           centerTitle: true,
           title: Text(

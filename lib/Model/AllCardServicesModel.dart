@@ -27,7 +27,8 @@ class AllCardServicesModel {
 class AllCardServicesData {
   int? categoryId;
   String? categoryName;
-  String? categoryIcon;
+  Null? categoryIcon;
+  String? categoryColor;
   int? categoryDiscount;
   List<Services>? services;
 
@@ -35,6 +36,7 @@ class AllCardServicesData {
       {this.categoryId,
         this.categoryName,
         this.categoryIcon,
+        this.categoryColor,
         this.categoryDiscount,
         this.services});
 
@@ -42,6 +44,7 @@ class AllCardServicesData {
     categoryId = json['category_id'];
     categoryName = json['category_name'];
     categoryIcon = json['category_icon'];
+    categoryColor = json['category_color'];
     categoryDiscount = json['category_discount'];
     if (json['services'] != null) {
       services = <Services>[];
@@ -56,6 +59,7 @@ class AllCardServicesData {
     data['category_id'] = this.categoryId;
     data['category_name'] = this.categoryName;
     data['category_icon'] = this.categoryIcon;
+    data['category_color'] = this.categoryColor;
     data['category_discount'] = this.categoryDiscount;
     if (this.services != null) {
       data['services'] = this.services!.map((v) => v.toJson()).toList();
@@ -155,3 +159,4 @@ class WorkingHours {
     return data;
   }
 }
+

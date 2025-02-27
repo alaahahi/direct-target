@@ -1,3 +1,4 @@
+import 'package:direct_target/Screen/Auth/SignIn/SignInScreen.dart';
 import 'package:direct_target/Screen/Profile/Contact/ContactScreen.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
@@ -234,6 +235,8 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
 
           }),
          SizedBox(height: 100,),
+
+
           Container(
             decoration: BoxDecoration(
               color: Theme.of(context).brightness == Brightness.dark
@@ -273,7 +276,37 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
                     }
                     return SizedBox.shrink();
                   }),
-
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.07,
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (context) => SignInScreen(),
+                          ),
+                        );
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: PrimaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
+                        ),
+                      ),
+                      child: Text(
+                        "Login".tr,
+                        textAlign: TextAlign.center,
+                        style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: LightGrey,
+                        ),
+                      ),
+                    ),
+                  ),
+                  const Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                    child: Divider(),
+                  ),
                   InkWell(
                     onTap: () {
                       Get.to(ChangeLanguageScreen());

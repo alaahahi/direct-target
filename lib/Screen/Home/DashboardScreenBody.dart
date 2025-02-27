@@ -234,7 +234,7 @@ class DashboardScreenBody extends StatelessWidget {
                               borderRadius: BorderRadius.circular(8),
                               color: selectedCategory == controller.servicesList![index].categoryName
                                   ? PrimaryColor
-                                  : Colors.grey[200],
+                                  :  _convertHexToColor(controller.servicesList![index].categoryColor),
                             ),
                             child: Center(
                               child: ListIcons(
@@ -296,6 +296,10 @@ class DashboardScreenBody extends StatelessWidget {
             ),
           ],
         ),
+        const SizedBox(
+          height: 20,
+        ),
+
         Container(
           height: 220,
           width: 400,
@@ -350,3 +354,25 @@ class DashboardScreenBody extends StatelessWidget {
 
   }
 }
+Color _convertHexToColor(String? hexColor) {
+  if (hexColor == null || hexColor.isEmpty) {
+    return Colors.grey.shade200;
+  }
+
+  hexColor = hexColor.replaceAll("#", "");
+
+  if (hexColor.length == 3) {
+    hexColor = hexColor.split('').map((char) => "$char$char").join();
+  }
+
+  if (hexColor.length == 6) {
+    hexColor = "FF$hexColor";
+  }
+
+  try {
+    return Color(int.parse(hexColor, radix: 16));
+  } catch (e) {
+    return Colors.grey.shade200;
+  }
+}
+

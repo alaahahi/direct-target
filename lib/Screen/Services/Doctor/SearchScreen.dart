@@ -51,22 +51,22 @@ class _doctor_searchState extends State<doctor_search> {
         elevation: 0,
         toolbarHeight: 100,
       ),
-      body: GetBuilder<CardController>(
-        builder: (cardController) {
-          final selectedCard = cardController.allCardList?.firstWhere(
-                (card) => card.id == widget.cardId,
-          );
-
-          if (selectedCard == null) {
-            return Center(
-              child: Text(
-                "No Card Found".tr,
-                style: TextStyle(fontSize: 18, color: Colors.grey),
-              ),
+      body: SingleChildScrollView(
+        child: GetBuilder<CardController>(
+          builder: (cardController) {
+            final selectedCard = cardController.allCardList?.firstWhere(
+                  (card) => card.id == widget.cardId,
             );
-          }
-          return SingleChildScrollView(
-            child: Column(
+
+            if (selectedCard == null) {
+              return Center(
+                child: Text(
+                  "No Card Found".tr,
+                  style: TextStyle(fontSize: 18, color: Colors.grey),
+                ),
+              );
+            }
+            return Column(
               children: [
                 Container(
                   width: double.infinity,
@@ -159,7 +159,7 @@ class _doctor_searchState extends State<doctor_search> {
                   ),
                 ),
                 SizedBox(
-                  height: MediaQuery.of(context).size.height * 0.6,
+                  height: MediaQuery.of(context).size.height * 0.9,
                   child: GetBuilder<CardController>(
                     builder: (controller) {
                       if (loaderController.loading.value) {
@@ -229,11 +229,11 @@ class _doctor_searchState extends State<doctor_search> {
                   ),
                 ),
               ],
-            ),
-          );
+            );
 
-        },
-      ),
+          },
+        ),
+      )
     );
   }
 }

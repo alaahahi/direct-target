@@ -5,7 +5,9 @@ import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:direct_target/Controller/ThemeController.dart';
 import 'package:direct_target/Widgets/ThemeToggleButton.dart';
 
+import '../../Controller/TokenController.dart';
 import '../../Routes/Routes.dart';
+import '../Auth/SignIn/SignInScreen.dart';
 
 class Homepage extends StatefulWidget {
   @override
@@ -16,7 +18,7 @@ class _HomepageState extends State<Homepage> {
   @override
   Widget build(BuildContext context) {
     final ThemeController themeController = Get.find<ThemeController>();
-
+    final TokenController tokenController = Get.put(TokenController());
     return Scaffold(
       appBar: AppBar(
         automaticallyImplyLeading: false,
@@ -52,6 +54,22 @@ class _HomepageState extends State<Homepage> {
             );
           }),
           ThemeToggleButton(),
+
+
+          Obx(() {
+            if (tokenController.token.value.isEmpty) {
+              return IconButton(
+                onPressed: () {
+                  Get.to(() => SignInScreen());
+                },
+                icon: Icon(Icons.login),
+                color: themeController.isDarkMode.value ? LightGrey : PrimaryColor,
+              );
+            }
+            return SizedBox.shrink();
+          }),
+
+
         ],
       ),
       body: HomeScreenBody()
