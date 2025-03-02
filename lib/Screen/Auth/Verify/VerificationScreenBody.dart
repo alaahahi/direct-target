@@ -34,7 +34,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
   void _startTimer() {
     setState(() {
       _isTimerActive = true;
-      _timeLeft = 60;
+      _timeLeft = 180;
     });
 
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -91,13 +91,16 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
             const SizedBox(height: 20),
             Text(
               "We sent a verification code to".tr,
-              style: Theme.of(context).textTheme.bodyLarge,
+              style: Theme.of(context).textTheme.titleMedium,
             ),
             const SizedBox(height: 5),
-            Text(
-              _controller.phoneNumber.value, 
-              style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                color: Theme.of(context).textTheme.bodyMedium?.color, 
+            Directionality(
+              textDirection: TextDirection.ltr,
+              child: Text(
+                _controller.phoneNumber.value,
+                style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                  color: Theme.of(context).textTheme.bodyMedium?.color,
+                ),
               ),
             ),
             const SizedBox(height: 30),
@@ -106,18 +109,21 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Pinput(
-                    length: 6,
-                    defaultPinTheme: defaultPinTheme,
-                    onChanged: (value) {
-                      _verificationCodeController.text = value;
-                    },
-                    validator: (value) {
-                      if (value == null || value.length != 6) {
-                        return 'Please enter a valid 6-digit OTP'.tr;
-                      }
-                      return null;
-                    },
+                  Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: Pinput(
+                      length: 6,
+                      defaultPinTheme: defaultPinTheme,
+                      onChanged: (value) {
+                        _verificationCodeController.text = value;
+                      },
+                      validator: (value) {
+                        if (value == null || value.length != 6) {
+                          return 'Please enter a valid 6-digit OTP'.tr;
+                        }
+                        return null;
+                      },
+                    ),
                   ),
 
                   const SizedBox(height: 20),
@@ -126,7 +132,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
                     Text(
                       "Code expires in $_timeLeft sec".tr,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                        color: Theme.of(context).textTheme.bodyMedium?.color, 
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
                       ),
                     ),
 
@@ -134,7 +140,6 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
 
                   Center(
                     child: SizedBox(
-                      width: 250.0,
                       child: _controller.isLoading.value
                           ? const CircularProgressIndicator()
                           : ElevatedButton(

@@ -12,61 +12,59 @@ class SheduleTab1 extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
-        child: Padding(
-          padding: const EdgeInsets.symmetric(horizontal: 16.0),
-          child: Obx(() {
-            if (appointmentController.loaderController.loading.value) {
-              return const Center(child: CircularProgressIndicator());
-            }
-            if (appointmentController.appointments.isEmpty) {
-              return FutureBuilder(
-                future: Future.delayed(Duration(seconds: 5), () => appointmentController.appointments.isEmpty),
-                builder: (context, snapshot) {
-                  if (snapshot.connectionState == ConnectionState.waiting) {
-                    return const Center(child: CircularProgressIndicator());
-                  }
-                  return const Center(child: Text("No Appointments Found"));
-                },
-              );
-            }
-
-            if (appointmentController.appointments.isEmpty) {
-              return const Center(child: Text("No Appointments Found"));
-            }
-
-            var filteredAppointments = appointmentController.appointments
-                .where((appointment) => appointment.isCome == 1)
-                .toList();
-
-            return ListView.builder(
-              itemCount: filteredAppointments.length,
-              itemBuilder: (context, index) {
-                var appointment = filteredAppointments[index];
-                return Column(
-                  children: [
-                    SizedBox(height: 20),
-                    shedule_card(
-
-                      mainText: appointment.serviceProvider!.serviceName!.toString(),
-                      subText: appointment.note ?? "Note",
-                      date: appointment.start!,
-
-                      image:"Assets/images/person.png",
-                      onCancel: () {
-                        appointmentController.deleteAppointment(AppointmentId: appointment.id!);
-                      },
-                      onReschedule: () {
-                        Get.to(() => AppointmentScreen(appointmentId: appointment.id!));
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                  ],
-                );
+      body: Padding(
+        padding: const EdgeInsets.symmetric(horizontal: 16.0),
+        child: Obx(() {
+          if (appointmentController.loaderController.loading.value) {
+            return const Center(child: CircularProgressIndicator());
+          }
+          if (appointmentController.appointments.isEmpty) {
+            return FutureBuilder(
+              future: Future.delayed(Duration(seconds: 5), () => appointmentController.appointments.isEmpty),
+              builder: (context, snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return const Center(child: CircularProgressIndicator());
+                }
+                return const Center(child: Text("No Appointments Found"));
               },
             );
-          }),
-        ),
+          }
+
+          if (appointmentController.appointments.isEmpty) {
+            return const Center(child: Text("No Appointments Found"));
+          }
+
+          var filteredAppointments = appointmentController.appointments
+              .where((appointment) => appointment.isCome == 1)
+              .toList();
+
+          return ListView.builder(
+            itemCount: filteredAppointments.length,
+            itemBuilder: (context, index) {
+              var appointment = filteredAppointments[index];
+              return Column(
+                children: [
+                  SizedBox(height: 20),
+                  shedule_card(
+
+                    mainText: appointment.serviceProvider!.serviceName!.toString(),
+                    subText: appointment.note ?? "Note",
+                    date: appointment.start!,
+
+                    image:"Assets/images/person.png",
+                    onCancel: () {
+                      appointmentController.deleteAppointment(AppointmentId: appointment.id!);
+                    },
+                    onReschedule: () {
+                      Get.to(() => AppointmentScreen(appointmentId: appointment.id!));
+                    },
+                  ),
+                  const SizedBox(height: 20),
+                ],
+              );
+            },
+          );
+        }),
       ),
     );
   }

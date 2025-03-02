@@ -193,7 +193,7 @@ class AppointmentController extends GetxController {
         int? cardId = response.data?.cardId;
         print("📌 تم تخزين card_id: ${box.read("card_id")}");
         box.write("card_id", cardId);
-        Get.offAllNamed(AppRoutes.appointment, arguments: {"doctorId": serviceId});
+        Get.offAllNamed(AppRoutes.bookappointment, arguments: {"doctorId": serviceId});
       } else {
         Get.snackbar('ليس لديك بطاقة'.tr, 'تم تحويلك لطلب البطاقة حتى تستطيع طلب الخدمة بنجاح'.tr);
         Get.offAllNamed(AppRoutes.requestcard);

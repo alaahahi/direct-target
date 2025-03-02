@@ -108,6 +108,7 @@ final Map<String, String> en = {
   "We sent a verification code to":"We sent a verification code to",
   'Please enter a valid 6-digit OTP':'Please enter a valid 6-digit OTP',
   "Code expires in":"Code expires in",
+  "sec":"sec",
   "Resend Code":"Resend Code",
   'Verify Code':'Verify Code',
 
@@ -301,6 +302,7 @@ final Map<String, String> ar = {
   "We sent a verification code to": "أرسلنا رمز التحقق إلى",
   "Please enter a valid 6-digit OTP": "يرجى إدخال رمز OTP صالح مكون من 6 أرقام",
   "Code expires in": "ينتهي الرمز خلال",
+  "sec":"ثانية",
   "Resend Code": "إعادة إرسال الرمز",
   "Verify Code": "تحقق من الرمز",
 

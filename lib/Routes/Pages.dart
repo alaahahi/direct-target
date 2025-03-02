@@ -72,4 +72,5 @@ final pages = <GetPage>[
     name: AppRoutes.requestcard,
     page: () =>  RequestScreen(),
   ),
+
 ];

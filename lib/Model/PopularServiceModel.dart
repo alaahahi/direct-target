@@ -187,7 +187,7 @@ class Card {
   bool? showOnApp;
   String? expirDate;
   String? createdAt;
-  Null? updatedAt;
+  String? updatedAt;
   String? image;
   String? currency;
   String? name;
@@ -243,10 +243,10 @@ class Category {
   int? id;
   String? nameEn;
   String? nameAr;
-  Null? icon;
+  String? icon;
   int? discount;
   String? createdAt;
-  Null? updatedAt;
+  String? updatedAt;
 
   Category(
       {this.id,

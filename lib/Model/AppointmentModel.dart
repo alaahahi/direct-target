@@ -99,15 +99,15 @@ class User {
   String? name;
   String? createdAt;
   String? updatedAt;
-  String? typeId;  // Changed from Null? to String?
+  String? typeId;
   String? phoneNumber;
   String? verificationDate;
   String? verificationUserType;
-  String? familyMembersNames;  // Changed from Null? to String?
-  String? birthDate;  // Changed from Null? to String?
-  String? weight;  // Changed from Null? to String?
-  String? height;  // Changed from Null? to String?
-  String? gender;  // Changed from Null? to String?
+  String? familyMembersNames;
+  String? birthDate;
+  String? weight;
+  String? height;
+  String? gender;
 
   User(
       {this.id,
@@ -165,7 +165,7 @@ class ServiceProvider {
   int? cardId;
   String? serviceName;
   String? description;
-  int? price; // Nullable int
+  int? price;
   String? createdAt;
   String? updatedAt;
   List<String>? workingDays;

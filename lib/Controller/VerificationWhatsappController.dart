@@ -3,7 +3,9 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../Routes/Routes.dart';
+import '../Screen/Home/HomeScreen.dart';
 import '../Service/VerificationWhatsappService.dart';
+import 'TokenController.dart';
 
 class VerificationWhatsappController extends GetxController {
   final VerificationService _verificationService = VerificationService();
@@ -13,7 +15,7 @@ class VerificationWhatsappController extends GetxController {
   var phoneNumber = ''.obs;
   var isAdmin = false.obs;
   final box = GetStorage();
-
+  final tokenController = Get.put(TokenController());
   Future<void> sendVerificationCode(String phoneNumber, BuildContext context) async {
     isLoading.value = true;
     this.phoneNumber.value = phoneNumber;
@@ -55,7 +57,15 @@ class VerificationWhatsappController extends GetxController {
       if (response.message == "تم التحقق بنجاح.") {
         message.value = response.message!;
         token.value = response.token!;
-        bool isAdmin = response.isAdmin!;
+
+        if (response.user?.phoneNumber != null) {
+          phoneNumber.value = response.user!.phoneNumber!;
+          box.write('phoneNumber', phoneNumber);
+        } else {
+          phoneNumber.value = 'defaultPhoneNumber';
+        }
+
+        bool isAdmin = response.isAdmin ?? false;
         box.write('isAdmin', isAdmin);
         String userPhone = response.user?.phoneNumber ?? "رقم غير متوفر";
         String userName = response.user?.name ?? "اسم غير متوفر";
@@ -64,7 +74,11 @@ class VerificationWhatsappController extends GetxController {
         print("User Name: $userName");
         box.write('token', token.value);
         print("Token: ${token.value}");
-        Get.offAllNamed(AppRoutes.homescreen);
+        if (token.isNotEmpty) {
+          tokenController.saveToken(token);
+          Get.offAllNamed(AppRoutes.homescreen);
+        }
+
       } else {
         message.value = 'التحقق فشل. الرسالة من السيرفر: ${response.message}';
       }

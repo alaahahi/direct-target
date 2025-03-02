@@ -32,72 +32,59 @@ class _TabBarExampleState extends State<shedule_screen>
 
   @override
   Widget build(BuildContext context) {
-    return  SingleChildScrollView(
-      physics: NeverScrollableScrollPhysics(),
-      child: Padding(
-        padding: const EdgeInsets.symmetric(horizontal: 00),
-        child: Column(
-          children: [
-            Container(
-              height: MediaQuery.of(context).size.height,
-              child: Column(
-                children: [
-                  Padding(
-                    padding: const EdgeInsets.symmetric(horizontal: 20),
-                    child: Container(
-                      width: MediaQuery.of(context).size.height,
-                      child: Column(
-                        children: [
-                          Padding(
-                            padding: EdgeInsets.all(5),
-                            child: TabBar(
-                              dividerColor: Colors.transparent,
-                              indicatorColor:
-                              PrimaryColor,
-                              unselectedLabelColor:
-                              const Color.fromARGB(255, 32, 32, 32),
-                              labelColor:PrimaryColor,
-                              controller: tabController,
-                              tabs:  [
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                  child: Tab(
-                                    text: "Upcoming".tr,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                  child: Tab(
-                                    text: "Completed".tr,
-                                  ),
-                                ),
-                                Padding(
-                                  padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                                  child: Tab(
-                                    text: "Cancel".tr,
-                                  ),
-                                ),
-                              ],
-                            ),
-                          ),
-                        ],
+    return  Column(
+      children: [
+        Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 20),
+          child: Container(
+            width: MediaQuery.of(context).size.height,
+            child: Column(
+              children: [
+                Padding(
+                  padding: EdgeInsets.all(5),
+                  child: TabBar(
+                    dividerColor: Colors.transparent,
+                    indicatorColor:
+                    PrimaryColor,
+                    unselectedLabelColor:
+                    const Color.fromARGB(255, 32, 32, 32),
+                    labelColor:PrimaryColor,
+                    controller: tabController,
+                    tabs:  [
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        child: Tab(
+                          text: "Upcoming".tr,
+                        ),
                       ),
-                    ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        child: Tab(
+                          text: "Completed".tr,
+                        ),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
+                        child: Tab(
+                          text: "Cancel".tr,
+                        ),
+                      ),
+                    ],
                   ),
-                  Expanded(
-                      child: TabBarView(
-                          controller: tabController,
-                          children:  [
-                            SheduleTab1(),
-                            SheduleTab2(),
-                            SheduleTab3(),
-                          ]))
-                ],
-              ),
+                ),
+              ],
             ),
-          ],
+          ),
         ),
-      ),
+        Expanded(
+            child: TabBarView(
+                controller: tabController,
+                children:  [
+                  SheduleTab1(),
+                  SheduleTab2(),
+                  SheduleTab3(),
+                ]))
+      ],
     );
   }
 }

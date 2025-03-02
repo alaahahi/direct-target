@@ -129,7 +129,6 @@ class CardServices extends GetxService  {
   }
   Future<CardModel> fetchCard([dynamic data]) async {
     try {
-      final String token = tokenController.getToken();
       final String? language = Get.locale?.languageCode;
       print("Selected Language: $language");
 
@@ -138,7 +137,6 @@ class CardServices extends GetxService  {
         data: data,
         options: Options(
           headers: {
-            'Authorization': 'Bearer $token',
             'Content-Type': 'application/json',
             'Accept-Language': language,
           },

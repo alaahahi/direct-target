@@ -59,7 +59,7 @@ class AllSettingController extends GetxController {
 
   Future<dynamic> getAllSettings() async {
     loaderController.loading(true);
-
+    update();
     var response = await SettingsServices().getSettings();
     String? description = response.data!.description;
     try {
@@ -71,13 +71,14 @@ class AllSettingController extends GetxController {
       } else {
         msgController.showErrorMessage(response.status, description);
       }
+      update();
       loaderController.loading(false);
     }
   }
 
   Future<dynamic> getAppSetting() async {
     loaderController.loading(true);
-
+    update();
     AllSettingModel? setting = await _service.fetchAppSettings();
     if (setting != null) {
       appSetting.value = setting.data?.value ?? '';
@@ -102,7 +103,7 @@ class AllSettingController extends GetxController {
     } else {
       appSetting.value = '';
     }
-
+    update();
     loaderController.loading(false);
   }
 
@@ -182,6 +183,7 @@ class AllSettingController extends GetxController {
 
   Future<void> _getThirdWelcomeImage() async {
     isLoading(true);
+    update();
     try {
       AllSetting? setting = await _service.getThirdWelcomeImage();
       if (setting != null) {
@@ -192,12 +194,14 @@ class AllSettingController extends GetxController {
     } catch (e) {
       print("Error fetching primary color: $e");
     } finally {
+      update();
       isLoading(false);
     }
   }
 
   Future<void> fetchWelcomeImages() async {
     isLoading(true);
+    update();
     try {
       await Future.wait([
         _getFirstWelcomeImage(),
@@ -211,6 +215,7 @@ class AllSettingController extends GetxController {
     } catch (e) {
       print("Error fetching welcome images: $e");
     } finally {
+      update();
       isLoading(false);
     }
   }

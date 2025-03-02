@@ -59,17 +59,19 @@ class _HomepageState extends State<Homepage> {
           Obx(() {
             if (tokenController.token.value.isEmpty) {
               return IconButton(
-                onPressed: () {
-                  Get.to(() => SignInScreen());
+                onPressed: () async {
+                  await Get.to(() => SignInScreen());
+                  if (tokenController.token.value.isNotEmpty) {
+                    Get.offAll(() => Homepage());
+                  }
+                  print("Token after login: ${tokenController.token.value}");
                 },
                 icon: Icon(Icons.login),
                 color: themeController.isDarkMode.value ? LightGrey : PrimaryColor,
               );
             }
             return SizedBox.shrink();
-          }),
-
-
+          })
         ],
       ),
       body: HomeScreenBody()

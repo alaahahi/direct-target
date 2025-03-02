@@ -52,14 +52,9 @@ class _AllCardBodyScreenState extends State<AllCardBodyScreen> {
                     padding: const EdgeInsets.only(bottom: 10.0),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.rightToLeft,
-                            child: CardScreenBody(cardId: service.id!),
-                          ),
-                        );
+                        Get.to(() => CardScreenBody(cardId: service.cardId!));
                       },
+
                       child: ClipRRect(
                         borderRadius: BorderRadius.circular(10.0),
                         child: Image.asset(

@@ -57,7 +57,7 @@ class CardController extends GetxController {
     update();
   }
   Future<void> RequestCard(RequestCardData cardRequest) async {
-    isLoading(true);
+
     loaderController.loading(true);
     bool isAdmin = storage.read('isAdmin') ?? false;
     int adminValue = isAdmin ? 1 : 0;
@@ -72,7 +72,7 @@ class CardController extends GetxController {
       }
       var formData = dio.FormData.fromMap({
         'name': cardRequest.name,
-        'phone': cardRequest.phone,
+        'phone_number': cardRequest.phone,
         'address': cardRequest.address,
         'card_number': cardRequest.cardNumber,
         'family_members_names': jsonEncode(cardRequest.familyMembersNames),

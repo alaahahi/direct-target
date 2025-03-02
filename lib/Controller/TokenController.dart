@@ -10,6 +10,9 @@ class TokenController extends GetxController {
   void onInit() {
     super.onInit();
     loadToken();
+    ever(token, (_) {
+      update();
+    });
   }
 
 
@@ -24,9 +27,9 @@ class TokenController extends GetxController {
     }
   }
 
-  void saveToken(String newToken) {
+  void saveToken(RxString  newToken) {
     storage.write('token', newToken);
-    token.value = newToken;
+    token.value = newToken.value;
     isTokenValid.value = true;
   }
 

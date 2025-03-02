@@ -188,14 +188,7 @@ class DashboardScreenBody extends StatelessWidget {
                   child: CircularProgressIndicator(color: PrimaryColor),
                 );
               }
-              if (controller.servicesList == null) {
-                return Center(
-                  child: Text(
-                    "Loading data...".tr,
-                    style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
-                  ),
-                );
-              }
+
               if (controller.servicesList!.isEmpty) {
                 return Center(
                   child: Text(

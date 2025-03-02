@@ -83,7 +83,7 @@ class _OtpScreenState extends State<OtpScreen> {
   void _startTimer() {
     setState(() {
       _isTimerActive = true;
-      _timeLeft = 60;
+      _timeLeft = 180;
     });
 
     _timer = Timer.periodic(const Duration(seconds: 1), (timer) {
@@ -144,10 +144,13 @@ class _OtpScreenState extends State<OtpScreen> {
               style: TextStyle(fontSize: 15),
             ),
             const SizedBox(height: 5),
-            Text(
-              widget.phoneNumber,
-              style: TextStyle(
-                  fontSize: 16, fontWeight: FontWeight.bold, color: Colors.blue),
+            Directionality(
+              textDirection: TextDirection.ltr,
+              child: Text(
+                widget.phoneNumber,
+                style: TextStyle(
+                    fontSize: 16, fontWeight: FontWeight.bold, color: Colors.blue),
+              ),
             ),
 
             const SizedBox(height: 30),
@@ -157,26 +160,29 @@ class _OtpScreenState extends State<OtpScreen> {
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.center,
                 children: [
-                  Pinput(
-                    length: 6,
-                    defaultPinTheme: defaultPinTheme,
-                    enabled: _isTimerActive, 
-                    onChanged: (value) {
-                      otpController.otp.value = value;
-                    },
-                    validator: (value) {
-                      if (value == null || value.length != 6) {
-                        return 'Please enter a valid 6-digit OTP'.tr;
-                      }
-                      return null;
-                    },
+                  Directionality(
+                    textDirection: TextDirection.ltr,
+                    child: Pinput(
+                      length: 6,
+                      defaultPinTheme: defaultPinTheme,
+                      enabled: _isTimerActive, 
+                      onChanged: (value) {
+                        otpController.otp.value = value;
+                      },
+                      validator: (value) {
+                        if (value == null || value.length != 6) {
+                          return 'Please enter a valid 6-digit OTP'.tr;
+                        }
+                        return null;
+                      },
+                    ),
                   ),
 
                   const SizedBox(height: 20),
 
                   if (_isTimerActive)
                     Text(
-                      "Code expires in $_timeLeft sec".tr,
+                      "Code expires in".tr + "$_timeLeft" + "sec".tr,
                       style: TextStyle(fontSize: 14),
                     ),
 

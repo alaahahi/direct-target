@@ -27,7 +27,7 @@ class AllCardServicesModel {
 class AllCardServicesData {
   int? categoryId;
   String? categoryName;
-  Null? categoryIcon;
+  String? categoryIcon;
   String? categoryColor;
   int? categoryDiscount;
   List<Services>? services;

@@ -33,7 +33,7 @@ class CardData {
   bool? showOnApp;
   String? expirDate;
   String? createdAt;
-  Null? updatedAt;
+  String? updatedAt;
   String? image;
   String? currency;
   String? name;
