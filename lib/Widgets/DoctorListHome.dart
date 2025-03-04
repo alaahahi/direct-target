@@ -58,12 +58,16 @@ class list_doctor1 extends StatelessWidget {
 
                   Text(
                       maintext,
-                      style: Theme.of(context).textTheme.bodyLarge
+                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                        color:  Colors.black,
+                      ),
                   ),
 
                   Text(
                     subtext,
-                    style: Theme.of(context).textTheme.bodySmall,
+                    style: Theme.of(context).textTheme.bodySmall?.copyWith(
+                      color:  Colors.grey,
+                    ),
                     softWrap:true,
                   ),
                 ],

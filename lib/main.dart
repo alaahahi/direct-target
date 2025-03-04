@@ -1,3 +1,4 @@
+import 'package:direct_target/Controller/AllSettingController.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:direct_target/Screen/SplashScreen.dart';
@@ -10,6 +11,7 @@ import 'Controller/ThemeController.dart';
 import 'Controller/TokenController.dart';
 import 'Routes/Pages.dart';
 import 'Service/CardServices.dart';
+import 'Service/SettingsServices.dart';
 import 'Translation/AppTranslation.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -18,8 +20,12 @@ void main() async {
   Get.put(LoaderController());
   Get.put(ThemeController());
   Get.put(TokenController());
+  Get.put(AllSettingController(SettingsServices()));
+  // Get.put(AllSettingController());
   // Get.put(LanguageController());
-  Get.put(CardServices());
+
+
+
   runApp(const DirectTarget());
 
 }

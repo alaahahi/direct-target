@@ -240,170 +240,163 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
                 topRight: Radius.circular(30),
               ),
             ),
-            child: Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.end,
-                children: [
-                  SizedBox(height: 50),
-                  Obx(() {
-                    if (tokenController.token.value.isNotEmpty) {
-                      return Column(
-                        children: [
-                          InkWell(
-                            onTap: () {
-                              Get.toNamed(AppRoutes.changeprofile);
-                            },
-                            child: ProfileList(
-                              title: 'Change Profile'.tr,
-                              icon: Icons.edit_note_rounded,
-                              iconColor: Colors.deepPurpleAccent,
-                              textColor: Colors.black,
-                            ),
-                          ),
-                          Padding(
-                            padding: EdgeInsets.symmetric(
-                                horizontal: 25, vertical: 10),
-                            child: Divider(),
-                          ),
-                        ],
-                      );
-                    }
-                    return Container(
-                      height: MediaQuery.of(context).size.height * 0.07,
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      child: ElevatedButton(
-                        onPressed: () {
-                          Navigator.push(
-                            context,
-                            MaterialPageRoute(
-                              builder: (context) => SignInScreen(),
-                            ),
-                          );
-                        },
-                        style: ElevatedButton.styleFrom(
-                          backgroundColor: PrimaryColor,
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(30),
+            child:  Column(
+              mainAxisAlignment: MainAxisAlignment.end,
+              children: [
+                SizedBox(height: 50),
+                Obx(() {
+                  if (tokenController.token.value.isNotEmpty) {
+                    return Column(
+                      children: [
+                        InkWell(
+                          onTap: () {
+                            Get.toNamed(AppRoutes.changeprofile);
+                          },
+                          child: ProfileList(
+                            title: 'Change Profile'.tr,
+                            icon: Icons.edit_note_rounded,
+                            iconColor: Colors.deepPurpleAccent,
+                            textColor: Colors.black,
                           ),
                         ),
-                        child: Text(
-                          "Login".tr,
-                          textAlign: TextAlign.center,
-                          style:
-                              Theme.of(context).textTheme.titleMedium?.copyWith(
-                                    color: LightGrey,
-                                  ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 25, vertical: 10),
+                          child: Divider(),
+                        ),
+                      ],
+                    );
+                  }
+                  return Container(
+                    height: MediaQuery.of(context).size.height * 0.07,
+                    width: MediaQuery.of(context).size.width * 0.9,
+                    child: ElevatedButton(
+                      onPressed: () {
+                        Get.toNamed(AppRoutes.signinscreen);
+                      },
+                      style: ElevatedButton.styleFrom(
+                        backgroundColor: PrimaryColor,
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(30),
                         ),
                       ),
-                    );
-                  }),
-                  SizedBox(
-                    height: 20,
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Get.to(ChangeLanguageScreen());
-                    },
-                    child: ProfileList(
-                      icon: Icons.language,
-                      title: "Language".tr,
-                      iconColor: Colors.blueGrey,
-                      textColor: Colors.black,
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                    child: Divider(),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Get.toNamed(AppRoutes.privacy);
-                    },
-                    child: ProfileList(
-                      icon: Icons.privacy_tip,
-                      title: "Privacy & Policy".tr,
-                      iconColor: Colors.green,
-                      textColor: Colors.black,
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                    child: Divider(),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Get.toNamed(AppRoutes.terms);
-                    },
-                    child: ProfileList(
-                      icon: Icons.question_mark_outlined,
-                      title: "Terms & Condition".tr,
-                      iconColor: Colors.purple,
-                      textColor: Colors.black,
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                    child: Divider(),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Get.to(ContactScreen());
-                    },
-                    child: ProfileList(
-                      icon: Icons.call,
-                      title: "Contact Us".tr,
-                      iconColor: Colors.teal,
-                      textColor: Colors.black,
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                    child: Divider(),
-                  ),
-                  InkWell(
-                    onTap: () {
-                      Get.toNamed(AppRoutes.appinfo);
-                    },
-                    child: ProfileList(
-                      icon: Icons.info,
-                      title: "App Information".tr,
-                      iconColor: Colors.blue,
-                      textColor: Colors.black,
-                    ),
-                  ),
-                  const Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                    child: Divider(),
-                  ),
-                  Obx(() {
-                    if (tokenController.token.value.isNotEmpty) {
-                      return InkWell(
-                        onTap: () {
-                          Get.defaultDialog(
-                            title: "Confirm Logout".tr,
-                            middleText: "Are you sure you want to log out?".tr,
-                            textCancel: "No".tr,
-                            textConfirm: "Yes".tr,
-                            confirmTextColor: Colors.white,
-                            onConfirm: () {
-                              controller.logout();
-                              Get.back();
-                            },
-                          );
-                        },
-                        child: ProfileList(
-                          icon: Icons.logout,
-                          title: "Log out".tr,
-                          iconColor: Colors.red,
-                          textColor: Colors.red,
+                      child: Text(
+                        "Login".tr,
+                        textAlign: TextAlign.center,
+                        style:
+                        Theme.of(context).textTheme.titleMedium?.copyWith(
+                          color: LightGrey,
                         ),
-                      );
-                    }
-                    return SizedBox.shrink();
-                  }),
-                  SizedBox(height: 50),
-                ],
-              ),
+                      ),
+                    ),
+                  );
+                }),
+                SizedBox(
+                  height: 20,
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.to(ChangeLanguageScreen());
+                  },
+                  child: ProfileList(
+                    icon: Icons.language,
+                    title: "Language".tr,
+                    iconColor: Colors.blueGrey,
+                    textColor: Colors.black,
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                  child: Divider(),
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.toNamed(AppRoutes.privacy);
+                  },
+                  child: ProfileList(
+                    icon: Icons.privacy_tip,
+                    title: "Privacy & Policy".tr,
+                    iconColor: Colors.green,
+                    textColor: Colors.black,
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                  child: Divider(),
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.toNamed(AppRoutes.terms);
+                  },
+                  child: ProfileList(
+                    icon: Icons.question_mark_outlined,
+                    title: "Terms & Condition".tr,
+                    iconColor: Colors.purple,
+                    textColor: Colors.black,
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                  child: Divider(),
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.to(ContactScreen());
+                  },
+                  child: ProfileList(
+                    icon: Icons.call,
+                    title: "Contact Us".tr,
+                    iconColor: Colors.teal,
+                    textColor: Colors.black,
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                  child: Divider(),
+                ),
+                InkWell(
+                  onTap: () {
+                    Get.toNamed(AppRoutes.appinfo);
+                  },
+                  child: ProfileList(
+                    icon: Icons.info,
+                    title: "App Information".tr,
+                    iconColor: Colors.blue,
+                    textColor: Colors.black,
+                  ),
+                ),
+                const Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                  child: Divider(),
+                ),
+                Obx(() {
+                  if (tokenController.token.value.isNotEmpty) {
+                    return InkWell(
+                      onTap: () {
+                        Get.defaultDialog(
+                          title: "Confirm Logout".tr,
+                          middleText: "Are you sure you want to log out?".tr,
+                          textCancel: "No".tr,
+                          textConfirm: "Yes".tr,
+                          confirmTextColor: Colors.white,
+                          onConfirm: () {
+                            controller.logout();
+                            Get.back();
+                          },
+                        );
+                      },
+                      child: ProfileList(
+                        icon: Icons.logout,
+                        title: "Log out".tr,
+                        iconColor: Colors.red,
+                        textColor: Colors.red,
+                      ),
+                    );
+                  }
+                  return SizedBox.shrink();
+                }),
+                SizedBox(height: 50),
+              ],
             ),
           )
         ],

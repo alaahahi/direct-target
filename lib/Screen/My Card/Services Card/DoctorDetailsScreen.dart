@@ -1,15 +1,12 @@
 import 'package:direct_target/Controller/CardController.dart';
-import 'package:direct_target/Screen/Home/HomeScreen.dart';
-import 'package:direct_target/Service/CardServices.dart';
 import 'package:flutter/material.dart';
-import 'package:direct_target/Widgets/DoctorList.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:get/get.dart';
 import '../../../Controller/AppointmentController.dart';
 import '../../../Controller/LoaderController.dart';
 import '../../../Controller/ProfileCardController.dart';
 import 'package:intl/intl.dart';
+import '../../../Routes/Routes.dart';
 import '../../../Widgets/DoctorDetailsList.dart';
 
 class DoctorDetails extends StatefulWidget {
@@ -90,10 +87,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
       appBar: AppBar(
         leading: GestureDetector(
           onTap: () {
-            Navigator.pushReplacement(
-                context,
-                PageTransition(
-                    type: PageTransitionType.fade, child: Homepage()));
+            Get.toNamed(AppRoutes.homescreen);
           },
           child: Padding(
             padding: const EdgeInsets.all(20.0),
@@ -143,7 +137,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                 DoctorDetailsList(
                   maintext: doctor.serviceName ?? "No Name",
                   subtext: doctor.specialty ?? "No Description",
-                  image:  "Assets/images/person.png",
+                  image:  "Assets/images/person.jpg",
                   firstmaintext: doctor.reviewRate  ?? "No Name",
                   secondmaintext: doctor.exYear  ?? "No Name",
                   thirdmaintext: doctor.appointmentsCount ?? "No Name",

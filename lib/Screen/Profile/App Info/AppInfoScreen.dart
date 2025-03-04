@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../Utils/AppStyle.dart';
 import 'AppInfoBodyScreen.dart';
 
 

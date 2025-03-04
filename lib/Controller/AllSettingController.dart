@@ -107,8 +107,7 @@ class AllSettingController extends GetxController {
     loaderController.loading(false);
   }
 
-
-  Future<void> getPrimaryColor() async {
+  Future<dynamic> getPrimaryColor() async {
     isLoading(true);
 
     try {
@@ -126,7 +125,7 @@ class AllSettingController extends GetxController {
     }
   }
 
-  Future<void> _getFirstWelcomeImage() async {
+  Future<dynamic> _getFirstWelcomeImage() async {
     AllSetting? setting = await _service.getFirstWelcomeImage();
     if (setting != null) {
       firstImageUrl.value = setting.value ?? '';
@@ -135,7 +134,7 @@ class AllSettingController extends GetxController {
     }
   }
 
-  Future<void> _getFirstAdsImage() async {
+  Future<dynamic> _getFirstAdsImage() async {
 
     AllSetting? setting = await _service.getFirstAdsImage();
     if (setting != null) {
@@ -145,7 +144,7 @@ class AllSettingController extends GetxController {
     }
   }
 
-  Future<void> _getSecondAdsImage() async {
+  Future<dynamic> _getSecondAdsImage() async {
     AllSetting? setting = await _service.getSecondAdsImage();
     if (setting != null) {
       secondAdsImageUrl.value = setting.value ?? '';
@@ -154,7 +153,7 @@ class AllSettingController extends GetxController {
     }
   }
 
-  Future<void> _getThirdAdsImage() async {
+  Future<dynamic> _getThirdAdsImage() async {
     AllSetting? setting = await _service.getThirdAdsImage();
     if (setting != null) {
       thirdAdsImageUrl.value = setting.value ?? '';
@@ -163,7 +162,7 @@ class AllSettingController extends GetxController {
     }
   }
 
-  Future<void> _getFourthAdsImage() async {
+  Future<dynamic> _getFourthAdsImage() async {
     AllSetting? setting = await _service.getFourthAdsImage();
     if (setting != null) {
       fourthAdsImageUrl.value = setting.value ?? '';
@@ -172,7 +171,7 @@ class AllSettingController extends GetxController {
     }
   }
 
-  Future<void> _getSecondWelcomeImage() async {
+  Future<dynamic> _getSecondWelcomeImage() async {
     AllSetting? setting = await _service.getSecondWelcomeImage();
     if (setting != null) {
       secondImageUrl.value = setting.value ?? '';
@@ -181,7 +180,7 @@ class AllSettingController extends GetxController {
     }
   }
 
-  Future<void> _getThirdWelcomeImage() async {
+  Future<dynamic> _getThirdWelcomeImage() async {
     isLoading(true);
     update();
     try {
@@ -199,7 +198,7 @@ class AllSettingController extends GetxController {
     }
   }
 
-  Future<void> fetchWelcomeImages() async {
+  Future<dynamic> fetchWelcomeImages() async {
     isLoading(true);
     update();
     try {
@@ -220,7 +219,7 @@ class AllSettingController extends GetxController {
     }
   }
 
-  Future<void> getThemeColor() async {
+  Future<dynamic> getThemeColor() async {
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getThemeColor();
@@ -237,7 +236,7 @@ class AllSettingController extends GetxController {
     }
   }
 
-  Future<void> getMaintenanceMode() async {
+  Future<dynamic> getMaintenanceMode() async {
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getMaintenanceMode();
@@ -254,7 +253,7 @@ class AllSettingController extends GetxController {
     }
   }
 
-  Future<void> getContactEmail() async {
+  Future<dynamic> getContactEmail() async {
     AllSetting? setting = await _service.getContactEmail();
     if (setting != null) {
       secondImageUrl.value = setting.value ?? '';
@@ -263,7 +262,7 @@ class AllSettingController extends GetxController {
     }
   }
 
-  Future<void> getContactPhone() async {
+  Future<dynamic> getContactPhone() async {
     AllSetting? setting = await _service.getContactPhone();
     if (setting != null) {
       secondImageUrl.value = setting.value ?? '';
@@ -272,8 +271,7 @@ class AllSettingController extends GetxController {
     }
   }
 
-
-  Future<void> getSocialLinks() async {
+  Future<dynamic> getSocialLinks() async {
     AllSetting? setting = await _service.getSocialLinks();
     if (setting != null) {
       secondImageUrl.value = setting.value ?? '';
@@ -282,7 +280,7 @@ class AllSettingController extends GetxController {
     }
   }
 
-  Future<void> getDefaultLanguage() async {
+  Future<dynamic> getDefaultLanguage() async {
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getDefaultLanguage();
@@ -298,7 +296,8 @@ class AllSettingController extends GetxController {
       isLoading(false);
     }
   }
-  Future<void> _getAppVersion() async {
+
+  Future<dynamic> _getAppVersion() async {
 
     AllSetting? setting = await _service.getAppVersion();
     if (setting != null) {
@@ -308,11 +307,7 @@ class AllSettingController extends GetxController {
     }
   }
 
-
-
-
-
-  Future<void> getMaxUploadSize() async {
+  Future<dynamic> getMaxUploadSize() async {
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getMaxUploadSize();
@@ -329,8 +324,7 @@ class AllSettingController extends GetxController {
     }
   }
 
-
-  Future<void> getNotificationEnabled() async {
+  Future<dynamic> getNotificationEnabled() async {
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getNotificationEnabled();
@@ -347,7 +341,7 @@ class AllSettingController extends GetxController {
     }
   }
 
-  Future<void> _getPrivacyPolicyUrl() async {
+  Future<dynamic> _getPrivacyPolicyUrl() async {
 
     AllSetting? setting = await _service.getPrivacyPolicyUrl();
     if (setting != null) {
@@ -357,7 +351,7 @@ class AllSettingController extends GetxController {
     }
   }
 
-  Future<void> _getTermsConditionsUrl() async {
+  Future<dynamic> _getTermsConditionsUrl() async {
     AllSetting? setting = await _service.getTermsConditionsUrl();
     if (setting != null) {
       termsCondition.value = setting.value ?? '';
@@ -366,7 +360,7 @@ class AllSettingController extends GetxController {
     }
   }
 
-  Future<void> getOtpExpiryTime() async {
+  Future<dynamic> getOtpExpiryTime() async {
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getOtpExpiryTime();
@@ -383,7 +377,7 @@ class AllSettingController extends GetxController {
     }
   }
 
-  Future<void> getSecondaryContactPhone() async {
+  Future<dynamic> getSecondaryContactPhone() async {
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getSecondaryContactPhone();
@@ -400,7 +394,7 @@ class AllSettingController extends GetxController {
     }
   }
 
-  Future<void> getAppName() async {
+  Future<dynamic> getAppName() async {
 
     AllSetting? setting = await _service.getAppName();
     if (setting != null) {
@@ -410,7 +404,7 @@ class AllSettingController extends GetxController {
     }
   }
 
-  Future<void> getEnableDarkMode() async {
+  Future<dynamic> getEnableDarkMode() async {
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getEnableDarkMode();
@@ -427,7 +421,7 @@ class AllSettingController extends GetxController {
     }
   }
 
-  Future<void> getWelcomeMessage() async {
+  Future<dynamic> getWelcomeMessage() async {
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getWelcomeMessage();
@@ -443,7 +437,7 @@ class AllSettingController extends GetxController {
       isLoading(false);
     }
   }
-  Future<void> getMaxLoginAttempts() async {
+  Future<dynamic> getMaxLoginAttempts() async {
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getMaxLoginAttempts();
@@ -460,7 +454,7 @@ class AllSettingController extends GetxController {
     }
   }
 
-  Future<void> getFirstContactPhone() async {
+  Future<dynamic> getFirstContactPhone() async {
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getFirstContactPhone();
@@ -476,7 +470,7 @@ class AllSettingController extends GetxController {
       isLoading(false);
     }
   }
-  Future<void> getApiUrl() async {
+  Future<dynamic> getApiUrl() async {
     isLoading(true);
     try {
       AllSettingModel? res = await SettingsServices().getApiUrl();

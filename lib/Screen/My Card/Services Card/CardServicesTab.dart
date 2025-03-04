@@ -1,11 +1,11 @@
 import 'package:direct_target/Controller/CardController.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../Controller/AppointmentController.dart';
-import '../../Controller/LoaderController.dart';
-import '../../Utils/AppStyle.dart';
-import '../../Widgets/CategoryList.dart';
-import '../../Widgets/DoctorList.dart';
+import '../../../../Controller/AppointmentController.dart';
+import '../../../../Controller/LoaderController.dart';
+import '../../../../Utils/AppStyle.dart';
+import '../../../../Widgets/CategoryList.dart';
+import '../../../../Widgets/DoctorList.dart';
 
 class CardServicesTab extends StatefulWidget {
 
@@ -91,7 +91,7 @@ class _CardServicesTabState extends State<CardServicesTab> {
                                 child: doctorList(
                                   maintext: service.serviceName ?? "No Name",
                                   subtext: service.specialty ?? "No Description",
-                                  image: "Assets/images/person.png",
+                                  image: "Assets/images/person.jpg",
                                   firstmaintext: service.reviewRate ?? "1",
                                 ),
                               );

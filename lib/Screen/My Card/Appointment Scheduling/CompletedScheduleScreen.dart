@@ -1,11 +1,11 @@
 import 'package:flutter/material.dart';
 import 'package:direct_target/Widgets/ScheduleCard.dart';
 import 'package:get/get.dart';
-import '../../Controller/AppointmentController.dart';
-import '../Services/Doctor/AppointmentScreen.dart';
+import '../../../../Controller/AppointmentController.dart';
 
-class SheduleTab3 extends StatelessWidget {
-  SheduleTab3({super.key});
+
+class CompletedScheduleScreen extends StatelessWidget {
+  CompletedScheduleScreen({super.key});
 
   final AppointmentController appointmentController = Get.put(AppointmentController());
 
@@ -20,17 +20,16 @@ class SheduleTab3 extends StatelessWidget {
           }
 
           if (appointmentController.appointments.isEmpty) {
-            return const Center(child: Text("No Canceled Appointments"));
+            return const Center(child: Text("No Completed Appointments"));
           }
-
           var filteredAppointments = appointmentController.appointments
               .where((appointment) {
-            return appointment.isCome == 0;
+            return appointment.isCome == 2;
           })
               .toList();
 
           if (filteredAppointments.isEmpty) {
-            return const Center(child: Text("No Canceled Appointments"));
+            return const Center(child: Text("No Completed Appointments"));
           }
 
           return ListView.builder(
@@ -45,12 +44,7 @@ class SheduleTab3 extends StatelessWidget {
                     subText: appointment.note ?? "Note",
                     date: appointment.start!,
                     image: "Assets/images/person.png",
-                    onCancel: () {
-                      appointmentController.deleteAppointment(AppointmentId: appointment.id!);
-                    },
-                    onReschedule: () {
-                      Get.to(() => AppointmentScreen(appointmentId: appointment.id!));
-                    },
+
                   ),
                   const SizedBox(height: 20),
                 ],

@@ -1,39 +1,42 @@
 import 'package:direct_target/Controller/CardController.dart';
 import 'package:flutter/material.dart';
-import 'package:direct_target/Screen/Services/Doctor/SearchScreen.dart';
+import 'package:direct_target/Screen/Services/ServicesScreen.dart';
 import 'package:direct_target/Widgets/DoctorListHome.dart';
 import 'package:direct_target/Widgets/IconsList.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:get/get.dart';
-import 'package:direct_target/Screen/RequestCard/RequestScreen.dart';
-import '../../Controller/AllSettingController.dart';
-import '../../Controller/AppointmentController.dart';
-import '../../Controller/LoaderController.dart';
-import '../../Controller/TokenController.dart';
-import '../../Model/AllCardServicesModel.dart';
-import '../../Service/CardServices.dart';
-import '../../Service/SettingsServices.dart';
-import '../../Widgets/CategoryList.dart';
-import '../../Widgets/DoctorList.dart';
-import '../Services/Doctor/TopDoctorScreen.dart';
-import 'Search.dart';
+import '../../../Controller/AllSettingController.dart';
+import '../../../Controller/AppointmentController.dart';
+import '../../../Controller/LoaderController.dart';
+import '../../../Controller/TokenController.dart';
+import '../../../Model/AllCardServicesModel.dart';
+import '../../../Routes/Routes.dart';
+import '../../../Service/CardServices.dart';
+import '../../../Service/SettingsServices.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
+class HomeContentScreenBody extends StatefulWidget {
+  const HomeContentScreenBody({super.key});
 
-class DashboardScreenBody extends StatelessWidget {
-  DashboardScreenBody({super.key});
+  @override
+  State<HomeContentScreenBody> createState() => _HomeContentScreenBodyState();
+}
+
+class _HomeContentScreenBodyState extends State<HomeContentScreenBody> {
   final tokenController = Get.put(TokenController());
   String? selectedCategory;
   List<Services> selectedServices = [];
-  final CardController cardController =
-  Get.put(CardController(CardServices()));
+  final CardController cardController = Get.put(CardController(CardServices()));
   LoaderController loaderController = Get.put(LoaderController());
   final AppointmentController appointmencontroller =
-  Get.put(AppointmentController());
-  final AllSettingController _appController = Get.put(AllSettingController(SettingsServices()));
+      Get.put(AppointmentController());
+  final AllSettingController _appController =
+      Get.put(AllSettingController(SettingsServices()));
+
   @override
   Widget build(BuildContext context) {
-    return  SingleChildScrollView(
+    return SingleChildScrollView(
       child: Column(children: [
         SizedBox(
           height: 20,
@@ -45,11 +48,7 @@ class DashboardScreenBody extends StatelessWidget {
             decoration: BoxDecoration(),
             child: TextField(
               onTap: () {
-                Navigator.push(
-                    context,
-                    PageTransition(
-                        type: PageTransitionType.rightToLeft,
-                        child:SearchPage()));
+                Get.toNamed(AppRoutes.search);
               },
               textAlign: TextAlign.start,
               textInputAction: TextInputAction.none,
@@ -65,7 +64,7 @@ class DashboardScreenBody extends StatelessWidget {
                   padding: const EdgeInsets.symmetric(
                     horizontal: 10,
                   ),
-                  child:Container(
+                  child: Container(
                     child: Icon(
                       Icons.search,
                       size: MediaQuery.of(context).size.height * 0.025,
@@ -73,8 +72,13 @@ class DashboardScreenBody extends StatelessWidget {
                     ),
                   ),
                 ),
-                prefixIconColor:PrimaryColor,
-                label: Text("Search doctor, drugs, articles...".tr),
+                prefixIconColor: PrimaryColor,
+                label: Text(
+                  "Search doctor, drugs, articles...".tr,
+                  style: TextStyle(
+                    color: Colors.black,
+                  ),
+                ),
                 floatingLabelBehavior: FloatingLabelBehavior.never,
                 border: OutlineInputBorder(
                   borderSide: BorderSide.none,
@@ -84,7 +88,6 @@ class DashboardScreenBody extends StatelessWidget {
             ),
           ),
         ),
-
         SizedBox(
           height: 20,
         ),
@@ -115,22 +118,17 @@ class DashboardScreenBody extends StatelessWidget {
                     padding: const EdgeInsets.only(bottom: 10.0),
                     child: GestureDetector(
                       onTap: () {
-                        Navigator.push(
-                          context,
-                          PageTransition(
-                            type: PageTransitionType.rightToLeft,
-                            child: doctor_search(cardId: service.id ?? 1),
-                          ),
-                        );
+                        Get.to(() => ServicesScreen(
+                            cardId: _appController.appCardValue.value));
                       },
                       child: ClipRRect(
-                          borderRadius: BorderRadius.circular(10.0),
-                          child:   Image.network(
-                            service.image ?? 'Assets/images/4.jpg',
-                            width: MediaQuery.of(context).size.width,
-                            height: 250,
-                            fit: BoxFit.cover,
-                          )
+                        borderRadius: BorderRadius.circular(10.0),
+                        child: SizedBox(
+                          width: double.infinity, // or a fixed width
+                          height: 250, // specify a height
+                          child: ShimmerImage(
+                              imageUrl: service.image ?? 'Assets/images/4.jpg'),
+                        ),
                       ),
                     ),
                   );
@@ -139,26 +137,18 @@ class DashboardScreenBody extends StatelessWidget {
             },
           ),
         ),
-
         SizedBox(
           height: 20,
         ),
-
         const SizedBox(
           height: 20,
         ),
-
         Container(
           height: MediaQuery.of(context).size.height * 0.07,
           width: MediaQuery.of(context).size.width * 0.9,
           child: ElevatedButton(
             onPressed: () {
-              Navigator.push(
-                context,
-                MaterialPageRoute(
-                  builder: (context) => RequestScreen(),
-                ),
-              );
+              Get.toNamed(AppRoutes.requestcard);
             },
             style: ElevatedButton.styleFrom(
               backgroundColor: PrimaryColor,
@@ -170,15 +160,14 @@ class DashboardScreenBody extends StatelessWidget {
               "Request Card".tr,
               textAlign: TextAlign.center,
               style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                color: LightGrey,
-              ),
+                    color: LightGrey,
+                  ),
             ),
           ),
         ),
         const SizedBox(
           height: 20,
         ),
-
         Container(
           height: MediaQuery.of(context).size.height * 0.22,
           child: GetBuilder<CardController>(
@@ -189,15 +178,20 @@ class DashboardScreenBody extends StatelessWidget {
                 );
               }
 
-              if (controller.servicesList!.isEmpty) {
+              // ✅ التحقق من أن القائمة ليست null قبل استدعاء .isEmpty
+              if (controller.servicesList == null ||
+                  controller.servicesList!.isEmpty) {
                 return Center(
                   child: Text(
                     "No data available".tr,
-                    style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyMedium?.color),
                   ),
                 );
               }
+
               String? selectedCategory = controller.selectedCategory;
+
               return Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -206,44 +200,42 @@ class DashboardScreenBody extends StatelessWidget {
                     height: 180,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: controller.servicesList!.length,
+                      itemCount: controller.servicesList?.length ??
+                          0, // ✅ يمنع null في عدد العناصر
                       itemBuilder: (context, index) {
+                        final service = controller
+                            .servicesList![index]; // ✅ مضمون أنه ليس null
+
                         return GestureDetector(
                           onTap: () {
-
-                            Navigator.push(
-                              context,
-                              PageTransition(
-                                type: PageTransitionType.rightToLeft,
-                                child: doctor_search(cardId:_appController.appCardValue.value),
-                              ),
-                            );
+                            Get.to(() => ServicesScreen(
+                                cardId: _appController.appCardValue.value));
                             controller.update();
                           },
                           child: Container(
-                            padding: EdgeInsets.symmetric(horizontal: 20, vertical: 10),
+                            padding: EdgeInsets.symmetric(
+                                horizontal: 20, vertical: 10),
                             margin: EdgeInsets.all(5),
                             decoration: BoxDecoration(
                               borderRadius: BorderRadius.circular(8),
-                              color: selectedCategory == controller.servicesList![index].categoryName
+                              color: selectedCategory == service.categoryName
                                   ? PrimaryColor
-                                  :  _convertHexToColor(controller.servicesList![index].categoryColor),
+                                  : _convertHexToColor(service.categoryColor),
                             ),
                             child: Center(
                               child: ListIcons(
-                                icon: controller.servicesList![index].categoryIcon ?? "default",
-                                text: controller.servicesList![index].categoryName ?? "No Name",
-                                categoryDiscount: controller.servicesList![index].categoryDiscount,
+                                icon: service.categoryIcon ?? "default",
+                                text: service.categoryName ?? "No Name",
+                                categoryDiscount: service.categoryDiscount,
                                 textStyle: TextStyle(
                                   fontSize: 16,
                                   fontWeight: FontWeight.bold,
-                                  color: selectedCategory == controller.servicesList![index].categoryName
-                                      ? Colors.white
-                                      : Colors.black,
+                                  color:
+                                      selectedCategory == service.categoryName
+                                          ? Colors.white
+                                          : Colors.black,
                                 ),
-
                               ),
-
                             ),
                           ),
                         );
@@ -258,7 +250,6 @@ class DashboardScreenBody extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-
         Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
@@ -270,15 +261,7 @@ class DashboardScreenBody extends StatelessWidget {
               builder: (controller) {
                 return GestureDetector(
                   onTap: () {
-
-                    Navigator.pushReplacement(
-                      context,
-                      PageTransition(
-                        type: PageTransitionType.rightToLeft,
-                        child: TopDoctorScreen(),
-                      ),
-                    );
-
+                    Get.toNamed(AppRoutes.topdoctor);
                   },
                   child: Text(
                     "See all".tr,
@@ -292,7 +275,6 @@ class DashboardScreenBody extends StatelessWidget {
         const SizedBox(
           height: 20,
         ),
-
         Container(
           height: 220,
           width: 400,
@@ -307,7 +289,8 @@ class DashboardScreenBody extends StatelessWidget {
                 return Center(
                   child: Text(
                     "Loading data...".tr,
-                    style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyMedium?.color),
                   ),
                 );
               }
@@ -316,7 +299,8 @@ class DashboardScreenBody extends StatelessWidget {
                 return Center(
                   child: Text(
                     "No data available".tr,
-                    style: TextStyle(color: Theme.of(context).textTheme.bodyMedium?.color),
+                    style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyMedium?.color),
                   ),
                 );
               }
@@ -327,12 +311,13 @@ class DashboardScreenBody extends StatelessWidget {
                 children: controller.allServicesList!.map((service) {
                   return GestureDetector(
                     onTap: () async {
-                      await appointmencontroller.canBookAppointment(serviceId: service.id ?? 0);
+                      await appointmencontroller.canBookAppointment(
+                          serviceId: service.id ?? 0);
                     },
                     child: list_doctor1(
                       image: service.image != null && service.image!.isNotEmpty
                           ? service.image!
-                          : "Assets/images/person.png",
+                          : "Assets/images/person.jpg",
                       maintext: service.serviceName ?? "No Name",
                       subtext: service.specialty ?? "No Description",
                     ),
@@ -344,9 +329,9 @@ class DashboardScreenBody extends StatelessWidget {
         ),
       ]),
     );
-
   }
 }
+
 Color _convertHexToColor(String? hexColor) {
   if (hexColor == null || hexColor.isEmpty) {
     return Colors.grey.shade200;
@@ -369,3 +354,27 @@ Color _convertHexToColor(String? hexColor) {
   }
 }
 
+class ShimmerImage extends StatelessWidget {
+  final String imageUrl;
+
+  ShimmerImage({required this.imageUrl});
+
+  @override
+  Widget build(BuildContext context) {
+    return CachedNetworkImage(
+      imageUrl: imageUrl,
+      fit: BoxFit.cover,
+      placeholder: (context, url) => Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.white,
+        child: Container(
+          color: Colors.grey[300],
+          width: double.infinity,
+          height: double.infinity,
+        ),
+      ),
+      errorWidget: (context, url, error) =>
+          Icon(Icons.error, color: Colors.red),
+    );
+  }
+}

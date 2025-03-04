@@ -1,14 +1,11 @@
 import 'package:flutter/material.dart';
-import 'package:direct_target/Screen/Home/HomeScreen.dart';
-import 'package:direct_target/Screen/Services/Doctor/DoctorDetailsScreen.dart';
-import 'package:page_transition/page_transition.dart';
 import 'package:get/get.dart';
-import '../../../Controller/AppointmentController.dart';
-import '../../../Controller/CardController.dart';
-import '../../../Controller/LoaderController.dart';
-import '../../../Service/CardServices.dart';
-import '../../../Widgets/DoctorList.dart';
-
+import '../../Controller/AppointmentController.dart';
+import '../../Controller/CardController.dart';
+import '../../Controller/LoaderController.dart';
+import '../../Service/CardServices.dart';
+import '../../Widgets/DoctorList.dart';
+import '../../Routes/Routes.dart';
 
 class TopDoctorScreen extends StatelessWidget {
   TopDoctorScreen({super.key});
@@ -23,13 +20,7 @@ class TopDoctorScreen extends StatelessWidget {
         appBar: AppBar(
           leading: GestureDetector(
             onTap: () {
-              Navigator.pushReplacement(
-                context,
-                PageTransition(
-                  type: PageTransitionType.fade,
-                  child: Homepage(),
-                ),
-              );
+              Get.toNamed(AppRoutes.homescreen);
             },
             child: Padding(
               padding: const EdgeInsets.all(20.0),
@@ -71,7 +62,7 @@ class TopDoctorScreen extends StatelessWidget {
                           child:  doctorList(
                             image: service.image != null && service.image!.isNotEmpty
                                 ? service.image!
-                                : "Assets/images/person.png",
+                                : "Assets/images/person.jpg",
                             maintext: service.serviceName ?? "No Name",
                             subtext: service.specialty ?? "No Description",
                             firstmaintext :service.reviewRate ??  "1",

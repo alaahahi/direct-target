@@ -4,7 +4,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../Model/AppointmentModel.dart';
 import '../Routes/Routes.dart';
-import '../Screen/Services/Doctor/DoctorDetailsScreen.dart';
+import '../Screen/My Card/Services Card/DoctorDetailsScreen.dart';
 import '../Service/AppointmentService.dart';
 import 'LoaderController.dart';
 import 'MessageHandlerController.dart';
@@ -193,7 +193,7 @@ class AppointmentController extends GetxController {
         int? cardId = response.data?.cardId;
         print("📌 تم تخزين card_id: ${box.read("card_id")}");
         box.write("card_id", cardId);
-        Get.offAllNamed(AppRoutes.bookappointment, arguments: {"doctorId": serviceId});
+        Get.to(() => DoctorDetails(doctorId: serviceId));
       } else {
         Get.snackbar('ليس لديك بطاقة'.tr, 'تم تحويلك لطلب البطاقة حتى تستطيع طلب الخدمة بنجاح'.tr);
         Get.offAllNamed(AppRoutes.requestcard);
@@ -208,8 +208,9 @@ class AppointmentController extends GetxController {
         msgController.showErrorMessage("خطأ غير معروف", e.toString());
       }
     } finally {
-      update();
       loaderController.loading(false);
+      update();
+
     }
   }
 }

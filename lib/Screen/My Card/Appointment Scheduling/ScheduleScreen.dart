@@ -1,20 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:direct_target/Screen/Schedule/ScheduleScreenTab1.dart';
-import 'package:direct_target/Screen/Schedule/ScheduleScreenTab2.dart';
-
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:get/get.dart';
+import 'UpcomingScheduleScreen.dart';
+import 'CompletedScheduleScreen.dart';
+import 'CancelledScheduleScreen.dart';
 
-import 'ScheduleScreenTab3.dart';
-
-class shedule_screen extends StatefulWidget {
-  const shedule_screen({Key? key}) : super(key: key);
+class SheduleScreen extends StatefulWidget {
+  const SheduleScreen({Key? key}) : super(key: key);
 
   @override
-  _TabBarExampleState createState() => _TabBarExampleState();
+  _SheduleScreenState createState() => _SheduleScreenState();
 }
 
-class _TabBarExampleState extends State<shedule_screen>
+class _SheduleScreenState extends State<SheduleScreen>
     with SingleTickerProviderStateMixin {
   late TabController tabController;
 
@@ -80,9 +78,9 @@ class _TabBarExampleState extends State<shedule_screen>
             child: TabBarView(
                 controller: tabController,
                 children:  [
-                  SheduleTab1(),
-                  SheduleTab2(),
-                  SheduleTab3(),
+                  UpcomingScheduleScreen(),
+                  CompletedScheduleScreen(),
+                  CancelledScheduleScreen(),
                 ]))
       ],
     );

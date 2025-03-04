@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:direct_target/Screen/Profile/ChangeProfile/ChangeProfileBody.dart';
 
-import '../../../Utils/AppStyle.dart';
 
 class ChangePasswordScreen extends StatefulWidget {
   const ChangePasswordScreen({super.key});

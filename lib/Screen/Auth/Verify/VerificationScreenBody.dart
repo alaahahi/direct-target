@@ -130,7 +130,7 @@ class _VerifyCodeScreenState extends State<VerifyCodeScreen> {
 
                   if (_isTimerActive)
                     Text(
-                      "Code expires in $_timeLeft sec".tr,
+                      "Code expires in".tr + "$_timeLeft" + "sec".tr,
                       style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                         color: Theme.of(context).textTheme.bodyMedium?.color,
                       ),

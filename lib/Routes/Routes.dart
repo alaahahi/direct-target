@@ -20,4 +20,6 @@ class AppRoutes {
   static const String notification = '/notification';
   static const String bookappointment = '/bookappointment';
   static const String requestcard = '/requestcard';
+  static const String search = '/search';
+  static const String topdoctor = '/topdoctor';
 }

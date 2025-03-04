@@ -1,23 +1,24 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../Controller/AppointmentController.dart';
-import '../../../Controller/CardController.dart';
-import '../../../Controller/LoaderController.dart';
-import '../../../Service/CardServices.dart';
-import '../../../Utils/AppStyle.dart';
-import '../../../Widgets/CategoryList.dart';
-import '../../../Widgets/DoctorList.dart';
-import '../../RequestCard/RequestScreen.dart';
-
-class doctor_search extends StatefulWidget {
+import '../../Controller/AppointmentController.dart';
+import '../../Controller/CardController.dart';
+import '../../Controller/LoaderController.dart';
+import '../../Service/CardServices.dart';
+import '../../Utils/AppStyle.dart';
+import '../../Widgets/CategoryList.dart';
+import '../../Widgets/DoctorList.dart';
+import '../RequestCard/RequestScreen.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:cached_network_image/cached_network_image.dart';
+class ServicesScreen extends StatefulWidget {
   final int cardId;
-  const doctor_search({required this.cardId});
+  const ServicesScreen({required this.cardId});
 
   @override
-  State<doctor_search> createState() => _doctor_searchState();
+  State<ServicesScreen> createState() => _ServicesScreenState();
 }
 
-class _doctor_searchState  extends State<doctor_search> {
+class _ServicesScreenState  extends State<ServicesScreen> {
   LoaderController loaderController = Get.put(LoaderController());
   final CardController cardController = Get.put(CardController(CardServices()));
   final AppointmentController appointmentController = Get.put(AppointmentController());
@@ -68,14 +69,15 @@ class _doctor_searchState  extends State<doctor_search> {
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
                               ClipRRect(
-                                borderRadius: BorderRadius.vertical(top: Radius.circular(10)),
-                                child: Image.network(
-                                  selectedCard.image ?? 'Assets/images/4.jpg',
-                                  width: MediaQuery.of(context).size.width,
-                                  height: 250,
-                                  fit: BoxFit.cover,
+                                borderRadius: BorderRadius.circular(10.0),
+                                child: SizedBox(
+                                  width: double.infinity, // or a fixed width
+                                  height: 250, // specify a height
+                                  child: ShimmerImage(
+                                      imageUrl: selectedCard.image ?? 'Assets/images/4.jpg'),
                                 ),
                               ),
+
                               Padding(
                                 padding: EdgeInsets.all(16.0),
                                 child: Column(
@@ -83,10 +85,12 @@ class _doctor_searchState  extends State<doctor_search> {
                                   children: [
                                     Text(
                                       selectedCard.name ?? "No Name",
-                                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
+                                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold,
+                                        color:  Colors.black,),
                                     ),
                                     SizedBox(height: 10),
-                                    Text("Price: ${selectedCard.price}".tr, style: Theme.of(context).textTheme.bodyLarge),
+                                    Text("Price: ${selectedCard.price}".tr, style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold,
+                                      color:  Colors.black,),),
                                     SizedBox(height: 10),
                                   ],
                                 ),
@@ -169,7 +173,7 @@ class _doctor_searchState  extends State<doctor_search> {
                                     child: doctorList(
                                       maintext: service.serviceName ?? "No Name",
                                       subtext: service.specialty ?? "No Description",
-                                      image: "Assets/images/person.png",
+                                      image: "Assets/images/person.jpg",
                                       firstmaintext: service.reviewRate ?? "1",
                                     ),
                                   );
@@ -189,6 +193,30 @@ class _doctor_searchState  extends State<doctor_search> {
           },
         ),
       ),
+    );
+  }
+}
+class ShimmerImage extends StatelessWidget {
+  final String imageUrl;
+
+  ShimmerImage({required this.imageUrl});
+
+  @override
+  Widget build(BuildContext context) {
+    return CachedNetworkImage(
+      imageUrl: imageUrl,
+      fit: BoxFit.cover,
+      placeholder: (context, url) => Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.white,
+        child: Container(
+          color: Colors.grey[300],
+          width: double.infinity,
+          height: double.infinity,
+        ),
+      ),
+      errorWidget: (context, url, error) =>
+          Icon(Icons.error, color: Colors.red),
     );
   }
 }

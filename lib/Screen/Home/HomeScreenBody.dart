@@ -1,62 +1,105 @@
-import 'package:animated_bottom_navigation_bar/animated_bottom_navigation_bar.dart';
+import 'package:carousel_slider/carousel_slider.dart';
+import 'package:direct_target/Screen/Home/HomeContent/HomeContentScreen.dart';
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:direct_target/Screen/Profile/ProfileScreen.dart';
-import 'package:direct_target/Screen/Schedule/ScheduleScreen.dart';
 import 'package:get/get.dart';
-import 'package:direct_target/Utils/AppStyle.dart';
-import 'package:direct_target/Controller/ThemeController.dart';
+import '../../Controller/AllSettingController.dart';
+import '../../Routes/Routes.dart';
+import '../../Service/SettingsServices.dart';
+import 'package:shimmer/shimmer.dart';
+import 'package:cached_network_image/cached_network_image.dart';
 
-import 'AdsScreen.dart';
-import 'AllCardScreen.dart';
+import 'NavigationBar/NavigationBarScreen.dart';
 
 class HomeScreenBody extends StatefulWidget {
+  const HomeScreenBody({super.key});
+
   @override
   State<HomeScreenBody> createState() => _HomeScreenBodyState();
 }
 
 class _HomeScreenBodyState extends State<HomeScreenBody> {
-  List<IconData> icons = [
-    FontAwesomeIcons.home,
-    FontAwesomeIcons.vcard,
-
-    FontAwesomeIcons.user,
-  ];
-
-  int page = 0;
-
-  List<Widget> pages = [
-    AdsScreen(),
-    AllCardScreen(),
-    ProfileScreen()
-  ];
+  final AllSettingController _controller = Get.put(AllSettingController(SettingsServices()));
 
   @override
   Widget build(BuildContext context) {
-    final ThemeController themeController = Get.find<ThemeController>();
-
-    return Scaffold(
-      body: pages[page],
-      bottomNavigationBar: AnimatedBottomNavigationBar(
-        icons: icons,
-        iconSize: 20,
-        activeIndex: page,
-        height: 80,
-        splashSpeedInMilliseconds: 300,
-        gapLocation: GapLocation.none,
-        activeColor: Theme.of(context).brightness == Brightness.dark
-            ? Colors.white
-            : PrimaryColor,
-        backgroundColor: Theme.of(context).scaffoldBackgroundColor,
-        inactiveColor: Theme.of(context).brightness == Brightness.dark
-            ?  BorderGrey
-            :  TextGrey,
-        onTap: (int tappedIndex) {
-          setState(() {
-            page = tappedIndex;
-          });
-        },
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          mainAxisSize: MainAxisSize.min,
+          children: [
+            CarouselSlider(
+              items: [
+                _controller.firstAdsImageUrl.value.isNotEmpty
+                    ? ShimmerImage(imageUrl: _controller.firstAdsImageUrl.value)
+                    : ShimmerImage(imageUrl: 'Assets/images/2.jpg'),
+                _controller.secondAdsImageUrl.value.isNotEmpty
+                    ? ShimmerImage(imageUrl: _controller.secondAdsImageUrl.value)
+                    : ShimmerImage(imageUrl: 'Assets/images/2.jpg'),
+                _controller.thirdAdsImageUrl.value.isNotEmpty
+                    ? ShimmerImage(imageUrl: _controller.thirdAdsImageUrl.value)
+                    : ShimmerImage(imageUrl: 'Assets/images/2.jpg'),
+                _controller.fourthAdsImageUrl.value.isNotEmpty
+                    ? ShimmerImage(imageUrl: _controller.fourthAdsImageUrl.value)
+                    : ShimmerImage(imageUrl: 'Assets/images/2.jpg'),
+              ].map((item) {
+                return Builder(
+                  builder: (BuildContext context) {
+                    return GestureDetector(
+                      onTap: () {
+                        Get.toNamed(AppRoutes.homescreen);
+                      },
+                      child: ClipRRect(
+                        borderRadius: BorderRadius.circular(20.0),
+                        child: Container(
+                          width: MediaQuery.of(context).size.width,
+                          height: 150,
+                          child: item,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              }).toList(),
+              options: CarouselOptions(
+                height: 250,
+                enlargeCenterPage: true,
+                autoPlay: true,
+                aspectRatio: 4 / 3,
+                autoPlayCurve: Curves.fastOutSlowIn,
+                enableInfiniteScroll: true,
+                autoPlayAnimationDuration: Duration(milliseconds: 800),
+                viewportFraction: 0.8,
+              ),
+            ),
+            HomeContentScreen(),
+          ],
+        ),
       ),
+    );
+  }
+}
+
+class ShimmerImage extends StatelessWidget {
+  final String imageUrl;
+
+  ShimmerImage({required this.imageUrl});
+
+  @override
+  Widget build(BuildContext context) {
+    return CachedNetworkImage(
+      imageUrl: imageUrl,
+      fit: BoxFit.cover,
+      placeholder: (context, url) => Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.white,
+        child: Container(
+          color: Colors.grey[300],
+          width: double.infinity,
+          height: double.infinity,
+        ),
+      ),
+      errorWidget: (context, url, error) => Icon(Icons.error, color: Colors.red),
     );
   }
 }

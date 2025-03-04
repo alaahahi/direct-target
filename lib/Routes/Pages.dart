@@ -4,17 +4,19 @@ import 'package:direct_target/Screen/Profile/Contact/ContactScreen.dart';
 import 'package:direct_target/Screen/Profile/PrivacyPolicy/PricavyPolicyScreen.dart';
 import 'package:direct_target/Screen/Profile/Terms/TermsScreen.dart';
 import 'package:direct_target/Screen/RequestCard/RequestScreen.dart';
-import 'package:direct_target/Screen/Services/Doctor/DoctorDetailsScreen.dart';
 import 'package:get/get.dart';
 import 'package:direct_target/Routes/Routes.dart';
 import 'package:direct_target/Screen/Auth/SignIn/SignInScreen.dart';
 import 'package:direct_target/Screen/OnBoard/BoardingScreen.dart';
 import 'package:direct_target/Screen/SplashScreen.dart';
-
 import '../Screen/Auth/Verify/VerificationScreenBody.dart';
-import '../Screen/Home/HomeScreen.dart';
+import '../Screen/Home/NavigationBar/NavigationBarScreen.dart';
+import '../Screen/My Card/Appointment Scheduling/ScheduleScreen.dart';
 import '../Screen/Profile/ChangeProfile/ChangeProfileScreen.dart';
-import '../Screen/Schedule/ScheduleScreen.dart';
+import '../Screen/Search/SearchScreen.dart';
+import '../Screen/Services/TopDoctorScreen.dart';
+
+
 
 final pages = <GetPage>[
   GetPage(
@@ -37,7 +39,7 @@ final pages = <GetPage>[
   ),
   GetPage(
     name: AppRoutes.homescreen,
-    page: () =>  Homepage(),
+    page: () =>  NavigationBarScreen(),
   ),
   GetPage(
     name: AppRoutes.changeprofile,
@@ -46,7 +48,7 @@ final pages = <GetPage>[
 
   GetPage(
     name: AppRoutes.appointment,
-    page: () =>  shedule_screen(),
+    page: () =>  SheduleScreen(),
   ),
   GetPage(
     name: AppRoutes.privacy,
@@ -72,5 +74,12 @@ final pages = <GetPage>[
     name: AppRoutes.requestcard,
     page: () =>  RequestScreen(),
   ),
-
+  GetPage(
+    name: AppRoutes.search,
+    page: () =>  SearchPage(),
+  ),
+  GetPage(
+    name: AppRoutes.topdoctor,
+    page: () =>  TopDoctorScreen(),
+  ),
 ];

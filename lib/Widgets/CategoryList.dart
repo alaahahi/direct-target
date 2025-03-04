@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 
-import '../Utils/AppStyle.dart';
 
 class CategoryList extends StatelessWidget {
   final String image;
@@ -52,7 +50,9 @@ class CategoryList extends StatelessWidget {
                 flex: 1,
                 child: Text(
                   maintext,
-                  style: Theme.of(context).textTheme.bodyLarge,
+                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                    color:  Colors.black,
+                  ),
                   textAlign: TextAlign.center,
                 ),
               ),

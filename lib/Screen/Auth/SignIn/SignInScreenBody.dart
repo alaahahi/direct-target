@@ -68,14 +68,11 @@ class _SignInScreenState extends State<SignInScreenBody>
             final storage = GetStorage();
             await storage.write('token', resendToken.toString());
           }
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (context) => OtpScreen(
-                verificationId: verificationId,
-                phoneNumber: "+964" + _phoneController.text.trim(),
-                firebaseToken: resendToken.toString(),
-              ),
+          Get.to(
+                () => OtpScreen(
+              verificationId: verificationId,
+              phoneNumber: "+964" + _phoneController.text.trim(),
+              firebaseToken: resendToken.toString(),
             ),
           );
         },

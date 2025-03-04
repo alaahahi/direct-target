@@ -1,18 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-
 import '../../../Controller/AllSettingController.dart';
 import '../../../Service/SettingsServices.dart';
 import '../../../Utils/AppStyle.dart';
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
-import 'package:flutter/material.dart';
-import 'package:get/get.dart';
-import 'package:direct_target/Screen/Auth/SignIn/SignInScreen.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:direct_target/Screen/Home/HomeScreen.dart';
-import 'package:direct_target/Utils/AppStyle.dart';
-import 'package:direct_target/Widgets/ThemeToggleButton.dart';
-import 'package:direct_target/Widgets/LangToggleButton.dart';
 import 'package:direct_target/Controller/ThemeController.dart';
 class ContactBodyScreen extends StatefulWidget {
   const ContactBodyScreen({super.key});

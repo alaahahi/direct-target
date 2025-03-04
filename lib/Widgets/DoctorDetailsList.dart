@@ -1,6 +1,6 @@
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
+
 
 class DoctorDetailsList extends StatelessWidget {
   final String image;
@@ -33,7 +33,7 @@ class DoctorDetailsList extends StatelessWidget {
               image: DecorationImage(
                 image: image.isNotEmpty && image.startsWith("http")
                     ? NetworkImage(image)
-                    : AssetImage('Assets/images/person.png') as ImageProvider,
+                    : AssetImage('Assets/images/person.jpg') as ImageProvider,
                 filterQuality: FilterQuality.high,
                 fit: BoxFit.cover,
               ),

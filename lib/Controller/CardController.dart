@@ -46,12 +46,25 @@ class CardController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getCards();
-    getPopularService();
-    fetchMyCards();
-    getCardServices(_appController.appCardValue.value);
+    loadData();
+    // getCards();
+    // getPopularService();
+    // fetchMyCards();
+    // getCardServices(_appController.appCardValue.value);
   }
-
+  Future<void> loadData() async {
+    try {
+      // تحميل البيانات في وقت واحد باستخدام Future.wait
+      await Future.wait([
+        getCards(),
+        getPopularService(),
+        fetchMyCards(),
+        getCardServices(_appController.appCardValue.value),
+      ]);
+    } catch (e) {
+      print("Error loading data: $e");
+    }
+  }
   void updateSelectedCategory(String category) {
     selectedCategory = category;
     update();

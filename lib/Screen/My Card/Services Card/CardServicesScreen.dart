@@ -1,21 +1,21 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../../../Controller/CardController.dart';
-import '../../../Controller/LoaderController.dart';
-import '../../../Service/CardServices.dart';
-import '../../Utils/AppStyle.dart';
-import '../Schedule/ScheduleScreen.dart';
+import '../../../../../Controller/CardController.dart';
+import '../../../../../Controller/LoaderController.dart';
+import '../../../../../Service/CardServices.dart';
+import '../../../../Utils/AppStyle.dart';
+import '../Appointment Scheduling/ScheduleScreen.dart';
 import 'CardServicesTab.dart';
 
-class CardScreenBody extends StatefulWidget {
+class CardServicesScreen extends StatefulWidget {
   final int cardId;
-  const CardScreenBody({required this.cardId, Key? key}) : super(key: key);
+  const CardServicesScreen({required this.cardId, Key? key}) : super(key: key);
 
   @override
-  State<CardScreenBody> createState() => _CardScreenBodyState();
+  State<CardServicesScreen> createState() => _CardServicesScreenState();
 }
 
-class _CardScreenBodyState extends State<CardScreenBody> with SingleTickerProviderStateMixin {
+class _CardServicesScreenState extends State<CardServicesScreen> with SingleTickerProviderStateMixin {
   LoaderController loaderController = Get.put(LoaderController());
   final CardController cardController = Get.put(CardController(CardServices()));
 
@@ -162,7 +162,7 @@ class _CardScreenBodyState extends State<CardScreenBody> with SingleTickerProvid
               controller: tabController,
               children: [
                 CardServicesTab(cardId: selectedCard.id!),
-                shedule_screen(),
+                SheduleScreen(),
               ],
             ),
           );

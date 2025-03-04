@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../Routes/Routes.dart';
-import '../Screen/Home/HomeScreen.dart';
+import '../Screen/Home/NavigationBar/NavigationBarScreen.dart';
 import '../Service/VerificationWhatsappService.dart';
 import 'TokenController.dart';
 
