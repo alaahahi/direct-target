@@ -90,7 +90,9 @@ class _CardServicesTabState extends State<CardServicesTab> {
                                 },
                                 child: doctorList(
                                   maintext: service.serviceName ?? "No Name",
-                                  subtext: service.specialty ?? "No Description",
+                                  subtext: (service.specialty != null && service.specialty!.isNotEmpty)
+                                      ? "Specialization : ".tr + " " + service.specialty!
+                                      : "",
                                   image: "Assets/images/person.jpg",
                                   firstmaintext: service.reviewRate ?? "1",
                                 ),

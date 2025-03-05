@@ -8,142 +8,133 @@ class doctorList extends StatelessWidget {
   final String maintext;
   final String subtext;
   final String firstmaintext;
-  doctorList(
-      {
-        required this.image,
-        required this.maintext,
-        required this.subtext,
-        required this.firstmaintext});
+
+  doctorList({
+    required this.image,
+    required this.maintext,
+    required this.subtext,
+    required this.firstmaintext,
+  });
 
   @override
   Widget build(BuildContext context) {
-    return SingleChildScrollView(
-      child: Padding(
-        padding: const EdgeInsets.all(10.0),
-        child: Container(
-          height: MediaQuery.of(context).size.height * 0.15,
-          width: MediaQuery.of(context).size.width * 0.9,
-          decoration: BoxDecoration(
-            color: Colors.white,
-            border: Border.all(color: Color.fromARGB(255, 226, 226, 226)),
-            borderRadius: BorderRadius.circular(12),
-          ),
-          child: Padding(
-            padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 7.0),
-            child: Row(
-              crossAxisAlignment: CrossAxisAlignment.center,
-              children: [
-                Column(
-                  children: [
-                    Align(
-                      child: Container(
-                        height: MediaQuery.of(context).size.height * 0.09,
-                        width: MediaQuery.of(context).size.width * 0.2,
-                        decoration: BoxDecoration(
-                          shape: BoxShape.circle, // تعيين الشكل ليكون دائري
-                          border: Border.all(
-                            color: Colors.grey.withOpacity(0.5), // تحديد لون الحدود
-                            width: 1, // سمك الحدود
-                          ),
-                          boxShadow: [
-                            BoxShadow(
-                              color: Colors.black.withOpacity(0.2), // تحديد لون الظل
-                              blurRadius: 5, // تحديد تأثير الضبابية للظل
-                              offset: Offset(2, 2), // تحديد اتجاه الظل
-                            ),
-                          ],
-                          image: DecorationImage(
-                            image: image.isNotEmpty && image.startsWith("http")
-                                ? NetworkImage(image)
-                                : AssetImage('Assets/images/person.jpg') as ImageProvider,
-                            filterQuality: FilterQuality.high,
-                            fit: BoxFit.cover,
-                          ),
+    return Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Container(
+        width: MediaQuery.of(context).size.width * 0.9,
+        decoration: BoxDecoration(
+          color: Colors.white,
+          border: Border.all(color: Color.fromARGB(255, 226, 226, 226)),
+          borderRadius: BorderRadius.circular(12),
+        ),
+        child: Padding(
+          padding: const EdgeInsets.symmetric(horizontal: 18.0, vertical: 10.0),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              Row(
+                crossAxisAlignment: CrossAxisAlignment.center,
+                children: [
+                  Container(
+                    height: MediaQuery.of(context).size.height * 0.09,
+                    width: MediaQuery.of(context).size.width * 0.2,
+                    decoration: BoxDecoration(
+                      shape: BoxShape.circle,
+                      border: Border.all(color: Colors.grey.withOpacity(0.5), width: 1),
+                      boxShadow: [
+                        BoxShadow(
+                          color: Colors.black.withOpacity(0.2),
+                          blurRadius: 5,
+                          offset: Offset(2, 2),
                         ),
+                      ],
+                      image: DecorationImage(
+                        image: image.isNotEmpty && image.startsWith("http")
+                            ? NetworkImage(image)
+                            : AssetImage('Assets/images/person.jpg') as ImageProvider,
+                        filterQuality: FilterQuality.high,
+                        fit: BoxFit.cover,
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
+                  ),
+                  const SizedBox(width: 15),
+
+                  Expanded(
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        Text(
+                          maintext,
+                          style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                            color: Colors.black,
+                            fontWeight: FontWeight.w900,
+                          ),
+                          softWrap: true,
+                        ),
+                        const SizedBox(height: 4),
+                        Text(
+                          subtext,
+                          style: Theme.of(context).textTheme.bodyMedium?.copyWith(
+                            color: TextGrey,
+                          ),
+                          softWrap: true,
+                        ),
+                      ],
                     ),
+                  ),
+                ],
+              ),
+              const SizedBox(height: 10),
+
+              Padding(
+                padding: const EdgeInsets.symmetric(horizontal: 20.0,),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
                     Row(
                       children: [
                         Text(
                           firstmaintext,
                           style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                              color:  Colors.black,
-
+                            color: Colors.black,
                           ),
-                          textAlign: TextAlign.center,
                         ),
+                        const SizedBox(width: 5),
                         Icon(
                           Icons.star,
                           color: Colors.yellow,
-                          size: 18, // حجم الأيقونة (يمكنك تغييره حسب الحاجة)
+                          size: 18,
                         ),
                       ],
-                    )
-
-                  ],
-                ),
-                const SizedBox(
-                  width: 20,
-                ),
-                Container(
-                  height: MediaQuery.of(context).size.height * 0.1200,
-                  width: MediaQuery.of(context).size.width * 0.5,
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      Text(
-                        maintext,
-                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
-                          color:  Colors.black,
-                          fontWeight: FontWeight.w900
-                        ),
+                    ),
+                    const SizedBox(width: 30),
+                    Container(
+                      width: 130,
+                      height: 35,
+                      decoration: BoxDecoration(
+                        color: ButtonGrey,
+                        borderRadius: BorderRadius.circular(8),
                       ),
-                      const SizedBox(
-                        height: 4,
-                      ),
-                      Text(
-                        "Specialization : ".tr + " "+ subtext,
-                        style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                          color: TextGrey,
-                        ),
-                      ),
-                      const SizedBox(height: 10),
-                      SizedBox(
-                        width: 120,
-                        height: 30,
-                        child: Container(
-                          decoration: BoxDecoration(
-                            color: ButtonGrey,
-                            borderRadius: BorderRadius.circular(8),
-                          ),
-                          child: InkWell(
-                            onTap: () {
-
-                            },
-                            splashColor: Colors.white.withOpacity(0.3),
-                            borderRadius: BorderRadius.circular(8),
-                            child: Center(
-                              child: Text(
-                                "Book Appointment".tr,
-                                style: GoogleFonts.poppins(
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w500,
-                                  color:PrimaryColor,
-                                ),
-                              ),
+                      child: InkWell(
+                        onTap: () {},
+                        splashColor: Colors.white.withOpacity(0.3),
+                        borderRadius: BorderRadius.circular(8),
+                        child: Center(
+                          child: Text(
+                            "Book Appointment".tr,
+                            style: GoogleFonts.poppins(
+                              fontSize: 14,
+                              fontWeight: FontWeight.w500,
+                              color: PrimaryColor,
                             ),
                           ),
                         ),
                       ),
-                    ],
-                  ),
+                    ),
+                  ],
                 ),
-              ],
-            ),
-
+              ),
+            ],
           ),
         ),
       ),

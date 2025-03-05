@@ -1,3 +1,5 @@
+
+
 class ProfileUserModel {
   String? status;
   Data? data;
@@ -32,7 +34,7 @@ class Data {
   String? birthDate;
   int? weight;
   int? height;
-  String? gender;
+  int? gender;
 
   Data(
       {this.id,
@@ -83,3 +85,4 @@ class Data {
     return data;
   }
 }
+

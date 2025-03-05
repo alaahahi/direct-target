@@ -32,7 +32,7 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
               children: [
                 SizedBox(
                   width: 50.0,
-                  height: 31,
+                  height: 37,
                   child: Image.asset(
                     logoPath,
                     fit: BoxFit.cover,

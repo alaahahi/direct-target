@@ -71,8 +71,8 @@ class _ServicesScreenState  extends State<ServicesScreen> {
                               ClipRRect(
                                 borderRadius: BorderRadius.circular(10.0),
                                 child: SizedBox(
-                                  width: double.infinity, // or a fixed width
-                                  height: 250, // specify a height
+                                  width: double.infinity,
+                                  height: 250,
                                   child: ShimmerImage(
                                       imageUrl: selectedCard.image ?? 'Assets/images/4.jpg'),
                                 ),
@@ -172,7 +172,9 @@ class _ServicesScreenState  extends State<ServicesScreen> {
                                     },
                                     child: doctorList(
                                       maintext: service.serviceName ?? "No Name",
-                                      subtext: service.specialty ?? "No Description",
+                                      subtext: (service.specialty != null && service.specialty!.isNotEmpty)
+                                          ? "Specialization : ".tr + " " + service.specialty!
+                                          : "",
                                       image: "Assets/images/person.jpg",
                                       firstmaintext: service.reviewRate ?? "1",
                                     ),

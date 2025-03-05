@@ -1,5 +1,6 @@
 import 'dart:convert';
 
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../Model/AppointmentModel.dart';
@@ -127,14 +128,25 @@ class AppointmentController extends GetxController {
     dio.FormData.fromMap({'profile_id': profileId, 'note': note,'start':start , 'end':end,'service_provider_id':serviceProviderId});
     var response = await AppointmentService().createAppointment(request);
     try {
-
-      msgController.showSuccessMessage(response.status, response.status);
-      print("tessssssssssssssssst");
+      Get.snackbar(
+        'تمت العملية بنجاح',
+        ':تم حجز الموعد بنجاح'.tr,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        duration: Duration(seconds: 3),
+      );
     } catch (e) {
       if (e is dio.DioException) {
         log(e.toString());
-        msgController.showErrorMessage(e.response?.statusCode.toString() ?? "خطأ غير معروف", e.message ?? "");
-      } else {
+        Get.snackbar(
+          'فشل نجاح العملية',
+          'الرجاء إعادة المحاولة'.tr,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          duration: Duration(seconds: 3),
+        );      } else {
         msgController.showErrorMessage("خطأ غير معروف", e.toString());
       }
     }
@@ -148,7 +160,6 @@ class AppointmentController extends GetxController {
     var response = await AppointmentService().getAppointment();
     try {
       msgController.showSuccessMessage(response.status, response.status);
-      print("tessssssssssssssssst");
     } catch (e) {
       if (e is dio.DioException) {
         log(e.toString());

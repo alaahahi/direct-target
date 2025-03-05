@@ -121,13 +121,17 @@ class _HomeContentScreenBodyState extends State<HomeContentScreenBody> {
                         Get.to(() => ServicesScreen(
                             cardId: _appController.appCardValue.value));
                       },
-                      child: ClipRRect(
+                      child:ClipRRect(
                         borderRadius: BorderRadius.circular(10.0),
                         child: SizedBox(
-                          width: double.infinity, // or a fixed width
-                          height: 250, // specify a height
-                          child: ShimmerImage(
-                              imageUrl: service.image ?? 'Assets/images/4.jpg'),
+                          width: double.infinity,
+                          height: 250,
+                          child: (service.image != null && service.image!.isNotEmpty)
+                              ? ShimmerImage(imageUrl: service.image!)
+                              : Image.asset(
+                            'Assets/images/4.jpg',
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
                     ),
@@ -177,8 +181,6 @@ class _HomeContentScreenBodyState extends State<HomeContentScreenBody> {
                   child: CircularProgressIndicator(color: PrimaryColor),
                 );
               }
-
-              // ✅ التحقق من أن القائمة ليست null قبل استدعاء .isEmpty
               if (controller.servicesList == null ||
                   controller.servicesList!.isEmpty) {
                 return Center(
@@ -201,10 +203,10 @@ class _HomeContentScreenBodyState extends State<HomeContentScreenBody> {
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: controller.servicesList?.length ??
-                          0, // ✅ يمنع null في عدد العناصر
+                          0,
                       itemBuilder: (context, index) {
                         final service = controller
-                            .servicesList![index]; // ✅ مضمون أنه ليس null
+                            .servicesList![index];
 
                         return GestureDetector(
                           onTap: () {
@@ -319,7 +321,9 @@ class _HomeContentScreenBodyState extends State<HomeContentScreenBody> {
                           ? service.image!
                           : "Assets/images/person.jpg",
                       maintext: service.serviceName ?? "No Name",
-                      subtext: service.specialty ?? "No Description",
+                      subtext: (service.specialty != null && service.specialty!.isNotEmpty)
+                          ? "Specialization : ".tr + " " + service.specialty!
+                          : "",
                     ),
                   );
                 }).toList(),

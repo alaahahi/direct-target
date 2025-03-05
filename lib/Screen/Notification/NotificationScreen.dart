@@ -2,8 +2,6 @@ import 'package:direct_target/Screen/Notification/NotificationBodyScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../Utils/AppStyle.dart';
-import '../Profile/Terms/TermsBody.dart';
 
 
 class NotificationScreen extends StatefulWidget {

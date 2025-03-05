@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../Model/ProfileCardModel.dart';
@@ -42,7 +43,14 @@ class ProfileCardController extends GetxController {
       loaderController.loading(true);
       dio.FormData request = dio.FormData.fromMap(profileData);
       var response = await ProfileService().updateProfile(request);
-      msgController.showSuccessMessage(response.status, response.status);
+      Get.snackbar(
+        'تمت العملية بنجاح',
+        ':تم تعديل البروفايل الخاص بك'.tr,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        duration: Duration(seconds: 3),
+      );
       return response;
     } catch (e) {
       if (e is dio.DioException) {

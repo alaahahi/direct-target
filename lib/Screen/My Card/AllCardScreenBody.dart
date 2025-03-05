@@ -49,21 +49,26 @@ class _AllCardBodyScreenState extends State<AllCardBodyScreen> {
                 ),
                 ...cardController.allMyCardList!.map((service) {
                   return Padding(
-                    padding: const EdgeInsets.only(bottom: 10.0),
+                    padding: const EdgeInsets.all(15),
                     child: GestureDetector(
                       onTap: () {
                         Get.to(() => CardServicesScreen(cardId: service.cardId!));
                       },
 
-                      child: ClipRRect(
+                      child:ClipRRect(
                         borderRadius: BorderRadius.circular(10.0),
                         child: SizedBox(
-                          width: double.infinity, // or a fixed width
-                          height: 250, // specify a height
-                          child: ShimmerImage(
-                              imageUrl: service.image ?? 'Assets/images/4.jpg'),
+                          width: double.infinity,
+                          height: 250, 
+                          child: (service.image != null && service.image!.isNotEmpty)
+                              ? ShimmerImage(imageUrl: service.image!)
+                              : Image.asset(
+                            'Assets/images/4.jpg',
+                            fit: BoxFit.cover,
+                          ),
                         ),
                       ),
+
                     ),
                   );
                 }).toList(),

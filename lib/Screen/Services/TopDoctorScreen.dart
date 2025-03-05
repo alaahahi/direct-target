@@ -64,7 +64,9 @@ class TopDoctorScreen extends StatelessWidget {
                                 ? service.image!
                                 : "Assets/images/person.jpg",
                             maintext: service.serviceName ?? "No Name",
-                            subtext: service.specialty ?? "No Description",
+                            subtext: (service.specialty != null && service.specialty!.isNotEmpty)
+                                ? "Specialization : ".tr + " " + service.specialty!
+                                : "",
                             firstmaintext :service.reviewRate ??  "1",
                           ),
                         ),

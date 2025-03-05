@@ -51,7 +51,7 @@ class ProfileUserService extends GetConnect {
           print('**********  Error fetchProfile *************${e.response}');
         }
       } else {
-        print('errorrrrrr $e');
+        print('errorrrrrr  $e');
       }
 
       loaderController.loading(false);

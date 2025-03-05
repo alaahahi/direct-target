@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import '../Model/SmsModel.dart';
@@ -57,6 +58,14 @@ class OtpController extends GetxController {
           print('API Error: ${response.statusCode}');
         }
       } catch (e) {
+        Get.snackbar(
+          'خطأ في رمز التحقق',
+          ':الرجاء كتابة كود التحقق بشكل صحيح'.tr,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          duration: Duration(seconds: 3),
+        );
         print('Error occurred: $e');
       } finally {
         isLoading.value = false;

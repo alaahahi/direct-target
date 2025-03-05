@@ -46,15 +46,15 @@ class CardController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+
     loadData();
+    fetchMyCards();
     // getCards();
     // getPopularService();
-    // fetchMyCards();
     // getCardServices(_appController.appCardValue.value);
   }
   Future<void> loadData() async {
     try {
-      // تحميل البيانات في وقت واحد باستخدام Future.wait
       await Future.wait([
         getCards(),
         getPopularService(),

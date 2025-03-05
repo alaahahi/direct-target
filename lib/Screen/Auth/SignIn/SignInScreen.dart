@@ -1,12 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:direct_target/Screen/Auth/SignIn/SignInScreenBody.dart';
 import 'package:get/get.dart';
-import 'package:page_transition/page_transition.dart';
-
 import '../../../Utils/AppStyle.dart';
 import 'dart:ui' as ui;
 
-import '../../Start/StartScreen.dart';
 class SignInScreen extends StatelessWidget {
   const SignInScreen({super.key});
 
