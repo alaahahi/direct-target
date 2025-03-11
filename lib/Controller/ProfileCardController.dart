@@ -44,8 +44,8 @@ class ProfileCardController extends GetxController {
       dio.FormData request = dio.FormData.fromMap(profileData);
       var response = await ProfileService().updateProfile(request);
       Get.snackbar(
-        'تمت العملية بنجاح',
-        ':تم تعديل البروفايل الخاص بك'.tr,
+        'The operation was completed successfully'.tr,
+        'Your profile has been modified'.tr,
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
         colorText: Colors.white,
@@ -55,9 +55,9 @@ class ProfileCardController extends GetxController {
     } catch (e) {
       if (e is dio.DioException) {
         log(e.toString());
-        msgController.showErrorMessage(e.response?.statusCode.toString() ?? "خطأ غير معروف", e.message ?? "");
+        msgController.showErrorMessage(e.response?.statusCode.toString() ?? 'Unknown error'.tr, e.message ?? "");
       } else {
-        msgController.showErrorMessage("خطأ غير معروف", e.toString());
+        msgController.showErrorMessage('Unknown error'.tr, e.toString());
       }
     } finally {
       loaderController.loading(false);

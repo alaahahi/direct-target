@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -12,9 +11,7 @@ import 'MessageHandlerController.dart';
 import 'ProfileCardController.dart';
 import 'package:http/http.dart' as http;
 import 'dart:developer';
-
 import 'package:dio/dio.dart' as dio;
-
 import 'TokenController.dart';
 
 class AppointmentController extends GetxController {
@@ -45,9 +42,6 @@ class AppointmentController extends GetxController {
         },
       );
 
-      print("Response status: ${response.statusCode}");
-      print("Response body: ${response.body}");
-
       if (response.statusCode == 200 || response.statusCode == 201) {
         var data = json.decode(response.body);
         if (data['status'] == 'success') {
@@ -77,7 +71,7 @@ class AppointmentController extends GetxController {
       return appointment;
         } catch (e) {
       print("Error: $e");
-      Get.snackbar('خطأ', e.toString());
+      Get.snackbar('Error'.tr, e.toString());
       return null;
     }
   }
@@ -90,7 +84,7 @@ class AppointmentController extends GetxController {
       if (end != null) updatedFields['end'] = end;
 
       if (updatedFields.isEmpty) {
-        Get.snackbar('تنبيه', 'لم يتم تعديل أي بيانات'.tr);
+        Get.snackbar('Alert'.tr, 'No data has been modified'.tr);
         return;
       }
 
@@ -105,19 +99,16 @@ class AppointmentController extends GetxController {
         body: jsonEncode(updatedFields),  
       );
 
-      print("Response status: ${response.statusCode}");
-      print("Response body: ${response.body}");
-
       if (response.statusCode == 200 || response.statusCode == 201) {
-        Get.snackbar('نجاح'.tr, 'تم تحديث الموعد بنجاح'.tr);
+        Get.snackbar('Success'.tr, 'Appointment updated successfully'.tr);
         Get.offAllNamed(AppRoutes.appointment);
       } else {
         var data = json.decode(response.body);
-        Get.snackbar('خطأ'.tr, 'فشل في تحديث الموعد: ${data['message'] ?? 'خطأ غير معروف'.tr}');
+        Get.snackbar('Error'.tr, 'Failed to update appointment: ${data['message'] ?? 'Unknown error'.tr}');
       }
     } catch (e) {
       print("Exception: $e");
-      Get.snackbar('خطأ'.tr, 'حدث خطأ أثناء تحديث الموعد'.tr);
+      Get.snackbar('Error'.tr, 'An error occurred while updating the appointment.'.tr);
     }
   }
 
@@ -129,25 +120,26 @@ class AppointmentController extends GetxController {
     var response = await AppointmentService().createAppointment(request);
     try {
       Get.snackbar(
-        'تمت العملية بنجاح',
-        ':تم حجز الموعد بنجاح'.tr,
+        'The operation was completed successfully'.tr,
+        'The appointment has been booked successfully'.tr,
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.green,
         colorText: Colors.white,
         duration: Duration(seconds: 3),
       );
+      Get.offAllNamed(AppRoutes.homescreen);
     } catch (e) {
       if (e is dio.DioException) {
         log(e.toString());
         Get.snackbar(
-          'فشل نجاح العملية',
-          'الرجاء إعادة المحاولة'.tr,
+          'Operation failed'.tr,
+          'Please try again'.tr,
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.red,
           colorText: Colors.white,
           duration: Duration(seconds: 3),
         );      } else {
-        msgController.showErrorMessage("خطأ غير معروف", e.toString());
+        msgController.showErrorMessage(  'Unknown error'.tr, e.toString());
       }
     }
     finally {
@@ -156,16 +148,15 @@ class AppointmentController extends GetxController {
   }
   Future<dynamic> getAllAppointment() async {
     loaderController.loading(true);
-
     var response = await AppointmentService().getAppointment();
     try {
       msgController.showSuccessMessage(response.status, response.status);
     } catch (e) {
       if (e is dio.DioException) {
         log(e.toString());
-        msgController.showErrorMessage(e.response?.statusCode.toString() ?? "خطأ غير معروف", e.message ?? "");
+        msgController.showErrorMessage(e.response?.statusCode.toString() ??   'Unknown error'.tr, e.message ?? "");
       } else {
-        msgController.showErrorMessage("خطأ غير معروف", e.toString());
+        msgController.showErrorMessage(  'Unknown error'.tr, e.toString());
       }
     }
     finally {
@@ -177,15 +168,13 @@ class AppointmentController extends GetxController {
     dio.FormData request = dio.FormData.fromMap({'appointment_id': AppointmentId});
     var response = await AppointmentService().deleteAppointment(request);
     try {
-
       msgController.showSuccessMessage(response.status, response.status);
-      print("tessssssssssssssssst");
     } catch (e) {
       if (e is dio.DioException) {
         log(e.toString());
-        msgController.showErrorMessage(e.response?.statusCode.toString() ?? "خطأ غير معروف", e.message ?? "");
+        msgController.showErrorMessage(e.response?.statusCode.toString() ??   'Unknown error'.tr, e.message ?? "");
       } else {
-        msgController.showErrorMessage("خطأ غير معروف", e.toString());
+        msgController.showErrorMessage(  'Unknown error'.tr, e.toString());
       }
     }
     finally {
@@ -206,17 +195,17 @@ class AppointmentController extends GetxController {
         box.write("card_id", cardId);
         Get.to(() => DoctorDetails(doctorId: serviceId));
       } else {
-        Get.snackbar('ليس لديك بطاقة'.tr, 'تم تحويلك لطلب البطاقة حتى تستطيع طلب الخدمة بنجاح'.tr);
+        Get.snackbar('You do not have a card'.tr, 'You have been transferred to request a card so that you can request the service successfully'.tr);
         Get.offAllNamed(AppRoutes.requestcard);
       }
     } catch (e) {
       if (e is dio.DioException) {
         log(e.toString());
         msgController.showErrorMessage(
-            e.response?.statusCode.toString() ?? "خطأ غير معروف",
+            e.response?.statusCode.toString() ?? 'Unknown error'.tr,
             e.message ?? "");
       } else {
-        msgController.showErrorMessage("خطأ غير معروف", e.toString());
+        msgController.showErrorMessage( 'Unknown error'.tr, e.toString());
       }
     } finally {
       loaderController.loading(false);

@@ -314,6 +314,21 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                     width: MediaQuery.of(context).size.width * 0.9,
                                     child: ElevatedButton(
                                       onPressed: () {
+                                        if (noteController.text.isEmpty) {
+                                          Get.snackbar('Error', 'Please enter a note', backgroundColor: Colors.red, colorText: Colors.white);
+                                          return;
+                                        }
+
+                                        if (selectedDay == null) {
+                                          Get.snackbar('Error', 'Please select a day', backgroundColor: Colors.red, colorText: Colors.white);
+                                          return;
+                                        }
+
+                                        if (selectedTime == null) {
+                                          Get.snackbar('Error', 'Please select a time', backgroundColor: Colors.red, colorText: Colors.white);
+                                          return;
+                                        }
+
                                         if (widget.appointmentId == null) {
                                           appointmencontroller.createAppointment(
                                             profileId: profcontroller.selectedCardId.value,
@@ -324,6 +339,18 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                           );
                                         }
                                       },
+
+                                      // onPressed: () {
+                                      //   if (widget.appointmentId == null) {
+                                      //     appointmencontroller.createAppointment(
+                                      //       profileId: profcontroller.selectedCardId.value,
+                                      //       note: noteController.text,
+                                      //       start: "$selectedDate $selectedTime",
+                                      //       end: addHalfHour("$selectedDate $selectedTime"),
+                                      //       serviceProviderId: widget.doctorId,
+                                      //     );
+                                      //   }
+                                      // },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: PrimaryColor,
                                         shape: RoundedRectangleBorder(

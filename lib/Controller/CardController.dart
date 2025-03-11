@@ -191,7 +191,7 @@ class CardController extends GetxController {
       var fetchedServices = await CardServices().fetchSearchServices(searchTerm);
       services.value = fetchedServices;
     } catch (e) {
-      Get.snackbar("Error", "Failed to fetch services");
+      Get.snackbar("Error".tr, "Failed to fetch services".tr);
     } finally {
       isLoading.value = false;
     }

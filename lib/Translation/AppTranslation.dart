@@ -197,7 +197,23 @@ final Map<String, String> en = {
   "Available Days":"Available Days",
   'Search Services':'Search Services',
   "Price":"Price",
-  "Specialization : ":"Specialization : "
+  "Specialization : ":"Specialization : ",
+  'You do not have a card':'You do not have a card',
+  'You have been transferred to request a card so that you can request the service successfully':'You have been transferred to request a card so that you can request the service successfully',
+  'No data has been modified':'No data has been modified',
+  'Alert':'Alert',
+  'Success':'Success',
+  'Appointment updated successfully':'Appointment updated successfully',
+  'Unknown error':'Unknown error',
+  'An error occurred while updating the appointment.':'An error occurred while updating the appointment.',
+  'Error':'Error',
+  'Operation failed':'Operation failed',
+  'Please try again':'Please try again',
+  "Failed to fetch services":"Failed to fetch services",
+  'The operation was completed successfully':'The operation was completed successfully',
+  'Your profile has been modified':'Your profile has been modified',
+  'Verification code error':'Verification code error',
+  'Please enter the verification code correctly':'Please enter the verification code correctly'
 }
 ;
 final Map<String, String> ar = {
@@ -395,7 +411,24 @@ final Map<String, String> ar = {
   "Available Days":"الأيام المتاحة",
       'Search Services':'البحث عن الخدمات',
   "Price":"التكلفة",
-  "Specialization : ":"اختصاص :"
+  "Specialization : ":"اختصاص :",
+
+  "You do not have a card" : "ليس لديك بطاقة",
+      "You have been transferred to request a card so that you can request the service successfully" : "تم تحويلك لطلب بطاقة حتى تتمكن من طلب الخدمة بنجاح",
+      "No data has been modified" : "لم يتم تعديل أي بيانات",
+      "Alert" : "تنبيه",
+      "Success" :"نجاح",
+      "Appointment updated successfully" : "تم تحديث الموعد بنجاح",
+      "Unknown error" :"خطأ غير معروف",
+      "An error occurred while updating the appointment." : "حدث خطأ أثناء تحديث الموعد.",
+      "Error" : "خطأ",
+      "Operation failed" : "فشلت العملية",
+      "Please try again" : "يرجى المحاولة مرة أخرى",
+      "Failed to fetch services" :"فشل في جلب الخدمات",
+      "The operation was completed successfully" : "تمت العملية بنجاح",
+      "Your profile has been modified" : "تم تعديل ملفك الشخصي",
+      "Verification code error" :"خطأ في رمز التحقق",
+      "Please enter the verification code correctly" : "يرجى إدخال رمز التحقق بشكل صحيح",
 }
 ;
 

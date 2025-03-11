@@ -59,8 +59,8 @@ class OtpController extends GetxController {
         }
       } catch (e) {
         Get.snackbar(
-          'خطأ في رمز التحقق',
-          ':الرجاء كتابة كود التحقق بشكل صحيح'.tr,
+          'Verification code error'.tr,
+          'Please enter the verification code correctly'.tr,
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.red,
           colorText: Colors.white,
