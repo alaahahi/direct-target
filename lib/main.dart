@@ -13,9 +13,11 @@ import 'Routes/Pages.dart';
 import 'Service/CardServices.dart';
 import 'Service/SettingsServices.dart';
 import 'Translation/AppTranslation.dart';
+import 'Service/NotificationService.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
+  await NotificationService.instance.initialize();
   await GetStorage.init();
   Get.put(LoaderController());
   Get.put(ThemeController());
