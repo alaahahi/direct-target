@@ -213,7 +213,19 @@ final Map<String, String> en = {
   'The operation was completed successfully':'The operation was completed successfully',
   'Your profile has been modified':'Your profile has been modified',
   'Verification code error':'Verification code error',
-  'Please enter the verification code correctly':'Please enter the verification code correctly'
+  'Please enter the verification code correctly':'Please enter the verification code correctly',
+
+
+
+
+  "Card Description: ":"Card Description: ",
+  "Card Price: ":"Card Price: ",
+  'No services found.':'No services found.',
+
+
+
+
+
 }
 ;
 final Map<String, String> ar = {
@@ -429,6 +441,9 @@ final Map<String, String> ar = {
       "Your profile has been modified" : "تم تعديل ملفك الشخصي",
       "Verification code error" :"خطأ في رمز التحقق",
       "Please enter the verification code correctly" : "يرجى إدخال رمز التحقق بشكل صحيح",
+  "Card Description: " :  "وصف البطاقة: ",
+      "Card Price: " :  "سعر البطاقة: ",
+      "No services found." : "لم يتم العثور على خدمات.",
 }
 ;
 

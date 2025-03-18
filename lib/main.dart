@@ -6,16 +6,28 @@ import 'package:get_storage/get_storage.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
+import 'package:hive/hive.dart';
+import 'package:hive_flutter/adapters.dart';
+import 'Controller/CheckInternetController.dart';
 import 'Controller/LoaderController.dart';
 import 'Controller/ThemeController.dart';
 import 'Controller/TokenController.dart';
 import 'Routes/Pages.dart';
-import 'Service/CardServices.dart';
 import 'Service/SettingsServices.dart';
 import 'Translation/AppTranslation.dart';
 import 'Service/NotificationService.dart';
+import 'package:hive_flutter/hive_flutter.dart';
+
+import 'package:path_provider/path_provider.dart';
+
+
+
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  var appDocumentDir = await getApplicationDocumentsDirectory();
+  await Hive.initFlutter(appDocumentDir.path);
+  await Hive.openBox('cacheBox');
+  Get.put(InternetController());
   await Firebase.initializeApp();
   await NotificationService.instance.initialize();
   await GetStorage.init();
@@ -25,9 +37,6 @@ void main() async {
   Get.put(AllSettingController(SettingsServices()));
   // Get.put(AllSettingController());
   // Get.put(LanguageController());
-
-
-
   runApp(const DirectTarget());
 
 }

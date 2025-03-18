@@ -29,7 +29,7 @@ class CardController extends GetxController {
   final CardServices _service;
   var isLoading = false.obs;
   List<CardData>? allCardList = [];
-  List<AllCardServicesData>? servicesList = [];
+  List<AllCardServicesData>? categoryList = [];
   List<AllCardServicesData>? searchServicesList = [];
   List<PopularServiceData>? allServicesList = [];
   List<ProfileData>? allMyCardList = [];
@@ -38,20 +38,15 @@ class CardController extends GetxController {
   GetStorage storage = GetStorage();
   var services = <Service>[].obs;
   List<Services> selectedServices = [];
-  void setSelectedCategory(String? categoryName, List<Services> services) {
-    selectedCategory = categoryName;
-    selectedServices = services;
-    update();
-  }
+
+
+
   @override
   void onInit() {
     super.onInit();
 
     loadData();
     fetchMyCards();
-    // getCards();
-    // getPopularService();
-    // getCardServices(_appController.appCardValue.value);
   }
   Future<void> loadData() async {
     try {
@@ -147,14 +142,31 @@ class CardController extends GetxController {
     loaderController.loading(false);
   }
 
+
+  void setSelectedCategory(String categoryName, List<Services> services) {
+    selectedCategory = categoryName;
+    selectedServices = services;
+    update();
+  }
+  List<int> expandedCategories = [];
+  List<int> expandedSubcategories = [];
+
+  void toggleCategory(int categoryId) {
+    if (expandedCategories.contains(categoryId)) {
+      expandedCategories.remove(categoryId);
+    } else {
+      expandedCategories.add(categoryId);
+    }
+    update();
+  }
+
   Future<dynamic> getCardServices(int cardId) async {
     loaderController.loading(true);
     update();
     try {
       var res = await CardServices().fetchListAllServices(cardId);
-      servicesList = res?.data;
-      print('Fetched Dataaaaaaaaaa Length: ${allServicesList?.length}');
-      print('Fetched Dataaaaaaaaa: $allServicesList');
+      categoryList = res?.data;
+      print('Fetched Data Length: ${categoryList?.length}');
     } catch (e) {
       if (e is dio.DioException) {
         log(e.toString());
@@ -191,7 +203,8 @@ class CardController extends GetxController {
       var fetchedServices = await CardServices().fetchSearchServices(searchTerm);
       services.value = fetchedServices;
     } catch (e) {
-      Get.snackbar("Error".tr, "Failed to fetch services".tr);
+      Get.snackbar("Error".tr, "Failed to fetch services".tr,
+          duration: Duration(seconds: 5));
     } finally {
       isLoading.value = false;
     }

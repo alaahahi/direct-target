@@ -61,6 +61,14 @@ class User {
   String? phoneNumber;
   String? verificationDate;
   String? verificationUserType;
+  String? familyMembersNames;
+  String? birthDate;
+  String? weight;
+  String? height;
+  String? gender;
+  String? token;
+  String? network;
+  String? device;
 
   User(
       {this.id,
@@ -70,7 +78,15 @@ class User {
         this.typeId,
         this.phoneNumber,
         this.verificationDate,
-        this.verificationUserType});
+        this.verificationUserType,
+        this.familyMembersNames,
+        this.birthDate,
+        this.weight,
+        this.height,
+        this.gender,
+        this.token,
+        this.network,
+        this.device});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -81,6 +97,14 @@ class User {
     phoneNumber = json['phone_number'];
     verificationDate = json['verification_date'];
     verificationUserType = json['verification_user_type'];
+    familyMembersNames = json['family_members_names'];
+    birthDate = json['birth_date'];
+    weight = json['weight'];
+    height = json['height'];
+    gender = json['gender'];
+    token = json['token'];
+    network = json['network'];
+    device = json['device'];
   }
 
   Map<String, dynamic> toJson() {
@@ -93,7 +117,17 @@ class User {
     data['phone_number'] = this.phoneNumber;
     data['verification_date'] = this.verificationDate;
     data['verification_user_type'] = this.verificationUserType;
+    data['family_members_names'] = this.familyMembersNames;
+    data['birth_date'] = this.birthDate;
+    data['weight'] = this.weight;
+    data['height'] = this.height;
+    data['gender'] = this.gender;
+    data['token'] = this.token;
+    data['network'] = this.network;
+    data['device'] = this.device;
     return data;
   }
 }
+
+
 

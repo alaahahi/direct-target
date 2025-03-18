@@ -47,7 +47,7 @@ class ProfileCardController extends GetxController {
         'The operation was completed successfully'.tr,
         'Your profile has been modified'.tr,
         snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.red,
+        backgroundColor: Colors.green,
         colorText: Colors.white,
         duration: Duration(seconds: 3),
       );

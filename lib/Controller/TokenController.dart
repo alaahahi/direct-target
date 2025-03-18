@@ -9,12 +9,17 @@ class TokenController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    loadToken();
-    ever(token, (_) {
-      update();
-    });
+    checkLoginStatus();
   }
 
+  void checkLoginStatus() {
+    loadToken();
+    if (isTokenValid.value) {
+      Future.delayed(Duration(seconds: 1), () {
+        Get.offAllNamed('/home');
+      });
+    }
+  }
 
   void loadToken() {
     var storedToken = storage.read('token');
@@ -27,17 +32,17 @@ class TokenController extends GetxController {
     }
   }
 
-  void saveToken(RxString  newToken) {
+  void saveToken(String newToken) {
     storage.write('token', newToken);
-    token.value = newToken.value;
+    token.value = newToken;
     isTokenValid.value = true;
   }
-
 
   void logout() {
     storage.remove('token');
     token.value = '';
     isTokenValid.value = false;
+    Get.offAllNamed('/login');
   }
 
   String getToken() {

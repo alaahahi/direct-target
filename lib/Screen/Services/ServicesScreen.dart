@@ -10,6 +10,8 @@ import '../../Widgets/DoctorList.dart';
 import '../RequestCard/RequestScreen.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
+
+import 'CategoryDetailsScreen.dart';
 class ServicesScreen extends StatefulWidget {
   final int cardId;
   const ServicesScreen({required this.cardId});
@@ -134,7 +136,7 @@ class _ServicesScreenState  extends State<ServicesScreen> {
                         child: Center(child: CircularProgressIndicator(color: PrimaryColor)),
                       );
                     }
-                    if (controller.servicesList == null || controller.servicesList!.isEmpty) {
+                    if (controller.categoryList == null || controller.categoryList!.isEmpty) {
                       return SliverFillRemaining(
                         child: Center(
                           child: Text(
@@ -148,48 +150,36 @@ class _ServicesScreenState  extends State<ServicesScreen> {
                     return SliverList(
                       delegate: SliverChildBuilderDelegate(
                             (context, categoryIndex) {
-                          var category = controller.servicesList![categoryIndex];
+                          var category = controller.categoryList![categoryIndex];
 
                           return Column(
                             crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              CategoryList(
-                                image: category.categoryIcon ?? "default",
-                                maintext: category.categoryName ?? "No Name",
-                                subtext: category.categoryDiscount ?? 0,
-                              ),
-                              ListView.builder(
-                                padding: EdgeInsets.zero,
-                                physics: NeverScrollableScrollPhysics(),
-                                shrinkWrap: true,
-                                itemCount: category.services?.length ?? 0,
-                                itemBuilder: (context, serviceIndex) {
-                                  var service = category.services![serviceIndex];
-
-                                  return GestureDetector(
-                                    onTap: () async {
-                                      await appointmentController.canBookAppointment(serviceId: service.id ?? 0);
-                                    },
-                                    child: doctorList(
-                                      maintext: service.serviceName ?? "No Name",
-                                      subtext: (service.specialty != null && service.specialty!.isNotEmpty)
-                                          ? "Specialization : ".tr + " " + service.specialty!
-                                          : "",
-                                      image: "Assets/images/person.jpg",
-                                      firstmaintext: service.reviewRate ?? "1",
-                                    ),
-                                  );
+                              GestureDetector(
+                                onTap: () {
+                                  Get.to(() => CategoryDetailsScreen(categoryId: category.categoryId!));
                                 },
+
+                                child: CategoryList(
+                                  image: category.categoryIcon ?? "default",
+                                  maintext: category.categoryName ?? "No Name",
+                                  subtext: category.categoryDiscount ?? 0,
+                                ),
                               ),
+
+
+
                               Divider(thickness: 1, color: Colors.grey[300]),
                             ],
                           );
                         },
-                        childCount: controller.servicesList!.length,
+                        childCount: controller.categoryList!.length,
                       ),
                     );
                   },
                 ),
+
+
               ],
             );
           },

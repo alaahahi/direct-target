@@ -279,12 +279,12 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                       if (widget.appointmentId != null && selectedDate != null && selectedTime != null) {
                         String formattedStart = "$selectedDate $selectedTime";
                         String formattedEnd = addHalfHour(formattedStart);
-                        appointmencontroller.updateAppointment(
-                          note: noteController.text,
-                          start: formattedStart,
-                          end: formattedEnd,
-                          appointmentId: widget.appointmentId!,
-                        );
+                        appointmencontroller.updateAppointment({
+                          "note": noteController.text,
+                          "start": formattedStart,
+                          "end": formattedEnd,
+                          "appointmentId": widget.appointmentId!,
+                        });
                       } else {
                         Get.snackbar("Error", "Please select a date and time".tr);
                       }

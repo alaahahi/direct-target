@@ -5,11 +5,12 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../Controller/LoaderController.dart';
 import '../Model/AllSettingModel.dart';
+import 'ApiService.dart';
 
 
 class SettingsServices {
   static SettingsServices? _instance;
-
+  final MyDioService myDioService = MyDioService(Dio());
   var dio = Dio();
   factory SettingsServices() => _instance ??= SettingsServices._();
 
@@ -23,16 +24,16 @@ class SettingsServices {
     loaderController.loading(true);
 
     try {
-      var res = await dio.get('$appConfig/settings');
+      var res = await myDioService.fetchData('$appConfig/settings');
 
-      if (res.statusCode == 200) {
-        return AllSettingModel.fromJson(jsonDecode(res.data));
+      if (res != null) {
+        return AllSettingModel.fromJson(res);
       }
     } catch (e) {
       if (e is DioException) {
         print('Exception :${e.response}');
       } else {
-        print('errorrrrrr');
+        print('errorrrrrr getSettings');
       }
       loaderController.loading(false);
     }
@@ -40,25 +41,9 @@ class SettingsServices {
   }
   Future<AllSettingModel> fetchAppSettings([dynamic data]) async {
     try {
-
-      var res = await dio.get(
-        '$appConfig/settings/app_setting',
-        data: data,
-      );
-
-      print("Response Status Code: ${res.statusCode}");
-      print("Response Data: ${res.data}");
-
-      if (res.statusCode == 200 || res.statusCode == 201) {
-        var data = res.data;
-
-        if (data is String) {
-          return AllSettingModel.fromJson(jsonDecode(data));
-        } else if (data is Map<String, dynamic>) {
-          return AllSettingModel.fromJson(data);
-        } else {
-          throw Exception('Unexpected data format');
-        }
+      var res = await myDioService.fetchData( '$appConfig/settings/app_setting');
+      if (res != null) {
+        return AllSettingModel.fromJson(res);
       }
     } catch (e) {
       if (e is DioException) {
@@ -87,7 +72,7 @@ class SettingsServices {
       if (e is DioException) {
         print('Exception :${e.response}');
       } else {
-        print('errorrrrrr');
+        print('errorrrrrr getPrimaryColor');
       }
       loaderController.loading(false);
     }
@@ -203,7 +188,7 @@ class SettingsServices {
       if (e is DioException) {
         print('Exception :${e.response}');
       } else {
-        print('errorrrrrr');
+        print('errorrrrrr getThemeColor');
       }
       loaderController.loading(false);
     }

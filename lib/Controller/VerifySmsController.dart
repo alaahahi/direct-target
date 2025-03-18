@@ -64,7 +64,7 @@ class OtpController extends GetxController {
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.red,
           colorText: Colors.white,
-          duration: Duration(seconds: 3),
+          duration: Duration(seconds: 5),
         );
         print('Error occurred: $e');
       } finally {

@@ -40,7 +40,7 @@ class SearchPage extends StatelessWidget {
               }
 
               if (serviceController.services.isEmpty) {
-                return Center(child: Text('No services found.'));
+                return Center(child: Text('No services found.'.tr));
               }
 
               return Expanded(

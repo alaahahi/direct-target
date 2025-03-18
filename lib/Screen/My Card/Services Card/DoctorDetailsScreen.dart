@@ -115,8 +115,11 @@ class _DoctorDetailsState extends State<DoctorDetails> {
             );
           }
 
-          final doctor = controller.servicesList?.expand((category) => category.services ?? [])
+          final doctor = controller.categoryList
+              ?.expand((category) => category.subcategories ?? [])
+              .expand((subcategory) => subcategory.services ?? [])
               .firstWhere((service) => service.id == widget.doctorId, orElse: () => null);
+
 
           if (doctor == null) {
             return Center(child: Text("Doctor not found"));

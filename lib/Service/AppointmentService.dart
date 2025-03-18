@@ -24,6 +24,47 @@ class AppointmentService extends GetConnect {
   GetStorage box = GetStorage();
   final tokenController = Get.find<TokenController>();
 
+  Future<AppointmentModel> getAppointment([dynamic data]) async {
+    try {
+
+      final String token = tokenController.getToken();
+      var res = await dio.get(
+        '$appConfig/appointment/me',
+        data: data,
+        options: Options(
+          headers: {
+            'Authorization': 'Bearer $token',
+            'Content-Type': 'application/json',
+          },
+        ),
+      );
+
+      if (res.statusCode == 200 || res.statusCode == 201) {
+        var responseData = res.data;
+        if (responseData is String) {
+          return AppointmentModel.fromJson(jsonDecode(responseData));
+        } else if (responseData is Map<String, dynamic>) {
+          return AppointmentModel.fromJson(responseData);
+        } else {
+          throw Exception('Unexpected data format');
+        }
+      }
+    } catch (e) {
+      if (e is DioException) {
+        if (e.response?.statusCode != 200) {
+          print('**********  Error fetchAppointments *************${e.response}');
+        }
+      } else {
+        print('Error fetchAppointments: $e');
+      }
+
+      loaderController.loading(false);
+    }
+
+    return AppointmentModel();
+  }
+
+
   Future<AppointmentModel> createAppointment([dynamic data]) async {
     try {
       final String token = tokenController.getToken();
@@ -55,7 +96,7 @@ class AppointmentService extends GetConnect {
           print('**********  Error createAppointment *************${e.response}');
         }
       } else {
-        print('errorrrrrr $e');
+        print('errorrrrrr createAppointment $e');
       }
 
       loaderController.loading(false);
@@ -94,52 +135,16 @@ class AppointmentService extends GetConnect {
           print('**********  Error canBookAppointment *************${e.response}');
         }
       } else {
-        print('errorrrrrr $e');
+        print('errorrrrrr canBookAppointment $e');
       }
 
       loaderController.loading(false);
     }
     return BookAppointmentModel();
   }
-  Future<AppointmentModel> getAppointment([dynamic data]) async {
-    try {
-      final String token = tokenController.getToken();
-      var res = await dio.get(
-        '$appConfig/appointment/me',
-        data: data,
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-          },
-        ),
-      );
-      if (res.statusCode == 200 || res.statusCode==201  ) {
-        var data = res.data;
-        if (data is String) {
 
-          return AppointmentModel.fromJson(jsonDecode(data));
-        } else if (data is Map<String, dynamic>) {
-
-          return AppointmentModel.fromJson(data);
-        } else {
-          throw Exception('Unexpected data format');
-        }
-      }
-    } catch (e) {
-      if (e is DioException) {
-        if (e.response?.statusCode != 200 || e.response?.statusCode != 201) {
-          print('**********  Error getAppointment *************${e.response}');
-        }
-      } else {
-        print('errorrrrrr $e');
-      }
-
-      loaderController.loading(false);
-    }
-    return AppointmentModel();
-  }
   Future<AppointmentModel> updateAppointment([dynamic data,int? id]) async {
+    loaderController.loading(true);
     try {
       final String token = tokenController.getToken();
       var res = await dio.post(
@@ -166,11 +171,11 @@ class AppointmentService extends GetConnect {
       }
     } catch (e) {
       if (e is DioException) {
-        if (e.response?.statusCode != 200 || e.response?.statusCode != 201) {
+        if (e.response?.statusCode != 200) {
           print('**********  Error updateAppointment*************${e.response}');
         }
       } else {
-        print('errorrrrrr $e');
+        print('errorrrrrr updateAppointment $e');
       }
 
       loaderController.loading(false);
@@ -210,14 +215,13 @@ class AppointmentService extends GetConnect {
           print('**********  Error updateProfile *************${e.response}');
         }
       } else {
-        print('errorrrrrr $e');
+        print('errorrrrrr  updateProfile $e');
       }
 
       loaderController.loading(false);
     }
     return AppointmentModel();
   }
-
 
   Future<AppointmentModel> deleteAppointment([dynamic data,int? id]) async {
     try {
@@ -250,7 +254,7 @@ class AppointmentService extends GetConnect {
           print('**********  Error deleteAppointment *************${e.response}');
         }
       } else {
-        print('errorrrrrr $e');
+        print('errorrrrrr deleteAppointment $e');
       }
 
       loaderController.loading(false);

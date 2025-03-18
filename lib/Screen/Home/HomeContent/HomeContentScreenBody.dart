@@ -16,6 +16,7 @@ import '../../../Service/SettingsServices.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+
 class HomeContentScreenBody extends StatefulWidget {
   const HomeContentScreenBody({super.key});
 
@@ -181,8 +182,8 @@ class _HomeContentScreenBodyState extends State<HomeContentScreenBody> {
                   child: CircularProgressIndicator(color: PrimaryColor),
                 );
               }
-              if (controller.servicesList == null ||
-                  controller.servicesList!.isEmpty) {
+              if (controller.categoryList == null ||
+                  controller.categoryList!.isEmpty) {
                 return Center(
                   child: Text(
                     "No data available".tr,
@@ -202,11 +203,11 @@ class _HomeContentScreenBodyState extends State<HomeContentScreenBody> {
                     height: 180,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: controller.servicesList?.length ??
+                      itemCount: controller.categoryList?.length ??
                           0,
                       itemBuilder: (context, index) {
                         final service = controller
-                            .servicesList![index];
+                            .categoryList![index];
 
                         return GestureDetector(
                           onTap: () {

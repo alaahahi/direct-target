@@ -98,7 +98,7 @@ class _ChangeProfileBodyState extends State<ChangeProfileBody> {
 
             Obx(() {
               return loaderController.loading.value
-                  ? const Center(
+                  ?  Center(
                 child: CircularProgressIndicator(color: PrimaryColor),
               )
                   : Container(

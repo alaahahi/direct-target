@@ -9,7 +9,6 @@ import '../Service/AppointmentService.dart';
 import 'LoaderController.dart';
 import 'MessageHandlerController.dart';
 import 'ProfileCardController.dart';
-import 'package:http/http.dart' as http;
 import 'dart:developer';
 import 'package:dio/dio.dart' as dio;
 import 'TokenController.dart';
@@ -23,7 +22,7 @@ class AppointmentController extends GetxController {
   GetStorage box = GetStorage();
   var isLoading = false.obs;
   var message = ''.obs;
-
+  List<Appointment>? appointmentData = [];
   var appointments = <Appointment>[].obs;
 
   @override
@@ -31,35 +30,26 @@ class AppointmentController extends GetxController {
     fetchAppointments();
     super.onInit();
   }
-
-  Future<List<Appointment>> fetchAppointments() async {
-    final String token = tokenController.getToken();
+  Future<dynamic> fetchAppointments() async {
+    loaderController.loading(true);
+    update();
     try {
-      final response = await http.get(
-        Uri.parse("https://dowalyplus.aindubaico.com/api/v1/appointment/me"),
-        headers: {
-          'Authorization': 'Bearer $token',
-        },
-      );
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        var data = json.decode(response.body);
-        if (data['status'] == 'success') {
-          appointments.value = (data['appointment'] as List)
-              .map((item) => Appointment.fromJson(item))
-              .toList();
-          return appointments.value;
-        } else {
-          throw Exception('فشل في تحميل المواعيد: ${data['message']}');
-        }
-      } else {
-        throw Exception('فشل في تحميل المواعيد، كود الحالة: ${response.statusCode}');
-      }
+      var res = await AppointmentService().getAppointment();
+      appointmentData = res.appointment!;
+      print('Fetched Data Length: ${appointmentData?.length}');
+      print('Fetched Data: $appointmentData');
     } catch (e) {
-      print("Error: $e");
-      throw Exception('فشل في تحميل المواعيد');
+      if (e is dio.DioException) {
+        log(e.toString());
+      } else {
+        print('Error fetching data: $e');
+      }
     }
+    update();
+    loaderController.loading(false);
   }
+
+
   Future<Appointment?> fetchAppointmentById(int id) async {
     try {
       if (appointments.isEmpty) {
@@ -69,46 +59,36 @@ class AppointmentController extends GetxController {
             (appointment) => appointment.id == id,
       );
       return appointment;
-        } catch (e) {
+    } catch (e) {
       print("Error: $e");
       Get.snackbar('Error'.tr, e.toString());
       return null;
     }
   }
-  void updateAppointment({required int appointmentId, String? note, String? start, String? end}) async {
-    print("Attempting to update appointment: $appointmentId");
+  Future<dynamic> updateAppointment(Map<String, dynamic> appointmentData) async {
     try {
-      Map<String, dynamic> updatedFields = {};
-      if (note != null) updatedFields['note'] = note;
-      if (start != null) updatedFields['start'] = start;
-      if (end != null) updatedFields['end'] = end;
-
-      if (updatedFields.isEmpty) {
-        Get.snackbar('Alert'.tr, 'No data has been modified'.tr);
-        return;
-      }
-
-      print("Updated fields: $updatedFields");
-      final String token = tokenController.getToken();
-      final response = await http.post(
-        Uri.parse("https://dowalyplus.aindubaico.com/api/v1/appointment/update/$appointmentId"),
-        headers: {
-          'Authorization': 'Bearer $token',
-          'Content-Type': 'application/json',
-        },
-        body: jsonEncode(updatedFields),  
+      loaderController.loading(true);
+      dio.FormData request = dio.FormData.fromMap(appointmentData);
+      var response = await AppointmentService().updateAppointment(request);
+      Get.snackbar(
+        'The operation was completed successfully'.tr,
+        'Your Appointment has been modified'.tr,
+        snackPosition: SnackPosition.BOTTOM,
+        backgroundColor: Colors.red,
+        colorText: Colors.white,
+        duration: Duration(seconds: 5),
       );
-
-      if (response.statusCode == 200 || response.statusCode == 201) {
-        Get.snackbar('Success'.tr, 'Appointment updated successfully'.tr);
-        Get.offAllNamed(AppRoutes.appointment);
-      } else {
-        var data = json.decode(response.body);
-        Get.snackbar('Error'.tr, 'Failed to update appointment: ${data['message'] ?? 'Unknown error'.tr}');
-      }
+      Get.offAllNamed(AppRoutes.appointment);
+      return response;
     } catch (e) {
-      print("Exception: $e");
-      Get.snackbar('Error'.tr, 'An error occurred while updating the appointment.'.tr);
+      if (e is dio.DioException) {
+        log(e.toString());
+        msgController.showErrorMessage(e.response?.statusCode.toString() ?? 'Unknown error'.tr, e.message ?? "");
+      } else {
+        msgController.showErrorMessage('Unknown error'.tr, e.toString());
+      }
+    } finally {
+      loaderController.loading(false);
     }
   }
 
@@ -125,7 +105,7 @@ class AppointmentController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.green,
         colorText: Colors.white,
-        duration: Duration(seconds: 3),
+        duration: Duration(seconds: 5),
       );
       Get.offAllNamed(AppRoutes.homescreen);
     } catch (e) {
@@ -137,7 +117,7 @@ class AppointmentController extends GetxController {
           snackPosition: SnackPosition.BOTTOM,
           backgroundColor: Colors.red,
           colorText: Colors.white,
-          duration: Duration(seconds: 3),
+          duration: Duration(seconds: 5),
         );      } else {
         msgController.showErrorMessage(  'Unknown error'.tr, e.toString());
       }
@@ -195,7 +175,8 @@ class AppointmentController extends GetxController {
         box.write("card_id", cardId);
         Get.to(() => DoctorDetails(doctorId: serviceId));
       } else {
-        Get.snackbar('You do not have a card'.tr, 'You have been transferred to request a card so that you can request the service successfully'.tr);
+        Get.snackbar('You do not have a card'.tr, 'You have been transferred to request a card so that you can request the service successfully'.tr,
+            duration: Duration(seconds: 5));
         Get.offAllNamed(AppRoutes.requestcard);
       }
     } catch (e) {

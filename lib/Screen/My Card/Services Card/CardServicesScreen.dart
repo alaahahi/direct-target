@@ -1,5 +1,7 @@
+import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shimmer/shimmer.dart';
 import '../../../../../Controller/CardController.dart';
 import '../../../../../Controller/LoaderController.dart';
 import '../../../../../Service/CardServices.dart';
@@ -88,15 +90,16 @@ class _CardServicesScreenState extends State<CardServicesScreen> with SingleTick
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           ClipRRect(
-                            borderRadius: BorderRadius.only(
-                              topLeft: Radius.circular(10),
-                              topRight: Radius.circular(10),
-                            ),
-                            child: Image.asset(
-                              'Assets/images/4.jpg',
+                            borderRadius: BorderRadius.circular(10.0),
+                            child: SizedBox(
                               width: double.infinity,
-                              height: 220,
-                              fit: BoxFit.cover,
+                              height: 250,
+                              child: (selectedCard.image != null && selectedCard.image!.isNotEmpty)
+                                  ? ShimmerImage(imageUrl: selectedCard.image!)
+                                  : Image.asset(
+                                'Assets/images/4.jpg',
+                                fit: BoxFit.cover,
+                              ),
                             ),
                           ),
                           Padding(
@@ -110,14 +113,10 @@ class _CardServicesScreenState extends State<CardServicesScreen> with SingleTick
                                 ),
                                 SizedBox(height: 10),
                                 Text(
-                                  "Card Number: ${selectedCard.price}",
+                                  "Card Price: ".tr+ "${selectedCard.price}",
                                   style: Theme.of(context).textTheme.bodyLarge,
                                 ),
-                                SizedBox(height: 10),
-                                Text(
-                                  "Card Description: ${selectedCard.name ?? "No Description"}",
-                                  style: Theme.of(context).textTheme.bodyMedium,
-                                ),
+
                               ],
                             ),
                           ),
@@ -168,6 +167,30 @@ class _CardServicesScreenState extends State<CardServicesScreen> with SingleTick
           );
         },
       ),
+    );
+  }
+}
+class ShimmerImage extends StatelessWidget {
+  final String imageUrl;
+
+  ShimmerImage({required this.imageUrl});
+
+  @override
+  Widget build(BuildContext context) {
+    return CachedNetworkImage(
+      imageUrl: imageUrl,
+      fit: BoxFit.cover,
+      placeholder: (context, url) => Shimmer.fromColors(
+        baseColor: Colors.grey[300]!,
+        highlightColor: Colors.white,
+        child: Container(
+          color: Colors.grey[300],
+          width: double.infinity,
+          height: double.infinity,
+        ),
+      ),
+      errorWidget: (context, url, error) =>
+          Icon(Icons.error, color: Colors.red),
     );
   }
 }

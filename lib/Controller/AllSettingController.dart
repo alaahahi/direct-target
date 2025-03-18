@@ -1,12 +1,26 @@
 import 'dart:convert';
 import 'dart:developer';
+import 'dart:ui';
 import 'package:dio/dio.dart' as dio;
+import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:direct_target/Controller/MessageHandlerController.dart';
+import 'package:hexcolor/hexcolor.dart';
 import '../Model/AllSettingModel.dart';
 import '../Service/SettingsServices.dart';
 import 'LoaderController.dart';
+import 'ThemeController.dart';
+class FlutterColor extends Color {
+  static int _getColorFromHex(String flutterColor) {
+    flutterColor = flutterColor.toUpperCase().replaceAll("#", "");
+    if (flutterColor.length == 6) {
+      flutterColor = "FF" + flutterColor;
+    }
+    return int.parse(flutterColor, radix: 16);
+  }
+  FlutterColor(final String flutterColor) : super(_getColorFromHex(flutterColor));
+}
 
 class AllSettingController extends GetxController {
   LoaderController loaderController = Get.put(LoaderController());
@@ -35,6 +49,9 @@ class AllSettingController extends GetxController {
   var appSmsActivate = false.obs;
   var appWhatsappActivate = false.obs;
   var appCardValue = 0.obs;
+  var appPrimaryColor = Rx<Color>(Colors.transparent);
+  var primaryyColor = Rx<Color>(Colors.blue);
+  var PrimaryHexColor = ''.obs;
 
   AllSettingController(this._service);
   @override
@@ -55,6 +72,7 @@ class AllSettingController extends GetxController {
     getSocialLinks();
     getAppName();
     getAppSetting();
+
   }
 
   Future<dynamic> getAllSettings() async {
@@ -75,56 +93,35 @@ class AllSettingController extends GetxController {
       loaderController.loading(false);
     }
   }
-
-  Future<dynamic> getAppSetting() async {
+  Future<void> getAppSetting() async {
     loaderController.loading(true);
     update();
     AllSettingModel? setting = await _service.fetchAppSettings();
     if (setting != null) {
       appSetting.value = setting.data?.value ?? '';
-
       try {
         Map<String, dynamic> settingData = jsonDecode(appSetting.value);
-
         bool smsActivate = settingData["sms_activate"] == 1;
         bool whatsappActivate = settingData["whatsapp_activate"] == 1;
         int cardValue = settingData["card"] ?? 0;
-
         appSmsActivate.value = smsActivate;
         appWhatsappActivate.value = whatsappActivate;
         appCardValue.value = cardValue;
-
-        print("📌 SMS Activate: $appSmsActivate");
-        print("📌 WhatsApp Activate: $appWhatsappActivate");
-        print("📌 Card Value: $appCardValue");
+        String hexColor = settingData['primary_color'];
+        var PrimaryColor =HexColor(hexColor);
+        PrimaryHexColor.value = hexColor;
+        primaryyColor.value = PrimaryColor;
+        print('✅ Primary Color Updated: ${primaryyColor}');
       } catch (e) {
         print("❌ Error in decode: $e");
       }
     } else {
       appSetting.value = '';
     }
+
     update();
     loaderController.loading(false);
   }
-
-  Future<dynamic> getPrimaryColor() async {
-    isLoading(true);
-
-    try {
-      AllSettingModel? res = await SettingsServices().getPrimaryColor();
-      if (res.status == "success" && res.data != null) {
-        String primaryColor = res.data!.value ?? "#FFFFFF";
-        log("Primary Color: $primaryColor");
-      } else {
-        log("Failed to retrieve primary color");
-      }
-    } catch (e) {
-      print("Error fetching primary color: $e");
-    } finally {
-      isLoading(false);
-    }
-  }
-
   Future<dynamic> _getFirstWelcomeImage() async {
     AllSetting? setting = await _service.getFirstWelcomeImage();
     if (setting != null) {
@@ -133,7 +130,6 @@ class AllSettingController extends GetxController {
       firstImageUrl.value = '';
     }
   }
-
   Future<dynamic> _getFirstAdsImage() async {
 
     AllSetting? setting = await _service.getFirstAdsImage();
@@ -143,7 +139,6 @@ class AllSettingController extends GetxController {
       firstAdsImageUrl.value = '';
     }
   }
-
   Future<dynamic> _getSecondAdsImage() async {
     AllSetting? setting = await _service.getSecondAdsImage();
     if (setting != null) {
@@ -152,7 +147,6 @@ class AllSettingController extends GetxController {
       secondAdsImageUrl.value = '';
     }
   }
-
   Future<dynamic> _getThirdAdsImage() async {
     AllSetting? setting = await _service.getThirdAdsImage();
     if (setting != null) {
@@ -161,7 +155,6 @@ class AllSettingController extends GetxController {
       thirdAdsImageUrl.value = '';
     }
   }
-
   Future<dynamic> _getFourthAdsImage() async {
     AllSetting? setting = await _service.getFourthAdsImage();
     if (setting != null) {
@@ -170,7 +163,6 @@ class AllSettingController extends GetxController {
       fourthAdsImageUrl.value = '';
     }
   }
-
   Future<dynamic> _getSecondWelcomeImage() async {
     AllSetting? setting = await _service.getSecondWelcomeImage();
     if (setting != null) {
@@ -179,7 +171,6 @@ class AllSettingController extends GetxController {
       secondImageUrl.value = '';
     }
   }
-
   Future<dynamic> _getThirdWelcomeImage() async {
     isLoading(true);
     update();
@@ -197,7 +188,6 @@ class AllSettingController extends GetxController {
       isLoading(false);
     }
   }
-
   Future<dynamic> fetchWelcomeImages() async {
     isLoading(true);
     update();
@@ -218,7 +208,6 @@ class AllSettingController extends GetxController {
       isLoading(false);
     }
   }
-
   Future<dynamic> getThemeColor() async {
     isLoading(true);
     try {
@@ -235,7 +224,6 @@ class AllSettingController extends GetxController {
       isLoading(false);
     }
   }
-
   Future<dynamic> getMaintenanceMode() async {
     isLoading(true);
     try {
@@ -252,7 +240,6 @@ class AllSettingController extends GetxController {
       isLoading(false);
     }
   }
-
   Future<dynamic> getContactEmail() async {
     AllSetting? setting = await _service.getContactEmail();
     if (setting != null) {
@@ -261,7 +248,6 @@ class AllSettingController extends GetxController {
       secondImageUrl.value = '';
     }
   }
-
   Future<dynamic> getContactPhone() async {
     AllSetting? setting = await _service.getContactPhone();
     if (setting != null) {
@@ -270,7 +256,6 @@ class AllSettingController extends GetxController {
       secondImageUrl.value = '';
     }
   }
-
   Future<dynamic> getSocialLinks() async {
     AllSetting? setting = await _service.getSocialLinks();
     if (setting != null) {
@@ -279,7 +264,6 @@ class AllSettingController extends GetxController {
       secondImageUrl.value = '';
     }
   }
-
   Future<dynamic> getDefaultLanguage() async {
     isLoading(true);
     try {
@@ -296,7 +280,6 @@ class AllSettingController extends GetxController {
       isLoading(false);
     }
   }
-
   Future<dynamic> _getAppVersion() async {
 
     AllSetting? setting = await _service.getAppVersion();
@@ -306,7 +289,6 @@ class AllSettingController extends GetxController {
       appVersion.value = '';
     }
   }
-
   Future<dynamic> getMaxUploadSize() async {
     isLoading(true);
     try {
@@ -323,7 +305,6 @@ class AllSettingController extends GetxController {
       isLoading(false);
     }
   }
-
   Future<dynamic> getNotificationEnabled() async {
     isLoading(true);
     try {
@@ -340,7 +321,6 @@ class AllSettingController extends GetxController {
       isLoading(false);
     }
   }
-
   Future<dynamic> _getPrivacyPolicyUrl() async {
 
     AllSetting? setting = await _service.getPrivacyPolicyUrl();
@@ -350,7 +330,6 @@ class AllSettingController extends GetxController {
       privacyPolicy.value = '';
     }
   }
-
   Future<dynamic> _getTermsConditionsUrl() async {
     AllSetting? setting = await _service.getTermsConditionsUrl();
     if (setting != null) {

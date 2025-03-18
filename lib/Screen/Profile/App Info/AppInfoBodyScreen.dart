@@ -11,6 +11,7 @@ class AppInfoBodyScreen extends StatefulWidget {
 
 class __AppInfoBodyScreenState extends State<AppInfoBodyScreen> {
   final AllSettingController _controller = Get.put(AllSettingController(SettingsServices()));
+
   @override
   Widget build(BuildContext context) {
     return  SingleChildScrollView(
@@ -27,10 +28,10 @@ class __AppInfoBodyScreenState extends State<AppInfoBodyScreen> {
             Text(
               _controller.appName.toString(),
             ),
-
           ],
         ),
       ),
+
     );
   }
 }

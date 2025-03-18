@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:get/get.dart';
+import 'package:get/get_core/src/get_main.dart';
+import '../Controller/AllSettingController.dart';
+import '../Service/SettingsServices.dart';
 
-const PrimaryColor = Color.fromARGB(255, 48, 3, 85);
+final AllSettingController _controller = Get.put(AllSettingController(SettingsServices()));
+
+Color get PrimaryColor => _controller.primaryyColor.value;
 const LightGrey = Color(0xFFF2F2F2);
 const FormBackGraund = Color(0xFFF1F5F9);
 const TextGrey = Color(0xFF424A5D);

@@ -52,7 +52,7 @@ class MessagesHandlerController extends GetxController {
         padding: const EdgeInsets.all(20),
         margin: const EdgeInsets.all(20),
         borderRadius: 25.0,
-        duration: const Duration(seconds: 3),
+        duration: const Duration(seconds: 5),
         isDismissible: true,
         dismissDirection: DismissDirection.horizontal,
         snackPosition: SnackPosition.TOP,

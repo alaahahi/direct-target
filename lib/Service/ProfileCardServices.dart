@@ -55,7 +55,7 @@ class ProfileService extends GetConnect {
           print('**********  Error fetchCards *************${e.response}');
         }
       } else {
-        print('errorrrrrr $e');
+        print('errorrrrrr fetchCards $e');
       }
 
       loaderController.loading(false);
@@ -78,29 +78,36 @@ class ProfileService extends GetConnect {
           },
         ),
       );
-      if (res.statusCode == 200 || res.statusCode==201  ) {
+
+      if (res.statusCode == 200 || res.statusCode == 201) {
         var data = res.data;
         if (data is String) {
-
           return UpdateProfileModel.fromJson(jsonDecode(data));
         } else if (data is Map<String, dynamic>) {
-
           return UpdateProfileModel.fromJson(data);
         } else {
           throw Exception('Unexpected data format');
+        }
+      } else {
+        if (res.data.contains('<html>') && res.data.contains('Redirecting to')) {
+          print("Redirection detected, possibly due to session expiration or invalid token.");
+        } else {
+          print('Unexpected response: ${res.statusCode}');
         }
       }
     } catch (e) {
       if (e is DioException) {
         if (e.response?.statusCode != 200) {
-          print('**********  Error updateProfile*************${e.response}');
+          print('********** Error updateProfile ************* ${e.response}');
         }
       } else {
-        print('errorrrrrr $e');
+        print('errorrrrrr updateProfile $e');
       }
-
+    } finally {
       loaderController.loading(false);
     }
+
     return UpdateProfileModel();
   }
+
 }

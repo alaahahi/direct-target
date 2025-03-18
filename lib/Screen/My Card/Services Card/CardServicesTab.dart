@@ -6,6 +6,7 @@ import '../../../../Controller/LoaderController.dart';
 import '../../../../Utils/AppStyle.dart';
 import '../../../../Widgets/CategoryList.dart';
 import '../../../../Widgets/DoctorList.dart';
+import '../../Services/CategoryDetailsScreen.dart';
 
 class CardServicesTab extends StatefulWidget {
 
@@ -44,7 +45,7 @@ class _CardServicesTabState extends State<CardServicesTab> {
                       child: CircularProgressIndicator(color: PrimaryColor),
                     );
                   }
-                  if (controller.servicesList == null) {
+                  if (controller.categoryList == null) {
                     return Center(
                       child: Text(
                         "Loading data...".tr,
@@ -53,7 +54,7 @@ class _CardServicesTabState extends State<CardServicesTab> {
                     );
                   }
 
-                  if (controller.servicesList!.isEmpty) {
+                  if (controller.categoryList!.isEmpty) {
                     return Center(
                       child: Text(
                         "No data available".tr,
@@ -64,40 +65,23 @@ class _CardServicesTabState extends State<CardServicesTab> {
 
                   return ListView.builder(
                     physics: BouncingScrollPhysics(),
-                    itemCount: controller.servicesList!.length,
+                    itemCount: controller.categoryList!.length,
                     itemBuilder: (context, categoryIndex) {
-                      var category = controller.servicesList![categoryIndex];
+                      var category = controller.categoryList![categoryIndex];
 
                       return Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          CategoryList(
-                            image: category.categoryIcon ?? "default",
-                            maintext: category.categoryName ?? "No Name",
-                            subtext: category.categoryDiscount ?? 0,
-                          ),
-                          SizedBox(height: 10),
-                          ListView.builder(
-                            physics: NeverScrollableScrollPhysics(),
-                            shrinkWrap: true,
-                            itemCount: category.services?.length ?? 0,
-                            itemBuilder: (context, serviceIndex) {
-                              var service = category.services![serviceIndex];
-
-                              return GestureDetector(
-                                onTap: () async {
-                                  await appointmencontroller.canBookAppointment(serviceId: service.id ?? 0);
-                                },
-                                child: doctorList(
-                                  maintext: service.serviceName ?? "No Name",
-                                  subtext: (service.specialty != null && service.specialty!.isNotEmpty)
-                                      ? "Specialization : ".tr + " " + service.specialty!
-                                      : "",
-                                  image: "Assets/images/person.jpg",
-                                  firstmaintext: service.reviewRate ?? "1",
-                                ),
-                              );
+                          GestureDetector(
+                            onTap: () {
+                              Get.to(() => CategoryDetailsScreen(categoryId: category.categoryId!));
                             },
+
+                            child: CategoryList(
+                              image: category.categoryIcon ?? "default",
+                              maintext: category.categoryName ?? "No Name",
+                              subtext: category.categoryDiscount ?? 0,
+                            ),
                           ),
                           Divider(thickness: 1, color: Colors.grey[300]),
                         ],

@@ -5,13 +5,11 @@ import 'package:dio/dio.dart';
 import 'package:direct_target/Model/PopularServiceModel.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
-
 import '../Api/AppConfig.dart';
 import '../Controller/LoaderController.dart';
 import '../Model/AllCardServicesModel.dart';
 import '../Model/CardModel.dart';
 import '../Model/RequestCardModel.dart';
-import '../Model/CardServicesModel.dart';
 import '../Model/ServiceModel.dart';
 import '../Controller/TokenController.dart';
 class CardServices extends GetxService  {
@@ -55,7 +53,7 @@ class CardServices extends GetxService  {
           print('**********  Error RequestCard *************${e.response}');
         }
       } else {
-        print('errorrrrrr $e');
+        print('errorrrrrr RequestCard $e');
       }
     } finally {
       loaderController.loading(false);

@@ -1,3 +1,4 @@
+
 class AllCardServicesModel {
   String? status;
   List<AllCardServicesData>? data;
@@ -30,7 +31,7 @@ class AllCardServicesData {
   String? categoryIcon;
   String? categoryColor;
   int? categoryDiscount;
-  List<Services>? services;
+  List<Subcategories>? subcategories;
 
   AllCardServicesData(
       {this.categoryId,
@@ -38,7 +39,7 @@ class AllCardServicesData {
         this.categoryIcon,
         this.categoryColor,
         this.categoryDiscount,
-        this.services});
+        this.subcategories});
 
   AllCardServicesData.fromJson(Map<String, dynamic> json) {
     categoryId = json['category_id'];
@@ -46,10 +47,10 @@ class AllCardServicesData {
     categoryIcon = json['category_icon'];
     categoryColor = json['category_color'];
     categoryDiscount = json['category_discount'];
-    if (json['services'] != null) {
-      services = <Services>[];
-      json['services'].forEach((v) {
-        services!.add(new Services.fromJson(v));
+    if (json['subcategories'] != null) {
+      subcategories = <Subcategories>[];
+      json['subcategories'].forEach((v) {
+        subcategories!.add(new Subcategories.fromJson(v));
       });
     }
   }
@@ -61,6 +62,36 @@ class AllCardServicesData {
     data['category_icon'] = this.categoryIcon;
     data['category_color'] = this.categoryColor;
     data['category_discount'] = this.categoryDiscount;
+    if (this.subcategories != null) {
+      data['subcategories'] =
+          this.subcategories!.map((v) => v.toJson()).toList();
+    }
+    return data;
+  }
+}
+
+class Subcategories {
+  int? subcategoryId;
+  String? subcategoryName;
+  List<Services>? services;
+
+  Subcategories({this.subcategoryId, this.subcategoryName, this.services});
+
+  Subcategories.fromJson(Map<String, dynamic> json) {
+    subcategoryId = json['subcategory_id'];
+    subcategoryName = json['subcategory_name'];
+    if (json['services'] != null) {
+      services = <Services>[];
+      json['services'].forEach((v) {
+        services!.add(new Services.fromJson(v));
+      });
+    }
+  }
+
+  Map<String, dynamic> toJson() {
+    final Map<String, dynamic> data = new Map<String, dynamic>();
+    data['subcategory_id'] = this.subcategoryId;
+    data['subcategory_name'] = this.subcategoryName;
     if (this.services != null) {
       data['services'] = this.services!.map((v) => v.toJson()).toList();
     }
