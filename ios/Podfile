@@ -1,11 +1,8 @@
 platform :ios, '13.0'
 
-# تحديد المسار الصحيح لتثبيت Flutter
-flutter_application_path = 'C:/src/flutter'
-
 # تأكد من أن السطر التالي موجود بعد السطر platform
-# Ensure this line exists at the top of your Podfile
-load File.join(flutter_application_path, 'packages', 'flutter_tools', 'bin', 'podhelper.rb')
+load File.join(ENV['FLUTTER_ROOT'], 'packages', 'flutter_tools', 'bin', 'podhelper.rb')
+
 
 target 'Runner' do
   use_frameworks!
