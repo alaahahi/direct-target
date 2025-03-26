@@ -34,7 +34,9 @@ class AllSettingController extends GetxController {
   var thirdAdsImageUrl = ''.obs;
   var fourthAdsImageUrl = ''.obs;
   var termsCondition =''.obs;
+  var termsConditionEnglish =''.obs;
   var privacyPolicy =''.obs;
+  var privacyPolicyEnglish =''.obs;
   var appVersion =''.obs;
   var contactEmail =''.obs;
   var contactPhone =''.obs;
@@ -72,7 +74,8 @@ class AllSettingController extends GetxController {
     getSocialLinks();
     getAppName();
     getAppSetting();
-
+    _getPrivacyPolicyEnUrl();
+    _getTermsConditionsEnUrl();
   }
 
   Future<dynamic> getAllSettings() async {
@@ -81,7 +84,7 @@ class AllSettingController extends GetxController {
     var response = await SettingsServices().getSettings();
     String? description = response.data!.description;
     try {
-      msgController.showSuccessMessage(response.status, description);
+     print(response.status);
     } catch (e) {
       if (e is dio.DioException) {
         log(e.toString());
@@ -330,6 +333,15 @@ class AllSettingController extends GetxController {
       privacyPolicy.value = '';
     }
   }
+  Future<dynamic> _getPrivacyPolicyEnUrl() async {
+
+    AllSetting? setting = await _service.getPrivacyPolicyEnUrl();
+    if (setting != null) {
+      privacyPolicyEnglish.value = setting.value ?? '';
+    } else {
+      privacyPolicyEnglish.value = '';
+    }
+  }
   Future<dynamic> _getTermsConditionsUrl() async {
     AllSetting? setting = await _service.getTermsConditionsUrl();
     if (setting != null) {
@@ -338,7 +350,14 @@ class AllSettingController extends GetxController {
       termsCondition.value = '';
     }
   }
-
+  Future<dynamic> _getTermsConditionsEnUrl() async {
+    AllSetting? setting = await _service.getTermsConditionsEnUrl();
+    if (setting != null) {
+      termsConditionEnglish.value = setting.value ?? '';
+    } else {
+      termsConditionEnglish.value = '';
+    }
+  }
   Future<dynamic> getOtpExpiryTime() async {
     isLoading(true);
     try {

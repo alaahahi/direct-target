@@ -15,11 +15,14 @@ class _TermsBodyState extends State<TermsBody> {
   final AllSettingController _controller = Get.put(AllSettingController(SettingsServices()));
   @override
   Widget build(BuildContext context) {
+    final termConditionText = Get.locale?.languageCode == 'ar'
+        ? _controller.termsCondition.toString()
+        : _controller.termsConditionEnglish.toString();
     return SingleChildScrollView(
       child: Column(
         children: [
           HtmlWidget(
-            _controller.termsCondition.toString(),
+              termConditionText,
           ),
         ],
       ),

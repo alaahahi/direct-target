@@ -130,7 +130,7 @@ class AppointmentController extends GetxController {
     loaderController.loading(true);
     var response = await AppointmentService().getAppointment();
     try {
-      msgController.showSuccessMessage(response.status, response.status);
+    print(response.status);
     } catch (e) {
       if (e is dio.DioException) {
         log(e.toString());

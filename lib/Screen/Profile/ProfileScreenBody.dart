@@ -25,6 +25,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
   final ProfileUserController profileController =
       Get.put(ProfileUserController());
   final TokenController tokenController = Get.put(TokenController());
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -213,8 +214,11 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
                                     const SizedBox(
                                       height: 5,
                                     ),
-                                    Text("${profile.gender ?? 'N/A'}".tr,
-                                        style: TextStyle(color: LightGrey))
+                                    Text(
+                                        (profile.gender == 1) ? 'ذكر' : (profile.gender == 2 ? 'أنثى' : 'N/A'),
+                                        style: TextStyle(color: LightGrey),
+                                    )
+
                                   ]),
                                 ),
                               ],

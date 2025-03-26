@@ -2,7 +2,11 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../Model/ProfileCardModel.dart';
+import '../Model/ProfileUserModel.dart';
+import '../Model/UpdateProfileModel.dart';
+import '../Routes/Routes.dart';
 import '../Service/ProfileCardServices.dart';
+import '../Service/ProfileUserServices.dart';
 import 'LoaderController.dart';
 import 'MessageHandlerController.dart';
 import 'dart:developer';
@@ -17,8 +21,29 @@ class ProfileCardController extends GetxController {
   var cardsList = <ProfileData>[].obs;
   var selectedCardId = 0.obs;
   var cardId = 0.obs;
+  var isLoading = true.obs;
 
+  var profile = ProfileUserModel().obs;
 
+  final ProfileUserService _profileService = ProfileUserService();
+  @override
+  void onInit() {
+    super.onInit();
+    fetchProfile();
+    fetchCards();
+  }
+  Future<dynamic> fetchProfile() async {
+    try {
+      isLoading(true);
+      var profileData = await _profileService.fetchProfile();
+      profile.value = profileData;
+    } catch (e) {
+      print("Error: $e");
+      msgController.showErrorMessage('Error fetching profile'.tr, e.toString());
+    } finally {
+      isLoading(false);
+    }
+  }
 
 
   Future<dynamic> fetchCards() async {
@@ -26,7 +51,7 @@ class ProfileCardController extends GetxController {
     var response = await ProfileService().fetchCards();
     cardsList.assignAll(response.data!);
     try {
-      msgController.showSuccessMessage(response.status, response.status);
+      print(response.status);
     } catch (e) {
       if (e is dio.DioException) {
         log(e.toString());
@@ -37,7 +62,6 @@ class ProfileCardController extends GetxController {
       loaderController.loading(false);
     }
   }
-
   Future<dynamic> updateProfile(Map<String, dynamic> profileData) async {
     try {
       loaderController.loading(true);
@@ -51,6 +75,10 @@ class ProfileCardController extends GetxController {
         colorText: Colors.white,
         duration: Duration(seconds: 3),
       );
+
+      await fetchProfile();
+      Get.offAllNamed(AppRoutes.homescreen);
+
       return response;
     } catch (e) {
       if (e is dio.DioException) {
@@ -63,5 +91,4 @@ class ProfileCardController extends GetxController {
       loaderController.loading(false);
     }
   }
-
 }

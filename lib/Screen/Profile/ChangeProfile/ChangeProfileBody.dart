@@ -17,7 +17,6 @@ class _ChangeProfileBodyState extends State<ChangeProfileBody> {
   final ProfileCardController controller = Get.put(ProfileCardController());
   final LoaderController loaderController = Get.put(LoaderController());
   final TextEditingController nameController = TextEditingController();
-  final TextEditingController phoneController = TextEditingController();
   final TextEditingController familyController = TextEditingController();
   final TextEditingController weightController = TextEditingController();
   final TextEditingController heightController = TextEditingController();
@@ -45,16 +44,12 @@ class _ChangeProfileBodyState extends State<ChangeProfileBody> {
                   ),
                   SizedBox(height: Get.height * 0.03),
                   AuthFormField(
-                    controller: phoneController,
-                    hint: 'Your Phone Number'.tr,
-                    onChanged: (value) {},
-                  ),
-                  SizedBox(height: Get.height * 0.03),
-                  AuthFormField(
                     controller: familyController,
                     hint: 'Your Family Names'.tr,
-                    onChanged: (value) {},
+                    onChanged: (value) {
+                    },
                   ),
+
                   SizedBox(height: Get.height * 0.03),
                   AuthFormField(
                     controller: weightController,
@@ -79,62 +74,82 @@ class _ChangeProfileBodyState extends State<ChangeProfileBody> {
                       contentPadding: EdgeInsets.symmetric(horizontal: 10, vertical: 12),
                     ),
                     value: selectedGender,
-                    items: ["Male".tr, "Female".tr]
-                        .map((gender) => DropdownMenuItem(
-                      value: gender,
-                      child: Text(gender),
-                    ))
-                        .toList(),
+                    items: [
+                      DropdownMenuItem(
+                        value: "1",
+                        child: Text("Male".tr),
+                      ),
+                      DropdownMenuItem(
+                        value: "2",
+                        child: Text("Female".tr),
+                      ),
+                    ],
                     onChanged: (value) {
                       setState(() {
                         selectedGender = value;
                       });
                     },
                   ),
+
                   SizedBox(height: Get.height * 0.05),
                 ],
               ),
             ),
 
-            Obx(() {
-              return loaderController.loading.value
-                  ?  Center(
-                child: CircularProgressIndicator(color: PrimaryColor),
-              )
-                  : Container(
-                height: MediaQuery.of(context).size.height * 0.07,
-                width: MediaQuery.of(context).size.width * 0.9,
-                child: ElevatedButton(
-                  onPressed: () {
-                    if (_formKey.currentState!.validate()) {
-                      controller.updateProfile({
-                        "name": nameController.text,
-                        "phone_number": phoneController.text,
-                        "family": familyController.text,
-                        "weight": weightController.text,
-                        "height": heightController.text,
-                        "gender": selectedGender ?? "",
-                      });
-                    }
-                  },
-                  child: Text(
-                    "Update Profile".tr,
-                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                      color: LightGrey,
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                    foregroundColor: Colors.white,
-                    backgroundColor: PrimaryColor,
-                    shadowColor: Colors.black,
-                    elevation: 5,
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(30),
-                    ),
+          Obx(() {
+            return Container(
+              height: MediaQuery.of(context).size.height * 0.07,
+              width: MediaQuery.of(context).size.width * 0.9,
+              child: ElevatedButton(
+                onPressed: () {
+                  if (_formKey.currentState!.validate()) {
+                    Map<String, dynamic> updatedProfile = {};
+
+                    updatedProfile["name"] = nameController.text.isNotEmpty
+                        ? nameController.text
+                        : controller.profile.value.data?.name;
+
+                    updatedProfile["family_members_names"] = familyController.text.isNotEmpty
+                        ? familyController.text
+                        : controller.profile.value.data?.familyMembersNames;
+
+                    updatedProfile["weight"] = weightController.text.isNotEmpty
+                        ? int.tryParse(weightController.text)
+                        : controller.profile.value.data?.weight;
+
+                    updatedProfile["height"] = heightController.text.isNotEmpty
+                        ? int.tryParse(heightController.text)
+                        : controller.profile.value.data?.height;
+
+                    updatedProfile["gender"] = selectedGender != null
+                        ? selectedGender
+                        : controller.profile.value.data?.gender;
+
+                    controller.updateProfile(updatedProfile);
+                  }
+                },
+
+
+
+                child: Text(
+                  "Update Profile".tr,
+                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                    color: LightGrey,
                   ),
                 ),
-              );
-            }),
+                style: ElevatedButton.styleFrom(
+                  foregroundColor: Colors.white,
+                  backgroundColor: PrimaryColor,
+                  shadowColor: Colors.black,
+                  elevation: 5,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(30),
+                  ),
+                ),
+              ),
+            );
+          }),
+
 
             Padding(
               padding: const EdgeInsets.only(right: 8.0, left: 8.0),

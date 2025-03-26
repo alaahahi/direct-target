@@ -121,7 +121,7 @@ final Map<String, String> en = {
   'Your Weight (kg)':'Your Weight (kg)',
   'Your Height (cm)':'Your Height (cm)',
   "Select Gender":"Select Gender",
-  "male":"male",
+  "Male":"Male",
   "Female":"Female",
 
   "Update Profile":"Update Profile",
@@ -344,7 +344,7 @@ final Map<String, String> ar = {
   "Your Weight (kg)": "وزنك (كجم)",
   "Your Height (cm)": "طولك (سم)",
   "Select Gender": "اختر الجنس",
-  "male": "ذكر",
+  "Male": "ذكر",
   "Female": "أنثى",
 
   "Update Profile": "تحديث الملف الشخصي",

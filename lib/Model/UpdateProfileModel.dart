@@ -31,8 +31,9 @@ class Data {
   String? birthDate;
   String? weight;
   String? height;
-  String? gender;
+  int? gender;
   String? token;
+  String? fcmToken;
   String? network;
   String? device;
 
@@ -45,6 +46,7 @@ class Data {
         this.height,
         this.gender,
         this.token,
+        this.fcmToken,
         this.network,
         this.device});
 
@@ -57,6 +59,7 @@ class Data {
     height = json['height'];
     gender = json['gender'];
     token = json['token'];
+    fcmToken = json['fcm_token'];
     network = json['network'];
     device = json['device'];
   }
@@ -71,9 +74,11 @@ class Data {
     data['height'] = this.height;
     data['gender'] = this.gender;
     data['token'] = this.token;
+    data['fcm_token'] = this.fcmToken;
     data['network'] = this.network;
     data['device'] = this.device;
     return data;
   }
 }
+
 

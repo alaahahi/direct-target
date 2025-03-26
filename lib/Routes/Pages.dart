@@ -13,6 +13,7 @@ import '../Screen/Auth/Verify/VerificationScreenBody.dart';
 import '../Screen/Home/NavigationBar/NavigationBarScreen.dart';
 import '../Screen/My Card/Appointment Scheduling/ScheduleScreen.dart';
 import '../Screen/Profile/ChangeProfile/ChangeProfileScreen.dart';
+import '../Screen/Profile/ProfileScreen.dart';
 import '../Screen/Search/SearchScreen.dart';
 import '../Screen/Services/TopDoctorScreen.dart';
 
@@ -81,5 +82,9 @@ final pages = <GetPage>[
   GetPage(
     name: AppRoutes.topdoctor,
     page: () =>  TopDoctorScreen(),
+  ),
+  GetPage(
+    name: AppRoutes.profilescreen,
+    page: () =>  ProfileScreen(),
   ),
 ];

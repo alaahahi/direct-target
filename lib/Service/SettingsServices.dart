@@ -173,8 +173,6 @@ class SettingsServices {
 
   }
 
-
-
   Future<AllSettingModel> getThemeColor() async {
     loaderController.loading(true);
 
@@ -344,10 +342,40 @@ class SettingsServices {
       return null;
     }
   }
+  Future<AllSetting?> getPrivacyPolicyEnUrl() async {
+    loaderController.loading(true);
+    try {
+      final response = await dio.get('$appConfig/settings/privacy_policy_url_en');
+
+      if (response.statusCode == 200) {
+        return AllSetting.fromJson(response.data['data']);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+      return null;
+    }
+  }
   Future<AllSetting?> getTermsConditionsUrl() async {
     loaderController.loading(true);
     try {
       final response = await dio.get('$appConfig/settings/terms_conditions_url');
+
+      if (response.statusCode == 200) {
+        return AllSetting.fromJson(response.data['data']);
+      } else {
+        return null;
+      }
+    } catch (e) {
+      print('Error fetching data: $e');
+      return null;
+    }
+  }
+  Future<AllSetting?> getTermsConditionsEnUrl() async {
+    loaderController.loading(true);
+    try {
+      final response = await dio.get('$appConfig/settings/terms_conditions_url_en');
 
       if (response.statusCode == 200) {
         return AllSetting.fromJson(response.data['data']);
