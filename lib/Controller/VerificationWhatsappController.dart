@@ -19,6 +19,7 @@ class VerificationWhatsappController extends GetxController {
   var message = ''.obs;
   var name = ''.obs;
   var token = ''.obs;
+  var storeFcmToken = ''.obs;
   var network = ''.obs;
   var device = ''.obs;
   var phoneNumber = ''.obs;
@@ -38,7 +39,7 @@ class VerificationWhatsappController extends GetxController {
   Future<void> getFirebaseToken() async {
     String? fcmToken = await FirebaseMessaging.instance.getToken();
     if (fcmToken != null) {
-      token.value = fcmToken;
+      storeFcmToken.value = fcmToken;
     }
   }
 
@@ -105,42 +106,54 @@ class VerificationWhatsappController extends GetxController {
 
     try {
       final response = await _verificationService.verifyCode(formattedPhoneNumber, verificationCode);
+
       if (response.message == "تم التحقق بنجاح.") {
         message.value = response.message!;
+
         if (response.user?.phoneNumber != null) {
           phoneNumber.value = response.user!.phoneNumber!;
-          box.write('phoneNumber', phoneNumber);
+          box.write('phoneNumber', phoneNumber.value);
         } else {
           phoneNumber.value = 'defaultPhoneNumber';
         }
+
         bool isAdmin = response.isAdmin ?? false;
         box.write('isAdmin', isAdmin);
-        String userPhone = response.user?.phoneNumber ?? "رقم غير متوفر";
-         name.value= response.user?.name ?? "اسم غير متوفر";
-        token.value= response.token! ;
-        print("User Phone: $userPhone");
-        print("User Name: $name");
-        print("network Name: $network");
-        print("device Name: $device");
 
-        box.write('token', token.value);
+        name.value = response.user?.name ?? "اسم غير متوفر";
+        token.value = response.token ?? "";
 
+        print("User Phone: ${phoneNumber.value}");
+        print("User Name: ${name.value}");
+        print("Network Name: ${network.value}");
+        print("Device Name: ${device.value}");
         print("Token: ${token.value}");
-        await _profileController.updateProfile({
-          "name": name.value,
-          "token": token.value,
-          "network": network.value,
-          "device": device.value
-        });
-        if (token.isNotEmpty) {
+        box.write('storeFcmToken', storeFcmToken.value);
+
+        if (token.value.isNotEmpty) {
           tokenController.saveToken(token.value);
+          final profileData = {
+            'name': name.value,
+            'fcm_token': storeFcmToken.value,
+            'network': network.value,
+            'device': device.value
+          };
+
           Get.offAllNamed(AppRoutes.homescreen);
+          await _profileController.updateProfile(profileData);
         }
 
       } else {
         message.value = 'التحقق فشل. الرسالة من السيرفر: ${response.message}';
+        Get.snackbar(
+          'Error'.tr,
+          message.value,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.red,
+          colorText: Colors.white,
+          duration: const Duration(seconds: 5),
+        );
       }
-
     } catch (e) {
       message.value = 'Error: $e';
       Get.snackbar(
@@ -149,7 +162,7 @@ class VerificationWhatsappController extends GetxController {
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
         colorText: Colors.white,
-        duration: Duration(seconds: 5),
+        duration: const Duration(seconds: 5),
       );
     } finally {
       isLoading.value = false;
