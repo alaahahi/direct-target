@@ -31,7 +31,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../../Controller/AllSettingController.dart';
-import '../../../Controller/LanguageController.dart';
 import '../../../Service/SettingsServices.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 

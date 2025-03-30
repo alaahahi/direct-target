@@ -1,0 +1,1 @@
+C:\xampp\htdocs\direct-target\build\app\intermediates\cxx\RelWithDebInfo\362v2036\obj\arm64-v8a

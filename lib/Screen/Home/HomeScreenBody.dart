@@ -8,7 +8,6 @@ import '../../Service/SettingsServices.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-import 'NavigationBar/NavigationBarScreen.dart';
 
 class HomeScreenBody extends StatefulWidget {
   const HomeScreenBody({super.key});

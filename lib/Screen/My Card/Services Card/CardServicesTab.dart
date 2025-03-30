@@ -5,7 +5,6 @@ import '../../../../Controller/AppointmentController.dart';
 import '../../../../Controller/LoaderController.dart';
 import '../../../../Utils/AppStyle.dart';
 import '../../../../Widgets/CategoryList.dart';
-import '../../../../Widgets/DoctorList.dart';
 import '../../Services/CategoryDetailsScreen.dart';
 
 class CardServicesTab extends StatefulWidget {

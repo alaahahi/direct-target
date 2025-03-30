@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
-import '../../../Utils/AppStyle.dart';
 import 'PrivacyBody.dart';
 
 class PrivacyPolicyScreen extends StatefulWidget {

@@ -6,7 +6,6 @@ import '../../Controller/LoaderController.dart';
 import '../../Service/CardServices.dart';
 import '../../Utils/AppStyle.dart';
 import '../../Widgets/CategoryList.dart';
-import '../../Widgets/DoctorList.dart';
 import '../RequestCard/RequestScreen.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:cached_network_image/cached_network_image.dart';

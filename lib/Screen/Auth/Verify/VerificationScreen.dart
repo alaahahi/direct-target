@@ -5,14 +5,10 @@ import 'package:get/get.dart';
 import 'package:pinput/pinput.dart';
 import '../../../Controller/VerifySmsController.dart';
 import '../../../Utils/AppStyle.dart';
-import 'package:flutter/material.dart';
 import 'package:get_storage/get_storage.dart';
-import 'package:direct_target/Utils/AppStyle.dart';
-import 'package:get/get.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
 import '../../../Controller/VerificationWhatsappController.dart';
-import '../Verify/VerificationScreen.dart';
 class OtpScreen extends StatefulWidget {
   final String verificationId;
   final String phoneNumber;

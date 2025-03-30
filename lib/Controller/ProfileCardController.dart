@@ -3,7 +3,6 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../Model/ProfileCardModel.dart';
 import '../Model/ProfileUserModel.dart';
-import '../Model/UpdateProfileModel.dart';
 import '../Routes/Routes.dart';
 import '../Service/ProfileCardServices.dart';
 import '../Service/ProfileUserServices.dart';

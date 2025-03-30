@@ -100,28 +100,24 @@ class AllSettingController extends GetxController {
     loaderController.loading(true);
     update();
     AllSettingModel? setting = await _service.fetchAppSettings();
-    if (setting != null) {
-      appSetting.value = setting.data?.value ?? '';
-      try {
-        Map<String, dynamic> settingData = jsonDecode(appSetting.value);
-        bool smsActivate = settingData["sms_activate"] == 1;
-        bool whatsappActivate = settingData["whatsapp_activate"] == 1;
-        int cardValue = settingData["card"] ?? 0;
-        appSmsActivate.value = smsActivate;
-        appWhatsappActivate.value = whatsappActivate;
-        appCardValue.value = cardValue;
-        String hexColor = settingData['primary_color'];
-        var PrimaryColor =HexColor(hexColor);
-        PrimaryHexColor.value = hexColor;
-        primaryyColor.value = PrimaryColor;
-        print('✅ Primary Color Updated: ${primaryyColor}');
-      } catch (e) {
-        print("❌ Error in decode: $e");
-      }
-    } else {
-      appSetting.value = '';
+    appSetting.value = setting.data?.value ?? '';
+    try {
+      Map<String, dynamic> settingData = jsonDecode(appSetting.value);
+      bool smsActivate = settingData["sms_activate"] == 1;
+      bool whatsappActivate = settingData["whatsapp_activate"] == 1;
+      int cardValue = settingData["card"] ?? 0;
+      appSmsActivate.value = smsActivate;
+      appWhatsappActivate.value = whatsappActivate;
+      appCardValue.value = cardValue;
+      String hexColor = settingData['primary_color'];
+      var PrimaryColor =HexColor(hexColor);
+      PrimaryHexColor.value = hexColor;
+      primaryyColor.value = PrimaryColor;
+      print('✅ Primary Color Updated: ${primaryyColor}');
+    } catch (e) {
+      print("❌ Error in decode: $e");
     }
-
+  
     update();
     loaderController.loading(false);
   }

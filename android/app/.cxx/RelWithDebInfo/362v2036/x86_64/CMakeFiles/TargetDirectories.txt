@@ -1,0 +1,2 @@
+C:/xampp/htdocs/direct-target/android/app/.cxx/RelWithDebInfo/362v2036/x86_64/CMakeFiles/edit_cache.dir
+C:/xampp/htdocs/direct-target/android/app/.cxx/RelWithDebInfo/362v2036/x86_64/CMakeFiles/rebuild_cache.dir

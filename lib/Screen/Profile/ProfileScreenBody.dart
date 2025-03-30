@@ -1,6 +1,4 @@
-import 'package:direct_target/Screen/Auth/SignIn/SignInScreen.dart';
 import 'package:direct_target/Screen/Profile/Contact/ContactScreen.dart';
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:direct_target/Widgets/ProfileList.dart';
 import 'package:direct_target/Utils/AppStyle.dart';

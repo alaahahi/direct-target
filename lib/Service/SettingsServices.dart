@@ -26,10 +26,8 @@ class SettingsServices {
     try {
       var res = await myDioService.fetchData('$appConfig/settings');
 
-      if (res != null) {
-        return AllSettingModel.fromJson(res);
-      }
-    } catch (e) {
+      return AllSettingModel.fromJson(res);
+        } catch (e) {
       if (e is DioException) {
         print('Exception :${e.response}');
       } else {
@@ -42,10 +40,8 @@ class SettingsServices {
   Future<AllSettingModel> fetchAppSettings([dynamic data]) async {
     try {
       var res = await myDioService.fetchData( '$appConfig/settings/app_setting');
-      if (res != null) {
-        return AllSettingModel.fromJson(res);
-      }
-    } catch (e) {
+      return AllSettingModel.fromJson(res);
+        } catch (e) {
       if (e is DioException) {
         print("********** Error *************");
         print("Response: ${e.response}");

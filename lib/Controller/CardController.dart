@@ -165,7 +165,7 @@ class CardController extends GetxController {
     update();
     try {
       var res = await CardServices().fetchListAllServices(cardId);
-      categoryList = res?.data;
+      categoryList = res.data;
       print('Fetched Data Length: ${categoryList?.length}');
     } catch (e) {
       if (e is dio.DioException) {
@@ -183,7 +183,7 @@ class CardController extends GetxController {
     update();
     try {
       var res = await ProfileService().fetchCards();
-      allMyCardList = res?.data;
+      allMyCardList = res.data;
       print('Fetched MyCards Dataaaaaaaaaa Length: ${allMyCardList?.length}');
       print('Fetched MyCards Dataaaaaaaaa: $allMyCardList');
     } catch (e) {

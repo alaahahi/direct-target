@@ -1,9 +1,6 @@
-import 'package:direct_target/Screen/Home/HomeScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:direct_target/Screen/Auth/SignIn/SignInScreen.dart';
-import 'package:page_transition/page_transition.dart';
-import 'package:direct_target/Screen/Home/NavigationBar/NavigationBarScreen.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:direct_target/Widgets/ThemeToggleButton.dart';
 import 'package:direct_target/Widgets/LangToggleButton.dart';

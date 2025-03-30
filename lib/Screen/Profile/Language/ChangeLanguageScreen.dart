@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:direct_target/Screen/Profile/Language/CahngeLanguageBody.dart';
 
-import '../../../Utils/AppStyle.dart';
 
 class ChangeLanguageScreen extends StatefulWidget {
   const ChangeLanguageScreen({super.key});
