@@ -174,7 +174,7 @@ class _HomeContentScreenBodyState extends State<HomeContentScreenBody> {
           height: 20,
         ),
         Container(
-          height: MediaQuery.of(context).size.height * 0.22,
+          height: MediaQuery.of(context).size.height * 0.25,
           child: GetBuilder<CardController>(
             builder: (controller) {
               if (loaderController.loading.value) {
@@ -196,11 +196,11 @@ class _HomeContentScreenBodyState extends State<HomeContentScreenBody> {
               String? selectedCategory = controller.selectedCategory;
 
               return Column(
-                mainAxisAlignment: MainAxisAlignment.start,
-                crossAxisAlignment: CrossAxisAlignment.start,
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.center,
                 children: [
                   Container(
-                    height: 180,
+                    height: 200,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
                       itemCount: controller.categoryList?.length ??
@@ -216,6 +216,7 @@ class _HomeContentScreenBodyState extends State<HomeContentScreenBody> {
                             controller.update();
                           },
                           child: Container(
+                            width: 200,
                             padding: EdgeInsets.symmetric(
                                 horizontal: 20, vertical: 10),
                             margin: EdgeInsets.all(5),

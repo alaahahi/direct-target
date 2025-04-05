@@ -1,5 +1,6 @@
 
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import '../Model/ProfileUserModel.dart';
 import '../Service/ProfileUserServices.dart';
 import 'package:flutter/material.dart';
@@ -15,13 +16,13 @@ class ProfileUserController extends GetxController {
   final ProfileUserService _profileService = ProfileUserService();
   MessagesHandlerController msgController =
   Get.put(MessagesHandlerController());
-
+  var token = ''.obs;
   @override
   void onInit() {
     super.onInit();
     fetchProfile();
   }
-
+  final box = GetStorage();
   void fetchProfile() async {
     try {
       isLoading(true);
@@ -43,14 +44,17 @@ class ProfileUserController extends GetxController {
     var response = await ProfileUserService().deleteProfile(request);
     try {
       Get.snackbar(
-        'The operation was completed successfully'.tr,
-        'The appointment has been booked successfully'.tr,
+        'Success',
+        'The account has been deleted.'.tr,
         snackPosition: SnackPosition.TOP,
         backgroundColor: Colors.green,
         colorText: Colors.white,
         duration: Duration(seconds: 5),
       );
-      Get.offAllNamed(AppRoutes.splash);
+      box.remove('token');
+      token.value = '';
+      print("User logged out");
+      Get.offAllNamed(AppRoutes.signinscreen);
     } catch (e) {
       if (e is dio.DioException) {
         log(e.toString());

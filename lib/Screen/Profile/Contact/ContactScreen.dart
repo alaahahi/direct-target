@@ -29,7 +29,7 @@ class _ContactScreenState extends State<ContactScreen> {
             onPressed: () => Get.back(),
           ),
           title: Text(
-            "Contact Us".tr,
+            'Contact Us'.tr,
             style: Theme.of(context).textTheme.headlineLarge,
           ),
           centerTitle: true,

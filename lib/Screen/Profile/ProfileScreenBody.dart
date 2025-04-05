@@ -383,62 +383,71 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
                 ),
                 Obx(() {
                   if (tokenController.token.value.isNotEmpty) {
-                    final profile = profileController.profile.value.data;
-                    return Column(
-                      children: [
-                        InkWell(
-                          onTap: () {
-                            Get.defaultDialog(
-                              title: "Confirm Delete Account".tr,
-                              middleText: "Are you sure you want to Delete Account?".tr,
-                              textCancel: "No".tr,
-                              textConfirm: "Yes".tr,
-                              confirmTextColor: Colors.white,
-                              onConfirm: () {
-                                profileController.deleteProfile(
-                                    phoneNumber: profile!.phoneNumber ?? '', verificationCode: box.read('verificationCode'), sms: profile.verificationUserType ?? '');
+                    final profile = profileController.profile.value;
 
-                                Get.back();
-                              },
-                            );
-                          },
-                          child: ProfileList(
-                            icon: Icons.delete,
-                            title: "Delete Account".tr,
-                            iconColor: Colors.red,
-                            textColor: Colors.red,
+                    if (profile != null && profile.data != null) {
+                      return Column(
+                        children: [
+                          InkWell(
+                            onTap: () {
+                              Get.defaultDialog(
+                                title: "Confirm Delete Account".tr,
+                                middleText: "Are you sure you want to Delete Account?".tr,
+                                textCancel: "No".tr,
+                                textConfirm: "Yes".tr,
+                                confirmTextColor: Colors.white,
+                                onConfirm: () {
+                                  profileController.deleteProfile(
+                                      phoneNumber: profile.data?.phoneNumber ?? '',
+                                      verificationCode: box.read('verificationCode'),
+                                      sms: profile.data?.verificationUserType ?? ''
+                                  );
+
+                                  Get.back();
+                                },
+                              );
+                            },
+                            child: ProfileList(
+                              icon: Icons.delete,
+                              title: "Delete Account".tr,
+                              iconColor: Colors.red,
+                              textColor: Colors.red,
+                            ),
                           ),
-                        ),
-                        const Padding(
-                          padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
-                          child: Divider(),
-                        ),
-                        InkWell(
-                          onTap: () {
-                            Get.defaultDialog(
-                              title: "Confirm Logout".tr,
-                              middleText: "Are you sure you want to log out?".tr,
-                              textCancel: "No".tr,
-                              textConfirm: "Yes".tr,
-                              confirmTextColor: Colors.white,
-                              onConfirm: () {
-                                controller.logout();
-                                Get.back();
-                              },
-                            );
-                          },
-                          child: ProfileList(
-                            icon: Icons.logout,
-                            title: "Log out".tr,
-                            iconColor: Colors.deepOrange,
-                            textColor: Colors.red,
+                          const Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                            child: Divider(),
                           ),
-                        ),
-                      ],
-                    );
+                          InkWell(
+                            onTap: () {
+                              Get.defaultDialog(
+                                title: "Confirm Logout".tr,
+                                middleText: "Are you sure you want to log out?".tr,
+                                textCancel: "No".tr,
+                                textConfirm: "Yes".tr,
+                                confirmTextColor: Colors.white,
+                                onConfirm: () {
+                                  controller.logout();
+                                  Get.back();
+                                },
+                              );
+                            },
+                            child: ProfileList(
+                              icon: Icons.logout,
+                              title: "Log out".tr,
+                              iconColor: Colors.deepOrange,
+                              textColor: Colors.red,
+                            ),
+                          ),
+                        ],
+                      );
+                    } else {
+                      return SizedBox.shrink(); // Profile or data is null, return an empty widget
+                    }
                   }
-                  return SizedBox.shrink();
+                  return SizedBox.shrink(); // Token is empty, return an empty widget
                 }),
+
                 SizedBox(height: 50),
               ],
             ),

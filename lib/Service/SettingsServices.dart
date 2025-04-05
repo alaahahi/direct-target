@@ -236,29 +236,6 @@ class SettingsServices {
 
 
   }
-  Future<AllSetting?> getSocialLinks() async {
-    try {
-      final response = await dio.get('$appConfig/settings/social_links');
-
-      if (response.statusCode == 200) {
-
-        final data = response.data['data'];
-
-        if (data is Map<String, dynamic>) {
-          return AllSetting.fromJson(data);
-        } else {
-          print('Data is not a valid JSON object');
-          return null;
-        }
-      } else {
-        print('Server error: ${response.statusCode}');
-        return null;
-      }
-    } catch (e) {
-      print('Error fetching data getSocialLinks: $e');
-      return null;
-    }
-  }
 
   Future<AllSettingModel> getDefaultLanguage() async {
     loaderController.loading(true);

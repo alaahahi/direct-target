@@ -71,7 +71,6 @@ class AllSettingController extends GetxController {
     _getAppVersion();
     getContactPhone();
     getContactEmail();
-    getSocialLinks();
     getAppName();
     getAppSetting();
     _getPrivacyPolicyEnUrl();
@@ -255,14 +254,7 @@ class AllSettingController extends GetxController {
       secondImageUrl.value = '';
     }
   }
-  Future<dynamic> getSocialLinks() async {
-    AllSetting? setting = await _service.getSocialLinks();
-    if (setting != null) {
-      secondImageUrl.value = setting.value ?? '';
-    } else {
-      secondImageUrl.value = '';
-    }
-  }
+
   Future<dynamic> getDefaultLanguage() async {
     isLoading(true);
     try {

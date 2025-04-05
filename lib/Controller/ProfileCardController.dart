@@ -3,6 +3,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../Model/ProfileCardModel.dart';
 import '../Model/ProfileUserModel.dart';
+import '../Model/UpdateProfileModel.dart';
 import '../Routes/Routes.dart';
 import '../Service/ProfileCardServices.dart';
 import '../Service/ProfileUserServices.dart';
@@ -34,29 +35,21 @@ class ProfileCardController extends GetxController {
   Future<dynamic> fetchProfile() async {
     try {
       isLoading(true);
-
-
       var profileData = await _profileService.fetchProfile();
-      profile.value = profileData!;
+      profile.value = profileData;
     } catch (e) {
       print("Error: $e");
+      msgController.showErrorMessage('Error fetching profile'.tr, e.toString());
     } finally {
       isLoading(false);
     }
   }
 
 
-
   Future<dynamic> fetchCards() async {
     loaderController.loading(true);
     var response = await ProfileService().fetchCards();
-    if (response.data != null) {
-      cardsList.assignAll(response.data!);
-    } else {
-      print("⚠️ response.data is null");
-      cardsList.clear();
-    }
-
+    cardsList.assignAll(response.data!);
     try {
       print(response.status);
     } catch (e) {

@@ -35,7 +35,8 @@ class ListIcons extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.all(8),
       child: Row(
-        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        mainAxisAlignment: MainAxisAlignment.center,
+        crossAxisAlignment: CrossAxisAlignment.center,
         children: [
           Column(
             children: [

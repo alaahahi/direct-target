@@ -18,6 +18,9 @@ class VerificationWhatsappController extends GetxController {
   var isLoading = false.obs;
   var message = ''.obs;
   var name = ''.obs;
+  var gender = 0.obs;
+  var height = 0.obs;
+  var weight = 0.obs;
   var token = ''.obs;
   var storeFcmToken = ''.obs;
   var network = ''.obs;
@@ -121,6 +124,10 @@ class VerificationWhatsappController extends GetxController {
         box.write('isAdmin', isAdmin);
         box.write('verificationCode', verificationCode);
         name.value = response.user?.name ?? "اسم غير متوفر";
+        gender.value = response.user?.gender ?? 0; // إذا كانت قيمة gender null، استخدم 0 كقيمة افتراضية
+        weight.value = response.user?.weight ?? 0; // إذا كانت قيمة weight null، استخدم 0 كقيمة افتراضية
+        height.value = response.user?.height ?? 0; // إذا كانت قيمة height null، استخدم 0 كقيمة افتراضية
+
         token.value = response.token ?? "";
 
         print("User Phone: ${phoneNumber.value}");

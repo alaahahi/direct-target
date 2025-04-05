@@ -32,9 +32,9 @@ class Data {
   String? verificationUserType;
   String? familyMembersNames;
   String? birthDate;
-  String? weight;
-  String? height;
-  String? gender;
+  int? weight;
+  int? height;
+  int? gender;
   String? token;
   String? network;
   String? device;

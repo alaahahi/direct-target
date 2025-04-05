@@ -1,4 +1,5 @@
 import 'package:direct_target/Controller/AllSettingController.dart';
+import 'package:direct_target/Controller/CardController.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:direct_target/Screen/SplashScreen.dart';
@@ -16,6 +17,7 @@ import 'Controller/ThemeController.dart';
 import 'Controller/TokenController.dart';
 import 'Routes/Pages.dart';
 import 'Service/ApiService.dart';
+import 'Service/CardServices.dart';
 import 'Service/ProfileUserServices.dart';
 import 'Service/SettingsServices.dart';
 import 'Translation/AppTranslation.dart';
@@ -37,12 +39,17 @@ void main() async {
   await Firebase.initializeApp();
   await NotificationService.instance.initialize();
   await GetStorage.init();
-  Get.put(LoaderController());
-  Get.put(ThemeController());
-  Get.put(TokenController());
-  // Get.put(ProfileCardController());
-  Get.put(AllSettingController(SettingsServices()));
+  await Get.put(LoaderController());
+  await Get.put(AllSettingController(SettingsServices()));
+
+  await Get.put(ThemeController());
+
+  await Get.put(TokenController());
   // Get.put(LanguageController());
+  await  Get.put(ProfileCardController());
+
+  //
+ // Get.put(CardController(CardServices()));
 
   runApp(const DirectTarget());
 }

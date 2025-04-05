@@ -35,6 +35,7 @@ class _AppInfoScreenState extends State<AppInfoScreen> {
           elevation: 0,
           toolbarHeight: 100,
         ),
+
         body: Padding(
           padding: const EdgeInsets.all(8.0),
           child: AppInfoBodyScreen(),
