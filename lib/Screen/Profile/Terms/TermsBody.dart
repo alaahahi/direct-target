@@ -19,12 +19,16 @@ class _TermsBodyState extends State<TermsBody> {
         ? _controller.termsCondition.toString()
         : _controller.termsConditionEnglish.toString();
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          HtmlWidget(
-              termConditionText,
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            HtmlWidget(
+                termConditionText,
+              textStyle: TextStyle(color: Colors.black87),
+            ),
+          ],
+        ),
       ),
     );
   }

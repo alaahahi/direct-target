@@ -2,11 +2,13 @@ import 'dart:convert';
 import 'package:dio/dio.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import 'package:hive/hive.dart';
 import '../Api/AppConfig.dart';
 import '../Controller/LoaderController.dart';
 import '../Controller/TokenController.dart';
 import '../Model/ProfileCardModel.dart';
 import '../Model/UpdateProfileModel.dart';
+import 'ApiService.dart';
 
 
 class ProfileService extends GetConnect {
@@ -19,50 +21,54 @@ class ProfileService extends GetConnect {
   ProfileService._();
 
   final LoaderController loaderController = Get.find<LoaderController>();
-
+  final MyDioService myDioService = MyDioService(Dio());
   GetStorage box = GetStorage();
   final tokenController = Get.find<TokenController>();
 
   Future<ProfileModel> fetchCards([dynamic data]) async {
     try {
+      if (!Hive.isBoxOpen('cacheBox')) {
+        await myDioService.setupDio();
+      }
+
       final String token = tokenController.getToken();
-      var res = await dio.get(
-        '$appConfig/cards/me',
-        data: data,
-        options: Options(
+      final String? language = Get.locale?.languageCode;
+      int retryCount = 0;
+      while (retryCount < 3) {
+        var res = await myDioService.fetchDataResponse(
+          '$appConfig/cards/me',
+          data: data,
           headers: {
             'Authorization': 'Bearer $token',
             'Content-Type': 'application/json',
+            'Accept-Language': language,
           },
-        ),
-      );
+        );
 
-      if (res.statusCode == 200 || res.statusCode==201  ) {
-        var data = res.data;
-        if (data is String) {
-
-          return ProfileModel.fromJson(jsonDecode(data));
-        } else if (data is Map<String, dynamic>) {
-
-          return ProfileModel.fromJson(data);
+        if (res.statusCode == 200 || res.statusCode == 201) {
+          var data = res.data;
+          if (data is String) {
+            return ProfileModel.fromJson(jsonDecode(data));
+          } else if (data is Map<String, dynamic>) {
+            return ProfileModel.fromJson(data);
+          } else {
+            throw Exception('Unexpected data format');
+          }
+        } else if (res.statusCode == 429) {
+          print('⚠️ Too many requests (429) - Retrying in 2 seconds...');
+          await Future.delayed(Duration(seconds: 2));
+          retryCount++;
         } else {
-          throw Exception('Unexpected data format');
+          throw Exception('Unexpected status code: ${res.statusCode}');
         }
       }
     } catch (e) {
-      if (e is DioException) {
-        if (e.response?.statusCode != 200) {
-          print('**********  Error fetchCards *************${e.response}');
-        }
-      } else {
-        print('errorrrrrr fetchCards $e');
-      }
-
-      loaderController.loading(false);
+      print('⚠️ خطأ أثناء جلب البيانات: $e');
     }
 
     return ProfileModel();
   }
+
 
 
   Future<UpdateProfileModel> updateProfile([dynamic data]) async {
@@ -96,11 +102,11 @@ class ProfileService extends GetConnect {
           print('********** Error updateProfile *************${e.response}');
         }
       } else {
-        print('errorrrrrr $e');
+        print('errorrrrrr updateprofile $e');
       }
     } finally {
       loaderController.loading(false);
     }
     return UpdateProfileModel();
   }
-  }
+}

@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'package:connectivity_plus/connectivity_plus.dart';
 import 'package:device_info_plus/device_info_plus.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
@@ -118,7 +119,7 @@ class VerificationWhatsappController extends GetxController {
 
         bool isAdmin = response.isAdmin ?? false;
         box.write('isAdmin', isAdmin);
-
+        box.write('verificationCode', verificationCode);
         name.value = response.user?.name ?? "اسم غير متوفر";
         token.value = response.token ?? "";
 

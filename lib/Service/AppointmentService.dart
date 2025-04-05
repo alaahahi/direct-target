@@ -11,7 +11,7 @@ import '../Controller/LoaderController.dart';
 import '../Controller/TokenController.dart';
 import '../Model/AppointmentModel.dart';
 
-
+import 'ApiService.dart';
 class AppointmentService extends GetConnect {
   static AppointmentService? _instance;
 
@@ -19,7 +19,7 @@ class AppointmentService extends GetConnect {
   factory AppointmentService() => _instance ??= AppointmentService._();
 
   AppointmentService._();
-
+  final MyDioService myDioService = MyDioService(Dio());
   final LoaderController loaderController = Get.find<LoaderController>();
   GetStorage box = GetStorage();
   final tokenController = Get.find<TokenController>();
@@ -28,15 +28,15 @@ class AppointmentService extends GetConnect {
     try {
 
       final String token = tokenController.getToken();
-      var res = await dio.get(
+      final String? language = Get.locale?.languageCode;
+      var res = await myDioService.fetchDataResponse(
         '$appConfig/appointment/me',
-        data: data,
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-          },
-        ),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+          'Accept': 'application/json',
+          'Accept-Language': language,
+        },
       );
 
       if (res.statusCode == 200 || res.statusCode == 201) {
@@ -176,46 +176,6 @@ class AppointmentService extends GetConnect {
         }
       } else {
         print('errorrrrrr updateAppointment $e');
-      }
-
-      loaderController.loading(false);
-    }
-    return AppointmentModel();
-  }
-
-  Future<AppointmentModel> updateProfile([dynamic data,int? id]) async {
-    loaderController.loading(true);
-    try {
-      final String token = tokenController.getToken();
-      var res = await dio.post(
-        '$appConfig/appointment/update',
-        data: data,
-        options: Options(
-          headers: {
-            'Authorization': 'Bearer $token',
-            'Content-Type': 'application/json',
-          },
-        ),
-      );
-      if (res.statusCode == 200 || res.statusCode==201  ) {
-        var data = res.data;
-        if (data is String) {
-
-          return AppointmentModel.fromJson(jsonDecode(data));
-        } else if (data is Map<String, dynamic>) {
-
-          return AppointmentModel.fromJson(data);
-        } else {
-          throw Exception('Unexpected data format');
-        }
-      }
-    } catch (e) {
-      if (e is DioException) {
-        if (e.response?.statusCode != 200) {
-          print('**********  Error updateProfile *************${e.response}');
-        }
-      } else {
-        print('errorrrrrr  updateProfile $e');
       }
 
       loaderController.loading(false);

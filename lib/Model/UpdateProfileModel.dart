@@ -31,7 +31,7 @@ class Data {
   String? birthDate;
   String? weight;
   String? height;
-  int? gender;
+  String? gender;
   String? token;
   String? fcmToken;
   String? network;

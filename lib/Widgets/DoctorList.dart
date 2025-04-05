@@ -109,7 +109,7 @@ class doctorList extends StatelessWidget {
                     ),
                     const SizedBox(width: 30),
                     Container(
-                      width: 130,
+                      width: 160,
                       height: 35,
                       decoration: BoxDecoration(
                         color: ButtonGrey,

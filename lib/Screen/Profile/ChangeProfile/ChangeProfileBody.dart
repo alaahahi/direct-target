@@ -96,59 +96,60 @@ class _ChangeProfileBodyState extends State<ChangeProfileBody> {
               ),
             ),
 
-          Obx(() {
-            return Container(
-              height: MediaQuery.of(context).size.height * 0.07,
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: ElevatedButton(
-                onPressed: () {
-                  if (_formKey.currentState!.validate()) {
-                    Map<String, dynamic> updatedProfile = {};
+            Obx(() {
+              return Container(
+                height: MediaQuery.of(context).size.height * 0.07,
+                width: MediaQuery.of(context).size.width * 0.9,
+                child: ElevatedButton(
+                  onPressed: () {
+                    if (_formKey.currentState!.validate()) {
+                      Map<String, dynamic> updatedProfile = {
+                        "name": nameController.text.isNotEmpty
+                            ? nameController.text
+                            : controller.profile.value.data?.name,
 
-                    updatedProfile["name"] = nameController.text.isNotEmpty
-                        ? nameController.text
-                        : controller.profile.value.data?.name;
+                        "family_members_names": familyController.text.isNotEmpty
+                            ? familyController.text
+                            : controller.profile.value.data?.familyMembersNames,
 
-                    updatedProfile["family_members_names"] = familyController.text.isNotEmpty
-                        ? familyController.text
-                        : controller.profile.value.data?.familyMembersNames;
+                        "weight": weightController.text.isNotEmpty
+                            ? int.tryParse(weightController.text)
+                            : controller.profile.value.data?.weight,
 
-                    updatedProfile["weight"] = weightController.text.isNotEmpty
-                        ? int.tryParse(weightController.text)
-                        : controller.profile.value.data?.weight;
+                        "height": heightController.text.isNotEmpty
+                            ? int.tryParse(heightController.text)
+                            : controller.profile.value.data?.height,
 
-                    updatedProfile["height"] = heightController.text.isNotEmpty
-                        ? int.tryParse(heightController.text)
-                        : controller.profile.value.data?.height;
+                        "gender": selectedGender ?? controller.profile.value.data?.gender,
+                        "device": controller.profile.value.data?.device,
+                        "network": controller.profile.value.data?.network,
+                        "fcm_token": controller.profile.value.data?.fcmToken,
+                      };
 
-                    updatedProfile["gender"] = selectedGender != null
-                        ? selectedGender
-                        : controller.profile.value.data?.gender;
-
-                    controller.updateProfile(updatedProfile);
-                  }
-                },
+                      controller.updateProfile(updatedProfile);
+                    }
+                  },
 
 
 
-                child: Text(
-                  "Update Profile".tr,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: LightGrey,
+                  child: Text(
+                    "Update Profile".tr,
+                    style: Theme.of(context).textTheme.titleMedium?.copyWith(
+                      color: LightGrey,
+                    ),
+                  ),
+                  style: ElevatedButton.styleFrom(
+                    foregroundColor: Colors.white,
+                    backgroundColor: PrimaryColor,
+                    shadowColor: Colors.black,
+                    elevation: 5,
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(30),
+                    ),
                   ),
                 ),
-                style: ElevatedButton.styleFrom(
-                  foregroundColor: Colors.white,
-                  backgroundColor: PrimaryColor,
-                  shadowColor: Colors.black,
-                  elevation: 5,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-              ),
-            );
-          }),
+              );
+            }),
 
 
             Padding(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 
-
+import 'package:get/get.dart';
 class CategoryList extends StatelessWidget {
   final String image;
   final String maintext;
@@ -60,7 +60,7 @@ class CategoryList extends StatelessWidget {
               Expanded(
                 flex: 1,
                 child: Text(
-                  "خصم ${subtext.toString()}%",
+                  "discount".tr + " " + " ${subtext.toString()}%",
                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(
                     color: Colors.green,
                   ),

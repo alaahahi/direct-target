@@ -221,7 +221,8 @@ final Map<String, String> en = {
   "Card Description: ":"Card Description: ",
   "Card Price: ":"Card Price: ",
   'No services found.':'No services found.',
-
+  "Search for a service...":"Search for a service...",
+  "discount": "discount"
 
 
 
@@ -421,29 +422,31 @@ final Map<String, String> ar = {
   "Featured Services":"الخدمات المميزة",
   "Available Hours":"الساعات المتاحة",
   "Available Days":"الأيام المتاحة",
-      'Search Services':'البحث عن الخدمات',
+  'Search Services':'البحث عن الخدمات',
   "Price":"التكلفة",
   "Specialization : ":"اختصاص :",
 
   "You do not have a card" : "ليس لديك بطاقة",
-      "You have been transferred to request a card so that you can request the service successfully" : "تم تحويلك لطلب بطاقة حتى تتمكن من طلب الخدمة بنجاح",
-      "No data has been modified" : "لم يتم تعديل أي بيانات",
-      "Alert" : "تنبيه",
-      "Success" :"نجاح",
-      "Appointment updated successfully" : "تم تحديث الموعد بنجاح",
-      "Unknown error" :"خطأ غير معروف",
-      "An error occurred while updating the appointment." : "حدث خطأ أثناء تحديث الموعد.",
-      "Error" : "خطأ",
-      "Operation failed" : "فشلت العملية",
-      "Please try again" : "يرجى المحاولة مرة أخرى",
-      "Failed to fetch services" :"فشل في جلب الخدمات",
-      "The operation was completed successfully" : "تمت العملية بنجاح",
-      "Your profile has been modified" : "تم تعديل ملفك الشخصي",
-      "Verification code error" :"خطأ في رمز التحقق",
-      "Please enter the verification code correctly" : "يرجى إدخال رمز التحقق بشكل صحيح",
+  "You have been transferred to request a card so that you can request the service successfully" : "تم تحويلك لطلب بطاقة حتى تتمكن من طلب الخدمة بنجاح",
+  "No data has been modified" : "لم يتم تعديل أي بيانات",
+  "Alert" : "تنبيه",
+  "Success" :"نجاح",
+  "Appointment updated successfully" : "تم تحديث الموعد بنجاح",
+  "Unknown error" :"خطأ غير معروف",
+  "An error occurred while updating the appointment." : "حدث خطأ أثناء تحديث الموعد.",
+  "Error" : "خطأ",
+  "Operation failed" : "فشلت العملية",
+  "Please try again" : "يرجى المحاولة مرة أخرى",
+  "Failed to fetch services" :"فشل في جلب الخدمات",
+  "The operation was completed successfully" : "تمت العملية بنجاح",
+  "Your profile has been modified" : "تم تعديل ملفك الشخصي",
+  "Verification code error" :"خطأ في رمز التحقق",
+  "Please enter the verification code correctly" : "يرجى إدخال رمز التحقق بشكل صحيح",
   "Card Description: " :  "وصف البطاقة: ",
-      "Card Price: " :  "سعر البطاقة: ",
-      "No services found." : "لم يتم العثور على خدمات.",
+  "Card Price: " :  "سعر البطاقة: ",
+  "No services found." : "لم يتم العثور على خدمات.",
+  "Search for a service...":"ابحث عن خدمة ...",
+  "discount":"خصم"
 }
 ;
 

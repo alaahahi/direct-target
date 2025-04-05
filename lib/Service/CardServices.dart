@@ -12,11 +12,13 @@ import '../Model/CardModel.dart';
 import '../Model/RequestCardModel.dart';
 import '../Model/ServiceModel.dart';
 import '../Controller/TokenController.dart';
+import 'ApiService.dart';
 class CardServices extends GetxService  {
   static CardServices? _instance;
 
   var dio = Dio();
   factory CardServices() => _instance ??= CardServices._();
+  final MyDioService myDioService = MyDioService(Dio());
 
   CardServices._();
 
@@ -64,13 +66,13 @@ class CardServices extends GetxService  {
   Future<List<Service>> fetchSearchServices(String searchTerm) async {
     final String? language = Get.locale?.languageCode;
     try {
-      var response = await dio.get('$appConfig/card-services/search?search_term=$searchTerm',
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept-Language': language,
-          },
-        ),);
+      var response = await myDioService.fetchDataResponse('$appConfig/card-services/search?search_term=$searchTerm',
+
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept-Language': language,
+        },
+      );
 
       print("Response Status: ${response.statusCode}");
       print("Response Body: ${response.data}");
@@ -91,13 +93,13 @@ class CardServices extends GetxService  {
     final String? language = Get.locale?.languageCode;
     print("Selected Language: $language");
     try {
-      var res = await dio.get('$appConfig/card-services/active?card_id=$cardId',
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept-Language': language,
-          },
-        ),);
+      var res = await myDioService.fetchDataResponse('$appConfig/card-services/active?card_id=$cardId',
+
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept-Language': language,
+        },
+      );
 
       if (res.statusCode == 200 || res.statusCode==201  ) {
         var data = res.data;
@@ -129,16 +131,17 @@ class CardServices extends GetxService  {
     try {
       final String? language = Get.locale?.languageCode;
       print("Selected Language: $language");
+      final String token = tokenController.getToken();
 
-      var res = await dio.get(
+      var res = await myDioService.fetchDataResponse(
         '$appConfig/cards/active',
         data: data,
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept-Language': language,
-          },
-        ),
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+          'Accept-Language': language,
+        },
+
       );
 
       print("Response Status Code: ${res.statusCode}");
@@ -173,15 +176,13 @@ class CardServices extends GetxService  {
     final String? language = Get.locale?.languageCode;
     print("Selected Language: $language");
     try {
-      var res = await dio.get(
+      var res = await myDioService.fetchDataResponse(
         '$appConfig/get-popular-service',
         data: data,
-        options: Options(
-          headers: {
-            'Content-Type': 'application/json',
-            'Accept-Language': language,
-          },
-        ),
+        headers: {
+          'Content-Type': 'application/json',
+          'Accept-Language': language,
+        },
       );
 
       print("Response Status Code: ${res.statusCode}");

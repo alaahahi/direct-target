@@ -35,7 +35,7 @@ class ProfileCardController extends GetxController {
     try {
       isLoading(true);
       var profileData = await _profileService.fetchProfile();
-      profile.value = profileData;
+      profile.value = profileData!;
     } catch (e) {
       print("Error: $e");
       msgController.showErrorMessage('Error fetching profile'.tr, e.toString());
@@ -48,7 +48,13 @@ class ProfileCardController extends GetxController {
   Future<dynamic> fetchCards() async {
     loaderController.loading(true);
     var response = await ProfileService().fetchCards();
-    cardsList.assignAll(response.data!);
+    if (response.data != null) {
+      cardsList.assignAll(response.data!);
+    } else {
+      print("⚠️ response.data is null");
+      cardsList.clear();
+    }
+
     try {
       print(response.status);
     } catch (e) {

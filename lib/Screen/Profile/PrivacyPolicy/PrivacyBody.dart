@@ -51,12 +51,16 @@ class _PrivacyBodyState extends State<PrivacyBody> {
         : _controller.privacyPolicyEnglish.toString();
 
     return SingleChildScrollView(
-      child: Column(
-        children: [
-          HtmlWidget(
-            privacyPolicyText,
-          ),
-        ],
+      child: Padding(
+        padding: const EdgeInsets.all(20.0),
+        child: Column(
+          children: [
+            HtmlWidget(
+              privacyPolicyText,
+              textStyle: TextStyle(color: Colors.black87),
+            ),
+          ],
+        ),
       ),
     );
   }

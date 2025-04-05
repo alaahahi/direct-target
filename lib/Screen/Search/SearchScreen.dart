@@ -23,7 +23,7 @@ class SearchPage extends StatelessWidget {
             TextField(
               controller: searchController,
               decoration: InputDecoration(
-                hintText: "ابحث عن خدمة...",
+                hintText: "Search for a service...".tr,
                 suffixIcon: IconButton(
                   icon: Icon(Icons.search),
                   onPressed: () {

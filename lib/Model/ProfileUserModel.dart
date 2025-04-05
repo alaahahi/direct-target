@@ -32,9 +32,13 @@ class Data {
   String? verificationUserType;
   String? familyMembersNames;
   String? birthDate;
-  int? weight;
-  int? height;
-  int? gender;
+  String? weight;
+  String? height;
+  String? gender;
+  String? token;
+  String? network;
+  String? device;
+  String? fcmToken;
 
   Data(
       {this.id,
@@ -49,7 +53,11 @@ class Data {
         this.birthDate,
         this.weight,
         this.height,
-        this.gender});
+        this.gender,
+        this.token,
+        this.network,
+        this.device,
+        this.fcmToken});
 
   Data.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -65,6 +73,10 @@ class Data {
     weight = json['weight'];
     height = json['height'];
     gender = json['gender'];
+    token = json['token'];
+    network = json['network'];
+    device = json['device'];
+    fcmToken = json['fcm_token'];
   }
 
   Map<String, dynamic> toJson() {
@@ -82,7 +94,12 @@ class Data {
     data['weight'] = this.weight;
     data['height'] = this.height;
     data['gender'] = this.gender;
+    data['token'] = this.token;
+    data['network'] = this.network;
+    data['device'] = this.device;
+    data['fcm_token'] = this.fcmToken;
     return data;
   }
 }
+
 
