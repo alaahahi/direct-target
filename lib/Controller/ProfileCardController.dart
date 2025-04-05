@@ -34,15 +34,17 @@ class ProfileCardController extends GetxController {
   Future<dynamic> fetchProfile() async {
     try {
       isLoading(true);
+
+
       var profileData = await _profileService.fetchProfile();
       profile.value = profileData!;
     } catch (e) {
       print("Error: $e");
-      msgController.showErrorMessage('Error fetching profile'.tr, e.toString());
     } finally {
       isLoading(false);
     }
   }
+
 
 
   Future<dynamic> fetchCards() async {

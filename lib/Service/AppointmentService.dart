@@ -28,6 +28,7 @@ class AppointmentService extends GetConnect {
   Future<AppointmentModel> getAppointment([dynamic data]) async {
     try {
 
+      final String token = tokenController.getToken();
       final String? language = Get.locale?.languageCode;
       var res = await myDioService.fetchDataResponse(
         '$appConfig/appointment/me',
