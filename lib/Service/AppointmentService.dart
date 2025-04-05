@@ -23,18 +23,17 @@ class AppointmentService extends GetConnect {
   final LoaderController loaderController = Get.find<LoaderController>();
   GetStorage box = GetStorage();
   final tokenController = Get.find<TokenController>();
+ final String token = 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJpc3MiOiJodHRwczovL2Rvd2FseXBsdXMuYWluZHViYWljby5jb20vYXBpL3YxL3ZlcmlmeS1jb2RlIiwiaWF0IjoxNzM3OTAwMjIwLCJleHAiOjE3NDMwODQyMjAsIm5iZiI6MTczNzkwMDIyMCwianRpIjoiYklJdVh6R3FWTWhOOXRZdyIsInN1YiI6IjI3NSIsInBydiI6IjIzYmQ1Yzg5NDlmNjAwYWRiMzllNzAxYzQwMDg3MmRiN2E1OTc2ZjcifQ.mMu9oC2cyafur7_KhHfrEAPBc2LyN1RReXQEU594CXI';
 
   Future<AppointmentModel> getAppointment([dynamic data]) async {
     try {
 
-      final String token = tokenController.getToken();
       final String? language = Get.locale?.languageCode;
       var res = await myDioService.fetchDataResponse(
         '$appConfig/appointment/me',
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
-          'Accept': 'application/json',
           'Accept-Language': language,
         },
       );
@@ -63,6 +62,7 @@ class AppointmentService extends GetConnect {
 
     return AppointmentModel();
   }
+
 
 
   Future<AppointmentModel> createAppointment([dynamic data]) async {

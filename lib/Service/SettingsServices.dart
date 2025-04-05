@@ -84,7 +84,7 @@ class SettingsServices {
         return null;
       }
     } catch (e) {
-      print('Error fetching data: $e');
+      print('Error fetching data getFirstAdsImage: $e');
       return null;
     }
   }
@@ -97,7 +97,7 @@ class SettingsServices {
         return null;
       }
     } catch (e) {
-      print('Error fetching data: $e');
+      print('Error fetching data getSecondAdsImage: $e');
       return null;
     }
   }
@@ -110,7 +110,7 @@ class SettingsServices {
         return null;
       }
     } catch (e) {
-      print('Error fetching data: $e');
+      print('Error fetching data getThirdAdsImage: $e');
       return null;
     }
   }
@@ -123,7 +123,7 @@ class SettingsServices {
         return null;
       }
     } catch (e) {
-      print('Error fetching data: $e');
+      print('Error fetching data getFourthAdsImage: $e');
       return null;
     }
   }
@@ -136,7 +136,7 @@ class SettingsServices {
         return null;
       }
     } catch (e) {
-      print('Error fetching data: $e');
+      print('Error fetching data getFirstWelcomeImage: $e');
       return null;
     }
   }
@@ -149,7 +149,7 @@ class SettingsServices {
         return null;
       }
     } catch (e) {
-      print('Error fetching data: $e');
+      print('Error fetching data getSecondWelcomeImage: $e');
       return null;
     }
   }
@@ -163,7 +163,7 @@ class SettingsServices {
         return null;
       }
     } catch (e) {
-      print('Error fetching data: $e');
+      print('Error fetching data getThirdWelcomeImage: $e');
       return null;
     }
 
@@ -216,7 +216,7 @@ class SettingsServices {
         return null;
       }
     } catch (e) {
-      print('Error fetching data: $e');
+      print('Error fetching data getContactEmail: $e');
       return null;
     }
 
@@ -230,7 +230,7 @@ class SettingsServices {
         return null;
       }
     } catch (e) {
-      print('Error fetching data: $e');
+      print('Error fetching data getContactPhone: $e');
       return null;
     }
 
@@ -239,16 +239,27 @@ class SettingsServices {
   Future<AllSetting?> getSocialLinks() async {
     try {
       final response = await dio.get('$appConfig/settings/social_links');
+
       if (response.statusCode == 200) {
-        return AllSetting.fromJson(response.data['data']);
+
+        final data = response.data['data'];
+
+        if (data is Map<String, dynamic>) {
+          return AllSetting.fromJson(data);
+        } else {
+          print('Data is not a valid JSON object');
+          return null;
+        }
       } else {
+        print('Server error: ${response.statusCode}');
         return null;
       }
     } catch (e) {
-      print('Error fetching data: $e');
+      print('Error fetching data getSocialLinks: $e');
       return null;
     }
   }
+
   Future<AllSettingModel> getDefaultLanguage() async {
     loaderController.loading(true);
 
@@ -279,7 +290,7 @@ class SettingsServices {
         return null;
       }
     } catch (e) {
-      print('Error fetching data: $e');
+      print('Error fetching data getAppVersion: $e');
       return null;
     }
 
@@ -334,7 +345,7 @@ class SettingsServices {
         return null;
       }
     } catch (e) {
-      print('Error fetching data: $e');
+      print('Error fetching data getPrivacyPolicyUrl: $e');
       return null;
     }
   }
@@ -349,7 +360,7 @@ class SettingsServices {
         return null;
       }
     } catch (e) {
-      print('Error fetching data: $e');
+      print('Error fetching data getPrivacyPolicyEnUrl: $e');
       return null;
     }
   }
@@ -364,7 +375,7 @@ class SettingsServices {
         return null;
       }
     } catch (e) {
-      print('Error fetching data: $e');
+      print('Error fetching data getTermsConditionsUrl: $e');
       return null;
     }
   }
@@ -379,7 +390,7 @@ class SettingsServices {
         return null;
       }
     } catch (e) {
-      print('Error fetching data: $e');
+      print('Error fetching data getTermsConditionsEnUrl: $e');
       return null;
     }
   }
@@ -431,7 +442,7 @@ class SettingsServices {
         return null;
       }
     } catch (e) {
-      print('Error fetching data: $e');
+      print('Error fetching data getAppName: $e');
       return null;
     }
 

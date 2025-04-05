@@ -20,40 +20,55 @@ class ProfileUserService extends GetConnect {
   final MyDioService myDioService = MyDioService(Dio());
   GetStorage box = GetStorage();
   final tokenController = Get.find<TokenController>();
-
-  Future<ProfileUserModel?> fetchProfile([dynamic data]) async {
+  Future<ProfileUserModel> fetchProfile([dynamic data]) async {
     try {
       final String token = tokenController.getToken();
       final String? language = Get.locale?.languageCode;
 
+      final url = '$appConfig/profile/me';
+      print('Requesting: $url');
+
       var res = await myDioService.fetchDataResponse(
-        '$appConfig/profile/me',
+        url,
         data: data,
         headers: {
           'Authorization': 'Bearer $token',
           'Content-Type': 'application/json',
-          'Accept-Language': language ?? 'en',
+          'Accept-Language': language,
         },
       );
+      if (res.data is String && res.data.toString().startsWith('<!DOCTYPE')) {
+        throw Exception("Received HTML instead of JSON. Check API route or token.");
+      }
 
-      print("🔎 Response status: ${res.statusCode}");
-      print("📦 Response data: ${res.data}");
+      print('Status code: ${res.statusCode}');
+      print('Response: ${res.data}');
 
       if (res.statusCode == 200 || res.statusCode == 201) {
         var data = res.data;
+
         if (data is String) {
           return ProfileUserModel.fromJson(jsonDecode(data));
         } else if (data is Map<String, dynamic>) {
           return ProfileUserModel.fromJson(data);
         } else {
-          throw Exception('Unexpected data format: ${data.runtimeType}');
+          throw Exception('Unexpected data format');
         }
+      } else {
+        throw Exception('Unexpected status code: ${res.statusCode}');
       }
+
     } catch (e) {
-      print("❌ fetchProfile error: $e");
+      if (e is DioException) {
+        print('**********  Error fetchProfile *************${e.response}');
+      } else {
+        print('errorrrrrr  fetchProfile $e');
+      }
+
+      loaderController.loading(false);
     }
 
-    return null;
+    return ProfileUserModel();
   }
 
 

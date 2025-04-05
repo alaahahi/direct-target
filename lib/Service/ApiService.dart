@@ -18,15 +18,13 @@ class MyDioService {
 
   Future<void> setupDio() async {
     final appDocumentsDirectory = await getApplicationDocumentsDirectory();
-    final cachePath = '${appDocumentsDirectory.path}/cacheBox';  // الحصول على مسار صالح
+    final cachePath = '${appDocumentsDirectory.path}/cacheBox';
 
-    // تأكد من فتح صندوق Hive في المسار الجديد
     cacheBox = await Hive.openBox('cacheBox', path: cachePath);
 
-    // تحقق من فتح الكاش بنجاح
     print("تم فتح صندوق الكاش بنجاح في المسار: $cachePath");
 
-    final cacheStore = HiveCacheStore(cachePath); // استخدام المسار المناسب مع HiveCacheStore
+    final cacheStore = HiveCacheStore(cachePath);
 
     dio.interceptors.add(DioCacheInterceptor(
       options: CacheOptions(
@@ -93,7 +91,7 @@ class MyDioService {
 
       return response;
     } catch (e) {
-      print('Error fetching data: $e');
+      print('Error fetching data fetchDataResponse: $e');
       rethrow;
     }
   }

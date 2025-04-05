@@ -40,9 +40,9 @@ void main() async {
   Get.put(LoaderController());
   Get.put(ThemeController());
   Get.put(TokenController());
-  Get.put(ProfileCardController());
+  // Get.put(ProfileCardController());
   Get.put(AllSettingController(SettingsServices()));
-  Get.put(LanguageController());
+  // Get.put(LanguageController());
 
   runApp(const DirectTarget());
 }
