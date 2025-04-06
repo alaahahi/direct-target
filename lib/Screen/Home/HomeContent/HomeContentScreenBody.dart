@@ -120,7 +120,7 @@ class _HomeContentScreenBodyState extends State<HomeContentScreenBody> {
                     child: GestureDetector(
                       onTap: () {
                         Get.to(() => ServicesScreen(
-                            cardId: _appController.appCardValue.value));
+                            cardId: service.id!));
                       },
                       child:ClipRRect(
                         borderRadius: BorderRadius.circular(10.0),

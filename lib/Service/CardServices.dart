@@ -164,7 +164,7 @@ class CardServices extends GetxService  {
         print("Response: ${e.response}");
         print("Error Message: ${e.message}");
       } else {
-        print('Error in type $e');
+        print('Error in type fetchCard $e');
       }
 
       loaderController.loading(false);
@@ -205,7 +205,7 @@ class CardServices extends GetxService  {
         print("Response: ${e.response}");
         print("Error Message: ${e.message}");
       } else {
-        print('Error in type: $e');
+        print('Error in type fetchPopularService: $e');
       }
     }
 

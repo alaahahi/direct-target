@@ -342,18 +342,6 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                           );
                                         }
                                       },
-
-                                      // onPressed: () {
-                                      //   if (widget.appointmentId == null) {
-                                      //     appointmencontroller.createAppointment(
-                                      //       profileId: profcontroller.selectedCardId.value,
-                                      //       note: noteController.text,
-                                      //       start: "$selectedDate $selectedTime",
-                                      //       end: addHalfHour("$selectedDate $selectedTime"),
-                                      //       serviceProviderId: widget.doctorId,
-                                      //     );
-                                      //   }
-                                      // },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: PrimaryColor,
                                         shape: RoundedRectangleBorder(

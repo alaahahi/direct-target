@@ -44,7 +44,7 @@ class PopularServiceData {
   String? descriptionEn;
   String? specialtyEn;
   String? currency;
-  int? isPopular;
+  bool? isPopular;
   int? categoryId;
   String? reviewRate;
   int? exYear;

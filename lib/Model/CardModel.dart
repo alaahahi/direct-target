@@ -1,3 +1,5 @@
+
+
 class CardModel {
   String? status;
   List<CardData>? CardsData;
@@ -36,6 +38,8 @@ class CardData {
   String? updatedAt;
   String? image;
   String? currency;
+  String? descriptionAr;
+  String? descriptionEn;
   String? name;
 
   CardData(
@@ -50,6 +54,8 @@ class CardData {
         this.updatedAt,
         this.image,
         this.currency,
+        this.descriptionAr,
+        this.descriptionEn,
         this.name});
 
   CardData.fromJson(Map<String, dynamic> json) {
@@ -64,6 +70,8 @@ class CardData {
     updatedAt = json['updated_at'];
     image = json['image'];
     currency = json['currency'];
+    descriptionAr = json['description_ar'];
+    descriptionEn = json['description_en'];
     name = json['name'];
   }
 
@@ -80,7 +88,10 @@ class CardData {
     data['updated_at'] = this.updatedAt;
     data['image'] = this.image;
     data['currency'] = this.currency;
+    data['description_ar'] = this.descriptionAr;
+    data['description_en'] = this.descriptionEn;
     data['name'] = this.name;
     return data;
   }
 }
+

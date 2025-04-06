@@ -10,6 +10,7 @@ import '../RequestCard/RequestScreen.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'CategoryDetailsScreen.dart';
 class ServicesScreen extends StatefulWidget {
   final int cardId;
@@ -60,7 +61,7 @@ class _ServicesScreenState  extends State<ServicesScreen> {
                     children: [
                       Container(
                         width: double.infinity,
-                        height: 400,
+                        height: 450,
                         child: Card(
                           margin: EdgeInsets.all(16.0),
                           elevation: 5,
@@ -90,7 +91,13 @@ class _ServicesScreenState  extends State<ServicesScreen> {
                                         color:  Colors.black,),
                                     ),
                                     SizedBox(height: 10),
-                                    Text("Price: ${selectedCard.price}".tr, style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold,
+                                    HtmlWidget(
+                                      selectedCard.descriptionAr ?? "No description",
+                                      textStyle: TextStyle(color: Colors.black87),
+                                    ),
+
+                                    SizedBox(height: 10),
+                                    Text("Price: ".tr + "${selectedCard.price}  ${selectedCard.currency}", style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold,
                                       color:  Colors.black,),),
                                     SizedBox(height: 10),
                                   ],
@@ -103,7 +110,8 @@ class _ServicesScreenState  extends State<ServicesScreen> {
                       Container(
                         height: 50,
                         width: MediaQuery.of(context).size.width * 0.9,
-                        child: ElevatedButton(
+                        child: selectedCard.showOnApp == true
+                            ? ElevatedButton(
                           onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => RequestScreen())),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: PrimaryColor,
@@ -113,8 +121,10 @@ class _ServicesScreenState  extends State<ServicesScreen> {
                             "Request Card".tr,
                             style: Theme.of(context).textTheme.titleMedium?.copyWith(color: LightGrey),
                           ),
-                        ),
+                        )
+                            : SizedBox.shrink(),
                       ),
+
                       SizedBox(height: 10),
                       Padding(
                         padding: const EdgeInsets.all(20.0),

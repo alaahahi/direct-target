@@ -10,8 +10,19 @@ import '../Service/ProfileUserServices.dart';
 import 'LoaderController.dart';
 import 'MessageHandlerController.dart';
 import 'dart:developer';
+import 'package:restart_app/restart_app.dart';
 import 'package:dio/dio.dart' as dio;
-
+import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
+import '../Model/ProfileUserModel.dart';
+import '../Service/ProfileUserServices.dart';
+import 'package:flutter/material.dart';
+import '../Routes/Routes.dart';
+import 'LoaderController.dart';
+import 'MessageHandlerController.dart';
+import 'dart:developer';
+import 'package:dio/dio.dart' as dio;
+import 'package:restart_app/restart_app.dart';
 
 class ProfileCardController extends GetxController {
   LoaderController loaderController = Get.put(LoaderController());
@@ -21,10 +32,10 @@ class ProfileCardController extends GetxController {
   var cardsList = <ProfileData>[].obs;
   var selectedCardId = 0.obs;
   var cardId = 0.obs;
+  var profile = ProfileUserModel().obs;
   var isLoading = true.obs;
 
-  var profile = ProfileUserModel().obs;
-
+  var token = ''.obs;
   final ProfileUserService _profileService = ProfileUserService();
   @override
   void onInit() {
@@ -69,7 +80,7 @@ class ProfileCardController extends GetxController {
       var response = await ProfileService().updateProfile(request);
       Get.snackbar(
         'The operation was completed successfully'.tr,
-        'Your profile has been modified'.tr,
+        'success'.tr,
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.green,
         colorText: Colors.white,
@@ -91,4 +102,36 @@ class ProfileCardController extends GetxController {
       loaderController.loading(false);
     }
   }
+
+  Future<dynamic> deleteProfile({required String phoneNumber, required String verificationCode,required String sms}) async {
+    loaderController.loading(true);
+    dio.FormData request = dio.FormData.fromMap({'phone_number': phoneNumber,'verification_code':verificationCode,'sms':sms=='sms' ? 1 : 0});
+    var response = await ProfileUserService().deleteProfile(request);
+    try {
+      Get.snackbar(
+        'Success',
+        'The account has been deleted.'.tr,
+        snackPosition: SnackPosition.TOP,
+        backgroundColor: Colors.green,
+        colorText: Colors.white,
+        duration: Duration(seconds: 5),
+      );
+      box.remove('token');
+      token.value = '';
+      print("User logged out");
+      Restart.restartApp();
+
+    } catch (e) {
+      if (e is dio.DioException) {
+        log(e.toString());
+        msgController.showErrorMessage(e.response?.statusCode.toString() ??   'Unknown error'.tr, e.message ?? "");
+      } else {
+        msgController.showErrorMessage(  'Unknown error'.tr, e.toString());
+      }
+    }
+    finally {
+      loaderController.loading(false);
+    }
+  }
+
 }

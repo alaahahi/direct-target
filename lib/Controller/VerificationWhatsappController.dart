@@ -12,7 +12,7 @@ import 'ProfileCardController.dart';
 import 'TokenController.dart';
 import 'dart:async';
 import 'package:firebase_messaging/firebase_messaging.dart';
-
+import 'package:restart_app/restart_app.dart';
 class VerificationWhatsappController extends GetxController {
   final VerificationService _verificationService = VerificationService();
   var isLoading = false.obs;
@@ -124,9 +124,9 @@ class VerificationWhatsappController extends GetxController {
         box.write('isAdmin', isAdmin);
         box.write('verificationCode', verificationCode);
         name.value = response.user?.name ?? "اسم غير متوفر";
-        gender.value = response.user?.gender ?? 0; // إذا كانت قيمة gender null، استخدم 0 كقيمة افتراضية
-        weight.value = response.user?.weight ?? 0; // إذا كانت قيمة weight null، استخدم 0 كقيمة افتراضية
-        height.value = response.user?.height ?? 0; // إذا كانت قيمة height null، استخدم 0 كقيمة افتراضية
+        gender.value = response.user?.gender ?? 0;
+        weight.value = response.user?.weight ?? 0;
+        height.value = response.user?.height ?? 0;
 
         token.value = response.token ?? "";
 
@@ -134,6 +134,9 @@ class VerificationWhatsappController extends GetxController {
         print("User Name: ${name.value}");
         print("Network Name: ${network.value}");
         print("Device Name: ${device.value}");
+        print("weight : ${gender.value}");
+        print("gender: ${weight.value}");
+        print("height: ${height.value}");
         print("Token: ${token.value}");
         box.write('storeFcmToken', storeFcmToken.value);
 
@@ -141,13 +144,16 @@ class VerificationWhatsappController extends GetxController {
           tokenController.saveToken(token.value);
           final profileData = {
             'name': name.value,
+            'gender':gender.value,
+            'weight':weight.value,
+            'height':height.value,
             'fcm_token': storeFcmToken.value,
             'network': network.value,
             'device': device.value
           };
-
-          Get.offAllNamed(AppRoutes.homescreen);
+          print(box.getKeys());
           await _profileController.updateProfile(profileData);
+          Restart.restartApp();
         }
 
       } else {

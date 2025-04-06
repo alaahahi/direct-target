@@ -34,13 +34,13 @@ class LanguageController extends GetxController {
     update();
 
     Future.delayed(Duration(milliseconds: 300), () async {
-      final cardService = Get.find<CardServices>();
+      Get.put(CardServices());
       Get.find<CardController>().getCards();
       Get.find<CardController>().getCardServices(_appController.appCardValue.value);
       Get.find<CardController>().getPopularService();
-
       update();
     });
   }
+
 
 }

@@ -31,16 +31,16 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
               items: [
                 _controller.firstAdsImageUrl.value.isNotEmpty
                     ? ShimmerImage(imageUrl: _controller.firstAdsImageUrl.value)
-                    : ShimmerImage(imageUrl: 'Assets/images/2.jpg'),
+                    : ShimmerImage(imageUrl: 'Assets/images/1.jpg'),
                 _controller.secondAdsImageUrl.value.isNotEmpty
                     ? ShimmerImage(imageUrl: _controller.secondAdsImageUrl.value)
-                    : ShimmerImage(imageUrl: 'Assets/images/2.jpg'),
+                    : ShimmerImage(imageUrl: 'Assets/images/1.jpg'),
                 _controller.thirdAdsImageUrl.value.isNotEmpty
                     ? ShimmerImage(imageUrl: _controller.thirdAdsImageUrl.value)
-                    : ShimmerImage(imageUrl: 'Assets/images/2.jpg'),
+                    : ShimmerImage(imageUrl: 'Assets/images/1.jpg'),
                 _controller.fourthAdsImageUrl.value.isNotEmpty
                     ? ShimmerImage(imageUrl: _controller.fourthAdsImageUrl.value)
-                    : ShimmerImage(imageUrl: 'Assets/images/2.jpg'),
+                    : ShimmerImage(imageUrl: 'Assets/images/1.jpg'),
               ].map((item) {
                 return Builder(
                   builder: (BuildContext context) {

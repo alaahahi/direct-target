@@ -158,7 +158,8 @@ final Map<String, String> en = {
   "Language":"Language",
   "Privacy & Policy":"Privacy & Policy",
   "Terms & Condition":"Terms & Condition",
-  "Are you sure you want to log out?":"Are you sure you want to log out?",
+  "Are you sure you want to Logout?":"Are you sure you want to Logout?",
+  "Are you sure you want to Delete Account?": "Are you sure you want to Delete Account?",
   "No":"No",
   "Yes":"Yes",
   "The code was sent successfully":"The code was sent successfully",
@@ -213,8 +214,7 @@ final Map<String, String> en = {
   "Card Price: ":"Card Price: ",
   'No services found.':'No services found.',
   "Search for a service...":"Search for a service...",
-
-
+  "Price: ":"Price: "
 
 
 }
@@ -372,7 +372,8 @@ final Map<String, String> ar = {
   "Language": "اللغة",
   "Privacy & Policy": "الخصوصية والسياسة",
   "Terms & Condition": "الشروط والأحكام",
-  "Are you sure you want to log out?": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+  "Are you sure you want to Logout?": "هل أنت متأكد أنك تريد تسجيل الخروج؟",
+  "Are you sure you want to Delete Account?":"هل انت متأكد أنك تريد حذف حسابك ؟",
   "No": "لا",
   "Yes": "نعم",
   "The code was sent successfully":"تم إرسال الرمز بنجاح",
@@ -425,6 +426,7 @@ final Map<String, String> ar = {
   "Card Price: " :  "سعر البطاقة: ",
   "No services found." : "لم يتم العثور على خدمات.",
   "Search for a service...":"ابحث عن خدمة ...",
+  "Price: ":"السعر: "
 }
 ;
 

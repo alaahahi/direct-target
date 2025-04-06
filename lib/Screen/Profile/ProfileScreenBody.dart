@@ -7,6 +7,7 @@ import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
+import '../../Controller/ProfileCardController.dart';
 import '../../Controller/ProfileUserController.dart';
 import '../../Controller/TokenController.dart';
 import '../../Controller/VerificationWhatsappController.dart';
@@ -23,8 +24,8 @@ class ProfileScreenBody extends StatefulWidget {
 class _ProfileScreenBodyState extends State<ProfileScreenBody> {
   final VerificationWhatsappController controller =
   Get.put(VerificationWhatsappController());
-  final ProfileUserController profileController =
-  Get.put(ProfileUserController());
+  final ProfileCardController profileController =
+  Get.put(ProfileCardController());
   final TokenController tokenController = Get.put(TokenController());
   final box = GetStorage();
   @override
@@ -127,7 +128,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
                       mainAxisAlignment: MainAxisAlignment.center,
                       children: [
                         Directionality(
-                          textDirection: TextDirection.ltr, // فرض الاتجاه من اليسار إلى اليمين
+                          textDirection: TextDirection.ltr,
                           child: Text(
                             "${profile.phoneNumber ?? 'N/A'}".tr,
                             style: TextStyle(color: LightGrey),
@@ -388,23 +389,98 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
                     if (profile != null && profile.data != null) {
                       return Column(
                         children: [
+
                           InkWell(
                             onTap: () {
                               Get.defaultDialog(
                                 title: "Confirm Delete Account".tr,
-                                middleText: "Are you sure you want to Delete Account?".tr,
-                                textCancel: "No".tr,
-                                textConfirm: "Yes".tr,
-                                confirmTextColor: Colors.white,
-                                onConfirm: () {
-                                  profileController.deleteProfile(
-                                      phoneNumber: profile.data?.phoneNumber ?? '',
-                                      verificationCode: box.read('verificationCode'),
-                                      sms: profile.data?.verificationUserType ?? ''
-                                  );
-
-                                  Get.back();
-                                },
+                                titleStyle: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black87,
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                                content: TweenAnimationBuilder(
+                                  tween: Tween<double>(begin: 0.5, end: 1.0),
+                                  duration: Duration(milliseconds: 300),
+                                  builder: (context, value, child) {
+                                    return Transform.scale(
+                                      scale: value,
+                                      child: Container(
+                                        width: 400,
+                                        height: 250,
+                                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                                        child: Column(
+                                          children: [
+                                            const SizedBox(height: 20),
+                                            Text(
+                                              "Are you sure you want to Delete Account?".tr,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black54,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 50),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(
+                                                    backgroundColor: Colors.grey[300],
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(20),
+                                                    ),
+                                                    padding: EdgeInsets.symmetric(horizontal: 25, vertical: 12),
+                                                    shadowColor: Colors.black.withOpacity(0.1),
+                                                    elevation: 5,
+                                                  ),
+                                                  onPressed: () => Get.back(),
+                                                  child: Text(
+                                                    "No".tr,
+                                                    style: TextStyle(
+                                                      color: Colors.black87,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                                ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(
+                                                    backgroundColor: PrimaryColor,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(20),
+                                                    ),
+                                                    padding: EdgeInsets.symmetric(horizontal: 25, vertical: 12),
+                                                    shadowColor: Colors.black.withOpacity(0.1),
+                                                    elevation: 5,
+                                                  ),
+                                                  onPressed: () {
+                                                    profileController.deleteProfile(
+                                                      phoneNumber: profile.data?.phoneNumber ?? '',
+                                                      verificationCode: box.read('verificationCode'),
+                                                      sms: profile.data?.verificationUserType ?? '',
+                                                    );
+                                                    Get.back();
+                                                  },
+                                                  child: Text(
+                                                    "Yes".tr,
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                                radius: 15,
+                                barrierDismissible: false,
+                                backgroundColor: Colors.white,
                               );
                             },
                             child: ProfileList(
@@ -414,7 +490,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
                               textColor: Colors.red,
                             ),
                           ),
-                          const Padding(
+                  const Padding(
                             padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
                             child: Divider(),
                           ),
@@ -422,30 +498,106 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
                             onTap: () {
                               Get.defaultDialog(
                                 title: "Confirm Logout".tr,
-                                middleText: "Are you sure you want to log out?".tr,
-                                textCancel: "No".tr,
-                                textConfirm: "Yes".tr,
-                                confirmTextColor: Colors.white,
-                                onConfirm: () {
-                                  controller.logout();
-                                  Get.back();
-                                },
+                                titleStyle: TextStyle(
+                                  fontSize: 22,
+                                  fontWeight: FontWeight.bold,
+                                  color: Colors.black87,
+                                ),
+                                contentPadding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                                content: TweenAnimationBuilder(
+                                  tween: Tween<double>(begin: 0.5, end: 1.0),
+                                  duration: Duration(milliseconds: 300),
+                                  builder: (context, value, child) {
+                                    return Transform.scale(
+                                      scale: value,
+                                      child: Container(
+                                        width: 400,
+                                        height: 250,
+                                        padding: const EdgeInsets.symmetric(horizontal: 20, vertical: 30),
+                                        child: Column(
+                                          children: [
+                                            const SizedBox(height: 20),
+                                            Text(
+                                              "Are you sure you want to Logout?".tr,
+                                              textAlign: TextAlign.center,
+                                              style: TextStyle(
+                                                fontSize: 16,
+                                                color: Colors.black54,
+                                              ),
+                                            ),
+                                            const SizedBox(height: 50),
+                                            Row(
+                                              mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+                                              children: [
+                                                ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(
+                                                    backgroundColor: Colors.grey[300],
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(20),
+                                                    ),
+                                                    padding: EdgeInsets.symmetric(horizontal: 25, vertical: 12),
+                                                    shadowColor: Colors.black.withOpacity(0.1),
+                                                    elevation: 5,
+                                                  ),
+                                                  onPressed: () => Get.back(),
+                                                  child: Text(
+                                                    "No".tr,
+                                                    style: TextStyle(
+                                                      color: Colors.black87,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                                ElevatedButton(
+                                                  style: ElevatedButton.styleFrom(
+                                                    backgroundColor: PrimaryColor,
+                                                    shape: RoundedRectangleBorder(
+                                                      borderRadius: BorderRadius.circular(20),
+                                                    ),
+                                                    padding: EdgeInsets.symmetric(horizontal: 25, vertical: 12),
+                                                    shadowColor: Colors.black.withOpacity(0.1),
+                                                    elevation: 5,
+                                                  ),
+                                                  onPressed: () {
+                                                    controller.logout();
+                                                    Get.back();
+                                                  },
+                                                  child: Text(
+                                                    "Yes".tr,
+                                                    style: TextStyle(
+                                                      color: Colors.white,
+                                                      fontWeight: FontWeight.bold,
+                                                    ),
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ],
+                                        ),
+                                      ),
+                                    );
+                                  },
+                                ),
+                                radius: 15,
+                                barrierDismissible: false,
+                                backgroundColor: Colors.white,
                               );
                             },
                             child: ProfileList(
                               icon: Icons.logout,
-                              title: "Log out".tr,
-                              iconColor: Colors.deepOrange,
+                              title: "Logout".tr,
+                              iconColor: Colors.orangeAccent,
                               textColor: Colors.red,
                             ),
                           ),
+
                         ],
                       );
                     } else {
-                      return SizedBox.shrink(); // Profile or data is null, return an empty widget
+                      return SizedBox.shrink();
                     }
                   }
-                  return SizedBox.shrink(); // Token is empty, return an empty widget
+                  return SizedBox.shrink();
                 }),
 
                 SizedBox(height: 50),

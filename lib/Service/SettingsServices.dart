@@ -47,7 +47,7 @@ class SettingsServices {
         print("Response: ${e.response}");
         print("Error Message: ${e.message}");
       } else {
-        print('Error in type $e');
+        print('Error in type fetchAppSettings $e');
       }
 
       loaderController.loading(false);
