@@ -8,6 +8,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:direct_target/Controller/MessageHandlerController.dart';
 import 'package:hexcolor/hexcolor.dart';
 import '../Model/AllSettingModel.dart';
+import '../Service/ApiService.dart';
 import '../Service/SettingsServices.dart';
 import 'LoaderController.dart';
 import 'ThemeController.dart';
@@ -56,25 +57,40 @@ class AllSettingController extends GetxController {
   var PrimaryHexColor = ''.obs;
 
   AllSettingController(this._service);
+
+
+  final MyDioService dioService = MyDioService(dio.Dio());
+
   @override
   void onInit() {
     super.onInit();
-    _getFirstWelcomeImage();
-    _getSecondWelcomeImage();
-    _getThirdWelcomeImage();
-    _getFirstAdsImage();
-    _getSecondAdsImage();
-    _getThirdAdsImage();
-    _getFourthAdsImage();
-    _getTermsConditionsUrl();
-    _getPrivacyPolicyUrl();
-    _getAppVersion();
-    getContactPhone();
-    getContactEmail();
-    getAppName();
-    getAppSetting();
-    _getPrivacyPolicyEnUrl();
-    _getTermsConditionsEnUrl();
+    loadData();
+  }
+
+  Future<void> loadData() async {
+    try {
+      await dioService.setupDio();
+      await Future.wait([
+        _getFirstWelcomeImage(),
+        _getSecondWelcomeImage(),
+        _getThirdWelcomeImage(),
+        _getFirstAdsImage(),
+        _getSecondAdsImage(),
+        _getThirdAdsImage(),
+        _getFourthAdsImage(),
+        _getTermsConditionsUrl(),
+        _getPrivacyPolicyUrl(),
+        _getAppVersion(),
+        getContactPhone(),
+        getContactEmail(),
+        getAppName(),
+        getAppSetting(),
+        _getPrivacyPolicyEnUrl(),
+        _getTermsConditionsEnUrl(),
+      ]);
+    } catch (e) {
+      print("Error loading data: $e");
+    }
   }
 
   Future<dynamic> getAllSettings() async {

@@ -3,14 +3,15 @@ import 'package:get/get.dart';
 import '../../Controller/AppointmentController.dart';
 import '../../Controller/CardController.dart';
 import '../../Controller/LoaderController.dart';
+import '../../Routes/Routes.dart';
 import '../../Service/CardServices.dart';
 import '../../Utils/AppStyle.dart';
 import '../../Widgets/CategoryList.dart';
+import '../../Widgets/DoctorList.dart';
 import '../RequestCard/RequestScreen.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
-import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'CategoryDetailsScreen.dart';
 class ServicesScreen extends StatefulWidget {
   final int cardId;
@@ -20,31 +21,45 @@ class ServicesScreen extends StatefulWidget {
   State<ServicesScreen> createState() => _ServicesScreenState();
 }
 
-class _ServicesScreenState  extends State<ServicesScreen> {
+class _ServicesScreenState extends State<ServicesScreen> {
   LoaderController loaderController = Get.put(LoaderController());
   final CardController cardController = Get.put(CardController(CardServices()));
-  final AppointmentController appointmentController = Get.put(AppointmentController());
+
+  @override
+  void initState() {
+    super.initState();
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      cardController.getCardServices(widget.cardId);
+    });
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: NestedScrollView(
-        headerSliverBuilder: (context, innerBoxIsScrolled) {
-          return [
-            SliverAppBar(
-              floating: false,
-              pinned: true,
-              expandedHeight: 100,
-              leading: IconButton(
-                icon: Icon(Icons.arrow_back_ios, color: Theme.of(context).textTheme.bodyMedium?.color),
-                onPressed: () => Get.back(),
+          headerSliverBuilder: (context, innerBoxIsScrolled) {
+            return [
+              SliverAppBar(
+                floating: false,
+                pinned: true,
+                expandedHeight: 100,
+                leading: IconButton(
+                  icon: Icon(
+                    Icons.arrow_back_ios,
+                    color: Theme.of(context).textTheme.bodyMedium?.color,
+                  ),
+                  onPressed: () {
+                    Get.offAllNamed(AppRoutes.homescreen);
+                  },
+                ),
+
+                title: Text("Services of Card".tr, style: Theme.of(context).textTheme.headlineLarge),
+                centerTitle: true,
               ),
-              title: Text("Services of Card".tr, style: Theme.of(context).textTheme.headlineLarge),
-              centerTitle: true,
-            ),
-          ];
-        },
-        body: GetBuilder<CardController>(
+            ];
+          },
+
+          body: GetBuilder<CardController>(
           builder: (cardController) {
             final selectedCard = cardController.allCardList?.firstWhereOrNull((card) => card.id == widget.cardId);
 
@@ -61,7 +76,7 @@ class _ServicesScreenState  extends State<ServicesScreen> {
                     children: [
                       Container(
                         width: double.infinity,
-                        height: 450,
+                        height: 400,
                         child: Card(
                           margin: EdgeInsets.all(16.0),
                           elevation: 5,
@@ -91,13 +106,7 @@ class _ServicesScreenState  extends State<ServicesScreen> {
                                         color:  Colors.black,),
                                     ),
                                     SizedBox(height: 10),
-                                    HtmlWidget(
-                                      selectedCard.descriptionAr ?? "No description",
-                                      textStyle: TextStyle(color: Colors.black87),
-                                    ),
-
-                                    SizedBox(height: 10),
-                                    Text("Price: ".tr + "${selectedCard.price}  ${selectedCard.currency}", style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold,
+                                    Text("Price: ${selectedCard.price}".tr, style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold,
                                       color:  Colors.black,),),
                                     SizedBox(height: 10),
                                   ],
@@ -110,8 +119,7 @@ class _ServicesScreenState  extends State<ServicesScreen> {
                       Container(
                         height: 50,
                         width: MediaQuery.of(context).size.width * 0.9,
-                        child: selectedCard.showOnApp == true
-                            ? ElevatedButton(
+                        child: ElevatedButton(
                           onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => RequestScreen())),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: PrimaryColor,
@@ -121,10 +129,8 @@ class _ServicesScreenState  extends State<ServicesScreen> {
                             "Request Card".tr,
                             style: Theme.of(context).textTheme.titleMedium?.copyWith(color: LightGrey),
                           ),
-                        )
-                            : SizedBox.shrink(),
+                        ),
                       ),
-
                       SizedBox(height: 10),
                       Padding(
                         padding: const EdgeInsets.all(20.0),

@@ -5,6 +5,7 @@ import '../Model/ProfileCardModel.dart';
 import '../Model/ProfileUserModel.dart';
 import '../Model/UpdateProfileModel.dart';
 import '../Routes/Routes.dart';
+import '../Service/ApiService.dart';
 import '../Service/ProfileCardServices.dart';
 import '../Service/ProfileUserServices.dart';
 import 'LoaderController.dart';
@@ -12,20 +13,13 @@ import 'MessageHandlerController.dart';
 import 'dart:developer';
 import 'package:restart_app/restart_app.dart';
 import 'package:dio/dio.dart' as dio;
-import 'package:get/get.dart';
-import 'package:get_storage/get_storage.dart';
-import '../Model/ProfileUserModel.dart';
-import '../Service/ProfileUserServices.dart';
-import 'package:flutter/material.dart';
-import '../Routes/Routes.dart';
-import 'LoaderController.dart';
-import 'MessageHandlerController.dart';
-import 'dart:developer';
-import 'package:dio/dio.dart' as dio;
-import 'package:restart_app/restart_app.dart';
+
+import 'TokenController.dart';
+
 
 class ProfileCardController extends GetxController {
   LoaderController loaderController = Get.put(LoaderController());
+  final tokenController = Get.find<TokenController>();
   MessagesHandlerController msgController =
   Get.put(MessagesHandlerController());
   GetStorage box = GetStorage();
@@ -37,15 +31,37 @@ class ProfileCardController extends GetxController {
 
   var token = ''.obs;
   final ProfileUserService _profileService = ProfileUserService();
+
+  final MyDioService dioService = MyDioService(dio.Dio());
+
   @override
   void onInit() {
     super.onInit();
-    fetchProfile();
-    fetchCards();
+
+    loadData();
+
   }
+  Future<void> loadData() async {
+    try {
+      await dioService.setupDio();
+      await Future.wait([
+      fetchProfile(),
+      fetchCards(),     ]);
+    } catch (e) {
+      print("Error loading data: $e");
+    }
+  }
+
+
   Future<dynamic> fetchProfile() async {
     try {
       isLoading(true);
+      final token = await tokenController.getToken();
+      if (token == null || token.isEmpty) {
+
+        loaderController.loading(false);
+        return;
+      }
       var profileData = await _profileService.fetchProfile();
       profile.value = profileData;
     } catch (e) {
@@ -57,22 +73,37 @@ class ProfileCardController extends GetxController {
   }
 
 
-  Future<dynamic> fetchCards() async {
-    loaderController.loading(true);
-    var response = await ProfileService().fetchCards();
-    cardsList.assignAll(response.data!);
+  Future<void> fetchCards() async {
     try {
-      print(response.status);
-    } catch (e) {
-      if (e is dio.DioException) {
-        log(e.toString());
-        msgController.showErrorMessage(response.status, response.status);
-      } else {
-        msgController.showErrorMessage(response.status, response.status);
+      loaderController.loading(true);
+      final token = await tokenController.getToken();
+      if (token == null || token.isEmpty) {
+
+        loaderController.loading(false);
+        return;
       }
+      var response = await ProfileService().fetchCards();
+      if (response.data == null || response.data is! List) {
+        msgController.showErrorMessage("Error", "Invalid response format. Please login again.");
+        loaderController.loading(false);
+        return;
+      }
+
+      cardsList.assignAll(response.data!);
+      print("Cards fetched successfully: ${response.status}");
+    } catch (e) {
+      log("fetchCards Exception: $e");
+
+      if (e is dio.DioException) {
+        msgController.showErrorMessage("Network Error", e.message ?? "Unknown error");
+      } else {
+        msgController.showErrorMessage("Error", "Something went wrong.");
+      }
+    } finally {
       loaderController.loading(false);
     }
   }
+
   Future<dynamic> updateProfile(Map<String, dynamic> profileData) async {
     try {
       loaderController.loading(true);

@@ -1,5 +1,4 @@
 import 'package:direct_target/Controller/AllSettingController.dart';
-import 'package:direct_target/Controller/CardController.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/rendering.dart';
 import 'package:direct_target/Screen/SplashScreen.dart';
@@ -7,52 +6,47 @@ import 'package:get_storage/get_storage.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
-import 'package:hive/hive.dart';
-import 'package:hive_flutter/adapters.dart';
 import 'Controller/CheckInternetController.dart';
-import 'Controller/LanguageController.dart';
 import 'Controller/LoaderController.dart';
 import 'Controller/ProfileCardController.dart';
 import 'Controller/ThemeController.dart';
 import 'Controller/TokenController.dart';
 import 'Routes/Pages.dart';
 import 'Service/ApiService.dart';
-import 'Service/CardServices.dart';
-import 'Service/ProfileUserServices.dart';
 import 'Service/SettingsServices.dart';
 import 'Translation/AppTranslation.dart';
 import 'Service/NotificationService.dart';
-import 'package:hive_flutter/hive_flutter.dart';
-
-import 'package:path_provider/path_provider.dart';
 import 'package:dio/dio.dart';
 
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+
   Dio dio = Dio();
   MyDioService dioService = MyDioService(dio);
 
-  await dioService.setupDio();
+  // تأكد من أن dioService مهيأ بشكل صحيح قبل أي عملية أخرى
+  await dioService.setupDio();  // تأكد من أن التهيئة تمت قبل بدء التطبيق
 
-  Get.put(InternetController());
+  // الآن قم بإضافة الكائن إلى GetX
+  Get.put(dioService);
+
+  // تأكد من تهيئة باقي الخدمات
   await Firebase.initializeApp();
   await NotificationService.instance.initialize();
   await GetStorage.init();
+
+  await Get.put(InternetController());
   await Get.put(LoaderController());
-  await Get.put(AllSettingController(SettingsServices()));
-
   await Get.put(ThemeController());
-
   await Get.put(TokenController());
-  // Get.put(LanguageController());
-  await  Get.put(ProfileCardController());
-
-  //
- // Get.put(CardController(CardServices()));
+  await Get.put(ProfileCardController());
+  await Get.put(AllSettingController(SettingsServices()));
 
   runApp(const DirectTarget());
 }
+
+
 
 
 class DirectTarget extends StatelessWidget {

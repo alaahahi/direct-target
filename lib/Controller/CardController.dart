@@ -10,6 +10,7 @@ import '../Model/AllCardServicesModel.dart';
 import '../Model/ProfileCardModel.dart';
 import '../Model/RequestCardModel.dart';
 import '../Routes/Routes.dart';
+import '../Service/ApiService.dart';
 import '../Service/CardServices.dart';
 import '../Service/ProfileCardServices.dart';
 import '../Service/SettingsServices.dart';
@@ -17,6 +18,7 @@ import 'AllSettingController.dart';
 import 'LoaderController.dart';
 import 'package:path/path.dart' as path;
 import '../Model/ServiceModel.dart';
+
 class CardController extends GetxController {
   LoaderController loaderController = Get.put(LoaderController());
   MessagesHandlerController msgController =
@@ -30,7 +32,7 @@ class CardController extends GetxController {
   var isLoading = false.obs;
   List<CardData>? allCardList = [];
   List<AllCardServicesData>? categoryList = [];
-  List<AllCardServicesData>? searchServicesList = [];
+  List<AllCardServicesData>? categoryCardList = [];  List<AllCardServicesData>? searchServicesList = [];
   List<PopularServiceData>? allServicesList = [];
   List<ProfileData>? allMyCardList = [];
   CardController(this._service);
@@ -38,27 +40,27 @@ class CardController extends GetxController {
   GetStorage storage = GetStorage();
   var services = <Service>[].obs;
   List<Services> selectedServices = [];
-
-
-
+  final MyDioService dioService = Get.find<MyDioService>();
   @override
   void onInit() {
     super.onInit();
-
     loadData();
-    fetchMyCards();
   }
+
   Future<void> loadData() async {
     try {
+      await dioService.setupDio();
       await Future.wait([
         getCards(),
         getPopularService(),
-        getCardServices(_appController.appCardValue.value),
+        getCardCategoryServices(_appController.appCardValue.value),
+        fetchMyCards(),
       ]);
     } catch (e) {
       print("Error loading data: $e");
     }
   }
+
   void updateSelectedCategory(String category) {
     selectedCategory = category;
     update();
@@ -140,32 +142,13 @@ class CardController extends GetxController {
     update();
     loaderController.loading(false);
   }
-
-
-  void setSelectedCategory(String categoryName, List<Services> services) {
-    selectedCategory = categoryName;
-    selectedServices = services;
-    update();
-  }
-  List<int> expandedCategories = [];
-  List<int> expandedSubcategories = [];
-
-  void toggleCategory(int categoryId) {
-    if (expandedCategories.contains(categoryId)) {
-      expandedCategories.remove(categoryId);
-    } else {
-      expandedCategories.add(categoryId);
-    }
-    update();
-  }
-
   Future<dynamic> getCardServices(int cardId) async {
     loaderController.loading(true);
     update();
     try {
       var res = await CardServices().fetchListAllServices(cardId);
       categoryList = res?.data;
-      print('Fetched Data Length: ${categoryList?.length}');
+      print('Fetched Data Length getCardServices ${categoryList?.length}');
     } catch (e) {
       if (e is dio.DioException) {
         log(e.toString());
@@ -176,7 +159,23 @@ class CardController extends GetxController {
     update();
     loaderController.loading(false);
   }
-
+  Future<dynamic> getCardCategoryServices(int cardId) async {
+    loaderController.loading(true);
+    update();
+    try {
+      var res = await CardServices().fetchListAllServices(cardId);
+      categoryCardList = res?.data;
+      print('Fetched Data Length getCardServices ${categoryCardList?.length}');
+    } catch (e) {
+      if (e is dio.DioException) {
+        log(e.toString());
+      } else {
+        print('Error fetching data: $e');
+      }
+    }
+    update();
+    loaderController.loading(false);
+  }
   Future<dynamic> fetchMyCards() async {
     loaderController.loading(true);
     update();
@@ -195,6 +194,25 @@ class CardController extends GetxController {
     update();
     loaderController.loading(false);
   }
+
+  void setSelectedCategory(String categoryName, List<Services> services) {
+    selectedCategory = categoryName;
+    selectedServices = services;
+    update();
+  }
+  List<int> expandedCategories = [];
+  List<int> expandedSubcategories = [];
+
+  void toggleCategory(int categoryId) {
+    if (expandedCategories.contains(categoryId)) {
+      expandedCategories.remove(categoryId);
+    } else {
+      expandedCategories.add(categoryId);
+    }
+    update();
+  }
+
+
 
   void searchServices(String searchTerm) async {
     isLoading.value = true;

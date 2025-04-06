@@ -182,8 +182,8 @@ class _HomeContentScreenBodyState extends State<HomeContentScreenBody> {
                   child: CircularProgressIndicator(color: PrimaryColor),
                 );
               }
-              if (controller.categoryList == null ||
-                  controller.categoryList!.isEmpty) {
+              if (controller.categoryCardList == null ||
+                  controller.categoryCardList!.isEmpty) {
                 return Center(
                   child: Text(
                     "No data available".tr,
@@ -203,11 +203,11 @@ class _HomeContentScreenBodyState extends State<HomeContentScreenBody> {
                     height: 200,
                     child: ListView.builder(
                       scrollDirection: Axis.horizontal,
-                      itemCount: controller.categoryList?.length ??
+                      itemCount: controller.categoryCardList?.length ??
                           0,
                       itemBuilder: (context, index) {
                         final service = controller
-                            .categoryList![index];
+                            .categoryCardList![index];
 
                         return GestureDetector(
                           onTap: () {
