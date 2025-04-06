@@ -87,7 +87,7 @@ class CardController extends GetxController {
         'family_members_names': jsonEncode(cardRequest.familyMembersNames),
         'image': file,
         'is_admin': adminValue,
-        'card_id':_appController.appCardValue.value
+        'card_id':cardRequest.id
       });
       final response = await _service.RequestCard(formData);
 

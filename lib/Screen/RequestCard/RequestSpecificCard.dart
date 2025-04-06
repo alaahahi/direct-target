@@ -1,5 +1,6 @@
-import 'dart:io';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'dart:io';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
@@ -9,18 +10,20 @@ import '../../Controller/CardController.dart';
 import '../../Controller/TokenController.dart';
 import '../../Controller/VerificationWhatsappController.dart';
 import '../../Model/RequestCardModel.dart';
+import '../../Routes/Routes.dart';
 import '../../Service/CardServices.dart';
 import '../../Service/SettingsServices.dart';
 import '../../Widgets/AuthFormFiled.dart';
+class RequestSpecificCard extends StatefulWidget {
+  final int cardId;
 
-class RequestScreenBody extends StatefulWidget {
-  const RequestScreenBody({Key? key}) : super(key: key);
 
+  RequestSpecificCard({required this.cardId});
   @override
-  State<RequestScreenBody> createState() => _RequestScreenBodyState();
+  _RequestSpecificCardState createState() => _RequestSpecificCardState();
 }
 
-class _RequestScreenBodyState extends State<RequestScreenBody> {
+class _RequestSpecificCardState extends State<RequestSpecificCard> {
   String? userPhone;
   bool? isAdmin;
   final _formKey = GlobalKey<FormState>();
@@ -53,7 +56,6 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
   }
 
 
-
   @override
   void initState() {
     super.initState();
@@ -73,12 +75,33 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
       });
     }
   }
-
-
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
+    final int cardId = widget.cardId;
+    print("Card ID passed to RequestSpecificCard: $cardId");
 
+    return Scaffold(
+      appBar: AppBar(
+        leading: IconButton(
+            icon: Padding(
+              padding: const EdgeInsets.all(28.0),
+              child: Icon(
+                Icons.arrow_back_ios,
+                color: Theme.of(context).textTheme.bodyMedium?.color,
+                size: MediaQuery.of(context).size.height * 0.025,
+              ),
+            ),
+
+            onPressed: () =>   Get.offAllNamed(AppRoutes.homescreen)
+        ),
+        title: Text(
+          "Request Card".tr,
+          style: Theme.of(context).textTheme.headlineLarge,
+        ),
+        centerTitle: true,
+        elevation: 0,
+        toolbarHeight: 100,
+      ),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -204,17 +227,17 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
                               onPressed: () {
                                 if (_formKey.currentState!.validate()) {
                                   final cardRequest = RequestCardData(
-                                    name: _nameController.text,
-                                    phone:isAdmin! ? _phoneController.text : userPhone ,
-                                    address: _addressController.text,
-                                    familyMembersNames: familyNamesControllers.isNotEmpty
-                                        ? familyNamesControllers.map((controller) => controller.text.trim()).where((name) => name.isNotEmpty).toList()
-                                        : null,
-                                    cardNumber: tokenController.token.value.isNotEmpty && isAdmin!
-                                        ? _cardNumberController.text
-                                        : '',
-                                    image: _selectedImage?.path,
-                                    id:_appController.appCardValue.value
+                                      name: _nameController.text,
+                                      phone:isAdmin! ? _phoneController.text : userPhone ,
+                                      address: _addressController.text,
+                                      familyMembersNames: familyNamesControllers.isNotEmpty
+                                          ? familyNamesControllers.map((controller) => controller.text.trim()).where((name) => name.isNotEmpty).toList()
+                                          : null,
+                                      cardNumber: tokenController.token.value.isNotEmpty && isAdmin!
+                                          ? _cardNumberController.text
+                                          : '',
+                                      image: _selectedImage?.path,
+                                      id:cardId
                                   );
                                   _controller.RequestCard(cardRequest);
                                 }
@@ -351,7 +374,7 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
                                       ? familyNamesControllers.map((controller) => controller.text.trim()).where((name) => name.isNotEmpty).toList()
                                       : null,
                                   image: _selectedImage?.path,
-                                    id:_appController.appCardValue.value
+                                    id:cardId
                                 );
                                 _controller.RequestCard(cardRequest);
                               }
@@ -385,4 +408,3 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
     );
   }
 }
-

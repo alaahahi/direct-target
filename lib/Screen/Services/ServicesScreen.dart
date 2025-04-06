@@ -13,6 +13,7 @@ import '../RequestCard/RequestScreen.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
+import '../RequestCard/RequestSpecificCard.dart';
 import 'CategoryDetailsScreen.dart';
 class ServicesScreen extends StatefulWidget {
   final int cardId;
@@ -127,8 +128,9 @@ class _ServicesScreenState extends State<ServicesScreen> {
                       Container(
                         height: 50,
                         width: MediaQuery.of(context).size.width * 0.9,
-                        child: ElevatedButton(
-                          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => RequestScreen())),
+                        child: selectedCard.showOnApp == true
+                            ? ElevatedButton(
+                          onPressed: () => Navigator.push(context, MaterialPageRoute(builder: (context) => RequestSpecificCard(cardId: selectedCard.id!),)),
                           style: ElevatedButton.styleFrom(
                             backgroundColor: PrimaryColor,
                             shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(30)),
@@ -137,8 +139,10 @@ class _ServicesScreenState extends State<ServicesScreen> {
                             "Request Card".tr,
                             style: Theme.of(context).textTheme.titleMedium?.copyWith(color: LightGrey),
                           ),
-                        ),
+                        )
+                            : SizedBox.shrink(),
                       ),
+
                       SizedBox(height: 10),
                       Padding(
                         padding: const EdgeInsets.all(20.0),

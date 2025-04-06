@@ -228,7 +228,7 @@ class _HomeContentScreenBodyState extends State<HomeContentScreenBody> {
                             ),
                             child: Center(
                               child: ListIcons(
-                                icon: service.categoryIcon ?? "default",
+                                icon: service.categoryIcon ?? "Assets/icons/Hospital.png",
                                 text: service.categoryName ?? "No Name",
                                 categoryDiscount: service.categoryDiscount,
                                 textStyle: TextStyle(
