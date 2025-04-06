@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import '../../Controller/AppointmentController.dart';
 import '../../Controller/CardController.dart';
@@ -76,7 +77,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                     children: [
                       Container(
                         width: double.infinity,
-                        height: 400,
+                        height: 450,
                         child: Card(
                           margin: EdgeInsets.all(16.0),
                           elevation: 5,
@@ -106,9 +107,16 @@ class _ServicesScreenState extends State<ServicesScreen> {
                                         color:  Colors.black,),
                                     ),
                                     SizedBox(height: 10),
-                                    Text("Price: ${selectedCard.price}".tr, style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold,
+                                    HtmlWidget(
+                                      selectedCard.descriptionAr ?? "No description",
+                                      textStyle: TextStyle(color: Colors.black87),
+                                    ),
+
+                                    SizedBox(height: 10),
+                                    Text("Price: ".tr + "${selectedCard.price}  ${selectedCard.currency}", style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold,
                                       color:  Colors.black,),),
                                     SizedBox(height: 10),
+
                                   ],
                                 ),
                               ),
