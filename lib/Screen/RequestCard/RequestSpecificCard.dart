@@ -10,7 +10,6 @@ import '../../Controller/CardController.dart';
 import '../../Controller/TokenController.dart';
 import '../../Controller/VerificationWhatsappController.dart';
 import '../../Model/RequestCardModel.dart';
-import '../../Routes/Routes.dart';
 import '../../Service/CardServices.dart';
 import '../../Service/SettingsServices.dart';
 import '../../Widgets/AuthFormFiled.dart';
@@ -54,6 +53,21 @@ class _RequestSpecificCardState extends State<RequestSpecificCard> {
       }
     });
   }
+  bool isPhoneValid = false;
+  String? _validatePhone(String? value) {
+    if (value == null || value.isEmpty) {
+      return 'Phone number is required';
+    }
+    if (value.length != 10 || !RegExp(r'^[0-9]+$').hasMatch(value)) {
+      return 'Phone number must be 10 digits';
+    }
+    return null;
+  }
+  void _phoneListener() {
+    setState(() {
+      isPhoneValid = _phoneController.text.length == 10 && RegExp(r'^[0-9]+$').hasMatch(_phoneController.text);
+    });
+  }
 
 
   @override
@@ -61,10 +75,12 @@ class _RequestSpecificCardState extends State<RequestSpecificCard> {
     super.initState();
     GetStorage.init().then((_) {
       setState(() {
-        userPhone =  _userphoneController.phoneNumber.value;
+        userPhone = _userphoneController.phoneNumber.value;
         isAdmin = _userphoneController.isAdmin.value;
       });
     });
+
+    _phoneController.addListener(_phoneListener);
   }
 
   Future<void> _pickImage() async {
@@ -75,33 +91,13 @@ class _RequestSpecificCardState extends State<RequestSpecificCard> {
       });
     }
   }
+
+
   @override
   Widget build(BuildContext context) {
-    final int cardId = widget.cardId;
-    print("Card ID passed to RequestSpecificCard: $cardId");
-
+    final cardId = widget.cardId;
     return Scaffold(
-      appBar: AppBar(
-        leading: IconButton(
-            icon: Padding(
-              padding: const EdgeInsets.all(28.0),
-              child: Icon(
-                Icons.arrow_back_ios,
-                color: Theme.of(context).textTheme.bodyMedium?.color,
-                size: MediaQuery.of(context).size.height * 0.025,
-              ),
-            ),
 
-            onPressed: () =>   Get.offAllNamed(AppRoutes.homescreen)
-        ),
-        title: Text(
-          "Request Card".tr,
-          style: Theme.of(context).textTheme.headlineLarge,
-        ),
-        centerTitle: true,
-        elevation: 0,
-        toolbarHeight: 100,
-      ),
       body: Form(
         key: _formKey,
         child: SingleChildScrollView(
@@ -158,24 +154,26 @@ class _RequestSpecificCardState extends State<RequestSpecificCard> {
                           ),
                         ),
                         SizedBox(height: 20),
-
                         AuthFormField(
                           controller: _nameController,
-                          hint: 'Full Name'.tr, onChanged: (value) {  },
+                          hint: 'Full Name'.tr,
+                          onChanged: (value) {},
+                        ),
+                        SizedBox(height: 20),
+                        AuthFormField(
+                          controller: _phoneController,
+                          hint: 'Phone Number'.tr,
+                          onChanged: (value) {},
+                          validator: _validatePhone,
                         ),
                         SizedBox(height: 20),
                         AuthFormField(
                           controller: _addressController,
-                          hint: 'Address'.tr, onChanged: (value) {  },
+                          hint: 'Address'.tr,
+                          onChanged: (value) {},
                         ),
                         SizedBox(height: 20),
-                        if (isAdmin != null && isAdmin!)
-                          AuthFormField(
-                            controller: _phoneController,
-                            hint: 'Phone Number'.tr,
-                            onChanged: (value) {},
-                          ),
-                        SizedBox(height: 20),
+
                         if (isAdmin != null && isAdmin!)
                           AuthFormField(
                             controller: _cardNumberController,
@@ -183,6 +181,7 @@ class _RequestSpecificCardState extends State<RequestSpecificCard> {
                             onChanged: (value) {},
                           ),
                         SizedBox(height: 20),
+
                         TextFormField(
                           controller: _familyCountController,
                           keyboardType: TextInputType.number,
@@ -194,7 +193,6 @@ class _RequestSpecificCardState extends State<RequestSpecificCard> {
                             updateFamilyFields();
                           },
                         ),
-
                         const SizedBox(height: 10),
 
                         Column(
@@ -212,11 +210,9 @@ class _RequestSpecificCardState extends State<RequestSpecificCard> {
                           }),
                         ),
 
+                        const SizedBox(height: 20),
 
                         const SizedBox(height: 20),
-                        const SizedBox(
-                          height: 20,
-                        ),
                         Obx(() {
                           return _controller.isLoading.value
                               ? Center(child: CircularProgressIndicator())
@@ -224,29 +220,32 @@ class _RequestSpecificCardState extends State<RequestSpecificCard> {
                             height: MediaQuery.of(context).size.height * 0.07,
                             width: MediaQuery.of(context).size.width * 0.9,
                             child: ElevatedButton(
-                              onPressed: () {
+                              onPressed: isPhoneValid
+                                  ? () {
                                 if (_formKey.currentState!.validate()) {
                                   final cardRequest = RequestCardData(
                                       name: _nameController.text,
-                                      phone:isAdmin! ? _phoneController.text : userPhone ,
+                                      phone: _phoneController.text,
                                       address: _addressController.text,
-                                      familyMembersNames: familyNamesControllers.isNotEmpty
-                                          ? familyNamesControllers.map((controller) => controller.text.trim()).where((name) => name.isNotEmpty).toList()
-                                          : null,
                                       cardNumber: tokenController.token.value.isNotEmpty && isAdmin!
                                           ? _cardNumberController.text
                                           : '',
+                                      familyMembersNames: familyNamesControllers.isNotEmpty
+                                          ? familyNamesControllers.map((controller) => controller.text.trim()).where((name) => name.isNotEmpty).toList()
+                                          : null,
                                       image: _selectedImage?.path,
-                                      id:cardId
+                                      id: cardId
                                   );
                                   _controller.RequestCard(cardRequest);
                                 }
-                              },
-
-                              child: Text("Request Card".tr,
+                              }
+                                  : null,
+                              child: Text(
+                                "Request Card".tr,
                                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                   color: LightGrey,
-                                ),),
+                                ),
+                              ),
                               style: ElevatedButton.styleFrom(
                                 foregroundColor: Colors.white,
                                 backgroundColor: PrimaryColor,
@@ -261,6 +260,7 @@ class _RequestSpecificCardState extends State<RequestSpecificCard> {
                         }),
                       ],
                     );
+
                   }
                   return Column(
                     children: [
@@ -364,7 +364,8 @@ class _RequestSpecificCardState extends State<RequestSpecificCard> {
                           height: MediaQuery.of(context).size.height * 0.07,
                           width: MediaQuery.of(context).size.width * 0.9,
                           child: ElevatedButton(
-                            onPressed: () {
+                            onPressed: isPhoneValid
+                                ? () {
                               if (_formKey.currentState!.validate()) {
                                 final cardRequest = RequestCardData(
                                   name: _nameController.text,
@@ -374,16 +375,18 @@ class _RequestSpecificCardState extends State<RequestSpecificCard> {
                                       ? familyNamesControllers.map((controller) => controller.text.trim()).where((name) => name.isNotEmpty).toList()
                                       : null,
                                   image: _selectedImage?.path,
-                                    id:cardId
+                                  id: cardId
                                 );
                                 _controller.RequestCard(cardRequest);
                               }
-                            },
-
-                            child: Text("Request Card".tr,
+                            }
+                                : null,
+                            child: Text(
+                              "Request Card".tr,
                               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                 color: LightGrey,
-                              ),),
+                              ),
+                            ),
                             style: ElevatedButton.styleFrom(
                               foregroundColor: Colors.white,
                               backgroundColor: PrimaryColor,

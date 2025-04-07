@@ -4,6 +4,7 @@ import 'package:direct_target/Screen/Profile/Contact/ContactScreen.dart';
 import 'package:direct_target/Screen/Profile/PrivacyPolicy/PricavyPolicyScreen.dart';
 import 'package:direct_target/Screen/Profile/Terms/TermsScreen.dart';
 import 'package:direct_target/Screen/RequestCard/RequestScreen.dart';
+import 'package:direct_target/Screen/Start/StartScreen.dart';
 import 'package:get/get.dart';
 import 'package:direct_target/Routes/Routes.dart';
 import 'package:direct_target/Screen/Auth/SignIn/SignInScreen.dart';
@@ -86,5 +87,9 @@ final pages = <GetPage>[
   GetPage(
     name: AppRoutes.profilescreen,
     page: () =>  ProfileScreen(),
+  ),
+  GetPage(
+    name: AppRoutes.startscreen,
+    page: () =>  StartScreen(),
   ),
 ];

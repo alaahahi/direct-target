@@ -211,6 +211,7 @@ class _HomeContentScreenBodyState extends State<HomeContentScreenBody> {
 
                         return GestureDetector(
                           onTap: () {
+                            print("✅ cardId being sent: ${_appController.appCardValue.value}");
                             Get.to(() => ServicesScreen(
                                 cardId: _appController.appCardValue.value));
                             controller.update();

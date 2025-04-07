@@ -36,7 +36,7 @@ class LanguageController extends GetxController {
     Future.delayed(Duration(milliseconds: 300), () async {
       Get.put(CardServices());
       Get.find<CardController>().getCards();
-      Get.find<CardController>().getCardServices(_appController.appCardValue.value);
+      Get.find<CardController>().getCardCategoryServices(_appController.appCardValue.value);
       Get.find<CardController>().getPopularService();
       update();
     });

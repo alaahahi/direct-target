@@ -18,7 +18,7 @@ import 'AllSettingController.dart';
 import 'LoaderController.dart';
 import 'package:path/path.dart' as path;
 import '../Model/ServiceModel.dart';
-
+import 'package:direct_target/Controller/TokenController.dart';
 class CardController extends GetxController {
   LoaderController loaderController = Get.put(LoaderController());
   MessagesHandlerController msgController =
@@ -32,7 +32,8 @@ class CardController extends GetxController {
   var isLoading = false.obs;
   List<CardData>? allCardList = [];
   List<AllCardServicesData>? categoryList = [];
-  List<AllCardServicesData>? categoryCardList = [];  List<AllCardServicesData>? searchServicesList = [];
+  List<AllCardServicesData>? categoryCardList = [];
+  List<AllCardServicesData>? searchServicesList = [];
   List<PopularServiceData>? allServicesList = [];
   List<ProfileData>? allMyCardList = [];
   CardController(this._service);
@@ -41,6 +42,9 @@ class CardController extends GetxController {
   var services = <Service>[].obs;
   List<Services> selectedServices = [];
   final MyDioService dioService = Get.find<MyDioService>();
+  TokenController tokenController = Get.put(TokenController());
+
+
   @override
   void onInit() {
     super.onInit();
@@ -66,11 +70,12 @@ class CardController extends GetxController {
     update();
   }
   Future<void> RequestCard(RequestCardData cardRequest) async {
-
+    final token = await tokenController.getToken();
     loaderController.loading(true);
     bool isAdmin = storage.read('isAdmin') ?? false;
     int adminValue = isAdmin ? 1 : 0;
-    print(adminValue);
+    print("Admin Value: $adminValue");
+
     try {
       dio.MultipartFile? file;
       if (cardRequest.image != null) {
@@ -79,6 +84,7 @@ class CardController extends GetxController {
           filename: path.basename(cardRequest.image!),
         );
       }
+
       var formData = dio.FormData.fromMap({
         'name': cardRequest.name,
         'phone_number': cardRequest.phone,
@@ -87,8 +93,20 @@ class CardController extends GetxController {
         'family_members_names': jsonEncode(cardRequest.familyMembersNames),
         'image': file,
         'is_admin': adminValue,
-        'card_id':cardRequest.id
+        'card_id': cardRequest.id,
+        'token': token != null && token.isNotEmpty ? token : "",
       });
+
+      print("FormData: ");
+      print("Name: ${cardRequest.name}");
+      print("Phone: ${cardRequest.phone}");
+      print("Address: ${cardRequest.address}");
+      print("Card Number: ${cardRequest.cardNumber}");
+      print("Family Members Names: ${cardRequest.familyMembersNames}");
+      print("Card ID: ${cardRequest.id}");
+      print("Token: ${token != null && token.isNotEmpty ? token : ""}");
+      print("Image: ${cardRequest.image != null ? path.basename(cardRequest.image!) : 'No Image'}");
+
       final response = await _service.RequestCard(formData);
 
       if (response.message == "Request submitted successfully. Our team will contact you shortly.") {
@@ -165,7 +183,7 @@ class CardController extends GetxController {
     try {
       var res = await CardServices().fetchListAllServices(cardId);
       categoryCardList = res?.data;
-      print('Fetched Data Length getCardServices ${categoryCardList?.length}');
+      print('Fetched Data Length categoryCardList ${categoryCardList?.length}');
     } catch (e) {
       if (e is dio.DioException) {
         log(e.toString());

@@ -8,8 +8,6 @@ import '../../Routes/Routes.dart';
 import '../../Service/CardServices.dart';
 import '../../Utils/AppStyle.dart';
 import '../../Widgets/CategoryList.dart';
-import '../../Widgets/DoctorList.dart';
-import '../RequestCard/RequestScreen.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 
@@ -37,8 +35,11 @@ class _ServicesScreenState extends State<ServicesScreen> {
 
   @override
   Widget build(BuildContext context) {
+    print("✅ Card ID received: ${widget.cardId}");
     return Scaffold(
+
       body: NestedScrollView(
+
           headerSliverBuilder: (context, innerBoxIsScrolled) {
             return [
               SliverAppBar(
@@ -62,6 +63,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
           },
 
           body: GetBuilder<CardController>(
+
           builder: (cardController) {
             final selectedCard = cardController.allCardList?.firstWhereOrNull((card) => card.id == widget.cardId);
 

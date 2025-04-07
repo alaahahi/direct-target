@@ -22,4 +22,5 @@ class AppRoutes {
   static const String requestcard = '/requestcard';
   static const String search = '/search';
   static const String topdoctor = '/topdoctor';
+  static const String startscreen = '/startscreen';
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:direct_target/Screen/Auth/SignIn/SignInScreenBody.dart';
 import 'package:get/get.dart';
+import '../../../Routes/Routes.dart';
 import '../../../Utils/AppStyle.dart';
 import 'dart:ui' as ui;
 
@@ -23,7 +24,7 @@ class SignInScreen extends StatelessWidget {
               ),
             ),
 
-            onPressed: () => Get.back(),
+            onPressed: () => Get.toNamed(AppRoutes.startscreen)
           ),
           centerTitle: true,
           title: Text(

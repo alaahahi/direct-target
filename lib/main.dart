@@ -6,6 +6,7 @@ import 'package:get_storage/get_storage.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:get/get.dart';
+import 'Controller/CardController.dart';
 import 'Controller/CheckInternetController.dart';
 import 'Controller/LoaderController.dart';
 import 'Controller/ProfileCardController.dart';
@@ -13,6 +14,7 @@ import 'Controller/ThemeController.dart';
 import 'Controller/TokenController.dart';
 import 'Routes/Pages.dart';
 import 'Service/ApiService.dart';
+import 'Service/CardServices.dart';
 import 'Service/SettingsServices.dart';
 import 'Translation/AppTranslation.dart';
 import 'Service/NotificationService.dart';
@@ -25,13 +27,8 @@ void main() async {
   Dio dio = Dio();
   MyDioService dioService = MyDioService(dio);
 
-  // تأكد من أن dioService مهيأ بشكل صحيح قبل أي عملية أخرى
-  await dioService.setupDio();  // تأكد من أن التهيئة تمت قبل بدء التطبيق
-
-  // الآن قم بإضافة الكائن إلى GetX
+  await dioService.setupDio();
   Get.put(dioService);
-
-  // تأكد من تهيئة باقي الخدمات
   await Firebase.initializeApp();
   await NotificationService.instance.initialize();
   await GetStorage.init();
@@ -41,6 +38,7 @@ void main() async {
   await Get.put(ThemeController());
   await Get.put(TokenController());
   await Get.put(ProfileCardController());
+
   await Get.put(AllSettingController(SettingsServices()));
 
   runApp(const DirectTarget());
