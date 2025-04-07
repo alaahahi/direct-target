@@ -33,7 +33,28 @@ class CategoryDetailsScreen extends StatelessWidget {
     }
 
     return Scaffold(
-      appBar: AppBar(title: Text(category.categoryName ?? "Category".tr)),
+      appBar: AppBar(
+        leading: IconButton(
+          icon: Padding(
+            padding: const EdgeInsets.all(28.0),
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: Theme.of(context).textTheme.bodyMedium?.color,
+              size: MediaQuery.of(context).size.height * 0.025,
+            ),
+          ),
+
+          onPressed: () => Get.back(),
+        ),
+        title: Text(
+          category.categoryName ?? "Category".tr,
+          style: Theme.of(context).textTheme.headlineLarge,
+        ),
+        centerTitle: true,
+        elevation: 0,
+        toolbarHeight: 100,
+      ),
+
       body: ListView(
         children: [
           Column(
@@ -53,30 +74,33 @@ class CategoryDetailsScreen extends StatelessWidget {
                       ),
                     ),
                   ),
-                  ListView.builder(
-                    padding: EdgeInsets.zero,
-                    physics: NeverScrollableScrollPhysics(),
-                    shrinkWrap: true,
-                    itemCount: subcategory.services?.length ?? 0,
-                    itemBuilder: (context, serviceIndex) {
-                      var service = subcategory.services![serviceIndex];
+              ListView.builder(
+              padding: EdgeInsets.zero,
+              physics: NeverScrollableScrollPhysics(),
+              shrinkWrap: true,
+              itemCount: subcategory.services?.length ?? 0,
+              itemBuilder: (context, serviceIndex) {
+              var service = subcategory.services![serviceIndex];
 
-                      return GestureDetector(
-                        onTap: () async {
-                          await appointmentController.canBookAppointment(serviceId: service.id ?? 0);
-                        },
-                        child: doctorList(
-                          maintext: service.serviceName ?? "No Name",
-                          subtext: (service.specialty != null && service.specialty!.isNotEmpty)
-                              ? "Specialization : ".tr + " " + service.specialty!
-                              : "",
-                          image: "Assets/images/person.jpg",
-                          firstmaintext: service.reviewRate ?? "1",
-                        ),
-                      );
-                    },
-                  ),
-                ],
+              return GestureDetector(
+              onTap: () async {
+              print("Service ID: ${service.id}");
+
+              await appointmentController.canBookAppointment(serviceId: service.id ?? 0);
+              },
+              child: doctorList(
+              maintext: service.serviceName ?? "No Name",
+              subtext: (service.specialty != null && service.specialty!.isNotEmpty)
+              ? "Specialization : ".tr + " " + service.specialty!
+                  : "",
+              image: "Assets/images/person.jpg",
+              firstmaintext: service.reviewRate ?? "1",
+              ),
+              );
+              },
+              ),
+
+              ],
               );
             }).toList() ?? [],
           ),

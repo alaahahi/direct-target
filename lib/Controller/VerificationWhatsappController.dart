@@ -153,7 +153,7 @@ class VerificationWhatsappController extends GetxController {
           };
           print(box.getKeys());
           await _profileController.updateProfile(profileData);
-          Restart.restartApp();
+          // Restart.restartApp();
         }
 
       } else {

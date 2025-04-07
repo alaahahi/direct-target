@@ -23,7 +23,8 @@ class RequestScreenBody extends StatefulWidget {
 class _RequestScreenBodyState extends State<RequestScreenBody> {
   String? userPhone;
   bool? isAdmin;
-  final _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   final _nameController = TextEditingController();
   final _phoneController = TextEditingController();
   final _addressController = TextEditingController();
@@ -38,7 +39,8 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
   final VerificationWhatsappController _userphoneController =
   Get.put(VerificationWhatsappController());
   final AllSettingController _appController = Get.put(AllSettingController(SettingsServices()));
-
+  bool _hasError = false;
+  String _errorMessage = '';
   void updateFamilyFields() {
     int count = int.tryParse(_familyCountController.text) ?? 0;
     setState(() {
@@ -52,15 +54,9 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
     });
   }
   bool isPhoneValid = false;
-  String? _validatePhone(String? value) {
-    if (value == null || value.isEmpty) {
-      return 'Phone number is required';
-    }
-    if (value.length != 10 || !RegExp(r'^[0-9]+$').hasMatch(value)) {
-      return 'Phone number must be 10 digits';
-    }
-    return null;
-  }
+  bool isNameValid = false;
+  bool isSubmitting = false;
+
   void _phoneListener() {
     setState(() {
       isPhoneValid = _phoneController.text.length == 10 && RegExp(r'^[0-9]+$').hasMatch(_phoneController.text);
@@ -113,7 +109,7 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
                             _pickImage();
                           },
                           child: Container(
-                            height: MediaQuery.of(context).size.height * 0.07,
+                            height: MediaQuery.of(context).size.height * 0.23,
                             width: MediaQuery.of(context).size.width * 0.9,
                             decoration: BoxDecoration(
                               color: Colors.grey[200],
@@ -154,15 +150,88 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
                         AuthFormField(
                           controller: _nameController,
                           hint: 'Full Name'.tr,
-                          onChanged: (value) {},
+                          onChanged: (value) {
+                            setState(() {
+                              isNameValid = value.trim().isNotEmpty;
+                            });
+                          },
+                          validator: (value) {
+                            if (value == null || value.trim().isEmpty) {
+                              return 'Name is required'.tr;
+                            }
+                            return null;
+                          },
                         ),
+
                         SizedBox(height: 20),
-                        AuthFormField(
-                          controller: _phoneController,
-                          hint: 'Phone Number'.tr,
-                          onChanged: (value) {},
-                          validator: _validatePhone,
+
+                        Directionality(
+                          textDirection: TextDirection.ltr,
+                          child: AuthFormField(
+                            controller: _phoneController,
+                            hint: 'Phone Number'.tr,
+                            keyboardType: TextInputType.number,
+                            onChanged: (value) {},
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                setState(() {
+                                  _hasError = true;
+                                  _errorMessage = "يجب إدخال رقم الهاتف".tr;
+                                });
+                                return '';
+                              } else if (value.length != 10) {
+                                setState(() {
+                                  _hasError = true;
+                                  _errorMessage = "يجب أن يكون الرقم مكونًا من 10 أرقام".tr;
+                                });
+                                return '';
+                              }
+                              setState(() {
+                                _hasError = false;
+                                _errorMessage = '';
+                              });
+                              return null;
+                            },
+                            prefixIcon: Padding(
+                              padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                              child: Row(
+                                mainAxisSize: MainAxisSize.min,
+                                children: [
+                                  ClipRRect(
+                                    borderRadius: BorderRadius.circular(4),
+                                    child: Image.asset(
+                                      'Assets/images/iraq.png',
+                                      width: 28,
+                                      height: 20,
+                                      fit: BoxFit.cover,
+                                    ),
+                                  ),
+                                  const SizedBox(width: 8),
+                                  Text(
+                                    '+964',
+                                    style: TextStyle(
+                                      fontSize: 16,
+                                      color: Colors.grey[700],
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            ),
+                          ),
                         ),
+
+                        if (_hasError)
+                          Row(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            children: [
+                              Text(
+                                _errorMessage,
+                                style: TextStyle(
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
                         SizedBox(height: 20),
                         AuthFormField(
                           controller: _addressController,
@@ -174,23 +243,18 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
                         if (isAdmin != null && isAdmin!)
                           AuthFormField(
                             controller: _cardNumberController,
+                            keyboardType: TextInputType.number,
                             hint: 'Card Number'.tr,
                             onChanged: (value) {},
                           ),
                         SizedBox(height: 20),
-
-                        TextFormField(
+                        AuthFormField(
                           controller: _familyCountController,
                           keyboardType: TextInputType.number,
-                          decoration: InputDecoration(
-                            labelText: 'Number of family members'.tr,
-                            border: OutlineInputBorder(),
-                          ),
-                          onChanged: (value) {
-                            updateFamilyFields();
-                          },
+                          hint: 'Number of family members'.tr,
+                          onChanged: (value) {updateFamilyFields();},
                         ),
-                        const SizedBox(height: 10),
+                        const SizedBox(height: 20),
 
                         Column(
                           children: List.generate(familyNamesControllers.length, (index) {
@@ -208,18 +272,20 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
                         ),
 
                         const SizedBox(height: 20),
-
-                        const SizedBox(height: 20),
                         Obx(() {
                           return _controller.isLoading.value
                               ? Center(child: CircularProgressIndicator())
                               : Container(
                             height: MediaQuery.of(context).size.height * 0.07,
                             width: MediaQuery.of(context).size.width * 0.9,
-                            child: ElevatedButton(
-                              onPressed: isPhoneValid
-                                  ? () {
+                            child:ElevatedButton(
+                              onPressed: !isSubmitting
+                                  ? () async {
                                 if (_formKey.currentState!.validate()) {
+                                  setState(() {
+                                    isSubmitting = true;
+                                  });
+
                                   final cardRequest = RequestCardData(
                                     name: _nameController.text,
                                     phone: _phoneController.text,
@@ -228,16 +294,26 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
                                         ? _cardNumberController.text
                                         : '',
                                     familyMembersNames: familyNamesControllers.isNotEmpty
-                                        ? familyNamesControllers.map((controller) => controller.text.trim()).where((name) => name.isNotEmpty).toList()
+                                        ? familyNamesControllers
+                                        .map((controller) => controller.text.trim())
+                                        .where((name) => name.isNotEmpty)
+                                        .toList()
                                         : null,
                                     image: _selectedImage?.path,
                                     id: _appController.appCardValue.value,
                                   );
-                                  _controller.RequestCard(cardRequest);
+
+                                  await _controller.RequestCard(cardRequest);
+
+                                  setState(() {
+                                    isSubmitting = false;
+                                  });
                                 }
                               }
                                   : null,
-                              child: Text(
+                              child: isSubmitting
+                                  ? CircularProgressIndicator(color: LightGrey)
+                                  : Text(
                                 "Request Card".tr,
                                 style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                   color: LightGrey,
@@ -253,6 +329,7 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
                                 ),
                               ),
                             ),
+
                           );
                         }),
                       ],
@@ -307,13 +384,89 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
 
                       AuthFormField(
                         controller: _nameController,
-                        hint: 'Full Name'.tr, onChanged: (value) {  },
+                        hint: 'Full Name'.tr,
+                        onChanged: (value) {
+                          setState(() {
+                            isNameValid = value.trim().isNotEmpty;
+                          });
+                        },
+                        validator: (value) {
+                          if (value == null || value.trim().isEmpty) {
+                            return 'Name is required'.tr;
+                          }
+                          return null;
+                        },
                       ),
+
                       SizedBox(height: 20),
-                      AuthFormField(
-                        controller: _phoneController,
-                        hint: 'Phone Number'.tr, onChanged: (value) {  },
+
+                      Directionality(
+                        textDirection: TextDirection.ltr,
+                        child: AuthFormField(
+                          controller: _phoneController,
+                          hint: 'Phone Number'.tr,
+                          keyboardType: TextInputType.number,
+                          onChanged: (value) {},
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              setState(() {
+                                _hasError = true;
+                                _errorMessage = "يجب إدخال رقم الهاتف".tr;
+                              });
+                              return '';
+                            } else if (value.length != 10) {
+                              setState(() {
+                                _hasError = true;
+                                _errorMessage = "يجب أن يكون الرقم مكونًا من 10 أرقام".tr;
+                              });
+                              return '';
+                            }
+                            setState(() {
+                              _hasError = false;
+                              _errorMessage = '';
+                            });
+                            return null;
+                          },
+                          prefixIcon: Padding(
+                            padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                            child: Row(
+                              mainAxisSize: MainAxisSize.min,
+                              children: [
+                                ClipRRect(
+                                  borderRadius: BorderRadius.circular(4),
+                                  child: Image.asset(
+                                    'Assets/images/iraq.png',
+                                    width: 28,
+                                    height: 20,
+                                    fit: BoxFit.cover,
+                                  ),
+                                ),
+                                const SizedBox(width: 8),
+                                Text(
+                                  '+964',
+                                  style: TextStyle(
+                                    fontSize: 16,
+                                    color: Colors.grey[700],
+                                  ),
+                                ),
+                              ],
+                            ),
+                          ),
+                        ),
                       ),
+
+                      if (_hasError)
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            Text(
+                              _errorMessage,
+                              style: TextStyle(
+                                fontSize: 12,
+                              ),
+                            ),
+                          ],
+                        ),
                       SizedBox(height: 20),
                       AuthFormField(
                         controller: _addressController,
@@ -360,25 +513,39 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
                             : Container(
                           height: MediaQuery.of(context).size.height * 0.07,
                           width: MediaQuery.of(context).size.width * 0.9,
-                          child: ElevatedButton(
-                            onPressed: isPhoneValid
-                                ? () {
+                          child:ElevatedButton(
+                            onPressed: !isSubmitting
+                                ? () async {
                               if (_formKey.currentState!.validate()) {
+                                setState(() {
+                                  isSubmitting = true;
+                                });
+
                                 final cardRequest = RequestCardData(
                                   name: _nameController.text,
                                   phone: _phoneController.text,
                                   address: _addressController.text,
                                   familyMembersNames: familyNamesControllers.isNotEmpty
-                                      ? familyNamesControllers.map((controller) => controller.text.trim()).where((name) => name.isNotEmpty).toList()
+                                      ? familyNamesControllers
+                                      .map((controller) => controller.text.trim())
+                                      .where((name) => name.isNotEmpty)
+                                      .toList()
                                       : null,
                                   image: _selectedImage?.path,
                                   id: _appController.appCardValue.value,
                                 );
-                                _controller.RequestCard(cardRequest);
+
+                                await _controller.RequestCard(cardRequest);
+
+                                setState(() {
+                                  isSubmitting = false;
+                                });
                               }
                             }
                                 : null,
-                            child: Text(
+                            child: isSubmitting
+                                ? CircularProgressIndicator(color: LightGrey)
+                                : Text(
                               "Request Card".tr,
                               style: Theme.of(context).textTheme.titleMedium?.copyWith(
                                 color: LightGrey,

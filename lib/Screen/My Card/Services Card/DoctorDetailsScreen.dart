@@ -80,33 +80,41 @@ class _DoctorDetailsState extends State<DoctorDetails> {
       return time;
     }
   }
+  final Map<String, String> weekDaysArabic = {
+    "Sunday": "الأحد",
+    "Monday": "الإثنين",
+    "Tuesday": "الثلاثاء",
+    "Wednesday": "الأربعاء",
+    "Thursday": "الخميس",
+    "Friday": "الجمعة",
+    "Saturday": "السبت",
+  };
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        leading: GestureDetector(
-          onTap: () {
-            Get.toNamed(AppRoutes.homescreen);
-          },
-          child: Padding(
-            padding: const EdgeInsets.all(20.0),
+        leading: IconButton(
+          icon: Padding(
+            padding: const EdgeInsets.all(28.0),
             child: Icon(
               Icons.arrow_back_ios,
               color: Theme.of(context).textTheme.bodyMedium?.color,
               size: MediaQuery.of(context).size.height * 0.025,
             ),
           ),
+
+          onPressed: () => Get.back(),
         ),
         title: Text(
           "Book Appointment".tr,
-          style:  Theme.of(context).textTheme.bodyLarge,
+          style: Theme.of(context).textTheme.headlineLarge,
         ),
         centerTitle: true,
         elevation: 0,
         toolbarHeight: 100,
-
       ),
+
       body: GetBuilder<CardController>(
         builder: (controller) {
           if (loaderController.loading.value) {
@@ -181,61 +189,67 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                       style:  Theme.of(context).textTheme.headlineLarge,
                                     ),
                                   ),
-                                  Container(
-                                    height: MediaQuery.of(context).size.height * 0.1,
-                                    child: ListView.builder(
-                                      scrollDirection: Axis.horizontal,
-                                      physics: BouncingScrollPhysics(),
-                                      itemCount: doctorDays!.length,
-                                      itemBuilder: (context, index) {
-                                        final day = doctorDays[index];
-                                        final correspondingDate = getDateForDay(day);
-                                        return Padding(
-                                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                                          child: ElevatedButton(
-                                            onPressed: () {
-                                              setState(() {
-                                                selectedDay = day;
-                                                selectedDate = correspondingDate;
-                                              });
-                                            },
-                                            style: ElevatedButton.styleFrom(
-                                              backgroundColor: selectedDay == day
-                                                  ? PrimaryColor
-                                                  : Colors.white,
-                                              shape: RoundedRectangleBorder(
-                                                borderRadius: BorderRadius.circular(20),
-                                              ),
-                                            ),
-                                            child: Column(
-                                              mainAxisAlignment: MainAxisAlignment.center,
-                                              children: [
-                                                Text(
-                                                  day,
-                                                  style: TextStyle(
-                                                    color: selectedDay == day
-                                                        ? Colors.white
-                                                        : PrimaryColor,
-                                                  ),
-                                                ),
-                                                SizedBox(height: 4),
-                                                Text(
-                                                  correspondingDate,
-                                                  style: TextStyle(
-                                                    color: selectedDay == day
-                                                        ? Colors.white
-                                                        : PrimaryColor,
-                                                    fontSize: 12,
-                                                  ),
-                                                ),
-                                              ],
-                                            ),
-                                          ),
-                                        );
-                                      },
-                                    ),
-                                  ),
-                                  SizedBox(height: 20),
+
+                    Container(
+                    height: MediaQuery.of(context).size.height * 0.1,
+                  child: ListView.builder(
+                    scrollDirection: Axis.horizontal,
+                    physics: BouncingScrollPhysics(),
+                    itemCount: doctorDays!.length,
+                    itemBuilder: (context, index) {
+                      final day = doctorDays[index].trim();
+                      final translatedDay = Get.locale?.languageCode == 'ar'
+                          ? weekDaysArabic[day] ?? day
+                          : day;
+                      final correspondingDate = getDateForDay(day);
+
+                      return Padding(
+                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                        child: ElevatedButton(
+                          onPressed: () {
+                            setState(() {
+                              selectedDay = day;
+                              selectedDate = correspondingDate;
+                            });
+                          },
+                          style: ElevatedButton.styleFrom(
+                            backgroundColor: selectedDay == day
+                                ? PrimaryColor
+                                : Colors.white,
+                            shape: RoundedRectangleBorder(
+                              borderRadius: BorderRadius.circular(20),
+                            ),
+                          ),
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                translatedDay,
+                                style: TextStyle(
+                                  color: selectedDay == day
+                                      ? Colors.white
+                                      : PrimaryColor,
+                                ),
+                              ),
+                              SizedBox(height: 4),
+                              Text(
+                                correspondingDate,
+                                style: TextStyle(
+                                  color: selectedDay == day
+                                      ? Colors.white
+                                      : PrimaryColor,
+                                  fontSize: 12,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      );
+                    },
+                  ),
+                ),
+
+                SizedBox(height: 20),
                                   const SizedBox(height: 20),
                                   const Padding(
                                     padding: EdgeInsets.symmetric(horizontal: 20),

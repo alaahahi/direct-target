@@ -162,7 +162,6 @@ class AppointmentController extends GetxController {
   }
 
   Future<dynamic> canBookAppointment({required int serviceId}) async {
-    final box = GetStorage();
     loaderController.loading(true);
     update();
     dio.FormData request = dio.FormData.fromMap({'service_id': serviceId});
@@ -170,10 +169,12 @@ class AppointmentController extends GetxController {
     try {
       if (response.status == "success") {
         int? cardId = response.data?.cardId;
-        print("📌 تم تخزين card_id: ${box.read("card_id")}");
-        box.write("card_id", cardId);
+        print("📌 تم  card_id: ${cardId}");
+        print("📌 تم  serviceId: ${serviceId}");
+        print("📌 Going to DoctorDetails with doctorId: ${serviceId}");
         Get.to(() => DoctorDetails(doctorId: serviceId));
-      } else {
+      }
+      else {
         Get.snackbar('You do not have a card'.tr, 'You have been transferred to request a card so that you can request the service successfully'.tr,
             duration: Duration(seconds: 5));
         Get.offAllNamed(AppRoutes.requestcard);
