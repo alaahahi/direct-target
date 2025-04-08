@@ -148,7 +148,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                 DoctorDetailsList(
                   maintext: doctor.serviceName ?? "No Name",
                   subtext: doctor.specialty ?? "No Description",
-                  image:  "Assets/images/person.jpg",
+                  image: doctor.image ?? "Assets/images/person.jpg",
                   firstmaintext: doctor.reviewRate  ?? "No Name",
                   secondmaintext: doctor.exYear  ?? "No Name",
                   thirdmaintext: doctor.appointmentsCount ?? "No Name",
