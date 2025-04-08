@@ -214,8 +214,11 @@ final Map<String, String> en = {
   "Card Price: ":"Card Price: ",
   'No services found.':'No services found.',
   "Search for a service...":"Search for a service...",
-  "Price: ":"Price: "
-
+  "Price: ":"Price: ",
+  'Member Name':'Member Name',
+  "Patients":"Patients",
+  "Exp Years":"Exp Years",
+  "Reviews Rate":"Reviews Rate"
 
 }
 ;
@@ -426,7 +429,11 @@ final Map<String, String> ar = {
   "Card Price: " :  "سعر البطاقة: ",
   "No services found." : "لم يتم العثور على خدمات.",
   "Search for a service...":"ابحث عن خدمة ...",
-  "Price: ":"السعر: "
+  "Price: ":"السعر: ",
+  'Member Name':'اسم الفرد',
+  "Patients":"مرضى",
+  "Exp Years":"سنوات الخبرة",
+  "Reviews Rate":"التقييمات"
 }
 ;
 

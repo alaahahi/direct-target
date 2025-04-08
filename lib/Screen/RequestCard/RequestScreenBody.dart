@@ -53,6 +53,7 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
       }
     });
   }
+
   bool isPhoneValid = false;
   bool isNameValid = false;
   bool isSubmitting = false;
@@ -150,7 +151,7 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
                         AuthFormField(
                           controller: _nameController,
                           hint: 'Full Name'.tr,
-                          onChanged: (value) {
+                          onChange: (value) {
                             setState(() {
                               isNameValid = value.trim().isNotEmpty;
                             });
@@ -171,7 +172,7 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
                             controller: _phoneController,
                             hint: 'Phone Number'.tr,
                             keyboardType: TextInputType.number,
-                            onChanged: (value) {},
+                            onChange: (value) {},
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 setState(() {
@@ -236,7 +237,7 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
                         AuthFormField(
                           controller: _addressController,
                           hint: 'Address'.tr,
-                          onChanged: (value) {},
+                          onChange: (value) {},
                         ),
                         SizedBox(height: 20),
 
@@ -245,14 +246,16 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
                             controller: _cardNumberController,
                             keyboardType: TextInputType.number,
                             hint: 'Card Number'.tr,
-                            onChanged: (value) {},
+                            onChange: (value) {},
                           ),
                         SizedBox(height: 20),
                         AuthFormField(
                           controller: _familyCountController,
                           keyboardType: TextInputType.number,
                           hint: 'Number of family members'.tr,
-                          onChanged: (value) {updateFamilyFields();},
+                          onChange: (value) {
+                            updateFamilyFields();
+                          },
                         ),
                         const SizedBox(height: 20),
 
@@ -263,7 +266,7 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
                               child: TextFormField(
                                 controller: familyNamesControllers[index],
                                 decoration: InputDecoration(
-                                  labelText: 'Member Name ${index + 1}'.tr,
+                                  labelText: 'Member Name'.tr + "${index + 1}",
                                   border: OutlineInputBorder(),
                                 ),
                               ),
@@ -288,16 +291,13 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
 
                                   final cardRequest = RequestCardData(
                                     name: _nameController.text,
-                                    phone: _phoneController.text,
+                                    phone:  "+964" + _phoneController.text.trim(),
                                     address: _addressController.text,
                                     cardNumber: tokenController.token.value.isNotEmpty && isAdmin!
                                         ? _cardNumberController.text
                                         : '',
                                     familyMembersNames: familyNamesControllers.isNotEmpty
-                                        ? familyNamesControllers
-                                        .map((controller) => controller.text.trim())
-                                        .where((name) => name.isNotEmpty)
-                                        .toList()
+                                        ? familyNamesControllers.map((controller) => controller.text.trim()).where((name) => name.isNotEmpty).toList()
                                         : null,
                                     image: _selectedImage?.path,
                                     id: _appController.appCardValue.value,
@@ -385,7 +385,7 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
                       AuthFormField(
                         controller: _nameController,
                         hint: 'Full Name'.tr,
-                        onChanged: (value) {
+                        onChange: (value) {
                           setState(() {
                             isNameValid = value.trim().isNotEmpty;
                           });
@@ -406,7 +406,7 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
                           controller: _phoneController,
                           hint: 'Phone Number'.tr,
                           keyboardType: TextInputType.number,
-                          onChanged: (value) {},
+                          onChange: (value) {},
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               setState(() {
@@ -470,22 +470,18 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
                       SizedBox(height: 20),
                       AuthFormField(
                         controller: _addressController,
-                        hint: 'Address'.tr, onChanged: (value) {  },
+                        hint: 'Address'.tr, onChange: (value) {  },
                       ),
                       SizedBox(height: 20),
-                      TextFormField(
+                      AuthFormField(
                         controller: _familyCountController,
                         keyboardType: TextInputType.number,
-                        decoration: InputDecoration(
-                          labelText: 'Number of family members'.tr,
-                          border: OutlineInputBorder(),
-                        ),
-                        onChanged: (value) {
+                        hint: 'Number of family members'.tr,
+                        onChange: (value) {
                           updateFamilyFields();
                         },
                       ),
-
-                      const SizedBox(height: 10),
+                      const SizedBox(height: 20),
 
                       Column(
                         children: List.generate(familyNamesControllers.length, (index) {
@@ -494,13 +490,14 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
                             child: TextFormField(
                               controller: familyNamesControllers[index],
                               decoration: InputDecoration(
-                                labelText: 'Member Name ${index + 1}'.tr,
+                                labelText: 'Member Name'.tr + '${index + 1}',
                                 border: OutlineInputBorder(),
                               ),
                             ),
                           );
                         }),
                       ),
+
 
 
                       const SizedBox(height: 20),
@@ -523,13 +520,10 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
 
                                 final cardRequest = RequestCardData(
                                   name: _nameController.text,
-                                  phone: _phoneController.text,
+                                  phone:  "+964" + _phoneController.text.trim(),
                                   address: _addressController.text,
                                   familyMembersNames: familyNamesControllers.isNotEmpty
-                                      ? familyNamesControllers
-                                      .map((controller) => controller.text.trim())
-                                      .where((name) => name.isNotEmpty)
-                                      .toList()
+                                      ? familyNamesControllers.map((controller) => controller.text.trim()).where((name) => name.isNotEmpty).toList()
                                       : null,
                                   image: _selectedImage?.path,
                                   id: _appController.appCardValue.value,

@@ -56,7 +56,7 @@ class SearchPage extends StatelessWidget {
                         child: doctorList(
                           maintext: service.serviceName ?? "No Name",
                           subtext: service.specialty ?? "No Description",
-                          image:  "Assets/images/person.jpg",
+                          image: service.image ?? "Assets/images/person.jpg",
                           firstmaintext :service.reviewRate ??  "1",
                         ),
                       );

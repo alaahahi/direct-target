@@ -1,5 +1,6 @@
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
 import 'package:shimmer/shimmer.dart';
 import '../../../../../Controller/CardController.dart';
@@ -78,7 +79,7 @@ class _CardServicesScreenState extends State<CardServicesScreen> with SingleTick
                 SliverToBoxAdapter(
                   child: Container(
                     width: double.infinity,
-                    height: 400,
+                    height: 450,
                     child: Card(
                       margin: EdgeInsets.all(16.0),
                       elevation: 5,
@@ -112,10 +113,14 @@ class _CardServicesScreenState extends State<CardServicesScreen> with SingleTick
                                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold),
                                 ),
                                 SizedBox(height: 10),
-                                Text(
-                                  "Card Price: ".tr+ "${selectedCard.price}",
-                                  style: Theme.of(context).textTheme.bodyLarge,
+                                HtmlWidget(
+                                  selectedCard.descriptionAr ?? "No description",
+                                  textStyle: TextStyle(color: Colors.black87),
                                 ),
+
+                                SizedBox(height: 10),
+                                Text("Price: ".tr + "${selectedCard.price}  ${selectedCard.currency}", style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold,
+                                  color:  Colors.black,),),
 
                               ],
                             ),

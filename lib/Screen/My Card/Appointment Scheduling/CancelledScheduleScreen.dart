@@ -44,7 +44,7 @@ class CancelledScheduleScreen extends StatelessWidget {
                     mainText: appointment.serviceProvider!.serviceName!.toString(),
                     subText: appointment.note ?? "Note",
                     date: appointment.start!,
-                    image: "Assets/images/person.png",
+                    image: "Assets/images/person.jpg",
                     onCancel: () {
                       appointmentController.deleteAppointment(AppointmentId: appointment.id!);
                     },

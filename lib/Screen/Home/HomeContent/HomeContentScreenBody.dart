@@ -316,7 +316,7 @@ class _HomeContentScreenBodyState extends State<HomeContentScreenBody> {
                 children: controller.allServicesList!.map((service) {
                   return GestureDetector(
                     onTap: () async {
-                      await appointmencontroller.canBookAppointment(
+                      await appointmencontroller.canBookPopularAppointment(
                           serviceId: service.id ?? 0);
                     },
                     child: list_doctor1(

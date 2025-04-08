@@ -1,4 +1,3 @@
-
 class AllCardServicesModel {
   String? status;
   List<AllCardServicesData>? data;
@@ -106,6 +105,7 @@ class Services {
   String? description;
   String? specialty;
   String? price;
+  String? image;
   List<String>? workingDays;
   WorkingHours? workingHours;
   int? appointmentsPerDay;
@@ -122,6 +122,7 @@ class Services {
         this.description,
         this.specialty,
         this.price,
+        this.image,
         this.workingDays,
         this.workingHours,
         this.appointmentsPerDay,
@@ -138,6 +139,7 @@ class Services {
     description = json['description'];
     specialty = json['specialty'];
     price = json['price'];
+    image = json['image'];
     workingDays = json['working_days'].cast<String>();
     workingHours = json['working_hours'] != null
         ? new WorkingHours.fromJson(json['working_hours'])
@@ -158,6 +160,7 @@ class Services {
     data['description'] = this.description;
     data['specialty'] = this.specialty;
     data['price'] = this.price;
+    data['image'] = this.image;
     data['working_days'] = this.workingDays;
     if (this.workingHours != null) {
       data['working_hours'] = this.workingHours!.toJson();

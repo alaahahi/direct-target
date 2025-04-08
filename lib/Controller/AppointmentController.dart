@@ -4,6 +4,7 @@ import 'package:get_storage/get_storage.dart';
 import '../Model/AppointmentModel.dart';
 import '../Routes/Routes.dart';
 import '../Screen/My Card/Services Card/DoctorDetailsScreen.dart';
+import '../Screen/My Card/Services Card/PopularDoctorDetailsScreen.dart';
 import '../Service/AppointmentService.dart';
 import 'LoaderController.dart';
 import 'MessageHandlerController.dart';
@@ -173,6 +174,39 @@ class AppointmentController extends GetxController {
         print("📌 تم  serviceId: ${serviceId}");
         print("📌 Going to DoctorDetails with doctorId: ${serviceId}");
         Get.to(() => DoctorDetails(doctorId: serviceId));
+      }
+      else {
+        Get.snackbar('You do not have a card'.tr, 'You have been transferred to request a card so that you can request the service successfully'.tr,
+            duration: Duration(seconds: 5));
+        Get.offAllNamed(AppRoutes.requestcard);
+      }
+    } catch (e) {
+      if (e is dio.DioException) {
+        log(e.toString());
+        msgController.showErrorMessage(
+            e.response?.statusCode.toString() ?? 'Unknown error'.tr,
+            e.message ?? "");
+      } else {
+        msgController.showErrorMessage( 'Unknown error'.tr, e.toString());
+      }
+    } finally {
+      loaderController.loading(false);
+      update();
+
+    }
+  }
+  Future<dynamic> canBookPopularAppointment({required int serviceId}) async {
+    loaderController.loading(true);
+    update();
+    dio.FormData request = dio.FormData.fromMap({'service_id': serviceId});
+    var response = await AppointmentService().canBookAppointment(request);
+    try {
+      if (response.status == "success") {
+        int? cardId = response.data?.cardId;
+        print("📌 تم  card_id: ${cardId}");
+        print("📌 تم  serviceId: ${serviceId}");
+        print("📌 Going to DoctorDetails with doctorId: ${serviceId}");
+        Get.to(() => PopularDoctorDetailsScreen(doctorId: serviceId));
       }
       else {
         Get.snackbar('You do not have a card'.tr, 'You have been transferred to request a card so that you can request the service successfully'.tr,

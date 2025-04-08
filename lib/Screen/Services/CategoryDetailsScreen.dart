@@ -93,7 +93,7 @@ class CategoryDetailsScreen extends StatelessWidget {
               subtext: (service.specialty != null && service.specialty!.isNotEmpty)
               ? "Specialization : ".tr + " " + service.specialty!
                   : "",
-              image: "Assets/images/person.jpg",
+              image:service.image ?? "Assets/images/person.jpg",
               firstmaintext: service.reviewRate ?? "1",
               ),
               );

@@ -176,7 +176,7 @@ class _RequestSpecificCardState extends State<RequestSpecificCard> {
                         AuthFormField(
                           controller: _nameController,
                           hint: 'Full Name'.tr,
-                          onChanged: (value) {
+                          onChange: (value) {
                             setState(() {
                               isNameValid = value.trim().isNotEmpty;
                             });
@@ -197,7 +197,7 @@ class _RequestSpecificCardState extends State<RequestSpecificCard> {
                             controller: _phoneController,
                             hint: 'Phone Number'.tr,
                             keyboardType: TextInputType.number,
-                            onChanged: (value) {},
+
                             validator: (value) {
                               if (value == null || value.isEmpty) {
                                 setState(() {
@@ -262,7 +262,7 @@ class _RequestSpecificCardState extends State<RequestSpecificCard> {
                         AuthFormField(
                           controller: _addressController,
                           hint: 'Address'.tr,
-                          onChanged: (value) {},
+
                         ),
                         SizedBox(height: 20),
 
@@ -271,14 +271,14 @@ class _RequestSpecificCardState extends State<RequestSpecificCard> {
                             controller: _cardNumberController,
                             keyboardType: TextInputType.number,
                             hint: 'Card Number'.tr,
-                            onChanged: (value) {},
+
                           ),
                         SizedBox(height: 20),
                         AuthFormField(
                           controller: _familyCountController,
                           keyboardType: TextInputType.number,
                           hint: 'Number of family members'.tr,
-                          onChanged: (value) {updateFamilyFields();},
+                          onChange: (value) {updateFamilyFields();},
                         ),
                         const SizedBox(height: 20),
 
@@ -289,7 +289,7 @@ class _RequestSpecificCardState extends State<RequestSpecificCard> {
                               child: TextFormField(
                                 controller: familyNamesControllers[index],
                                 decoration: InputDecoration(
-                                  labelText: 'Member Name ${index + 1}'.tr,
+                                  labelText: 'Member Name'.tr + "${index + 1}",
                                   border: OutlineInputBorder(),
                                 ),
                               ),
@@ -314,7 +314,7 @@ class _RequestSpecificCardState extends State<RequestSpecificCard> {
 
                                   final cardRequest = RequestCardData(
                                     name: _nameController.text,
-                                    phone: _phoneController.text,
+                                    phone:  "+964" + _phoneController.text.trim(),
                                     address: _addressController.text,
                                     cardNumber: tokenController.token.value.isNotEmpty && isAdmin!
                                         ? _cardNumberController.text
@@ -411,7 +411,7 @@ class _RequestSpecificCardState extends State<RequestSpecificCard> {
                       AuthFormField(
                         controller: _nameController,
                         hint: 'Full Name'.tr,
-                        onChanged: (value) {
+                        onChange: (value) {
                           setState(() {
                             isNameValid = value.trim().isNotEmpty;
                           });
@@ -432,7 +432,7 @@ class _RequestSpecificCardState extends State<RequestSpecificCard> {
                           controller: _phoneController,
                           hint: 'Phone Number'.tr,
                           keyboardType: TextInputType.number,
-                          onChanged: (value) {},
+                          onChange: (value) {},
                           validator: (value) {
                             if (value == null || value.isEmpty) {
                               setState(() {
@@ -496,7 +496,7 @@ class _RequestSpecificCardState extends State<RequestSpecificCard> {
                       SizedBox(height: 20),
                       AuthFormField(
                         controller: _addressController,
-                        hint: 'Address'.tr, onChanged: (value) {  },
+                        hint: 'Address'.tr,
                       ),
                       SizedBox(height: 20),
                       TextFormField(
@@ -520,7 +520,7 @@ class _RequestSpecificCardState extends State<RequestSpecificCard> {
                             child: TextFormField(
                               controller: familyNamesControllers[index],
                               decoration: InputDecoration(
-                                labelText: 'Member Name ${index + 1}'.tr,
+                                labelText: 'Member Name'.tr + "${index + 1}",
                                 border: OutlineInputBorder(),
                               ),
                             ),
@@ -549,7 +549,7 @@ class _RequestSpecificCardState extends State<RequestSpecificCard> {
 
                                 final cardRequest = RequestCardData(
                                   name: _nameController.text,
-                                  phone: _phoneController.text,
+                                  phone:  "+964" + _phoneController.text.trim(),
                                   address: _addressController.text,
                                   familyMembersNames: familyNamesControllers.isNotEmpty
                                       ? familyNamesControllers

@@ -30,16 +30,25 @@ class _NavigationBarScreenState extends State<NavigationBarScreen> {
                 : "Assets/images/logo41.png";
             return Row(
               children: [
-                SizedBox(
-                  width: 50.0,
-                  height: 37,
-                  child: Image.asset(
-                    logoPath,
-                    fit: BoxFit.cover,
-                    filterQuality: FilterQuality.high,
-                  ),
-                ),
-              ],
+                GestureDetector(
+                onTap: () {
+              print("Logo clicked!");
+              Navigator.pushNamed(context, AppRoutes.homescreen);
+            },
+            child: SizedBox(
+            width: 50.0,
+            height: 37,
+            child: Image.asset(
+            logoPath,
+            fit: BoxFit.cover,
+            filterQuality: FilterQuality.high,
+            ),
+            ),
+            )
+
+
+
+            ],
             );
           }),
           actions: [

@@ -1,3 +1,5 @@
+
+
 class PopularServiceModel {
   String? status;
   List<PopularServiceData>? data;
@@ -190,6 +192,8 @@ class Card {
   String? updatedAt;
   String? image;
   String? currency;
+  String? descriptionAr;
+  String? descriptionEn;
   String? name;
 
   Card(
@@ -204,6 +208,8 @@ class Card {
         this.updatedAt,
         this.image,
         this.currency,
+        this.descriptionAr,
+        this.descriptionEn,
         this.name});
 
   Card.fromJson(Map<String, dynamic> json) {
@@ -218,6 +224,8 @@ class Card {
     updatedAt = json['updated_at'];
     image = json['image'];
     currency = json['currency'];
+    descriptionAr = json['description_ar'];
+    descriptionEn = json['description_en'];
     name = json['name'];
   }
 
@@ -234,6 +242,8 @@ class Card {
     data['updated_at'] = this.updatedAt;
     data['image'] = this.image;
     data['currency'] = this.currency;
+    data['description_ar'] = this.descriptionAr;
+    data['description_en'] = this.descriptionEn;
     data['name'] = this.name;
     return data;
   }
@@ -244,27 +254,36 @@ class Category {
   String? nameEn;
   String? nameAr;
   String? icon;
+  String? color;
   int? discount;
   String? createdAt;
   String? updatedAt;
+  int? parentId;
+  int? cardId;
 
   Category(
       {this.id,
         this.nameEn,
         this.nameAr,
         this.icon,
+        this.color,
         this.discount,
         this.createdAt,
-        this.updatedAt});
+        this.updatedAt,
+        this.parentId,
+        this.cardId});
 
   Category.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     nameEn = json['name_en'];
     nameAr = json['name_ar'];
     icon = json['icon'];
+    color = json['color'];
     discount = json['discount'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
+    parentId = json['parent_id'];
+    cardId = json['card_id'];
   }
 
   Map<String, dynamic> toJson() {
@@ -273,9 +292,13 @@ class Category {
     data['name_en'] = this.nameEn;
     data['name_ar'] = this.nameAr;
     data['icon'] = this.icon;
+    data['color'] = this.color;
     data['discount'] = this.discount;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
+    data['parent_id'] = this.parentId;
+    data['card_id'] = this.cardId;
     return data;
   }
 }
+

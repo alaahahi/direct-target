@@ -1,6 +1,6 @@
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:flutter/material.dart';
-
+import 'package:get/get.dart';
 
 class DoctorDetailsList extends StatelessWidget {
   final String image;
@@ -99,7 +99,7 @@ class DoctorDetailsList extends StatelessWidget {
                             ),
                             const SizedBox(height: 5),
                             Text(
-                              "Reviews Rate",
+                              "Reviews Rate".tr,
                               style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                 color: TextGrey,
                               ),
@@ -149,7 +149,7 @@ class DoctorDetailsList extends StatelessWidget {
                               ),
                               const SizedBox(height: 5),
                               Text(
-                                "Exp Years",
+                                "Exp Years".tr,
                                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                   color: TextGrey,
                                 ),
@@ -198,7 +198,7 @@ class DoctorDetailsList extends StatelessWidget {
                               ),
                               const SizedBox(height: 5),
                               Text(
-                                "Patients",
+                                "Patients".tr,
                                 style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                                   color: TextGrey,
                                 ),

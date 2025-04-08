@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_widget_from_html/flutter_widget_from_html.dart';
 import 'package:get/get.dart';
-import '../../Controller/AppointmentController.dart';
+
 import '../../Controller/CardController.dart';
 import '../../Controller/LoaderController.dart';
 import '../../Routes/Routes.dart';

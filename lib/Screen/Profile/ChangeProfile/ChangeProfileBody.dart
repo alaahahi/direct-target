@@ -40,13 +40,13 @@ class _ChangeProfileBodyState extends State<ChangeProfileBody> {
                   AuthFormField(
                     controller: nameController,
                     hint: 'Your Name'.tr,
-                    onChanged: (value) {},
+                    onChange: (value) {},
                   ),
                   SizedBox(height: Get.height * 0.03),
                   AuthFormField(
                     controller: familyController,
                     hint: 'Your Family Names'.tr,
-                    onChanged: (value) {
+                    onChange: (value) {
                     },
                   ),
 
@@ -55,14 +55,14 @@ class _ChangeProfileBodyState extends State<ChangeProfileBody> {
                     controller: weightController,
                     hint: 'Your Weight (kg)'.tr,
                     keyboardType: TextInputType.number,
-                    onChanged: (value) {},
+                    onChange: (value) {},
                   ),
                   SizedBox(height: Get.height * 0.03),
                   AuthFormField(
                     controller: heightController,
                     hint: 'Your Height (cm)'.tr,
                     keyboardType: TextInputType.number,
-                    onChanged: (value) {},
+                    onChange: (value) {},
                   ),
                   SizedBox(height: Get.height * 0.03),
                   DropdownButtonFormField<String>(

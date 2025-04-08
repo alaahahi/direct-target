@@ -35,16 +35,23 @@ class list_doctor1 extends StatelessWidget {
                 width: 100,
                 decoration: BoxDecoration(
                   shape: BoxShape.circle,
+                  border: Border.all(
+                    color: Colors.grey.withOpacity(0.2),
+                    width: 1,
+                  ),
+
                   image: DecorationImage(
                     image: image.isNotEmpty && image.startsWith("http")
                         ? NetworkImage(image)
-                        : AssetImage('Assets/icons/male-doctor.png') as ImageProvider,
+                        : AssetImage('Assets/images/person.jpg') as ImageProvider,
                     filterQuality: FilterQuality.high,
                     fit: BoxFit.cover,
                   ),
                 ),
               ),
             ),
+
+
 
 
             Padding(
@@ -58,9 +65,12 @@ class list_doctor1 extends StatelessWidget {
 
                   Text(
                       maintext,
-                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                      style: Theme.of(context).textTheme.bodyMedium?.copyWith(
                         color:  Colors.black,
                       ),
+                  ),
+                  SizedBox(
+                    height: 10,
                   ),
 
                   Text(

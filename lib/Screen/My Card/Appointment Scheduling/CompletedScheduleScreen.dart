@@ -43,7 +43,7 @@ class CompletedScheduleScreen extends StatelessWidget {
                     mainText: appointment.serviceProvider!.serviceName!.toString(),
                     subText: appointment.note ?? "Note",
                     date: appointment.start!,
-                    image: "Assets/images/person.png",
+                    image: "Assets/images/person.jpg",
 
                   ),
                   const SizedBox(height: 20),
