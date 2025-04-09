@@ -65,8 +65,7 @@ class AppointmentService extends GetConnect {
   }
 
 
-
-  Future<AppointmentModel> createAppointment([dynamic data]) async {
+  Future<AppointmentModel> storeAppointment([dynamic data]) async {
     try {
       final String token = tokenController.getToken();
       var res = await dio.post(
@@ -79,31 +78,33 @@ class AppointmentService extends GetConnect {
           },
         ),
       );
-      if (res.statusCode == 200 || res.statusCode==201  ) {
-        var data = res.data;
-        if (data is String) {
 
-          return AppointmentModel.fromJson(jsonDecode(data));
-        } else if (data is Map<String, dynamic>) {
-
-          return AppointmentModel.fromJson(data);
+      if (res.statusCode == 200 || res.statusCode == 201) {
+        var responseData = res.data;
+        if (responseData is String) {
+          return AppointmentModel.fromJson(jsonDecode(responseData));
+        } else if (responseData is Map<String, dynamic>) {
+          return AppointmentModel.fromJson(responseData);
         } else {
           throw Exception('Unexpected data format');
         }
+      } else {
+        throw DioException(
+          requestOptions: res.requestOptions,
+          response: res,
+        );
       }
     } catch (e) {
       if (e is DioException) {
-        if (e.response?.statusCode != 200 || e.response?.statusCode != 201) {
-          print('**********  Error createAppointment *************${e.response}');
-        }
+        print('**********  Error createAppointment *************${e.response}');
       } else {
         print('errorrrrrr createAppointment $e');
       }
-
       loaderController.loading(false);
+      throw e; // Re-throwing the error for better handling
     }
-    return AppointmentModel();
   }
+
 
   Future<BookAppointmentModel> canBookAppointment([dynamic data]) async {
     try {

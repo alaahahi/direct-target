@@ -35,37 +35,29 @@ class _SheduleScreenState extends State<SheduleScreen>
         Padding(
           padding: const EdgeInsets.symmetric(horizontal: 20),
           child: Container(
-            width: MediaQuery.of(context).size.height,
+            width: MediaQuery.of(context).size.width,
             child: Column(
               children: [
                 Padding(
                   padding: EdgeInsets.all(5),
                   child: TabBar(
                     dividerColor: Colors.transparent,
-                    indicatorColor:
-                    PrimaryColor,
-                    unselectedLabelColor:
-                    const Color.fromARGB(255, 32, 32, 32),
-                    labelColor:PrimaryColor,
+                    indicatorColor: PrimaryColor,
+                    unselectedLabelColor: const Color.fromARGB(255, 32, 32, 32),
+                    labelColor: PrimaryColor,
                     controller: tabController,
-                    tabs:  [
+                    tabs: [
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                        child: Tab(
-                          text: "Upcoming".tr,
-                        ),
+                        child: Tab(text: "Upcoming".tr),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                        child: Tab(
-                          text: "Completed".tr,
-                        ),
+                        child: Tab(text: "Completed".tr),
                       ),
                       Padding(
                         padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
-                        child: Tab(
-                          text: "Cancel".tr,
-                        ),
+                        child: Tab(text: "Cancel".tr),
                       ),
                     ],
                   ),
@@ -74,15 +66,19 @@ class _SheduleScreenState extends State<SheduleScreen>
             ),
           ),
         ),
+
         Expanded(
-            child: TabBarView(
-                controller: tabController,
-                children:  [
-                  UpcomingScheduleScreen(),
-                  CompletedScheduleScreen(),
-                  CancelledScheduleScreen(),
-                ]))
+          child: TabBarView(
+            controller: tabController,
+            children: [
+              UpcomingScheduleScreen(),
+              CompletedScheduleScreen(),
+              CancelledScheduleScreen(),
+            ],
+          ),
+        ),
       ],
     );
+
   }
 }

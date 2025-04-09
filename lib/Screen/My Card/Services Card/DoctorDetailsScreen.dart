@@ -63,23 +63,38 @@ class _DoctorDetailsState extends State<DoctorDetails> {
   }
 
 
-  String addHalfHour(String time) {
+  // String addHalfHour(String dateTimeStr) {
+  //   print("Parsing Time: $dateTimeStr");
+  //   try {
+  //     DateTime dateTime = DateFormat("yyyy-MM-dd HH:mm:ss").parse(dateTimeStr);
+  //     DateTime newDateTime = dateTime.add(Duration(minutes: 30));
+  //     String formattedTime = DateFormat("yyyy-MM-dd HH:mm:ss").format(newDateTime);
+  //     print("End Time: $formattedTime"); // طباعة الوقت بعد إضافة نصف ساعة
+  //     return formattedTime;
+  //   } catch (e) {
+  //     print("⚠️ Error parsing time: $e");
+  //     throw FormatException("Invalid time format. Please check your input.");
+  //   }
+  // }
+
+
+  String addHalfHour(String dateTimeStr) {
+    print("Parsing Time: $dateTimeStr");
     try {
-      DateTime dateTime = DateFormat("HH:mm:ss").parse(time);
-      DateTime fullDateTime = DateTime.now().copyWith(
-        hour: dateTime.hour,
-        minute: dateTime.minute,
-        second: dateTime.second,
-      );
+      // مثال: "2025-04-10 15:45:00"
+      DateTime dateTime = DateFormat("yyyy-MM-dd HH:mm:ss").parse(dateTimeStr);
 
-      DateTime newTime = fullDateTime.add(Duration(minutes: 30));
+      // أضف 30 دقيقة
+      DateTime newDateTime = dateTime.add(Duration(minutes: 30));
 
-      return DateFormat("HH:mm:ss").format(newTime);
+      // أعد التنسيق بنفس الشكل
+      return DateFormat("yyyy-MM-dd HH:mm:ss").format(newDateTime);
     } catch (e) {
-      print("Error parsing time: $e");
-      return time;
+      print("Error parsing dateTime: $e");
+      return dateTimeStr;
     }
   }
+
   final Map<String, String> weekDaysArabic = {
     "Sunday": "الأحد",
     "Monday": "الإثنين",
@@ -190,66 +205,66 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                     ),
                                   ),
 
-                    Container(
-                    height: MediaQuery.of(context).size.height * 0.1,
-                  child: ListView.builder(
-                    scrollDirection: Axis.horizontal,
-                    physics: BouncingScrollPhysics(),
-                    itemCount: doctorDays!.length,
-                    itemBuilder: (context, index) {
-                      final day = doctorDays[index].trim();
-                      final translatedDay = Get.locale?.languageCode == 'ar'
-                          ? weekDaysArabic[day] ?? day
-                          : day;
-                      final correspondingDate = getDateForDay(day);
+                                  Container(
+                                    height: MediaQuery.of(context).size.height * 0.1,
+                                    child: ListView.builder(
+                                      scrollDirection: Axis.horizontal,
+                                      physics: BouncingScrollPhysics(),
+                                      itemCount: doctorDays!.length,
+                                      itemBuilder: (context, index) {
+                                        final day = doctorDays[index].trim();
+                                        final translatedDay = Get.locale?.languageCode == 'ar'
+                                            ? weekDaysArabic[day] ?? day
+                                            : day;
+                                        final correspondingDate = getDateForDay(day);
 
-                      return Padding(
-                        padding: const EdgeInsets.symmetric(horizontal: 8.0),
-                        child: ElevatedButton(
-                          onPressed: () {
-                            setState(() {
-                              selectedDay = day;
-                              selectedDate = correspondingDate;
-                            });
-                          },
-                          style: ElevatedButton.styleFrom(
-                            backgroundColor: selectedDay == day
-                                ? PrimaryColor
-                                : Colors.white,
-                            shape: RoundedRectangleBorder(
-                              borderRadius: BorderRadius.circular(20),
-                            ),
-                          ),
-                          child: Column(
-                            mainAxisAlignment: MainAxisAlignment.center,
-                            children: [
-                              Text(
-                                translatedDay,
-                                style: TextStyle(
-                                  color: selectedDay == day
-                                      ? Colors.white
-                                      : PrimaryColor,
-                                ),
-                              ),
-                              SizedBox(height: 4),
-                              Text(
-                                correspondingDate,
-                                style: TextStyle(
-                                  color: selectedDay == day
-                                      ? Colors.white
-                                      : PrimaryColor,
-                                  fontSize: 12,
-                                ),
-                              ),
-                            ],
-                          ),
-                        ),
-                      );
-                    },
-                  ),
-                ),
+                                        return Padding(
+                                          padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                          child: ElevatedButton(
+                                            onPressed: () {
+                                              setState(() {
+                                                selectedDay = day;
+                                                selectedDate = correspondingDate;
+                                              });
+                                            },
+                                            style: ElevatedButton.styleFrom(
+                                              backgroundColor: selectedDay == day
+                                                  ? PrimaryColor
+                                                  : Colors.white,
+                                              shape: RoundedRectangleBorder(
+                                                borderRadius: BorderRadius.circular(20),
+                                              ),
+                                            ),
+                                            child: Column(
+                                              mainAxisAlignment: MainAxisAlignment.center,
+                                              children: [
+                                                Text(
+                                                  translatedDay,
+                                                  style: TextStyle(
+                                                    color: selectedDay == day
+                                                        ? Colors.white
+                                                        : PrimaryColor,
+                                                  ),
+                                                ),
+                                                SizedBox(height: 4),
+                                                Text(
+                                                  correspondingDate,
+                                                  style: TextStyle(
+                                                    color: selectedDay == day
+                                                        ? Colors.white
+                                                        : PrimaryColor,
+                                                    fontSize: 12,
+                                                  ),
+                                                ),
+                                              ],
+                                            ),
+                                          ),
+                                        );
+                                      },
+                                    ),
+                                  ),
 
-                SizedBox(height: 20),
+                                  SizedBox(height: 20),
                                   const SizedBox(height: 20),
                                   const Padding(
                                     padding: EdgeInsets.symmetric(horizontal: 20),
@@ -330,7 +345,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                     height: MediaQuery.of(context).size.height * 0.07,
                                     width: MediaQuery.of(context).size.width * 0.9,
                                     child: ElevatedButton(
-                                      onPressed: () {
+                                      onPressed: () async{
                                         if (noteController.text.isEmpty) {
                                           Get.snackbar('Error', 'Please enter a note', backgroundColor: Colors.red, colorText: Colors.white);
                                           return;
@@ -347,7 +362,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                         }
 
                                         if (widget.appointmentId == null) {
-                                          appointmencontroller.createAppointment(
+                                          await appointmencontroller.createAppointment(
                                             profileId: profcontroller.selectedCardId.value,
                                             note: noteController.text,
                                             start: "$selectedDate $selectedTime",
@@ -355,6 +370,7 @@ class _DoctorDetailsState extends State<DoctorDetails> {
                                             serviceProviderId: widget.doctorId,
                                           );
                                         }
+
                                       },
                                       style: ElevatedButton.styleFrom(
                                         backgroundColor: PrimaryColor,

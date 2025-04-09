@@ -218,7 +218,11 @@ final Map<String, String> en = {
   'Member Name':'Member Name',
   "Patients":"Patients",
   "Exp Years":"Exp Years",
-  "Reviews Rate":"Reviews Rate"
+  "Reviews Rate":"Reviews Rate",
+  "Appointment Details":"Appointment Details",
+  "Duration":"Duration",
+  "End":"End",
+  "Start":"Start"
 
 }
 ;
@@ -433,7 +437,11 @@ final Map<String, String> ar = {
   'Member Name':'اسم الفرد',
   "Patients":"مرضى",
   "Exp Years":"سنوات الخبرة",
-  "Reviews Rate":"التقييمات"
+  "Reviews Rate":"التقييمات",
+  "Appointment Details":"تفاصيل الموعد",
+  "Duration":"المدة",
+  "End":"وقت النهاية",
+  "Start":"وقت البداية"
 }
 ;
 

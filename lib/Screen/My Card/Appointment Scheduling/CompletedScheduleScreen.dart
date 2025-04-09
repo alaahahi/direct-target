@@ -19,9 +19,6 @@ class CompletedScheduleScreen extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
 
-          if (appointmentController.appointments.isEmpty) {
-            return const Center(child: Text("No Completed Appointments"));
-          }
           var filteredAppointments = appointmentController.appointments
               .where((appointment) {
             return appointment.isCome == 2;

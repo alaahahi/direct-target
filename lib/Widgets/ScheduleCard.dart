@@ -134,7 +134,7 @@ class shedule_card extends StatelessWidget {
                     ),
                     child: Center(
                       child: Text(
-                        "Reschedule".tr,
+                        "Appointment Details".tr,
                         style: Theme.of(context)
                             .textTheme
                             .bodyLarge

@@ -3,6 +3,7 @@ import 'package:direct_target/Widgets/ScheduleCard.dart';
 import 'package:get/get.dart';
 
 import '../../../../Controller/AppointmentController.dart';
+import 'AppointmentDetailsScreen.dart';
 import 'AppointmentScreen.dart';
 
 
@@ -22,6 +23,7 @@ class UpcomingScheduleScreen extends StatelessWidget {
             return const Center(child: CircularProgressIndicator());
           }
           if (appointmentController.appointments.isEmpty) {
+            print("Appointments List: ${appointmentController.appointments.length}");
             return FutureBuilder(
               future: Future.delayed(Duration(seconds: 5), () => appointmentController.appointments.isEmpty),
               builder: (context, snapshot) {
@@ -32,10 +34,11 @@ class UpcomingScheduleScreen extends StatelessWidget {
               },
             );
           }
+          print("Appointmentsssssssssssss List: ${appointmentController.appointments.length}");
 
-          if (appointmentController.appointments.isEmpty) {
-            return const Center(child: Text("No Appointments Found"));
-          }
+          // if (appointmentController.appointments.isEmpty) {
+          //   return const Center(child: Text("No Appointments Found"));
+          // }
 
           var filteredAppointments = appointmentController.appointments
               .where((appointment) => appointment.isCome == 1)
@@ -59,7 +62,7 @@ class UpcomingScheduleScreen extends StatelessWidget {
                       appointmentController.deleteAppointment(AppointmentId: appointment.id!);
                     },
                     onReschedule: () {
-                      Get.to(() => AppointmentScreen(appointmentId: appointment.id!));
+                      Get.to(() => AppointmentDetailsScreen(appointmentId: appointment.id!));
                     },
                   ),
                   const SizedBox(height: 20),

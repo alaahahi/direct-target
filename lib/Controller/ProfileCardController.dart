@@ -62,8 +62,14 @@ class ProfileCardController extends GetxController {
         loaderController.loading(false);
         return;
       }
+
       var profileData = await _profileService.fetchProfile();
       profile.value = profileData;
+
+      if (profileData != null && profileData.data?.id != null) {
+        selectedCardId.value = profileData.data!.id! ;
+        print("User ID: ${selectedCardId.value}");
+      }
     } catch (e) {
       print("Error: $e");
       msgController.showErrorMessage('Error fetching profile'.tr, e.toString());

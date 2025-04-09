@@ -6,6 +6,8 @@ import '../../../Controller/LoaderController.dart';
 import '../../../Controller/ProfileCardController.dart';
 import 'package:intl/intl.dart';
 
+import '../../../Widgets/DoctorDetailsList.dart';
+
 class AppointmentScreen extends StatefulWidget {
 
   final int? appointmentId;
@@ -98,8 +100,12 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
       body: GetBuilder<AppointmentController>(
         builder: (controller) {
           if (loaderController.loading.value) {
-            return Center(
-              child: CircularProgressIndicator(color: PrimaryColor),
+            return SizedBox(
+              width: 30,
+              height: 30,
+              child: Center(
+                child: CircularProgressIndicator(color: PrimaryColor),
+              ),
             );
           }
 
@@ -118,7 +124,15 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
 
           return ListView(
             children: [
-              const SizedBox(height: 10),
+              DoctorDetailsList(
+                maintext:  doctor.serviceProvider?.serviceName ?? "No Name",
+                subtext:  doctor.serviceProvider?.specialty ?? "No Description",
+                image:  doctor.serviceProvider?.image ?? "Assets/images/person.jpg",
+                firstmaintext:  doctor.serviceProvider?.reviewRate  ?? "No Name",
+                secondmaintext:  doctor.serviceProvider!.exYear!,
+                thirdmaintext:  doctor.serviceProvider!.appointmentsPerDay! ,
+              ),
+
 
               const SizedBox(height: 15),
               GestureDetector(
@@ -264,13 +278,15 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                   ],
                 ),
               ),
-              const SizedBox(height: 10),
+              const SizedBox(height: 20),
               Obx(() {
                 return appointmencontroller.loaderController.loading.value
-                    ? SizedBox(
-                  height: 30,
-                  width: 30,
-                  child: CircularProgressIndicator(),
+                    ? Center(
+                  child: SizedBox(
+                    height: 30,
+                    width: 30,
+                    child: CircularProgressIndicator(strokeWidth: 3),
+                  ),
                 )
                     : Padding(
                   padding: const EdgeInsets.all(20.0),
@@ -289,7 +305,6 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                         Get.snackbar("Error", "Please select a date and time".tr);
                       }
                     },
-
                     style: ElevatedButton.styleFrom(
                       backgroundColor: PrimaryColor,
                       shape: RoundedRectangleBorder(
@@ -298,13 +313,12 @@ class _AppointmentScreenState extends State<AppointmentScreen> {
                     ),
                     child: Text(
                       'Update Appointment'.tr,
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
+                      style: TextStyle(color: Colors.white),
                     ),
                   ),
                 );
-              }),
+              })
+
             ],
           );
         },

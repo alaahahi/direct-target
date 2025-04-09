@@ -63,21 +63,14 @@ class _PopularDoctorDetailsScreenState extends State<PopularDoctorDetailsScreen>
   }
 
 
-  String addHalfHour(String time) {
+  String addHalfHour(String dateTimeStr) {
     try {
-      DateTime dateTime = DateFormat("HH:mm:ss").parse(time);
-      DateTime fullDateTime = DateTime.now().copyWith(
-        hour: dateTime.hour,
-        minute: dateTime.minute,
-        second: dateTime.second,
-      );
-
-      DateTime newTime = fullDateTime.add(Duration(minutes: 30));
-
-      return DateFormat("HH:mm:ss").format(newTime);
+      DateTime dateTime = DateFormat("yyyy-MM-dd HH:mm:ss").parse(dateTimeStr);
+      DateTime newDateTime = dateTime.add(Duration(minutes: 30));
+      return DateFormat("yyyy-MM-dd HH:mm:ss").format(newDateTime);
     } catch (e) {
-      print("Error parsing time: $e");
-      return time;
+      print("Error parsing dateTime: $e");
+      return dateTimeStr;
     }
   }
   final Map<String, String> weekDaysArabic = {

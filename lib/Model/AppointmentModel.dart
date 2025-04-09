@@ -1,3 +1,5 @@
+
+
 class AppointmentModel {
   String? status;
   String? message;
@@ -38,6 +40,7 @@ class Appointment {
   String? updatedAt;
   String? note;
   int? serviceProviderId;
+  String? source;
   User? user;
   ServiceProvider? serviceProvider;
 
@@ -52,6 +55,7 @@ class Appointment {
         this.updatedAt,
         this.note,
         this.serviceProviderId,
+        this.source,
         this.user,
         this.serviceProvider});
 
@@ -66,6 +70,7 @@ class Appointment {
     updatedAt = json['updated_at'];
     note = json['note'];
     serviceProviderId = json['service_provider_id'];
+    source = json['source'];
     user = json['user'] != null ? new User.fromJson(json['user']) : null;
     serviceProvider = json['service_provider'] != null
         ? new ServiceProvider.fromJson(json['service_provider'])
@@ -84,6 +89,7 @@ class Appointment {
     data['updated_at'] = this.updatedAt;
     data['note'] = this.note;
     data['service_provider_id'] = this.serviceProviderId;
+    data['source'] = this.source;
     if (this.user != null) {
       data['user'] = this.user!.toJson();
     }
@@ -105,9 +111,13 @@ class User {
   String? verificationUserType;
   String? familyMembersNames;
   String? birthDate;
-  String? weight;
-  String? height;
-  String? gender;
+  int? weight;
+  int? height;
+  int? gender;
+  String? token;
+  String? network;
+  String? device;
+  String? fcmToken;
 
   User(
       {this.id,
@@ -122,7 +132,11 @@ class User {
         this.birthDate,
         this.weight,
         this.height,
-        this.gender});
+        this.gender,
+        this.token,
+        this.network,
+        this.device,
+        this.fcmToken});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -138,6 +152,10 @@ class User {
     weight = json['weight'];
     height = json['height'];
     gender = json['gender'];
+    token = json['token'];
+    network = json['network'];
+    device = json['device'];
+    fcmToken = json['fcm_token'];
   }
 
   Map<String, dynamic> toJson() {
@@ -155,17 +173,20 @@ class User {
     data['weight'] = this.weight;
     data['height'] = this.height;
     data['gender'] = this.gender;
+    data['token'] = this.token;
+    data['network'] = this.network;
+    data['device'] = this.device;
+    data['fcm_token'] = this.fcmToken;
     return data;
   }
 }
 
-
 class ServiceProvider {
   int? id;
   int? cardId;
-  String? serviceName;
-  String? description;
-  int? price;
+  String? serviceNameAr;
+  String? descriptionAr;
+  String? price;
   String? createdAt;
   String? updatedAt;
   List<String>? workingDays;
@@ -174,12 +195,25 @@ class ServiceProvider {
   String? expirDate;
   bool? showOnApp;
   String? image;
+  String? specialtyAr;
+  int? discountRate;
+  String? serviceNameEn;
+  String? descriptionEn;
+  String? specialtyEn;
+  String? currency;
+  bool? isPopular;
+  int? categoryId;
+  String? reviewRate;
+  int? exYear;
+  String? serviceName;
+  String? description;
+  String? specialty;
 
   ServiceProvider(
       {this.id,
         this.cardId,
-        this.serviceName,
-        this.description,
+        this.serviceNameAr,
+        this.descriptionAr,
         this.price,
         this.createdAt,
         this.updatedAt,
@@ -188,20 +222,30 @@ class ServiceProvider {
         this.appointmentsPerDay,
         this.expirDate,
         this.showOnApp,
-        this.image});
+        this.image,
+        this.specialtyAr,
+        this.discountRate,
+        this.serviceNameEn,
+        this.descriptionEn,
+        this.specialtyEn,
+        this.currency,
+        this.isPopular,
+        this.categoryId,
+        this.reviewRate,
+        this.exYear,
+        this.serviceName,
+        this.description,
+        this.specialty});
 
   ServiceProvider.fromJson(Map<String, dynamic> json) {
     id = json['id'];
     cardId = json['card_id'];
-    serviceName = json['service_name'];
-    description = json['description'];
-
-    // Ensure price is parsed as an integer, even if it's a string
-    price = json['price'] != null ? int.tryParse(json['price'].toString()) : null;
-
+    serviceNameAr = json['service_name_ar'];
+    descriptionAr = json['description_ar'];
+    price = json['price'];
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
-    workingDays = json['working_days']?.cast<String>();
+    workingDays = json['working_days'].cast<String>();
     workingHours = json['working_hours'] != null
         ? new WorkingHours.fromJson(json['working_hours'])
         : null;
@@ -209,14 +253,27 @@ class ServiceProvider {
     expirDate = json['expir_date'];
     showOnApp = json['show_on_app'];
     image = json['image'];
+    specialtyAr = json['specialty_ar'];
+    discountRate = json['discount_rate'];
+    serviceNameEn = json['service_name_en'];
+    descriptionEn = json['description_en'];
+    specialtyEn = json['specialty_en'];
+    currency = json['currency'];
+    isPopular = json['is_popular'];
+    categoryId = json['category_id'];
+    reviewRate = json['review_rate'];
+    exYear = json['ex_year'];
+    serviceName = json['service_name'];
+    description = json['description'];
+    specialty = json['specialty'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['id'] = this.id;
     data['card_id'] = this.cardId;
-    data['service_name'] = this.serviceName;
-    data['description'] = this.description;
+    data['service_name_ar'] = this.serviceNameAr;
+    data['description_ar'] = this.descriptionAr;
     data['price'] = this.price;
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
@@ -228,10 +285,22 @@ class ServiceProvider {
     data['expir_date'] = this.expirDate;
     data['show_on_app'] = this.showOnApp;
     data['image'] = this.image;
+    data['specialty_ar'] = this.specialtyAr;
+    data['discount_rate'] = this.discountRate;
+    data['service_name_en'] = this.serviceNameEn;
+    data['description_en'] = this.descriptionEn;
+    data['specialty_en'] = this.specialtyEn;
+    data['currency'] = this.currency;
+    data['is_popular'] = this.isPopular;
+    data['category_id'] = this.categoryId;
+    data['review_rate'] = this.reviewRate;
+    data['ex_year'] = this.exYear;
+    data['service_name'] = this.serviceName;
+    data['description'] = this.description;
+    data['specialty'] = this.specialty;
     return data;
   }
 }
-
 
 class WorkingHours {
   String? start;
@@ -251,3 +320,4 @@ class WorkingHours {
     return data;
   }
 }
+
