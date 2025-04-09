@@ -222,7 +222,8 @@ final Map<String, String> en = {
   "Appointment Details":"Appointment Details",
   "Duration":"Duration",
   "End":"End",
-  "Start":"Start"
+  "Start":"Start",
+  'The appointment has been booked successfully':'The appointment has been booked successfully'
 
 }
 ;
@@ -441,7 +442,8 @@ final Map<String, String> ar = {
   "Appointment Details":"تفاصيل الموعد",
   "Duration":"المدة",
   "End":"وقت النهاية",
-  "Start":"وقت البداية"
+  "Start":"وقت البداية",
+  'The appointment has been booked successfully':'تم حجز الموعد بنجاح'
 }
 ;
 

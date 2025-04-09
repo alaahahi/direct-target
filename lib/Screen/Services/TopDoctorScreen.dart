@@ -57,7 +57,7 @@ class TopDoctorScreen extends StatelessWidget {
                       children: [
                         GestureDetector(
                           onTap: () async {
-                            await appointmencontroller.canBookAppointment(serviceId: service.id ?? 0);
+                            await appointmencontroller.canBookPopularAppointment(serviceId: service.id ?? 0);
                           },
                           child:  doctorList(
                             image: service.image != null && service.image!.isNotEmpty

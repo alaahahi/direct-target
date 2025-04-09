@@ -1,5 +1,4 @@
 
-
 class AppointmentModel {
   String? status;
   String? message;
@@ -320,4 +319,5 @@ class WorkingHours {
     return data;
   }
 }
+
 

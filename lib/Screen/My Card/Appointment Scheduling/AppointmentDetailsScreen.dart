@@ -26,13 +26,27 @@ class AppointmentDetailsScreen extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text("Appointment Details".tr),
-        centerTitle: true,
         leading: IconButton(
-          icon: Icon(Icons.arrow_back),
+          icon: Padding(
+            padding: const EdgeInsets.all(28.0),
+            child: Icon(
+              Icons.arrow_back_ios,
+              color: Theme.of(context).textTheme.bodyMedium?.color,
+              size: MediaQuery.of(context).size.height * 0.025,
+            ),
+          ),
+
           onPressed: () => Get.back(),
         ),
+        title: Text(
+            "Appointment Details".tr,
+          style: Theme.of(context).textTheme.headlineLarge,
+        ),
+        centerTitle: true,
+        elevation: 0,
+        toolbarHeight: 100,
       ),
+
       body: GetBuilder<AppointmentController>(
         builder: (controller) {
           if (loaderController.loading.value) {

@@ -48,22 +48,29 @@ class CardController extends GetxController {
   @override
   void onInit() {
     super.onInit();
+    loaderController.loading.value = true;
     loadData();
   }
-
   Future<void> loadData() async {
     try {
       await dioService.setupDio();
+
       await Future.wait([
         getCards(),
         getPopularService(),
         getCardCategoryServices(_appController.appCardValue.value),
         fetchMyCards(),
       ]);
+
+      await Future.delayed(Duration(seconds: 3));
+
+      loaderController.loading.value = false;
     } catch (e) {
       print("Error loading data: $e");
+      loaderController.loading.value = false;
     }
   }
+
 
   void updateSelectedCategory(String category) {
     selectedCategory = category;

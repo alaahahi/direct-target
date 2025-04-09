@@ -38,8 +38,6 @@ class AppointmentController extends GetxController {
       appointmentData = res.appointment!;
       print('Fetched Data Length: ${appointmentData?.length}');
       print('Fetched Data appointmentData : $appointmentData');
-
-
       appointments.value = appointmentData!;
     } catch (e) {
       if (e is dio.DioException) {
@@ -64,7 +62,7 @@ class AppointmentController extends GetxController {
       );
       return appointment;
     } catch (e) {
-      print('Error'.tr + '$e');
+      print("Error: $e");
       Get.snackbar('Error'.tr, e.toString());
       return null;
     }
@@ -88,8 +86,8 @@ class AppointmentController extends GetxController {
     }
     else{
       Get.snackbar(
-       response.message!,
-        'Your Appointment not modified'.tr,
+        'The operation was completed successfully'.tr,
+        'Your Appointment has been modified'.tr,
         snackPosition: SnackPosition.BOTTOM,
         backgroundColor: Colors.red,
         colorText: Colors.white,
@@ -108,33 +106,13 @@ class AppointmentController extends GetxController {
     }
   }
 
-  Future<dynamic> createAppointment({
-    required int serviceProviderId,
-    required int profileId,
-    required String note,
-    required String start,
-    required String end,
-  }) async {
-
-    print('--- Appointment Details ---');
-    print('Service Provider ID: $serviceProviderId');
-    print('Profile ID: $profileId');
-    print('Note: $note');
-    print('Start: $start');
-    print('End: $end');
+  Future<dynamic> createAppointment({required int serviceProviderId,required int profileId, required String note, required String start,required String end}) async {
+    final cardId = Get.put(ProfileCardController()).cardId.value;
     loaderController.loading(true);
-
-    dio.FormData request = dio.FormData.fromMap({
-      'profile_id': 275,
-      'note': note,
-      'start': start,
-      'end': end,
-      'service_provider_id': serviceProviderId,
-    });
-
+    dio.FormData request =
+    dio.FormData.fromMap({'profile_id': profileId, 'note': note,'start':start , 'end':end,'service_provider_id':serviceProviderId});
+    var response = await AppointmentService().createAppointment(request);
     try {
-      var response = await AppointmentService().storeAppointment(request);
-
       Get.snackbar(
         'The operation was completed successfully'.tr,
         'The appointment has been booked successfully'.tr,
@@ -143,7 +121,7 @@ class AppointmentController extends GetxController {
         colorText: Colors.white,
         duration: Duration(seconds: 5),
       );
-      Get.offAllNamed(AppRoutes.homescreen);
+      Get.back();
     } catch (e) {
       if (e is dio.DioException) {
         log(e.toString());
@@ -154,11 +132,11 @@ class AppointmentController extends GetxController {
           backgroundColor: Colors.red,
           colorText: Colors.white,
           duration: Duration(seconds: 5),
-        );
-      } else {
-        msgController.showErrorMessage('Unknown error'.tr, e.toString());
+        );      } else {
+        msgController.showErrorMessage(  'Unknown error'.tr, e.toString());
       }
-    } finally {
+    }
+    finally {
       loaderController.loading(false);
     }
   }
