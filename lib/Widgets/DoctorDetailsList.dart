@@ -26,8 +26,8 @@ class DoctorDetailsList extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           Container(
-            height: MediaQuery.of(context).size.height * 0.1,
-            width: MediaQuery.of(context).size.height * 0.1,
+            height: MediaQuery.of(context).size.height * 0.3,
+            width: MediaQuery.of(context).size.height * 0.3,
             decoration: BoxDecoration(
               borderRadius: BorderRadius.circular(12),
               image: DecorationImage(
@@ -39,12 +39,13 @@ class DoctorDetailsList extends StatelessWidget {
               ),
             ),
           ),
-          const SizedBox(height: 10),
+          const SizedBox(height: 20),
           Text(
             maintext,
             style: Theme.of(context).textTheme.headlineLarge,
             textAlign: TextAlign.center,
           ),
+          const SizedBox(height: 10),
           Text(
             subtext,
             style: Theme.of(context).textTheme.bodyMedium,
@@ -68,7 +69,8 @@ class DoctorDetailsList extends StatelessWidget {
                       child: Container(
                         decoration: BoxDecoration(
                           color: Colors.white,
-                          border: Border.all(color: Color.fromARGB(255, 226, 226, 226)),
+                          border: Border.all(
+                              color: Color.fromARGB(255, 226, 226, 226)),
                           borderRadius: BorderRadius.circular(12),
                         ),
                         child: Column(
@@ -85,29 +87,32 @@ class DoctorDetailsList extends StatelessWidget {
                                     color: Colors.blue,
                                   ),
                                 ),
-
                                 const SizedBox(width: 1),
                                 Text(
                                   firstmaintext,
-                                  style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                                    color: Colors.blue,
-                                  ),
+                                  style: Theme.of(context)
+                                      .textTheme
+                                      .displayLarge
+                                      ?.copyWith(
+                                        color: Colors.blue,
+                                      ),
                                   textAlign: TextAlign.center,
                                 ),
-
                               ],
                             ),
                             const SizedBox(height: 5),
                             Text(
                               "Reviews Rate".tr,
-                              style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                color: TextGrey,
-                              ),
+                              style: Theme.of(context)
+                                  .textTheme
+                                  .bodyMedium
+                                  ?.copyWith(
+                                    color: TextGrey,
+                                  ),
                               textAlign: TextAlign.center,
                             ),
                           ],
-                        )
-                        ,
+                        ),
                       ),
                     ),
                   ),
@@ -118,7 +123,8 @@ class DoctorDetailsList extends StatelessWidget {
                       child: Container(
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            border: Border.all(color: Color.fromARGB(255, 226, 226, 226)),
+                            border: Border.all(
+                                color: Color.fromARGB(255, 226, 226, 226)),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Column(
@@ -135,29 +141,32 @@ class DoctorDetailsList extends StatelessWidget {
                                       color: Colors.green,
                                     ),
                                   ),
-
                                   const SizedBox(width: 1),
                                   Text(
                                     secondmaintext.toString(),
-                                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                                      color: Colors.green,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayLarge
+                                        ?.copyWith(
+                                          color: Colors.green,
+                                        ),
                                     textAlign: TextAlign.center,
                                   ),
-
                                 ],
                               ),
                               const SizedBox(height: 5),
                               Text(
                                 "Exp Years".tr,
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: TextGrey,
-                                ),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                      color: TextGrey,
+                                    ),
                                 textAlign: TextAlign.center,
                               ),
                             ],
-                          )
-                      ),
+                          )),
                     ),
                   ),
                   SizedBox(width: 10),
@@ -167,7 +176,8 @@ class DoctorDetailsList extends StatelessWidget {
                       child: Container(
                           decoration: BoxDecoration(
                             color: Colors.white,
-                            border: Border.all(color: Color.fromARGB(255, 226, 226, 226)),
+                            border: Border.all(
+                                color: Color.fromARGB(255, 226, 226, 226)),
                             borderRadius: BorderRadius.circular(12),
                           ),
                           child: Column(
@@ -184,36 +194,38 @@ class DoctorDetailsList extends StatelessWidget {
                                       color: Colors.deepPurple,
                                     ),
                                   ),
-
                                   const SizedBox(width: 1),
                                   Text(
                                     thirdmaintext.toString(),
-                                    style: Theme.of(context).textTheme.displayLarge?.copyWith(
-                                      color:  Colors.deepPurple,
-                                    ),
+                                    style: Theme.of(context)
+                                        .textTheme
+                                        .displayLarge
+                                        ?.copyWith(
+                                          color: Colors.deepPurple,
+                                        ),
                                     textAlign: TextAlign.center,
                                   ),
-
                                 ],
                               ),
                               const SizedBox(height: 5),
                               Text(
                                 "Patients".tr,
-                                style: Theme.of(context).textTheme.bodyMedium?.copyWith(
-                                  color: TextGrey,
-                                ),
+                                style: Theme.of(context)
+                                    .textTheme
+                                    .bodyMedium
+                                    ?.copyWith(
+                                      color: TextGrey,
+                                    ),
                                 textAlign: TextAlign.center,
                               ),
                             ],
-                          )
-                      ),
+                          )),
                     ),
                   ),
                 ],
               ),
             ),
           )
-
         ],
       ),
     );
