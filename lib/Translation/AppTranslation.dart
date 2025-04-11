@@ -29,6 +29,7 @@ final Map<String, String> en = {
   "Find a lot of specialist\ndoctors in one place": "Find a lot of specialist\ndoctors in one place",
   "Get connect our Online\nConsultation": "Get connect our Online\nConsultation",
   "Skip": "Skip",
+  "Confirm Delete Account": "Confirm Delete Account",
   "Done": "Done",
   "Next": "Next",
   "Profile": "Profile",
@@ -111,6 +112,7 @@ final Map<String, String> en = {
   "sec":"sec",
   "Resend Code":"Resend Code",
   'Verify Code':'Verify Code',
+  "My Card": "My Card",
 
   "Request Card":"Request Card",
   "Join Now":"Join Now",
@@ -156,6 +158,7 @@ final Map<String, String> en = {
   "No Services Available":"No Services Available",
   "Confirm Logout":"Confirm Logout",
   "Language":"Language",
+  "Delete Account":"Delete Account",
   "Privacy & Policy":"Privacy & Policy",
   "Terms & Condition":"Terms & Condition",
   "Are you sure you want to Logout?":"Are you sure you want to Logout?",
@@ -206,6 +209,7 @@ final Map<String, String> en = {
   'Your profile has been modified':'Your profile has been modified',
   'Verification code error':'Verification code error',
   'Please enter the verification code correctly':'Please enter the verification code correctly',
+  "Logout": "Logout",
 
 
 
@@ -215,7 +219,6 @@ final Map<String, String> en = {
   'No services found.':'No services found.',
   "Search for a service...":"Search for a service...",
   "Price: ":"Price: ",
-  'Member Name':'Member Name',
   "Patients":"Patients",
   "Exp Years":"Exp Years",
   "Reviews Rate":"Reviews Rate",
@@ -314,6 +317,7 @@ final Map<String, String> ar = {
   "FAQs": "الأسئلة الشائعة",
   "Log out": "تسجيل الخروج",
   "All Services":"كافة الخدمات",
+  "Confirm Delete Account": "تاكيد حذف الحساب",
 
 
 
@@ -333,8 +337,10 @@ final Map<String, String> ar = {
   "sec":"ثانية",
   "Resend Code": "إعادة إرسال الرمز",
   "Verify Code": "تحقق من الرمز",
-
+  "Logout": "تسجيل الخروج",
   "Request Card": "طلب بطاقة",
+  "My Card": "بطاقتي",
+  "Delete Account": "حذف الحساب",
   "Join Now": "انضم الآن",
   "No data available": "لا توجد بيانات متاحة",
   "Your Name": "اسمك",

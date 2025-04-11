@@ -142,25 +142,17 @@ class __ContactBodyScreenState extends State<ContactBodyScreen> {
                     children: [
                       Icon(Icons.phone, color: Colors.blue),
                       SizedBox(width: 10),
-                      Text('+964 123 456 789'),
+                      Text('07822999990'),
                     ],
                   ),
-                  SizedBox(height: 10),
-
-                  Row(
-                    children: [
-                      Icon(Icons.email, color: Colors.blue),
-                      SizedBox(width: 10),
-                      Text('support@example.com'),
-                    ],
-                  ),
+          
                   SizedBox(height: 10),
 
                   Row(
                     children: [
                       Icon(Icons.location_on, color: Colors.blue),
                       SizedBox(width: 10),
-                      Text('123 Street, City, Country'),
+                      Text('العراق - بغداد'),
                     ],
                   ),
                 ],

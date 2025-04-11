@@ -41,52 +41,72 @@ class _AllCardBodyScreenState extends State<AllCardBodyScreen> {
               );
             }
 
-            return SingleChildScrollView(
-              child: Column(
-                children:[
-                  SizedBox(
-                    height: Get.height * 0.05,
-                  ),
-                  ...cardController.allMyCardList!.map((service) {
-                    return Padding(
-                      padding: const EdgeInsets.all(15),
-                      child: GestureDetector(
-                        onTap: () {
-                          Get.to(() => CardServicesScreen(cardId: service.cardId!));
-                        },
-              
-                        child:ClipRRect(
-                          borderRadius: BorderRadius.circular(10.0),
-                          child: SizedBox(
-                            width: double.infinity,
-                            height: 250,
-                            child: (service.image != null &&
-                                service.image!.isNotEmpty &&
-                                service.image != "null")
-                                ? Image.network(
-                             service.image!,
-                              fit: BoxFit.cover,
-                              errorBuilder: (context, error, stackTrace) {
-                                return Image.asset(
-                                  'Assets/images/4.jpg',
-                                  fit: BoxFit.cover,
-                                );
-                              },
-                            )
-                                : Image.asset(
-                              'Assets/images/4.jpg',
-                              fit: BoxFit.cover,
-                            ),
+       return SingleChildScrollView(
+  child: Column(
+    children: [
+      SizedBox(
+        height: Get.height * 0.05,
+      ),
+      ...cardController.allMyCardList!.map((service) {
+        return Padding(
+          padding: const EdgeInsets.all(15),
+          child: GestureDetector(
+            onTap: () {
+              Get.to(() => CardServicesScreen(cardId: service.cardId!));
+            },
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                ClipRRect(
+                  borderRadius: BorderRadius.circular(10.0),
+                  child: SizedBox(
+                    width: double.infinity,
+                    height: 250,
+                    child: (service.image != null &&
+                            service.image!.isNotEmpty &&
+                            service.image != "null")
+                        ? Image.network(
+                            service.image!,
+                            fit: BoxFit.cover,
+                            errorBuilder: (context, error, stackTrace) {
+                              return Image.asset(
+                                'Assets/images/4.jpg',
+                                fit: BoxFit.cover,
+                              );
+                            },
+                          )
+                        : Image.asset(
+                            'Assets/images/4.jpg',
+                            fit: BoxFit.cover,
                           ),
-                        ),
-              
+                  ),
+                ),
+                Padding(
+                  padding: const EdgeInsets.all(16.0),
+                  child: Center(
+                  child: Column(
+                    mainAxisSize: MainAxisSize.min,
+                    children: [
+                      Text(
+                        'No: ${service.cardNumber ?? ''}',
+                        style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                              fontWeight: FontWeight.bold,
+                            ),
                       ),
-                    );
-                  }).toList(),
+                      SizedBox(height: 10),
+                    ],
+                  ),
+)
+                ),
+              ],
+            ),
+          ),
+        );
+      }).toList(),
+    ],
+  ),
+);
 
-                ]
-              ),
-            );
           },
         ),
       );
