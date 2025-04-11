@@ -32,7 +32,7 @@ class TopDoctorScreen extends StatelessWidget {
             ),
           ),
           title: Text(
-            "Featured Services".tr,
+            "Join Now".tr,
             style: Theme.of(context).textTheme.bodyLarge,
           ),
           centerTitle: true,
