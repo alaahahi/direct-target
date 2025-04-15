@@ -7,7 +7,7 @@ import '../../Routes/Routes.dart';
 import '../../Service/SettingsServices.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
-
+import 'package:new_version_plus/new_version_plus.dart';
 
 class HomeScreenBody extends StatefulWidget {
   const HomeScreenBody({super.key});
@@ -18,7 +18,42 @@ class HomeScreenBody extends StatefulWidget {
 
 class _HomeScreenBodyState extends State<HomeScreenBody> {
   final AllSettingController _controller = Get.put(AllSettingController(SettingsServices()));
+  void checkVersion(BuildContext context) async {
+    print('🧪 Mocked version check for testing...');
+    final AllSettingController _controller = Get.put(AllSettingController(SettingsServices()));
+    final appShowPopupUpdate = _controller.appShowPopupUpdate.value;
 
+    if (appShowPopupUpdate) {
+      final fakeStatus = VersionStatus(
+        localVersion: '1.0.0',
+        storeVersion: '2.0.0',
+        appStoreLink: 'https://play.google.com/store/apps/details?id=com.direct_target',
+      );
+
+      print('🧾 canUpdate: ${fakeStatus.canUpdate}');
+      NewVersionPlus().showUpdateDialog(
+        context: context,
+        versionStatus: fakeStatus,
+        dialogTitle: 'New Update Available'.tr,
+        dialogText: 'Version'.tr + '${fakeStatus.storeVersion} '+'is available on the store, and you are using version'.tr+'${fakeStatus.localVersion}'+ 'Would you like to update now?'.tr,
+        updateButtonText: 'Update'.tr,
+        dismissButtonText: 'Later'.tr,
+        allowDismissal: true,
+      );
+    } else {
+      print('🔕 Update popup is disabled');
+    }
+  }
+
+  @override
+  void initState() {
+    super.initState();
+
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      checkVersion(context);
+    });
+
+  }
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -102,3 +137,6 @@ class ShimmerImage extends StatelessWidget {
     );
   }
 }
+
+
+

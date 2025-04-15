@@ -2,13 +2,15 @@ import 'package:direct_target/Controller/CardController.dart';
 import 'package:flutter/material.dart';
 import 'package:direct_target/Utils/AppStyle.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import '../../../Controller/AppointmentController.dart';
 import '../../../Controller/LoaderController.dart';
 import '../../../Controller/ProfileCardController.dart';
 import 'package:intl/intl.dart';
 import '../../../Routes/Routes.dart';
+import '../../../Widgets/AuthFormFiled.dart';
 import '../../../Widgets/DoctorDetailsList.dart';
-
+import 'dart:ui' as ui;
 class PopularDoctorDetailsScreen extends StatefulWidget {
   final int doctorId;
   final int? appointmentId;
@@ -30,7 +32,13 @@ class _PopularDoctorDetailsScreenState extends State<PopularDoctorDetailsScreen>
   DateFormat dateFormat = DateFormat("y-MM-dd H:m:s");
   String? selectedDay;
   String? selectedDate;
+  final _cardNumberController = TextEditingController();
 
+  String? userPhone;
+  bool? isAdmin;
+  bool _hasError = false;
+  String _errorMessage = '';
+  final _phoneController = TextEditingController();
   String getDateForDay(String day) {
     DateTime today = DateTime.now();
     DateTime nextDay = today;
@@ -83,6 +91,20 @@ class _PopularDoctorDetailsScreenState extends State<PopularDoctorDetailsScreen>
     "Friday": "الجمعة",
     "Saturday": "السبت",
   };
+  @override
+  void initState() {
+    super.initState();
+
+    GetStorage.init().then((_) {
+      final storage = GetStorage();
+      setState(() {
+        userPhone = storage.read('userPhone') ?? '';
+        isAdmin = storage.read('isAdmin') ?? false;
+        print("isAdmin: $isAdmin");
+      });
+    });
+
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -156,6 +178,83 @@ class _PopularDoctorDetailsScreenState extends State<PopularDoctorDetailsScreen>
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
+                            Directionality(
+                              textDirection: ui.TextDirection.ltr,
+                              child: AuthFormField(
+                                controller: _phoneController,
+                                hint: 'Phone Number'.tr,
+                                keyboardType: TextInputType.number,
+
+                                onChange: (value) {},
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    setState(() {
+                                      _hasError = true;
+                                      _errorMessage = "يجب إدخال رقم الهاتف".tr;
+                                    });
+                                    return '';
+                                  } else if (value.length != 10) {
+                                    setState(() {
+                                      _hasError = true;
+                                      _errorMessage = "يجب أن يكون الرقم مكونًا من 10 أرقام".tr;
+                                    });
+                                    return '';
+                                  }
+                                  setState(() {
+                                    _hasError = false;
+                                    _errorMessage = '';
+                                  });
+                                  return null;
+                                },
+                                prefixIcon: Padding(
+                                  padding: const EdgeInsets.symmetric(horizontal: 8.0),
+                                  child: Row(
+                                    mainAxisSize: MainAxisSize.min,
+                                    children: [
+                                      ClipRRect(
+                                        borderRadius: BorderRadius.circular(4),
+                                        child: Image.asset(
+                                          'Assets/images/iraq.png',
+                                          width: 28,
+                                          height: 20,
+                                          fit: BoxFit.cover,
+                                        ),
+                                      ),
+                                      const SizedBox(width: 8),
+                                      Text(
+                                        '+964',
+                                        style: TextStyle(
+                                          fontSize: 16,
+                                          color: Colors.grey[700],
+                                        ),
+                                      ),
+                                    ],
+                                  ),
+                                ),
+                              ),
+                            ),
+
+                            if (_hasError)
+                              Row(
+                                mainAxisAlignment: MainAxisAlignment.start,
+                                children: [
+                                  Text(
+                                    _errorMessage,
+                                    style: TextStyle(
+                                      fontSize: 12,
+                                    ),
+                                  ),
+                                ],
+                              ),
+                            SizedBox(height: 20),
+                            if (isAdmin != null && isAdmin!)
+                              AuthFormField(
+                                controller: _cardNumberController,
+                                keyboardType: TextInputType.number,
+                                hint: 'Card Number'.tr,
+                                onChange: (value) {},
+                              ),
+                            SizedBox(height: 20),
                             Text(
                               "About".tr,
                               style:  Theme.of(context).textTheme.headlineLarge,
@@ -354,6 +453,8 @@ class _PopularDoctorDetailsScreenState extends State<PopularDoctorDetailsScreen>
                                                 start: "$selectedDate $selectedTime",
                                                 end: addHalfHour("$selectedDate $selectedTime"),
                                                 serviceProviderId: widget.doctorId,
+                                                phone:_phoneController.text,
+                                                cardNumber: _cardNumberController.text
                                               );
                                             }
                                           },

@@ -57,7 +57,7 @@ class User {
   String? name;
   String? createdAt;
   String? updatedAt;
-  String? typeId;
+  int? typeId;
   String? phoneNumber;
   String? verificationDate;
   String? verificationUserType;

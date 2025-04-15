@@ -120,16 +120,16 @@ class VerificationWhatsappController extends GetxController {
           phoneNumber.value = 'defaultPhoneNumber';
         }
 
-        bool isAdmin = response.isAdmin ?? false;
-        box.write('isAdmin', isAdmin);
         box.write('verificationCode', verificationCode);
         name.value = response.user?.name ?? "اسم غير متوفر";
         gender.value = response.user?.gender ?? 0;
         weight.value = response.user?.weight ?? 0;
         height.value = response.user?.height ?? 0;
+        isAdmin.value = response.isAdmin ?? false;
+        box.write('isAdmin', isAdmin.value);
 
         token.value = response.token ?? "";
-
+        print("iiiiiiiiiiiis Admin: ${isAdmin}");
         print("User Phone: ${phoneNumber.value}");
         print("User Name: ${name.value}");
         print("Network Name: ${network.value}");

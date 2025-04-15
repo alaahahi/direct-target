@@ -106,22 +106,33 @@ class AppointmentController extends GetxController {
     }
   }
 
-  Future<dynamic> createAppointment({required int serviceProviderId,required int profileId, required String note, required String start,required String end}) async {
+  Future<dynamic> createAppointment({
+    required int serviceProviderId,required int profileId, required String note, required String start,
+    required String end,
+    String? phone,
+    String? cardNumber,
+  }) async {
     final cardId = Get.put(ProfileCardController()).cardId.value;
     loaderController.loading(true);
     dio.FormData request =
-    dio.FormData.fromMap({'profile_id': profileId, 'note': note,'start':start , 'end':end,'service_provider_id':serviceProviderId});
+    dio.FormData.fromMap({'profile_id': profileId, 'note': note,'start':start , 'end':end,'service_provider_id':serviceProviderId
+    ,'phone_number':phone ,'card_number':cardNumber});
     var response = await AppointmentService().createAppointment(request);
     try {
-      Get.snackbar(
-        'The operation was completed successfully'.tr,
-        'The appointment has been booked successfully'.tr,
-        snackPosition: SnackPosition.BOTTOM,
-        backgroundColor: Colors.green,
-        colorText: Colors.white,
-        duration: Duration(seconds: 5),
-      );
-      Get.back();
+      await Future.delayed(Duration(seconds: 1));
+      if (response.status == "success") {
+        Get.snackbar(
+          'The operation was completed successfully'.tr,
+          'The appointment has been booked successfully'.tr,
+          snackPosition: SnackPosition.BOTTOM,
+          backgroundColor: Colors.green,
+          colorText: Colors.white,
+          duration: Duration(seconds: 5),
+        );
+
+        await Future.delayed(Duration(seconds: 6));
+        Get.back();
+      }
     } catch (e) {
       if (e is dio.DioException) {
         log(e.toString());

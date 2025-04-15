@@ -68,15 +68,19 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
   @override
   void initState() {
     super.initState();
+
     GetStorage.init().then((_) {
+      final storage = GetStorage();
       setState(() {
-        userPhone = _userphoneController.phoneNumber.value;
-        isAdmin = _userphoneController.isAdmin.value;
+        userPhone = storage.read('userPhone') ?? '';
+        isAdmin = storage.read('isAdmin') ?? false;
+        print("isAdmin: $isAdmin");
       });
     });
 
     _phoneController.addListener(_phoneListener);
   }
+
 
   Future<void> _pickImage() async {
     final pickedFile = await _picker.pickImage(source: ImageSource.gallery);

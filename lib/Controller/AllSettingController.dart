@@ -7,6 +7,7 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:direct_target/Controller/MessageHandlerController.dart';
 import 'package:hexcolor/hexcolor.dart';
+import 'package:new_version_plus/new_version_plus.dart';
 import '../Model/AllSettingModel.dart';
 import '../Service/ApiService.dart';
 import '../Service/SettingsServices.dart';
@@ -51,6 +52,7 @@ class AllSettingController extends GetxController {
   var firstWelcomeImage = ''.obs;
   var appSmsActivate = false.obs;
   var appWhatsappActivate = false.obs;
+  var appShowPopupUpdate = false.obs;
   var appCardValue = 0.obs;
   var appPrimaryColor = Rx<Color>(Colors.transparent);
   var primaryyColor = Rx<Color>(Colors.blue);
@@ -111,6 +113,34 @@ class AllSettingController extends GetxController {
       loaderController.loading(false);
     }
   }
+  void checkVersion(BuildContext context) async {
+    print('🔍 Start checking version...');
+    final newVersion = NewVersionPlus(androidId: 'com.direct_target');
+
+    final status = await newVersion.getVersionStatus();
+    print('✅ Version status: $status');
+
+    if (status != null) {
+      print('📱 Local: ${status.localVersion}, Store: ${status.storeVersion}, Can update: ${status.canUpdate}');
+      if (status.canUpdate) {
+        print('🆕 Showing dialog...');
+        newVersion.showUpdateDialog(
+          context: context,
+          versionStatus: status,
+          dialogTitle: 'New Update Available'.tr,
+          dialogText: '${'Version'.tr} ${status.storeVersion} ${'is available on the store, and you are using version'.tr} ${status.localVersion}. ${'Would you like to update now?'.tr}',
+          updateButtonText: 'Update'.tr,
+          dismissButtonText: 'Later'.tr,
+          allowDismissal: true,
+        );
+      } else {
+        print('✅ Already up-to-date');
+      }
+    } else {
+      print('❌ Failed to get version status');
+    }
+  }
+
   Future<void> getAppSetting() async {
     loaderController.loading(true);
     update();
@@ -120,15 +150,17 @@ class AllSettingController extends GetxController {
       Map<String, dynamic> settingData = jsonDecode(appSetting.value);
       bool smsActivate = settingData["sms_activate"] == 1;
       bool whatsappActivate = settingData["whatsapp_activate"] == 1;
+      bool showPopupUpdate = settingData["show_popup_update"] == 1;
       int cardValue = settingData["card"] ?? 0;
       appSmsActivate.value = smsActivate;
       appWhatsappActivate.value = whatsappActivate;
+      appShowPopupUpdate.value = showPopupUpdate;
       appCardValue.value = cardValue;
       String hexColor = settingData['primary_color'];
       var PrimaryColor =HexColor(hexColor);
       PrimaryHexColor.value = hexColor;
       primaryyColor.value = PrimaryColor;
-      print('✅ Primary Color Updated: ${primaryyColor}');
+      print('✅ appShowPopupUpdate Updated: ${appShowPopupUpdate}');
     } catch (e) {
       print("❌ Error in decode: $e");
     }

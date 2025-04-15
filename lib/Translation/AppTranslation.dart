@@ -226,7 +226,14 @@ final Map<String, String> en = {
   "Duration":"Duration",
   "End":"End",
   "Start":"Start",
-  'The appointment has been booked successfully':'The appointment has been booked successfully'
+  'The appointment has been booked successfully':'The appointment has been booked successfully',
+  'New Update Available':'New Update Available',
+  'Version':'Version',
+  'is available on the store, and you are using version':'is available on the store, and you are using version',
+  'Would you like to update now?':'Would you like to update now?',
+  'Later': 'Later',
+  'Update': 'Update'
+
 
 }
 ;
@@ -449,7 +456,13 @@ final Map<String, String> ar = {
   "Duration":"المدة",
   "End":"وقت النهاية",
   "Start":"وقت البداية",
-  'The appointment has been booked successfully':'تم حجز الموعد بنجاح'
+  'The appointment has been booked successfully':'تم حجز الموعد بنجاح',
+  'New Update Available':'تحديث جديد متوفر',
+  'Version':'الإصدار',
+  'is available on the store, and you are using version':'متوفر في المتجر، وأنت تستخدم الإصدار',
+  'Would you like to update now?':'هل ترغب بالتحديث الآن؟',
+  'Later':'لاحقا',
+  'Update':'تحديث'
 }
 ;
 

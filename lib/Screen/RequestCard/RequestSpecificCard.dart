@@ -72,10 +72,13 @@ class _RequestSpecificCardState extends State<RequestSpecificCard> {
   @override
   void initState() {
     super.initState();
+
     GetStorage.init().then((_) {
+      final storage = GetStorage();
       setState(() {
-        userPhone = _userphoneController.phoneNumber.value;
-        isAdmin = _userphoneController.isAdmin.value;
+        userPhone = storage.read('userPhone') ?? '';
+        isAdmin = storage.read('isAdmin') ?? false;
+        print("isAdmin: $isAdmin");
       });
     });
 
