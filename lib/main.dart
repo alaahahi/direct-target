@@ -81,7 +81,7 @@ class DirectTarget extends StatelessWidget {
             bodySmall: TextStyle(fontSize: 12, color: Colors.black54),
             headlineLarge: TextStyle(fontSize: 22, color: Colors.black),
             titleMedium: TextStyle(fontSize: 18, color: Colors.black87),
-            displayLarge: TextStyle(fontSize: 32, fontWeight: FontWeight.bold, color: Colors.black),
+            displayLarge: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black),
           ),
           appBarTheme: const AppBarTheme(
             backgroundColor: FormBackGraund,
@@ -100,6 +100,8 @@ class DirectTarget extends StatelessWidget {
             bodySmall: TextStyle(fontSize: 12, color: Colors.grey.shade400),
             headlineLarge: TextStyle(fontSize: 24, color: LightGrey),
             titleMedium: TextStyle(fontSize: 18, color: Colors.grey.shade300),
+            displayLarge: TextStyle(fontSize: 30, fontWeight: FontWeight.bold, color: Colors.black),
+
           ),
           inputDecorationTheme: InputDecorationTheme(
             labelStyle: TextStyle(fontFamily: (Get.locale?.languageCode ?? 'en') == 'ar'

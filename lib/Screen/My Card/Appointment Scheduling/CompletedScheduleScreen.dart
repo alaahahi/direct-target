@@ -26,7 +26,7 @@ class CompletedScheduleScreen extends StatelessWidget {
               .toList();
 
           if (filteredAppointments.isEmpty) {
-            return const Center(child: Text("No Completed Appointments"));
+            return  Center(child: Text("No Completed Appointments".tr));
           }
 
           return ListView.builder(

@@ -55,7 +55,7 @@ class AppointmentDetailsScreen extends StatelessWidget {
 
           final appointment = controller.appointments.firstWhere(
                   (a) => a.id == appointmentId,
-              orElse: () => throw Exception('Appointment not found'));
+              orElse: () => throw Exception('Appointment not found'.tr));
 
           final doctor = appointment.serviceProvider;
 

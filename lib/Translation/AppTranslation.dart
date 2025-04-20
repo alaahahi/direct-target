@@ -232,7 +232,15 @@ final Map<String, String> en = {
   'is available on the store, and you are using version':'is available on the store, and you are using version',
   'Would you like to update now?':'Would you like to update now?',
   'Later': 'Later',
-  'Update': 'Update'
+  'Update': 'Update',
+  "Choose the card you want to order":"Choose the card you want to order",
+  "Validity: ":"Validity: ",
+  'choose card':'choose card',
+  "Day":"Day",
+  'Appointment not found':'Appointment not found',
+  "No Canceled Appointments":"No Canceled Appointments",
+  "No Completed Appointments":"No Completed Appointments",
+  "No Appointments Found": "No Appointments Found"
 
 
 }
@@ -462,7 +470,15 @@ final Map<String, String> ar = {
   'is available on the store, and you are using version':'متوفر في المتجر، وأنت تستخدم الإصدار',
   'Would you like to update now?':'هل ترغب بالتحديث الآن؟',
   'Later':'لاحقا',
-  'Update':'تحديث'
+  'Update':'تحديث',
+  "Choose the card you want to order" :"اختر البطاقة التي تريد طلبها",
+  "Validity: ":"الصلاحية",
+  'choose card':'اختر بطاقة',
+  "Day" : "يوم",
+  'Appointment not found':'لا يوجد مواعيد',
+  "No Canceled Appointments":'لا يوجد مواعيد ملغية',
+  "No Completed Appointments":'لا يوجد مواعيد مكتملة',
+  "No Appointments Found":'لا يوجد مواعيد قادمة',
 }
 ;
 

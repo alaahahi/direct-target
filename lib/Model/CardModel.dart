@@ -41,6 +41,7 @@ class CardData {
   String? descriptionAr;
   String? descriptionEn;
   String? name;
+  String? description;
 
   CardData(
       {this.id,
@@ -56,7 +57,8 @@ class CardData {
         this.currency,
         this.descriptionAr,
         this.descriptionEn,
-        this.name});
+        this.name,
+        this.description});
 
   CardData.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -73,6 +75,7 @@ class CardData {
     descriptionAr = json['description_ar'];
     descriptionEn = json['description_en'];
     name = json['name'];
+    description = json['description'];
   }
 
   Map<String, dynamic> toJson() {
@@ -91,7 +94,9 @@ class CardData {
     data['description_ar'] = this.descriptionAr;
     data['description_en'] = this.descriptionEn;
     data['name'] = this.name;
+    data['description'] = this.description;
     return data;
   }
 }
+
 

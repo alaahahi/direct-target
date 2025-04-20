@@ -111,7 +111,7 @@ class _ServicesScreenState extends State<ServicesScreen> {
                                     ),
                                     SizedBox(height: 10),
                                     HtmlWidget(
-                                      selectedCard.descriptionAr ?? "No description",
+                                      selectedCard.description ?? "No description",
                                       textStyle: TextStyle(color: Colors.black87),
                                     ),
 
@@ -120,6 +120,11 @@ class _ServicesScreenState extends State<ServicesScreen> {
                                       color:  Colors.black,),),
                                     SizedBox(height: 10),
 
+                                    Text(
+                                        "Validity: ".tr +
+                                            "${selectedCard.day} " +
+                                            "Day".tr,
+                                        style: Theme.of(context).textTheme.bodyLarge),
                                   ],
                                 ),
                               ),

@@ -43,6 +43,7 @@ class AuthFormField extends StatelessWidget {
         textInputAction: TextInputAction.next,
         onTap: onTap,
         keyboardType: keyboardType,
+        style: TextStyle(color:  Colors.black),
         decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,

@@ -89,6 +89,7 @@ class AllSettingController extends GetxController {
         getAppSetting(),
         _getPrivacyPolicyEnUrl(),
         _getTermsConditionsEnUrl(),
+        getFirstContactPhone()
       ]);
     } catch (e) {
       print("Error loading data: $e");
@@ -411,23 +412,6 @@ class AllSettingController extends GetxController {
     }
   }
 
-  Future<dynamic> getSecondaryContactPhone() async {
-    isLoading(true);
-    try {
-      AllSettingModel? res = await SettingsServices().getSecondaryContactPhone();
-      if (res.status == "success" && res.data != null) {
-        String firstWelcomeImage = res.data!.value ?? "alt First Welcome Image";
-        log("Primary Color: $firstWelcomeImage");
-      } else {
-        log("Failed to retrieve primary color");
-      }
-    } catch (e) {
-      print("Error fetching primary color: $e");
-    } finally {
-      isLoading(false);
-    }
-  }
-
   Future<dynamic> getAppName() async {
 
     AllSetting? setting = await _service.getAppName();
@@ -487,23 +471,17 @@ class AllSettingController extends GetxController {
       isLoading(false);
     }
   }
-
   Future<dynamic> getFirstContactPhone() async {
-    isLoading(true);
-    try {
-      AllSettingModel? res = await SettingsServices().getFirstContactPhone();
-      if (res.status == "success" && res.data != null) {
-        String contactPhone = res.data!.value ?? "alt First Welcome Image";
-        log("Primary Color: $contactPhone");
-      } else {
-        log("Failed to retrieve primary color");
-      }
-    } catch (e) {
-      print("Error fetching primary color: $e");
-    } finally {
-      isLoading(false);
+
+    AllSetting? setting = await _service.getContactPhone();
+    if (setting != null) {
+      contactPhone.value = setting.value ?? '';
+      print("ggggggggggggggggggggggggg ${contactPhone}");
+    } else {
+      contactPhone.value = '';
     }
   }
+
   Future<dynamic> getApiUrl() async {
     isLoading(true);
     try {

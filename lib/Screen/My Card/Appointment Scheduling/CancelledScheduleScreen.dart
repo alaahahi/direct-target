@@ -20,7 +20,7 @@ class CancelledScheduleScreen extends StatelessWidget {
           }
 
           if (appointmentController.appointments.isEmpty) {
-            return const Center(child: Text("No Canceled Appointments"));
+            return  Center(child: Text("No Canceled Appointments".tr));
           }
 
           var filteredAppointments = appointmentController.appointments
@@ -30,7 +30,7 @@ class CancelledScheduleScreen extends StatelessWidget {
               .toList();
 
           if (filteredAppointments.isEmpty) {
-            return const Center(child: Text("No Canceled Appointments"));
+            return  Center(child: Text("No Canceled Appointments".tr));
           }
 
           return ListView.builder(

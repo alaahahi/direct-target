@@ -71,6 +71,13 @@ class CardController extends GetxController {
     }
   }
 
+// داخل CardController
+  int? selectedCardId;
+
+  void selectCard(int id) {
+    selectedCardId = id;
+    update(); // لتحديث الواجهة
+  }
 
   void updateSelectedCategory(String category) {
     selectedCategory = category;

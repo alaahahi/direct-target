@@ -390,25 +390,7 @@ class SettingsServices {
     }
     return AllSettingModel();
   }
-  Future<AllSettingModel> getSecondaryContactPhone() async {
-    loaderController.loading(true);
 
-    try {
-      var res = await dio.get('$appConfig/settings/secondary_contact_phone');
-
-      if (res.statusCode == 200) {
-        return AllSettingModel.fromJson(jsonDecode(res.data));
-      }
-    } catch (e) {
-      if (e is DioException) {
-        print('Exception :${e.response}');
-      } else {
-        print('errorrrrrr');
-      }
-      loaderController.loading(false);
-    }
-    return AllSettingModel();
-  }
   Future<AllSetting?> getAppName() async {
     loaderController.loading(true);
     try {
@@ -482,25 +464,7 @@ class SettingsServices {
     return AllSettingModel();
   }
 
-  Future<AllSettingModel> getFirstContactPhone() async {
-    loaderController.loading(true);
 
-    try {
-      var res = await dio.get('$appConfig/settings/First_contact_phone');
-
-      if (res.statusCode == 200) {
-        return AllSettingModel.fromJson(jsonDecode(res.data));
-      }
-    } catch (e) {
-      if (e is DioException) {
-        print('Exception :${e.response}');
-      } else {
-        print('errorrrrrr');
-      }
-      loaderController.loading(false);
-    }
-    return AllSettingModel();
-  }
   Future<AllSettingModel> getApiUrl() async {
     loaderController.loading(true);
 

@@ -43,7 +43,7 @@ class _SheduleScreenState extends State<SheduleScreen>
                   child: TabBar(
                     dividerColor: Colors.transparent,
                     indicatorColor: PrimaryColor,
-                    unselectedLabelColor: const Color.fromARGB(255, 32, 32, 32),
+                    unselectedLabelColor: Colors.grey,
                     labelColor: PrimaryColor,
                     controller: tabController,
                     tabs: [

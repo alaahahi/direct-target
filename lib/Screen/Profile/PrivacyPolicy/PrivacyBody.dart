@@ -27,7 +27,7 @@ class _PrivacyBodyState extends State<PrivacyBody> {
           children: [
             HtmlWidget(
               privacyPolicyText,
-              textStyle: TextStyle(color: Colors.black87),
+              textStyle: Theme.of(context).textTheme.bodyLarge,
             ),
           ],
         ),

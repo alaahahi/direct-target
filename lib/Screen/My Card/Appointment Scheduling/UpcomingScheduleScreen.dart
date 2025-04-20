@@ -30,7 +30,7 @@ class UpcomingScheduleScreen extends StatelessWidget {
                 if (snapshot.connectionState == ConnectionState.waiting) {
                   return const Center(child: CircularProgressIndicator());
                 }
-                return const Center(child: Text("No Appointments Found"));
+                return  Center(child: Text("No Appointments Found".tr));
               },
             );
           }

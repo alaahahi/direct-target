@@ -38,57 +38,62 @@ class ListIcons extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Column(
-            children: [
-              Container(
-                height: MediaQuery.of(context).size.height * 0.07,
-                width: MediaQuery.of(context).size.width * 0.15,
-                decoration: BoxDecoration(
-                  color: Colors.white,
-                  borderRadius: BorderRadius.circular(12),
-                  boxShadow: const [
-                    BoxShadow(
-                      blurRadius: 10,
-                      spreadRadius: 1,
-                      color: Color.fromARGB(135, 238, 236, 236),
-                    ),
-                  ],
-                ),
-                child: isUrl
-                    ? Image.network(
-                  icon,
-                  width: 24,
-                  height: 24,
-                  errorBuilder: (context, error, stackTrace) {
-                    return Icon(Icons.error, color: Colors.red);
-                  },
-                )
-                    : Icon(
-                  getIconData(icon),
-                  size: 24,
-                  color: Colors.black,
-                ),
-              ),
-              const SizedBox(height: 15),
-
-              Text(
-                text,
-                style: textStyle ?? TextStyle(fontSize: 14, color: Colors.black),
-              ),
-
-              if (categoryDiscount != null)
-                Text(
-                  "$categoryDiscount%",
-                  style: textStyle ?? TextStyle(
-                    color: Colors.red,
-                    fontWeight: FontWeight.bold,
-                    fontSize: 14,
+          Expanded(
+            child: Column(
+              mainAxisSize: MainAxisSize.min,
+              children: [
+                Container(
+                  height: MediaQuery.of(context).size.height * 0.07,
+                  width: MediaQuery.of(context).size.width * 0.2,
+                  decoration: BoxDecoration(
+                    color: Colors.white,
+                    borderRadius: BorderRadius.circular(12),
+                    boxShadow: const [
+                      BoxShadow(
+                        blurRadius: 10,
+                        spreadRadius: 1,
+                        color: Color.fromARGB(135, 238, 236, 236),
+                      ),
+                    ],
+                  ),
+                  child: isUrl
+                      ? Image.network(
+                    icon,
+                    width: 24,
+                    height: 24,
+                    errorBuilder: (context, error, stackTrace) {
+                      return Icon(Icons.error, color: Colors.red);
+                    },
+                  )
+                      : Icon(
+                    getIconData(icon),
+                    size: 24,
+                    color: Colors.black,
                   ),
                 ),
-            ],
+                const SizedBox(height: 15),
+                Text(
+                  text,
+                  textAlign: TextAlign.center,
+                  style: textStyle ??
+                      TextStyle(fontSize: 14, color: Colors.black),
+                ),
+                if (categoryDiscount != null)
+                  Text(
+                    "$categoryDiscount%",
+                    style: textStyle ??
+                        TextStyle(
+                          color: Colors.red,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 14,
+                        ),
+                  ),
+              ],
+            ),
           ),
         ],
       ),
     );
+
   }
 }
