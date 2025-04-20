@@ -13,7 +13,8 @@ import '../../Controller/TokenController.dart';
 import '../../Controller/VerificationWhatsappController.dart';
 import '../../Routes/Routes.dart';
 import 'Language/ChangeLanguageScreen.dart';
-
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:url_launcher/url_launcher.dart';
 class ProfileScreenBody extends StatefulWidget {
   const ProfileScreenBody({super.key});
 
@@ -28,6 +29,14 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
   Get.put(ProfileCardController());
   final TokenController tokenController = Get.put(TokenController());
   final box = GetStorage();
+  void _launchUrl(String url) async {
+    final uri = Uri.parse(url);
+    if (await canLaunchUrl(uri)) {
+      await launchUrl(uri, mode: LaunchMode.externalApplication);
+    } else {
+      print("❌ Couldn't launch $url");
+    }
+  }
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
@@ -35,40 +44,64 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
         crossAxisAlignment: CrossAxisAlignment.end,
         mainAxisAlignment: MainAxisAlignment.end,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(10.0),
-            child: Row(
-              mainAxisAlignment: MainAxisAlignment.center,
-              children: [
-                CircleAvatar(
-                  radius: 20,
-                  backgroundColor: Colors.blue[900],
-                  child: IconButton(
-                    icon: Icon(Icons.facebook, color: Colors.white),
-                    onPressed: () {},
-                  ),
-                ),
-                SizedBox(width: 15),
-                CircleAvatar(
-                  radius: 20,
-                  backgroundColor: Colors.blueAccent,
-                  child: IconButton(
-                    icon: Icon(Icons.telegram, color: Colors.white),
-                    onPressed: () {},
-                  ),
-                ),
-                SizedBox(width: 15),
-                CircleAvatar(
-                  radius: 20,
-                  backgroundColor: Colors.green,
-                  child: IconButton(
-                    icon: Icon(FontAwesomeIcons.whatsapp, color: Colors.white),
-                    onPressed: () {},
-                  ),
-                ),
-              ],
+      Padding(
+      padding: const EdgeInsets.all(10.0),
+      child: Row(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: [
+          CircleAvatar(
+            radius: 25,
+            backgroundColor: Colors.blue[900],
+            child: IconButton(
+              icon: Icon(Icons.facebook, color: Colors.white,size:30),
+              onPressed: () => _launchUrl('https://www.facebook.com/share/kD9pYgyu3KaE2rU5/?mibextid=LQQJ4d'),
             ),
           ),
+          SizedBox(width: 15),
+
+          CircleAvatar(
+            radius: 25,
+            backgroundColor: Colors.blueAccent,
+            child: IconButton(
+              icon: Icon(Icons.telegram, color: Colors.white,size:30),
+              onPressed: () => _launchUrl('https://t.me/+9647728888483'),
+            ),
+          ),
+          SizedBox(width: 15),
+
+          CircleAvatar(
+            radius: 25,
+            backgroundColor: Colors.green,
+            child: IconButton(
+              icon: Icon(FontAwesomeIcons.whatsapp, color: Colors.white,size:30),
+              onPressed: () => _launchUrl('https://www.whatsapp.com/channel/0029VaoOky1JJhzdXg9pxS1w'),
+            ),
+          ),
+          SizedBox(width: 15),
+
+          CircleAvatar(
+            radius: 25,
+            backgroundColor: Colors.pinkAccent,
+            child: IconButton(
+              icon: Icon(FontAwesomeIcons.instagram, color: Colors.white,size:30),
+              onPressed: () => _launchUrl('https://www.instagram.com'),
+            ),
+          ),
+
+          SizedBox(width: 15),
+
+          CircleAvatar(
+            radius: 25,
+            backgroundColor: Colors.red,
+            child: IconButton(
+              icon: Icon(FontAwesomeIcons.youtube, color: Colors.white,size:30),
+              onPressed: () => _launchUrl(
+                  'https://www.youtube.com/channel/UCsCR_9QtYzGIl8a8mX_G93A?si=lOJ6itEyttNmETyk&cbrd=1'),
+            ),
+          ),
+        ],
+      ),
+    ),
           SizedBox(height: 15),
           Obx(() {
             if (tokenController.token.value.isNotEmpty) {
