@@ -123,7 +123,7 @@ class CardController extends GetxController {
 
       final response = await _service.RequestCard(formData);
 
-      if (response.message == "Request submitted successfully. Our team will contact you shortly.") {
+      if (response.message == "Card created successfully") {
         msgController.showSuccessMessage('Request submitted successfully.', cardRequest.name);
         Get.offAllNamed(AppRoutes.homescreen);
       } else {
