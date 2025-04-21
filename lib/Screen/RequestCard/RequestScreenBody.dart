@@ -388,7 +388,7 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
                                                     ? familyNamesControllers.map((controller) => controller.text.trim()).where((name) => name.isNotEmpty).toList()
                                                     : null,
                                                 image: _selectedImage?.path,
-                                                id: _appController.appCardValue.value,
+                                                id: cardController.selectedCardId,
                                               );
 
                                               await _controller.RequestCard(cardRequest);
@@ -615,7 +615,8 @@ class _RequestScreenBodyState extends State<RequestScreenBody> {
                                                   ? familyNamesControllers.map((controller) => controller.text.trim()).where((name) => name.isNotEmpty).toList()
                                                   : null,
                                               image: _selectedImage?.path,
-                                              id: _appController.appCardValue.value,
+                                              id: cardController.selectedCardId,
+
                                             );
 
                                             await _controller.RequestCard(cardRequest);
