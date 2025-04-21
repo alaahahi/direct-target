@@ -24,6 +24,21 @@ class _ChangeProfileBodyState extends State<ChangeProfileBody> {
   String? selectedGender;
 
   final box = GetStorage();
+  @override
+  void initState() {
+    super.initState();
+
+    final profile = controller.profile.value.data;
+
+    if (profile != null) {
+      nameController.text = profile.name ?? '';
+      familyController.text = profile.familyMembersNames ?? '';
+      weightController.text = profile.weight?.toString() ?? '';
+      heightController.text = profile.height?.toString() ?? '';
+      selectedGender = profile.gender?.toString();
+
+    }
+  }
 
   @override
   Widget build(BuildContext context) {

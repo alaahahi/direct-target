@@ -302,13 +302,21 @@ class _HomeContentScreenBodyState extends State<HomeContentScreenBody> {
 
               if (controller.allServicesList!.isEmpty) {
                 return Center(
-                  child: Text(
-                    "No data available".tr,
-                    style: TextStyle(
-                        color: Theme.of(context).textTheme.bodyMedium?.color),
+                  child: InkWell(
+                    onTap: () {
+                      controller.getPopularService();
+                    },
+                    child: Text(
+                      "No data available".tr + " (Tap to retry)",
+                      style: TextStyle(
+                        color: Theme.of(context).textTheme.bodyMedium?.color,
+
+                      ),
+                    ),
                   ),
                 );
               }
+
 
               return ListView(
                 physics: BouncingScrollPhysics(),
