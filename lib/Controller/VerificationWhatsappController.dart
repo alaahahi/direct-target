@@ -12,7 +12,7 @@ import 'ProfileCardController.dart';
 import 'TokenController.dart';
 import 'dart:async';
 import 'package:firebase_messaging/firebase_messaging.dart';
-import 'package:restart_app/restart_app.dart';
+
 class VerificationWhatsappController extends GetxController {
   final VerificationService _verificationService = VerificationService();
   var isLoading = false.obs;
@@ -30,6 +30,7 @@ class VerificationWhatsappController extends GetxController {
   final box = GetStorage();
   final tokenController = Get.put(TokenController());
   final ProfileCardController _profileController = Get.put(ProfileCardController());
+  // final RewardController _rewardController = Get.put(RewardController());
 
   @override
   void onInit() {
@@ -140,6 +141,7 @@ class VerificationWhatsappController extends GetxController {
         print("Token: ${token.value}");
         box.write('storeFcmToken', storeFcmToken.value);
 
+        print("_rewardffffffffffffffffffController");
         if (token.value.isNotEmpty) {
           tokenController.saveToken(token.value);
           final profileData = {

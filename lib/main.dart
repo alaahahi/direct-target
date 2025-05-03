@@ -38,7 +38,6 @@ void main() async {
   await Get.put(ThemeController());
   await Get.put(TokenController());
   await Get.put(ProfileCardController());
-
   await Get.put(AllSettingController(SettingsServices()));
 
   runApp(const DirectTarget());

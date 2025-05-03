@@ -3,11 +3,16 @@ import 'package:direct_target/Screen/Home/HomeContent/HomeContentScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../Controller/AllSettingController.dart';
+import '../../Controller/WheelItemController.dart';
 import '../../Routes/Routes.dart';
 import '../../Service/SettingsServices.dart';
 import 'package:shimmer/shimmer.dart';
 import 'package:cached_network_image/cached_network_image.dart';
 import 'package:new_version_plus/new_version_plus.dart';
+
+import 'WheelScreen.dart';
+
+
 
 class HomeScreenBody extends StatefulWidget {
   const HomeScreenBody({super.key});
@@ -18,6 +23,8 @@ class HomeScreenBody extends StatefulWidget {
 
 class _HomeScreenBodyState extends State<HomeScreenBody> {
   final AllSettingController _controller = Get.put(AllSettingController(SettingsServices()));
+  final rewardController = Get.put(WheelItemController());
+
   void checkVersion(BuildContext context) async {
     print('🧪 Mocked version check for testing...');
     final AllSettingController _controller = Get.put(AllSettingController(SettingsServices()));
@@ -51,14 +58,32 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
 
     WidgetsBinding.instance.addPostFrameCallback((_) {
       checkVersion(context);
-    });
 
+      // جلب بيانات عجلة الحظ وعرضها في نافذة منبثقة عند بدء التطبيق
+      rewardController.fetchItems().then((_) {
+        if (rewardController.WheelItems != null && rewardController.WheelItems!.isNotEmpty) {
+          Get.to(() => RewardWheelScreen(wheelItems: rewardController.WheelItems!, onClose: () {  },));
+        }
+      });
+
+    });
   }
+
+  // @override
+  // void initState() {
+  //   super.initState();
+  //
+  //   WidgetsBinding.instance.addPostFrameCallback((_) {
+  //     checkVersion(context);
+  //
+  //   });
+  //
+  // }
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(
       child: Padding(
-        padding: const EdgeInsets.all(20.0),
+        padding: const EdgeInsets.all(10.0),
         child: Column(
           mainAxisSize: MainAxisSize.min,
           children: [

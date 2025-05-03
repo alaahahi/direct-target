@@ -90,7 +90,7 @@ class ProfileCardController extends GetxController {
       }
       var response = await ProfileService().fetchCards();
       if (response.data == null || response.data is! List) {
-        msgController.showErrorMessage("Error", "Invalid response format. Please login again.");
+        // msgController.showErrorMessage("Error", "Invalid response format. Please login again.");
         loaderController.loading(false);
         return;
       }
