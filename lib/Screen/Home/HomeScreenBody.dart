@@ -2,7 +2,9 @@ import 'package:carousel_slider/carousel_slider.dart';
 import 'package:direct_target/Screen/Home/HomeContent/HomeContentScreen.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:get_storage/get_storage.dart';
 import '../../Controller/AllSettingController.dart';
+import '../../Controller/TokenController.dart';
 import '../../Controller/WheelItemController.dart';
 import '../../Routes/Routes.dart';
 import '../../Service/SettingsServices.dart';
@@ -24,6 +26,8 @@ class HomeScreenBody extends StatefulWidget {
 class _HomeScreenBodyState extends State<HomeScreenBody> {
   final AllSettingController _controller = Get.put(AllSettingController(SettingsServices()));
   final rewardController = Get.put(WheelItemController());
+  final TokenController tokenController = Get.put(TokenController());
+  final box = GetStorage();
 
   void checkVersion(BuildContext context) async {
     print('🧪 Mocked version check for testing...');
@@ -59,26 +63,28 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
     WidgetsBinding.instance.addPostFrameCallback((_) {
       checkVersion(context);
 
-      // جلب بيانات عجلة الحظ وعرضها في نافذة منبثقة عند بدء التطبيق
-      rewardController.fetchItems().then((_) {
-        if (rewardController.WheelItems != null && rewardController.WheelItems!.isNotEmpty) {
-          Get.to(() => RewardWheelScreen(wheelItems: rewardController.WheelItems!, onClose: () {  },));
-        }
-      });
+      if (tokenController.token.value.isNotEmpty) {
+        rewardController.fetchItems().then((_) {
+          final canLots = box.read('canLots') ?? 0;
 
+          if (canLots == 1 &&
+              rewardController.WheelItems != null &&
+              rewardController.WheelItems!.isNotEmpty) {
+            Get.to(() => RewardWheelScreen(
+              wheelItems: rewardController.WheelItems!,
+              onClose: () {},
+            ));
+          } else {
+            print("🚫 لا يُسمح بعرض الدولاب. canLots ≠ 1 أو WheelItems فارغة");
+          }
+        });
+      } else {
+        print("🚫 لا يوجد تسجيل دخول. لن يتم عرض الدولاب.");
+      }
     });
   }
 
-  // @override
-  // void initState() {
-  //   super.initState();
-  //
-  //   WidgetsBinding.instance.addPostFrameCallback((_) {
-  //     checkVersion(context);
-  //
-  //   });
-  //
-  // }
+
   @override
   Widget build(BuildContext context) {
     return SingleChildScrollView(

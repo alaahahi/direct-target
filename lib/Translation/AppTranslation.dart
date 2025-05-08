@@ -240,7 +240,10 @@ final Map<String, String> en = {
   'Appointment not found':'Appointment not found',
   "No Canceled Appointments":"No Canceled Appointments",
   "No Completed Appointments":"No Completed Appointments",
-  "No Appointments Found": "No Appointments Found"
+  "No Appointments Found": "No Appointments Found",
+  'Wheel of Fortune': 'Wheel of Fortune',
+  "Spin The Wheel":"Spin The Wheel",
+  "You can try after : ":"You can try after : "
 
 
 }
@@ -479,6 +482,9 @@ final Map<String, String> ar = {
   "No Canceled Appointments":'لا يوجد مواعيد ملغية',
   "No Completed Appointments":'لا يوجد مواعيد مكتملة',
   "No Appointments Found":'لا يوجد مواعيد قادمة',
+  'Wheel of Fortune':'دولاب الحظ',
+  "Spin The Wheel":'أدر العجلة',
+  "You can try after : ":'يمكنك الحاولة بعد : '
 }
 ;
 

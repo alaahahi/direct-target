@@ -73,14 +73,13 @@ class _ServicesScreenState extends State<ServicesScreen> {
               );
             }
 
-            return CustomScrollView(
+            return  CustomScrollView(
               slivers: [
                 SliverToBoxAdapter(
                   child: Column(
                     children: [
                       Container(
                         width: double.infinity,
-                        height: 450,
                         child: Card(
                           margin: EdgeInsets.all(16.0),
                           elevation: 5,
@@ -95,10 +94,10 @@ class _ServicesScreenState extends State<ServicesScreen> {
                                   width: double.infinity,
                                   height: 250,
                                   child: ShimmerImage(
-                                      imageUrl: selectedCard.image ?? 'Assets/images/4.jpg'),
+                                    imageUrl: selectedCard.image ?? 'Assets/images/4.jpg',
+                                  ),
                                 ),
                               ),
-
                               Padding(
                                 padding: EdgeInsets.all(16.0),
                                 child: Column(
@@ -106,25 +105,29 @@ class _ServicesScreenState extends State<ServicesScreen> {
                                   children: [
                                     Text(
                                       selectedCard.name ?? "No Name",
-                                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold,
-                                        color:  Colors.black,),
+                                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
                                     ),
                                     SizedBox(height: 10),
                                     HtmlWidget(
                                       selectedCard.description ?? "No description",
                                       textStyle: TextStyle(color: Colors.black87),
                                     ),
-
                                     SizedBox(height: 10),
-                                    Text("Price: ".tr + "${selectedCard.price}  ${selectedCard.currency}", style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold,
-                                      color:  Colors.black,),),
-                                    SizedBox(height: 10),
-
                                     Text(
-                                        "Validity: ".tr +
-                                            "${selectedCard.day} " +
-                                            "Day".tr,
-                                        style: Theme.of(context).textTheme.bodyLarge),
+                                      "Price: ".tr + "${selectedCard.price}  ${selectedCard.currency}",
+                                      style: Theme.of(context).textTheme.bodyLarge?.copyWith(
+                                        fontWeight: FontWeight.bold,
+                                        color: Colors.black,
+                                      ),
+                                    ),
+                                    SizedBox(height: 10),
+                                    Text(
+                                      "Validity: ".tr + "${selectedCard.day} " + "Day".tr,
+                                      style: Theme.of(context).textTheme.bodyLarge,
+                                    ),
                                   ],
                                 ),
                               ),
@@ -132,7 +135,9 @@ class _ServicesScreenState extends State<ServicesScreen> {
                           ),
                         ),
                       ),
-                      Container(
+
+
+            Container(
                         height: 50,
                         width: MediaQuery.of(context).size.width * 0.9,
                         child: selectedCard.showOnApp == true

@@ -58,6 +58,7 @@ class User {
   String? createdAt;
   String? updatedAt;
   int? typeId;
+  int? percentage;
   String? phoneNumber;
   String? verificationDate;
   String? verificationUserType;
@@ -70,6 +71,7 @@ class User {
   String? network;
   String? device;
   String? fcmToken;
+  int? canLots;
 
   User(
       {this.id,
@@ -77,6 +79,7 @@ class User {
         this.createdAt,
         this.updatedAt,
         this.typeId,
+        this.percentage,
         this.phoneNumber,
         this.verificationDate,
         this.verificationUserType,
@@ -88,7 +91,8 @@ class User {
         this.token,
         this.network,
         this.device,
-        this.fcmToken});
+        this.fcmToken,
+        this.canLots});
 
   User.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -96,6 +100,7 @@ class User {
     createdAt = json['created_at'];
     updatedAt = json['updated_at'];
     typeId = json['type_id'];
+    percentage = json['percentage'];
     phoneNumber = json['phone_number'];
     verificationDate = json['verification_date'];
     verificationUserType = json['verification_user_type'];
@@ -108,6 +113,7 @@ class User {
     network = json['network'];
     device = json['device'];
     fcmToken = json['fcm_token'];
+    canLots = json['can_lots'];
   }
 
   Map<String, dynamic> toJson() {
@@ -117,6 +123,7 @@ class User {
     data['created_at'] = this.createdAt;
     data['updated_at'] = this.updatedAt;
     data['type_id'] = this.typeId;
+    data['percentage'] = this.percentage;
     data['phone_number'] = this.phoneNumber;
     data['verification_date'] = this.verificationDate;
     data['verification_user_type'] = this.verificationUserType;
@@ -129,9 +136,11 @@ class User {
     data['network'] = this.network;
     data['device'] = this.device;
     data['fcm_token'] = this.fcmToken;
+    data['can_lots'] = this.canLots;
     return data;
   }
 }
+
 
 
 

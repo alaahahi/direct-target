@@ -11,10 +11,13 @@ import '../../Controller/ProfileCardController.dart';
 import '../../Controller/ProfileUserController.dart';
 import '../../Controller/TokenController.dart';
 import '../../Controller/VerificationWhatsappController.dart';
+import '../../Controller/WheelItemController.dart';
 import '../../Routes/Routes.dart';
+import '../Home/WheelScreen.dart';
 import 'Language/ChangeLanguageScreen.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:url_launcher/url_launcher.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 class ProfileScreenBody extends StatefulWidget {
   const ProfileScreenBody({super.key});
 
@@ -27,6 +30,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
   Get.put(VerificationWhatsappController());
   final ProfileCardController profileController =
   Get.put(ProfileCardController());
+  final rewardController = Get.put(WheelItemController());
   final TokenController tokenController = Get.put(TokenController());
   final box = GetStorage();
   void _launchUrl(String url) async {
@@ -302,6 +306,28 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
                             title: 'Change Profile'.tr,
                             icon: Icons.edit_note_rounded,
                             iconColor: Colors.deepPurpleAccent,
+                            textColor: Colors.black,
+                          ),
+                        ),
+                        Padding(
+                          padding: EdgeInsets.symmetric(
+                              horizontal: 25, vertical: 10),
+                          child: Divider(),
+                        ),
+                        InkWell(
+                          onTap: () {
+                            Get.to(() => RewardWheelScreen(
+                              wheelItems: rewardController.WheelItems!,
+                              onClose: () {
+
+                              },
+                            ));
+
+                          },
+                          child: ProfileList(
+                            title: 'Wheel of Fortune'.tr,
+                            icon:  FontAwesomeIcons.spinner,
+                            iconColor: Colors.yellow,
                             textColor: Colors.black,
                           ),
                         ),

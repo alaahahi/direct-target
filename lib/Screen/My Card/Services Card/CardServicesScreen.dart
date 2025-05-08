@@ -113,10 +113,14 @@ class _CardServicesScreenState extends State<CardServicesScreen> with SingleTick
                                   style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold, color:  Colors.black),
                                 ),
                                 SizedBox(height: 10),
-                                HtmlWidget(
-                                  selectedCard.description ?? "No description",
-                                  textStyle: TextStyle(color: Colors.black87,
-                                    fontWeight: FontWeight.bold,),
+                                SingleChildScrollView(
+                                  child: HtmlWidget(
+                                    selectedCard.description ?? "No description",
+                                    textStyle: TextStyle(
+                                      color: Colors.black87,
+                                      fontWeight: FontWeight.bold,
+                                    ),
+                                  ),
                                 ),
 
                                 SizedBox(height: 10),

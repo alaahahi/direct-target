@@ -21,6 +21,7 @@ class VerificationWhatsappController extends GetxController {
   var gender = 0.obs;
   var height = 0.obs;
   var weight = 0.obs;
+  var canLots = 0.obs;
   var token = ''.obs;
   var storeFcmToken = ''.obs;
   var network = ''.obs;
@@ -30,7 +31,6 @@ class VerificationWhatsappController extends GetxController {
   final box = GetStorage();
   final tokenController = Get.put(TokenController());
   final ProfileCardController _profileController = Get.put(ProfileCardController());
-  // final RewardController _rewardController = Get.put(RewardController());
 
   @override
   void onInit() {
@@ -126,6 +126,7 @@ class VerificationWhatsappController extends GetxController {
         gender.value = response.user?.gender ?? 0;
         weight.value = response.user?.weight ?? 0;
         height.value = response.user?.height ?? 0;
+        canLots.value = response.user?.canLots ?? 0;
         isAdmin.value = response.isAdmin ?? false;
         box.write('isAdmin', isAdmin.value);
 
@@ -138,10 +139,10 @@ class VerificationWhatsappController extends GetxController {
         print("weight : ${gender.value}");
         print("gender: ${weight.value}");
         print("height: ${height.value}");
+        print("can Lots: ${canLots.value}");
         print("Token: ${token.value}");
         box.write('storeFcmToken', storeFcmToken.value);
-
-        print("_rewardffffffffffffffffffController");
+        box.write('canLots', canLots.value);
         if (token.value.isNotEmpty) {
           tokenController.saveToken(token.value);
           final profileData = {
