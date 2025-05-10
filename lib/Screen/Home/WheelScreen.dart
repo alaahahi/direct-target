@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:flutter_fortune_wheel/flutter_fortune_wheel.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:rxdart/rxdart.dart';
+import '../../Controller/LoaderController.dart';
 import '../../Model/WheelItemModel.dart';
 import 'dart:async';
 import '../../Utils/AppStyle.dart';
@@ -21,47 +22,22 @@ class RewardWheelScreen extends StatefulWidget {
   _RewardWheelScreenState createState() => _RewardWheelScreenState();
 }
 
-class _RewardWheelScreenState extends State<RewardWheelScreen> {
+class _RewardWheelScreenState extends State<RewardWheelScreen>  with TickerProviderStateMixin{
   final selected = BehaviorSubject<int>();
   final rewardController = Get.put(WheelItemController());
   late int randomIndex;
-  bool isButtonDisabled = false;
   Duration remainingTime = Duration.zero;
   Timer? countdownTimer;
-
+  late TabController tabController;
   final box = GetStorage();
-
-  @override
-  void initState() {
-    super.initState();
-    final canLots = box.read('canLots') ?? 0;
-    if (canLots == 0) {
-      final lastSpinTimeStr = box.read('lastSpinTime');
-      if (lastSpinTimeStr != null) {
-        final lastSpinTime = DateTime.tryParse(lastSpinTimeStr);
-        if (lastSpinTime != null) {
-          final now = DateTime.now();
-          final diff = now.difference(lastSpinTime);
-          if (diff < Duration(hours: 24)) {
-            setState(() {
-              isButtonDisabled = true;
-              remainingTime = Duration(hours: 24) - diff;
-            });
-            startCountdownTimer();
-          }
-        }
-      }
-    }
-    randomIndex = Random().nextInt(widget.wheelItems.length);
-    selected.add(randomIndex + widget.wheelItems.length * 10);
-  }
+  LoaderController loaderController = Get.put(LoaderController());
 
   void startCountdownTimer() {
     countdownTimer?.cancel();
     countdownTimer = Timer.periodic(Duration(seconds: 1), (_) {
       if (remainingTime.inSeconds <= 1) {
         setState(() {
-          isButtonDisabled = false;
+
           remainingTime = Duration.zero;
         });
         countdownTimer?.cancel();
@@ -72,17 +48,13 @@ class _RewardWheelScreenState extends State<RewardWheelScreen> {
       }
     });
   }
-
   void spinLikeSecondHand() async {
     box.write('lastSpinTime', DateTime.now().toIso8601String());
-    box.write('canLots', 0);
+
     setState(() {
-      isButtonDisabled = true;
       remainingTime = Duration(hours: 24);
     });
-
     startCountdownTimer();
-
     int stepsCount = 8;
     int baseDelay = 150;
     int maxDelay = 600;
@@ -118,13 +90,45 @@ class _RewardWheelScreenState extends State<RewardWheelScreen> {
     }
   }
 
+
+  @override
+  void initState() {
+    super.initState();
+    rewardController.fetchWinsItems();
+    final canLots = box.read('canLots') ?? 0;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      if (canLots == 1 ) {
+        spinLikeSecondHand();
+      }
+    });
+    if (canLots == 1) {
+      final lastSpinTimeStr = box.read('lastSpinTime');
+      if (lastSpinTimeStr != null) {
+        final lastSpinTime = DateTime.tryParse(lastSpinTimeStr);
+        if (lastSpinTime != null) {
+          final now = DateTime.now();
+          final diff = now.difference(lastSpinTime);
+          if (diff < Duration(hours: 24)) {
+            setState(() {
+
+              remainingTime = Duration(hours: 24) - diff;
+            });
+            startCountdownTimer();
+          }
+        }
+      }
+    }
+
+    tabController = TabController(length: 2, vsync: this);
+  }
+
   @override
   void dispose() {
     selected.close();
     countdownTimer?.cancel();
+    tabController.dispose();
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     final canLots = box.read('canLots') ?? 0;
@@ -132,72 +136,130 @@ class _RewardWheelScreenState extends State<RewardWheelScreen> {
       appBar: AppBar(
         title: Text('Wheel of Fortune'.tr),
         centerTitle: true,
+        bottom: PreferredSize(
+          preferredSize: Size.fromHeight(70),
+          child: Column(
+            mainAxisSize: MainAxisSize.min,
+            children: [
+              SizedBox(height: 10),
+              TabBar(
+                controller: tabController,
+                indicator: BoxDecoration(
+                  color: PrimaryColor,
+                  borderRadius: BorderRadius.circular(28),
+                ),
+                dividerColor: Colors.transparent,
+                indicatorColor: const Color.fromARGB(255, 241, 241, 241),
+                unselectedLabelColor: Colors.grey,
+                labelColor: Color.fromARGB(255, 255, 255, 255),
+                tabs: [
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 2),
+                    child: Tab(text: "Wheel of Fortune".tr),
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 32, vertical: 2),
+                    child: Tab(text: "Other Content".tr),
+                  ),
+                ],
+              ),
+            ],
+          ),
+        ),
       ),
+
       body: Padding(
         padding: const EdgeInsets.all(20.0),
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.start,
+        child: TabBarView(
+          controller: tabController,
           children: [
-            if (canLots == 0 && isButtonDisabled)
-              Text(
-                "You can try after:".tr + "${formatDuration(remainingTime)}",
-                style: TextStyle(color: Colors.red, fontSize: 16),
-              ),
-            SizedBox(
-              height: 100,
-            ),
+            Padding(
+              padding: const EdgeInsets.all(20.0),
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.start,
+                children: [
+                  if (canLots == 1 )
+                    ...[
+                      SizedBox(height: 100),
+                      SizedBox(
+                        height: 400,
+                        child:
+                        FortuneWheel(
+                          selected: selected.stream,
+                          physics: CircularPanPhysics(
+                            duration: Duration(seconds: 5),
+                            curve: Curves.easeOutCubic,
+                          ),
+                          items: [
+                            for (var item in widget.wheelItems)
+                              FortuneItem(
+                                child: Text(
+                                  item.label ?? 'بدون اسم',
+                                  style: TextStyle(color: Colors.white),
+                                ),
+                                style: FortuneItemStyle(
+                                  color: Color(int.parse(item.color!.replaceAll('#', '0xFF'))),
+                                  borderColor: Colors.white,
+                                  borderWidth: 2,
+                                ),
+                              ),
+                          ],
+                          indicators: [
+                            FortuneIndicator(
+                              alignment: Alignment.topCenter,
+                              child: TriangleIndicator(color: Colors.red),
+                            ),
+                          ],
+                        ),
 
-            SizedBox(
-              height: 400,
-              child: FortuneWheel(
-                selected: selected.stream,
-                physics: CircularPanPhysics(
-                  duration: Duration(seconds: 5),
-                  curve: Curves.easeOutCubic,
-                ),
-                items: [
-                  for (var item in widget.wheelItems)
-                    FortuneItem(
-                      child: Text(
-                        item.label ?? 'بدون اسم',
-                        style: TextStyle(color: Colors.white),
                       ),
-                      style: FortuneItemStyle(
-                        color: Color(int.parse(item.color!.replaceAll('#', '0xFF'))),
-                        borderColor: Colors.white,
-                        borderWidth: 2,
-                      ),
-                    ),
+                    ]
                 ],
-                indicators: [
-                  FortuneIndicator(
-                    alignment: Alignment.topCenter,
-                    child: TriangleIndicator(color: Colors.red),
-                  ),
-                ],
+
               ),
             ),
-            SizedBox(height: 30),
-            Container(
-              height: MediaQuery.of(context).size.height * 0.07,
-              width: MediaQuery.of(context).size.width * 0.9,
-              child: ElevatedButton(
-                onPressed: isButtonDisabled ? null : spinLikeSecondHand,
-                style: ElevatedButton.styleFrom(
-                  backgroundColor: isButtonDisabled ? Colors.grey : PrimaryColor,
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(30),
-                  ),
-                ),
-                child: Text(
-                  "Spin The Wheel".tr,
-                  textAlign: TextAlign.center,
-                  style: Theme.of(context).textTheme.titleMedium?.copyWith(
-                    color: LightGrey,
-                  ),
-                ),
-              ),
-            ),
+            GetBuilder<WheelItemController>(
+              builder: (_) {
+                if (_.loaderController.loading.value) {
+                  return Center(child: CircularProgressIndicator());
+                }
+
+                if (_.allWinsData == null || _.allWinsData!.isEmpty) {
+                  return Center(child: Text("لا توجد جوائز حالياً"));
+                }
+
+                return ListView.builder(
+                  itemCount: _.allWinsData!.length,
+                  itemBuilder: (context, index) {
+                    final win = _.allWinsData![index];
+                    final wheelItem = win.wheelItem;
+
+                    return Card(
+                      margin: const EdgeInsets.symmetric(vertical: 8, horizontal: 16),
+                      color: wheelItem?.color != null
+                          ? Color(int.parse(wheelItem!.color!.replaceAll('#', '0xFF')))
+                          : Colors.grey[300],
+                      child: ListTile(
+                        title: Text(
+                          wheelItem?.label ?? 'بدون اسم',
+                          style: const TextStyle(color: Colors.white70, fontWeight: FontWeight.bold),
+                        ),
+                        subtitle: Text(
+                          'تم المطالبة؟: ${win.isClaimed == true ? 'نعم' : 'لا'}\n'
+                              'التاريخ: ${win.createdAt ?? "غير متوفر"}',
+                          style: const TextStyle(color: Colors.white70),
+                        ),
+                        trailing: Icon(
+                          win.isClaimed == true ? Icons.check_circle : Icons.hourglass_empty,
+                          color: Colors.white,
+                        ),
+                      ),
+                    );
+                  },
+                );
+              },
+            )
+
           ],
         ),
       ),
@@ -212,6 +274,7 @@ class _RewardWheelScreenState extends State<RewardWheelScreen> {
     return "$h:$m:$s";
   }
 }
+
 
 
 

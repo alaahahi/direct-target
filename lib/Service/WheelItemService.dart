@@ -1,6 +1,7 @@
 import 'dart:convert';
 
 import 'package:dio/dio.dart';
+import 'package:direct_target/Model/WheelWinsModel.dart';
 import 'package:get/get.dart';
 import 'package:get/get_core/src/get_main.dart';
 import 'package:get_storage/get_storage.dart';
@@ -93,5 +94,52 @@ class WheelItemService {
     }
     return WheelItemModel();
   }
+  Future<WheelWinsModel> fetchWheelWinItems([dynamic data]) async {
+    try {
+      final String? language = Get.locale?.languageCode;
+      print("Selected Language: $language");
+      final String token = tokenController.getToken();
+
+      var res = await myDioService.fetchDataResponse(
+        '$appConfig/my-wins',
+        data: data,
+        headers: {
+          'Authorization': 'Bearer $token',
+          'Content-Type': 'application/json',
+          'Accept-Language': language,
+        },
+
+      );
+
+      print("Response Status Code: ${res.statusCode}");
+      print("Response Data: ${res.data}");
+
+      if (res.statusCode == 200 || res.statusCode == 201) {
+        var data = res.data;
+
+        if (data is String) {
+          return WheelWinsModel.fromJson(jsonDecode(data));
+        } else if (data is Map<String, dynamic>) {
+          return WheelWinsModel.fromJson(data);
+        } else {
+          throw Exception('Unexpected data format');
+        }
+      }
+    } catch (e) {
+      if (e is DioException) {
+        print("********** Error WheelWinsModel*************");
+        print("Response: ${e.response}");
+        print("Error Message: ${e.message}");
+      } else {
+        print('Error in type fetchCard $e');
+      }
+
+      loaderController.loading(false);
+    }
+
+    return WheelWinsModel();
+  }
+
+
 
 }

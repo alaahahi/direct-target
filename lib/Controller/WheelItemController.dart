@@ -5,15 +5,16 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../Model/WheelItemModel.dart';
+import '../Model/WheelWinsModel.dart';
 import '../Service/WheelItemService.dart';
 import '../Utils/AppStyle.dart';
 import 'LoaderController.dart';
 import 'MessageHandlerController.dart';
 
-
 class WheelItemController extends GetxController {
   var isLoading = true.obs;
   List<WheelItem>? WheelItems = [];
+  List<WinData>? allWinsData = [];
   final WheelItemService _service = WheelItemService();
   LoaderController loaderController = Get.put(LoaderController());
   MessagesHandlerController msgController =
@@ -22,6 +23,7 @@ class WheelItemController extends GetxController {
   void onInit() {
     super.onInit();
     fetchItems();
+    fetchWinsItems();
   }
 
   Future<dynamic> fetchItems() async {
@@ -42,6 +44,24 @@ class WheelItemController extends GetxController {
     loaderController.loading(false);
   }
 
+  Future<dynamic> fetchWinsItems() async {
+    loaderController.loading(true);
+    update();
+    try {
+      var res = await _service.fetchWheelWinItems();
+      allWinsData = res.data!;
+      print('Fetched Data Length fetchWinsItems ${allWinsData?.length}');
+
+    } catch (e) {
+      if (e is dio.DioException) {
+        log(e.toString());
+      } else {
+        print('Error fetching data: $e');
+      }
+    }
+    update();
+    loaderController.loading(false);
+  }
   void showRewardDialog(BuildContext context, WheelItem item) {
     showDialog(
       context: context,
