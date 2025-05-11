@@ -30,6 +30,8 @@ class _RewardWheelScreenState extends State<RewardWheelScreen>  with TickerProvi
   Timer? countdownTimer;
   late TabController tabController;
   final box = GetStorage();
+  bool showWheel = true;
+
   LoaderController loaderController = Get.put(LoaderController());
 
   void startCountdownTimer() {
@@ -55,6 +57,7 @@ class _RewardWheelScreenState extends State<RewardWheelScreen>  with TickerProvi
       remainingTime = Duration(hours: 24);
     });
     startCountdownTimer();
+
     int stepsCount = 8;
     int baseDelay = 150;
     int maxDelay = 600;
@@ -72,35 +75,70 @@ class _RewardWheelScreenState extends State<RewardWheelScreen>  with TickerProvi
     }
     selected.add(targetIndex);
     selected.add(targetIndex);
-
     await Future.delayed(Duration(milliseconds: 800));
-
     final selectedItem = widget.wheelItems[targetIndex];
-    rewardController.showRewardDialog(context, selectedItem);
     print('Wheel item ID: ${selectedItem.id}');
+    if (selectedItem.label == null || selectedItem.label!.trim().isEmpty) {
 
-    if (selectedItem.id != null) {
-      rewardController.storeWheelResult(
+      setState(() {
+        showWheel = false;
+        remainingTime = Duration(hours: 24);
+      });
+      box.write('showWheel', false);
+
+      startCountdownTimer();
+
+      showDialog(
         context: context,
-        wheelItemId: selectedItem.id!,
-        item: selectedItem,
+        builder: (_) =>AlertDialog(
+          title: Text('better_luck'.tr),
+          content: Text('try_again'.tr),
+          actions: [
+            TextButton(
+              onPressed: () => Navigator.pop(context),
+              child: Text('ok'.tr),
+            ),
+          ],
+        ),
+
       );
-    } else {
-      print('Invalid wheel item ID');
+
+      return;
+    }
+
+    else {
+      rewardController.showRewardDialog(context, selectedItem);
+
+      if (selectedItem.id != null) {
+        rewardController.storeWheelResult(
+          context: context,
+          wheelItemId: selectedItem.id!,
+          item: selectedItem,
+        );
+      } else {
+        print('Invalid wheel item ID');
+      }
     }
   }
 
 
+
+  @override
   @override
   void initState() {
     super.initState();
     rewardController.fetchWinsItems();
     final canLots = box.read('canLots') ?? 0;
+    final savedShowWheel = box.read('showWheel') ?? true;
+
+    showWheel = savedShowWheel;
+
     WidgetsBinding.instance.addPostFrameCallback((_) {
-      if (canLots == 1 ) {
+      if (canLots == 1 && showWheel) {
         spinLikeSecondHand();
       }
     });
+
     if (canLots == 1) {
       final lastSpinTimeStr = box.read('lastSpinTime');
       if (lastSpinTimeStr != null) {
@@ -110,10 +148,15 @@ class _RewardWheelScreenState extends State<RewardWheelScreen>  with TickerProvi
           final diff = now.difference(lastSpinTime);
           if (diff < Duration(hours: 24)) {
             setState(() {
-
               remainingTime = Duration(hours: 24) - diff;
+              showWheel = false;
             });
             startCountdownTimer();
+          } else {
+            setState(() {
+              showWheel = true;
+            });
+            box.write('showWheel', true);
           }
         }
       }
@@ -121,6 +164,7 @@ class _RewardWheelScreenState extends State<RewardWheelScreen>  with TickerProvi
 
     tabController = TabController(length: 2, vsync: this);
   }
+
 
   @override
   void dispose() {
@@ -134,7 +178,7 @@ class _RewardWheelScreenState extends State<RewardWheelScreen>  with TickerProvi
     final canLots = box.read('canLots') ?? 0;
     return Scaffold(
       appBar: AppBar(
-        title: Text('Wheel of Fortune'.tr),
+        title: Text("Wheel of Fortune".tr),
         centerTitle: true,
         bottom: PreferredSize(
           preferredSize: Size.fromHeight(70),
@@ -178,45 +222,56 @@ class _RewardWheelScreenState extends State<RewardWheelScreen>  with TickerProvi
               child: Column(
                 mainAxisAlignment: MainAxisAlignment.start,
                 children: [
-                  if (canLots == 1 )
-                    ...[
-                      SizedBox(height: 100),
-                      SizedBox(
-                        height: 400,
-                        child:
-                        FortuneWheel(
-                          selected: selected.stream,
-                          physics: CircularPanPhysics(
-                            duration: Duration(seconds: 5),
-                            curve: Curves.easeOutCubic,
-                          ),
-                          items: [
-                            for (var item in widget.wheelItems)
-                              FortuneItem(
-                                child: Text(
-                                  item.label ?? 'بدون اسم',
-                                  style: TextStyle(color: Colors.white),
-                                ),
-                                style: FortuneItemStyle(
-                                  color: Color(int.parse(item.color!.replaceAll('#', '0xFF'))),
-                                  borderColor: Colors.white,
-                                  borderWidth: 2,
-                                ),
-                              ),
-                          ],
-                          indicators: [
-                            FortuneIndicator(
-                              alignment: Alignment.topCenter,
-                              child: TriangleIndicator(color: Colors.red),
-                            ),
-                          ],
+                  if (canLots == 1 && showWheel)...[
+                    SizedBox(height: 100),
+                    SizedBox(
+                      height: 400,
+                      child: FortuneWheel(
+                        selected: selected.stream,
+                        physics: CircularPanPhysics(
+                          duration: Duration(seconds: 5),
+                          curve: Curves.easeOutCubic,
                         ),
-
+                        items: [
+                          for (var item in widget.wheelItems)
+                            FortuneItem(
+                              child: Text(
+                                item.label ?? 'بدون اسم',
+                                style: TextStyle(color: Colors.white),
+                              ),
+                              style: FortuneItemStyle(
+                                color: Color(int.parse(item.color!.replaceAll('#', '0xFF'))),
+                                borderColor: Colors.white,
+                                borderWidth: 2,
+                              ),
+                            ),
+                        ],
+                        indicators: [
+                          FortuneIndicator(
+                            alignment: Alignment.topCenter,
+                            child: TriangleIndicator(color: Colors.red),
+                          ),
+                        ],
                       ),
-                    ]
-                ],
+                    ),
+                  ] else ...[
+                    SizedBox(height: 150),
+                    Icon(Icons.lock_clock, size: 100, color: Colors.grey),
+                    Text(
+                      'Wheel of Fortune is currently unavailable. Try again later.'.tr,
+                      textAlign: TextAlign.center,
+                      style: TextStyle(fontSize: 18, color: Colors.grey),
+                    ),
+                    SizedBox(height: 20),
+                    Text(
+                      'Time remaining'.tr+ '${formatDuration(remainingTime)}',
+                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.red),
+                    ),
+                  ],
 
+                ],
               ),
+
             ),
             GetBuilder<WheelItemController>(
               builder: (_) {
@@ -225,7 +280,9 @@ class _RewardWheelScreenState extends State<RewardWheelScreen>  with TickerProvi
                 }
 
                 if (_.allWinsData == null || _.allWinsData!.isEmpty) {
-                  return Center(child: Text("لا توجد جوائز حالياً"));
+                  return Center(child: Text(
+                      "There are no prizes currently.".tr
+                  ));
                 }
 
                 return ListView.builder(
@@ -245,8 +302,9 @@ class _RewardWheelScreenState extends State<RewardWheelScreen>  with TickerProvi
                           style: const TextStyle(color: Colors.white70, fontWeight: FontWeight.bold),
                         ),
                         subtitle: Text(
-                          'تم المطالبة؟: ${win.isClaimed == true ? 'نعم' : 'لا'}\n'
-                              'التاريخ: ${win.createdAt ?? "غير متوفر"}',
+                            '${"Claimed".tr}: ${win.isClaimed == true ? "Yes".tr : "Pending".tr}\n'
+                                '${"Date".tr}: ${win.createdAt ?? "Not Available".tr}',
+
                           style: const TextStyle(color: Colors.white70),
                         ),
                         trailing: Icon(

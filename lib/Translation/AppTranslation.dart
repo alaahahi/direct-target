@@ -243,7 +243,20 @@ final Map<String, String> en = {
   "No Appointments Found": "No Appointments Found",
   'Wheel of Fortune': 'Wheel of Fortune',
   "Spin The Wheel":"Spin The Wheel",
-  "You can try after : ":"You can try after : "
+  "You can try after : ":"You can try after : ",
+  'Time remaining :' : 'Time remaining :',
+  'Wheel of Fortune is currently unavailable. Try again later.':'Wheel of Fortune is currently unavailable. Try again later.',
+  "There are no prizes currently.":"There are no prizes currently.",
+  "Claimed": "Claimed",
+  "Yes":"Yes",
+  "Pending": "Pending",
+  "Date": "Date",
+  "Not Available": "Not Available",
+  "Other Content":"Other Content",
+  "Wheel of Fortune":"Wheel of Fortune",
+  "better_luck": "Better luck!",
+  "try_again": "You didn't win this time. Try again in 24 hours.",
+  "ok": "OK"
 
 
 }
@@ -484,7 +497,20 @@ final Map<String, String> ar = {
   "No Appointments Found":'لا يوجد مواعيد قادمة',
   'Wheel of Fortune':'دولاب الحظ',
   "Spin The Wheel":'أدر العجلة',
-  "You can try after : ":'يمكنك الحاولة بعد : '
+  "You can try after : ":'يمكنك الحاولة بعد : ',
+  'Time remaining :':'الوقت المتبقي : ',
+  'Wheel of Fortune is currently unavailable. Try again later.' : 'دولاب الحظ غير متاح حاليا . جرب مرة أخرى لاحقا',
+  "There are no prizes currently." : "لا توجد جوائز حاليا",
+  "Claimed": "تم الاستلام؟",
+  "Yes": "نعم",
+  "Pending": "قيد الانتظار",
+  "Date": "التاريخ",
+  "Not Available": "غير متوفر",
+  "better_luck": "حظاً أوفر!",
+  "try_again": "لم تربح هذه المرة، يمكنك المحاولة بعد 24 ساعة.",
+  "ok": "حسناً",
+"Other Content":"محتوى آخر",
+"Wheel of Fortune":"دولاب الحظ",
 }
 ;
 
