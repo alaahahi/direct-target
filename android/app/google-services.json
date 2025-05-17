@@ -7,13 +7,60 @@
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:771067727840:android:e78f520e7fac78d2a16585",
+        "mobilesdk_app_id": "1:771067727840:android:5fc6f562751e0716a16585",
         "android_client_info": {
           "package_name": "com.direct_target"
         }
       },
       "oauth_client": [],
       "api_key": [
+        {
+          "current_key": "AIzaSyDK5s39o85IrsmtAA3FBziv2dmt-0iDUjI"
+        },
+        {
+          "current_key": "AIzaSyAi7tjqjrEK0M2PJLflaWW9XvZuYDR1288"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:771067727840:android:928dccb263cd0b55a16585",
+        "android_client_info": {
+          "package_name": "com.direct_target_1"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDK5s39o85IrsmtAA3FBziv2dmt-0iDUjI"
+        },
+        {
+          "current_key": "AIzaSyAi7tjqjrEK0M2PJLflaWW9XvZuYDR1288"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:771067727840:android:e78f520e7fac78d2a16585",
+        "android_client_info": {
+          "package_name": "com.example.direct_target"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDK5s39o85IrsmtAA3FBziv2dmt-0iDUjI"
+        },
         {
           "current_key": "AIzaSyAi7tjqjrEK0M2PJLflaWW9XvZuYDR1288"
         }
@@ -33,6 +80,9 @@
       },
       "oauth_client": [],
       "api_key": [
+        {
+          "current_key": "AIzaSyDK5s39o85IrsmtAA3FBziv2dmt-0iDUjI"
+        },
         {
           "current_key": "AIzaSyAi7tjqjrEK0M2PJLflaWW9XvZuYDR1288"
         }
