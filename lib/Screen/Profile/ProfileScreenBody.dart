@@ -296,6 +296,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
                 SizedBox(height: 50),
                 Obx(() {
                   if (tokenController.token.value.isNotEmpty) {
+                    final canLots = box.read('canLots') ?? 0;
                     return Column(
                       children: [
                         InkWell(
@@ -314,28 +315,32 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
                               horizontal: 25, vertical: 10),
                           child: Divider(),
                         ),
-                        InkWell(
-                          onTap: () {
-                            Get.to(() => RewardWheelScreen(
-                              wheelItems: rewardController.WheelItems!,
-                              onClose: () {
-
-                              },
-                            ));
-
-                          },
-                          child: ProfileList(
-                            title: 'Wheel of Fortune'.tr,
-                            icon:  FontAwesomeIcons.spinner,
-                            iconColor: Colors.yellow,
-                            textColor: Colors.black,
+                        if (canLots == 1 &&
+                            rewardController.WheelItems != null &&
+                            rewardController.WheelItems!.isNotEmpty)
+                          InkWell(
+                            onTap: () {
+                              Get.to(() => RewardWheelScreen(
+                                wheelItems: rewardController.WheelItems!,
+                                onClose: () {},
+                              ));
+                            },
+                            child: ProfileList(
+                              title: 'Wheel of Fortune'.tr,
+                              icon: FontAwesomeIcons.spinner,
+                              iconColor: Colors.yellow,
+                              textColor: Colors.black,
+                            ),
                           ),
-                        ),
-                        Padding(
-                          padding: EdgeInsets.symmetric(
-                              horizontal: 25, vertical: 10),
-                          child: Divider(),
-                        ),
+
+                        if (canLots == 1 &&
+                            rewardController.WheelItems != null &&
+                            rewardController.WheelItems!.isNotEmpty)
+                          Padding(
+                            padding: EdgeInsets.symmetric(horizontal: 25, vertical: 10),
+                            child: Divider(),
+                          ),
+
                       ],
                     );
                   }
@@ -364,7 +369,7 @@ class _ProfileScreenBodyState extends State<ProfileScreenBody> {
                   );
                 }),
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
                 InkWell(
                   onTap: () {

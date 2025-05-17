@@ -263,11 +263,14 @@ class _RewardWheelScreenState extends State<RewardWheelScreen>  with TickerProvi
                       style: TextStyle(fontSize: 18, color: Colors.grey),
                     ),
                     SizedBox(height: 20),
-                    Text(
-                      'Time remaining'.tr+ '${formatDuration(remainingTime)}',
-                      style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.red),
-                    ),
-                  ],
+
+                    if (remainingTime.inSeconds > 0)
+                      Text(
+                        'Time remaining'.tr + ' ${formatDuration(remainingTime)}',
+                        style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold, color: Colors.red),
+                      ),
+                  ]
+
 
                 ],
               ),

@@ -256,7 +256,8 @@ final Map<String, String> en = {
   "Wheel of Fortune":"Wheel of Fortune",
   "better_luck": "Better luck!",
   "try_again": "You didn't win this time. Try again in 24 hours.",
-  "ok": "OK"
+  "ok": "OK",
+  'Time remaining':'Time remaining'
 
 
 }
@@ -511,6 +512,7 @@ final Map<String, String> ar = {
   "ok": "حسناً",
 "Other Content":"محتوى آخر",
 "Wheel of Fortune":"دولاب الحظ",
+  'Time remaining':'الوقت المتبقي'
 }
 ;
 
