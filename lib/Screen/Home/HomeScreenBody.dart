@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import '../../Controller/AllSettingController.dart';
+import '../../Controller/ProfileCardController.dart';
 import '../../Controller/TokenController.dart';
 import '../../Controller/WheelItemController.dart';
 import '../../Routes/Routes.dart';
@@ -14,7 +15,7 @@ import 'package:new_version_plus/new_version_plus.dart';
 
 import 'WheelScreen.dart';
 
-
+import 'package:package_info_plus/package_info_plus.dart';
 
 class HomeScreenBody extends StatefulWidget {
   const HomeScreenBody({super.key});
@@ -28,44 +29,64 @@ class _HomeScreenBodyState extends State<HomeScreenBody> {
   final rewardController = Get.put(WheelItemController());
   final TokenController tokenController = Get.put(TokenController());
   final box = GetStorage();
+  final ProfileCardController profileController =
+  Get.put(ProfileCardController());
+  Future<String> getLocalVersion() async {
+    PackageInfo packageInfo = await PackageInfo.fromPlatform();
+    return packageInfo.version;
+  }
 
   void checkVersion(BuildContext context) async {
-    print('🧪 Mocked version check for testing...');
+    print('🧪 Check version from API and local device...');
     final AllSettingController _controller = Get.put(AllSettingController(SettingsServices()));
     final appShowPopupUpdate = _controller.appShowPopupUpdate.value;
+    final storeVersion = _controller.appVersion.value;
 
-    if (appShowPopupUpdate) {
-      final fakeStatus = VersionStatus(
-        localVersion: '1.0.0',
-        storeVersion: '2.0.0',
-        appStoreLink: 'https://play.google.com/store/apps/details?id=com.direct_target',
-      );
+    if (!appShowPopupUpdate) {
+      print('🔕 Update popup is disabled');
+      return;
+    }
 
-      print('🧾 canUpdate: ${fakeStatus.canUpdate}');
+    final localVersion = await getLocalVersion();
+
+    final fakeStatus = VersionStatus(
+      localVersion: localVersion,
+      storeVersion: storeVersion,
+      appStoreLink: 'https://play.google.com/store/apps/details?id=com.direct_target',
+    );
+
+    print('📦 Local Version: $localVersion');
+    print('🛒 Store Version: $storeVersion');
+    print('🧾 canUpdate: ${fakeStatus.canUpdate}');
+
+    if (fakeStatus.canUpdate) {
       NewVersionPlus().showUpdateDialog(
         context: context,
         versionStatus: fakeStatus,
         dialogTitle: 'New Update Available'.tr,
-        dialogText: 'Version'.tr + '${fakeStatus.storeVersion} '+'is available on the store, and you are using version'.tr+'${fakeStatus.localVersion}'+ 'Would you like to update now?'.tr,
+        dialogText: 'Version'.tr + ' ${fakeStatus.storeVersion} ' + 'is available on the store, and you are using version'.tr + ' ${fakeStatus.localVersion}. ' + 'Would you like to update now?'.tr,
         updateButtonText: 'Update'.tr,
         dismissButtonText: 'Later'.tr,
         allowDismissal: true,
       );
     } else {
-      print('🔕 Update popup is disabled');
+      print('✅ You have the latest version');
     }
   }
+
+
 
   @override
   void initState() {
     super.initState();
 
-    WidgetsBinding.instance.addPostFrameCallback((_) {
+    WidgetsBinding.instance.addPostFrameCallback((_) async {
       checkVersion(context);
-
+      await profileController.fetchProfile();
       if (tokenController.token.value.isNotEmpty) {
         rewardController.fetchItems().then((_) {
-          final canLots = box.read('canLots') ?? 0;
+          int? canLots = profileController.profile.value.data?.canLots;
+          print("canLots: $canLots");
 
           if (canLots == 1 &&
               rewardController.WheelItems != null &&
