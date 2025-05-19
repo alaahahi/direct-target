@@ -203,7 +203,7 @@ class _RewardWheelScreenState extends State<RewardWheelScreen>  with TickerProvi
                   ),
                   Padding(
                     padding: EdgeInsets.symmetric(horizontal: 32, vertical: 2),
-                    child: Tab(text: "Other Content".tr),
+                    child: Tab(text: "Awards".tr),
                   ),
                 ],
               ),

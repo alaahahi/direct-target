@@ -252,12 +252,12 @@ final Map<String, String> en = {
   "Pending": "Pending",
   "Date": "Date",
   "Not Available": "Not Available",
-  "Other Content":"Other Content",
   "Wheel of Fortune":"Wheel of Fortune",
   "better_luck": "Better luck!",
   "try_again": "You didn't win this time. Try again in 24 hours.",
   "ok": "OK",
-  'Time remaining':'Time remaining'
+  'Time remaining':'Time remaining',
+  "Awards":"Awards"
 
 
 }
@@ -510,7 +510,7 @@ final Map<String, String> ar = {
   "better_luck": "حظاً أوفر!",
   "try_again": "لم تربح هذه المرة، يمكنك المحاولة بعد 24 ساعة.",
   "ok": "حسناً",
-"Other Content":"محتوى آخر",
+  "Awards":"الجوائز",
 "Wheel of Fortune":"دولاب الحظ",
   'Time remaining':'الوقت المتبقي'
 }

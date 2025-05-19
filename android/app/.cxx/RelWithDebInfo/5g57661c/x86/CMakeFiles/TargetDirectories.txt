@@ -1,0 +1,2 @@
+C:/Users/Aleen/Desktop/direct-target/android/app/.cxx/RelWithDebInfo/5g57661c/x86/CMakeFiles/edit_cache.dir
+C:/Users/Aleen/Desktop/direct-target/android/app/.cxx/RelWithDebInfo/5g57661c/x86/CMakeFiles/rebuild_cache.dir

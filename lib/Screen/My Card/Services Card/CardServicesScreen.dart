@@ -125,13 +125,15 @@ class _CardServicesScreenState extends State<CardServicesScreen> with SingleTick
 
                                 SizedBox(height: 10),
                                 Text("Price: ".tr + "${selectedCard.price}  ${selectedCard.currency}", style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold,
-                                  color:  Colors.black,),),
+                                  color:  Colors.black,),
+                                ),
                                 SizedBox(height: 10),
                                 Text(
                                     "Validity: ".tr +
                                         "${selectedCard.day} " +
                                         "Day".tr,
-                                    style: Theme.of(context).textTheme.bodyLarge),
+                                  style: Theme.of(context).textTheme.bodyLarge?.copyWith(fontWeight: FontWeight.bold,
+                                    color:  Colors.black,),),
                               ],
                             ),
                           ),
